@@ -1,0 +1,20 @@
+# Rendered by deploy.sh: __NAME__, __PORT__, __REMOTE__ are filled in per project.
+[Unit]
+Description=Hackathon app __NAME__
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=__REMOTE__
+# Optional (leading dash): with no .env the app runs on the mock engine.
+EnvironmentFile=-__REMOTE__/.env
+ExecStart=__REMOTE__/venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port __PORT__ --workers 1
+Restart=always
+RestartSec=2
+# Shared box: Shayaak, keepsrunning and the research jobs live here too.
+MemoryMax=512M
+CPUQuota=100%
+Nice=5
+
+[Install]
+WantedBy=multi-user.target

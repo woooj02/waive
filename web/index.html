@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>waive</title>
+<style>
+  :root {
+    --bg: #fafaf9; --panel: #ffffff; --ink: #1c1917; --muted: #78716c;
+    --line: #e7e5e4; --accent: #4f46e5; --accent-ink: #ffffff;
+    --ok: #15803d; --warn: #b45309; --err: #b91c1c; --code: #f5f5f4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c0a09; --panel: #1c1917; --ink: #f5f5f4; --muted: #a8a29e;
+      --line: #292524; --accent: #818cf8; --accent-ink: #0c0a09;
+      --ok: #4ade80; --warn: #fbbf24; --err: #f87171; --code: #292524;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; }
+  h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .tagline { color: var(--muted); margin: 0 0 28px; }
+  form { display: flex; gap: 8px; }
+  textarea { flex: 1; resize: vertical; min-height: 52px; padding: 12px 14px;
+             font: inherit; color: inherit; background: var(--panel);
+             border: 1px solid var(--line); border-radius: 10px; }
+  textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  button { padding: 0 20px; font: inherit; font-weight: 600; border: 0;
+           border-radius: 10px; background: var(--accent); color: var(--accent-ink);
+           cursor: pointer; }
+  button:disabled { opacity: .5; cursor: progress; }
+  .examples { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 28px; }
+  .examples button { background: transparent; color: var(--muted); font-weight: 400;
+                     border: 1px solid var(--line); padding: 4px 10px; font-size: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+          padding: 20px; margin-bottom: 16px; }
+  .answer { white-space: pre-wrap; font-size: 17px; }
+  .meta { color: var(--muted); font-size: 13px; margin-top: 12px; }
+  .step { border-top: 1px solid var(--line); padding: 10px 0; font-size: 14px; }
+  .step:first-of-type { border-top: 0; }
+  .step b { font-family: ui-monospace, monospace; }
+  pre { background: var(--code); padding: 8px 10px; border-radius: 6px; margin: 6px 0 0;
+        overflow-x: auto; font-size: 13px; }
+  .err { color: var(--err); }
+  .badge { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 99px;
+           border: 1px solid var(--line); color: var(--muted); }
+  .badge.mock { color: var(--warn); border-color: var(--warn); }
+  footer { margin-top: 40px; color: var(--muted); font-size: 13px; }
+  @media (max-width: 520px) { form { flex-direction: column; } button { padding: 12px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="name">waive</h1>
+  <p class="tagline">One sentence: who this is for and what it does for them.</p>
+
+  <form id="f">
+    <textarea id="prompt" placeholder="Ask something…" required></textarea>
+    <button id="go">Run</button>
+  </form>
+  <div class="examples" id="examples"></div>
+
+  <div id="out"></div>
+
+  <footer><span class="badge" id="engine">…</span></footer>
+</main>
+<script>
+// The scripted demo prompts. Rehearse these with REPLAY=record.
+const EXAMPLES = [
+  "What's 2500 growing at 7% a year for 10 years?",
+  "What's today's date, and how many days until Dec 31?",
+];
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+for (const ex of EXAMPLES) {
+  const b = document.createElement("button");
+  b.type = "button"; b.textContent = ex;
+  b.onclick = () => { $("prompt").value = ex; $("f").requestSubmit(); };
+  $("examples").append(b);
+}
+
+fetch("/api/health").then((r) => r.json()).then((h) => {
+  $("engine").textContent = `${h.engine === "mock" ? "mock engine" : h.model}${h.replay !== "off" ? " · replay " + h.replay : ""}`;
+  if (h.engine === "mock") $("engine").classList.add("mock");
+}).catch(() => { $("engine").textContent = "server unreachable"; });
+
+$("prompt").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("f").requestSubmit(); }
+});
+
+$("f").onsubmit = async (e) => {
+  e.preventDefault();
+  const prompt = $("prompt").value.trim();
+  if (!prompt) return;
+  $("go").disabled = true; $("go").textContent = "Thinking…";
+  $("out").innerHTML = "";
+  try {
+    const r = await fetch("/api/run", {
+      method: "POST", headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({prompt}),
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.detail || r.statusText);
+    render(d);
+  } catch (err) {
+    $("out").innerHTML = `<div class="card err">${esc(err.message)}</div>`;
+  } finally {
+    $("go").disabled = false; $("go").textContent = "Run";
+  }
+};
+
+function render(d) {
+  const steps = (d.steps || []).map((s) => `
+    <div class="step"><b>${esc(s.tool)}</b>
+      <pre>${esc(JSON.stringify(s.input))}</pre>
+      ${s.error ? `<pre class="err">${esc(s.error)}</pre>` : `<pre>${esc(JSON.stringify(s.output, null, 2))}</pre>`}
+    </div>`).join("");
+  $("out").innerHTML = `
+    <div class="card"><div class="answer">${esc(d.answer)}</div>
+      <div class="meta">${(d.ms / 1000).toFixed(1)}s · ${d.steps.length} tool call${d.steps.length === 1 ? "" : "s"}${d.replayed ? " · replayed" : ""}</div>
+    </div>
+    ${steps ? `<div class="card"><div class="meta" style="margin:0 0 6px">How it got there</div>${steps}</div>` : ""}`;
+}
+</script>
+</body>
+</html>
