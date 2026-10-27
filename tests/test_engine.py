@@ -102,3 +102,21 @@ def test_no_policy_in_colorado_still_gets_cap():
 def test_deadline_240_days():
     assert deadline(Bill(balance_usd=1, statement_date="2026-10-01"), None) == "2027-05-29"
     assert deadline(Bill(balance_usd=1, statement_date="bad"), None) == ""
+
+
+def test_facility_specific_discount():
+    tiers = [Tier(max_fpl=250, discount_pct=100, quote="q1", verified=True),
+             Tier(min_fpl=251, max_fpl=300, discount_pct=93, facility="University of Colorado Hospital", quote="q2", verified=True),
+             Tier(min_fpl=251, max_fpl=300, discount_pct=83, facility="Yampa Valley Medical Center", quote="q3", verified=True)]
+    p = RuleProgram(hospital="UCHealth", tiers=tiers)
+    hh = Household(size=1, income_usd=44_000, state="TX")  # 275.7% FPL
+    v = evaluate(p, hh, Bill(hospital="UCHealth University of Colorado Hospital", balance_usd=1000))
+    assert v.discount_pct == 93 and not v.uncertain
+    v = evaluate(p, hh, Bill(hospital="Some Other Clinic", balance_usd=1000))
+    assert v.discount_pct == 83 and v.uncertain
+
+
+def test_tier_without_percent_uses_colorado_cap():
+    p = RuleProgram(hospital="H", tiers=[Tier(max_fpl=250, discount_pct=None, quote="state rates", verified=True)])
+    v = evaluate(p, Household(size=1, income_usd=30_000, state="CO"), Bill(balance_usd=20_000))
+    assert v.status == "discount" and v.expected_usd == round(30_000 / 12 * 0.04 * 36, 2) and v.uncertain

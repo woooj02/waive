@@ -65,6 +65,8 @@ class Call:
     cost_usd: float
     cached_result: bool = False
     error: str = ""
+    orig_cost_usd: float = 0.0  # what the call cost when it first ran (for cached results)
+    orig_seconds: float = 0.0
 
 
 @dataclass
@@ -180,7 +182,7 @@ def chat(step: str, model_key: str, messages: list, meter: Meter | None = None, 
     if use_cache and path.exists():
         hit = json.loads(path.read_text())
         meter.add(Call(step, m.key, m.label, 0.0, hit["tokens_in"], hit["tokens_cached"], hit["tokens_out"], 0.0,
-                       cached_result=True))
+                       cached_result=True, orig_cost_usd=hit.get("cost_usd", 0.0), orig_seconds=hit.get("seconds", 0.0)))
         return hit["content"]
     if spent_today() >= budget():
         raise BudgetExceeded(f"daily live-model budget of ${budget():.2f} reached")
@@ -204,7 +206,7 @@ def chat(step: str, model_key: str, messages: list, meter: Meter | None = None, 
     content = resp.choices[0].message.content or ""
     tin, cached, tout, cost = cost_of(m, resp.usage)
     _record_spend(cost)
-    meter.add(Call(step, m.key, m.label, seconds, tin, cached, tout, cost))
+    meter.add(Call(step, m.key, m.label, seconds, tin, cached, tout, cost, orig_cost_usd=cost, orig_seconds=seconds))
     CACHE.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps({"model": m.id, "content": content, "tokens_in": tin, "tokens_cached": cached,
                                 "tokens_out": tout, "cost_usd": cost, "seconds": seconds}))

@@ -22,8 +22,9 @@ class Quoted(BaseModel):
 class Tier(Quoted):
     min_fpl: float = Field(0, description="Lower bound, % of the federal poverty level (exclusive, 0 = none)")
     max_fpl: float = Field(description="Upper bound, % of the federal poverty level (inclusive)")
-    discount_pct: float = Field(description="Percent off the patient's balance; 100 means free care")
+    discount_pct: float | None = Field(description="Percent off the patient's balance; 100 means free care; null if the policy gives no percent (state rates, AGB, a table we can't read)")
     label: str = ""
+    facility: str = Field("", description="Facility name if this discount applies only at one facility; empty if it applies at all of them")
 
 
 class AssetTest(Quoted):

@@ -26,10 +26,14 @@ Rules:
 - Every "quote" must be copied character for character from the policy: one or two full sentences, no paraphrase,
   no ellipses. A program checks each quote against the text and deletes rules whose quote isn't found.
 - Percentages are of the Federal Poverty Level/Guidelines (FPL/FPG). "At or below 250%" means max_fpl 250.
-- A tier is one income band with one discount. Free care is discount_pct 100. "Amounts generally billed" (AGB)
-  limits are not a percent discount: put the AGB rule in unknowns unless the policy gives a percent.
+- A tier is one income band with one discount. Free care is discount_pct 100. If the band's discount isn't a
+  percent the policy states (state rates, "amounts generally billed", a table that isn't in the text), keep the
+  tier with discount_pct null and explain in unknowns. Never invent a percent.
 - If the policy gives dollar income tables instead of percentages, convert using the policy's own stated % (look
   for a heading like "250% of FPL") and quote that heading line.
+- If discounts differ by facility (a table with one row per hospital), emit one tier per facility per income
+  band with "facility" set to the row's name, and quote that row's line from the table. Also emit the bands that
+  apply everywhere (e.g. free care) with facility "".
 - providers.scope: "facility_only" if only the hospital's own charges are covered and physicians/groups bill
   separately; "listed" if it lists covered providers; "all" if all providers are covered.
 - Reply with JSON only, matching the schema."""
@@ -83,7 +87,7 @@ def compile_once(policy_text: str, model_key: str, meter: llm.Meter, source_url:
 def signature(p: RuleProgram) -> dict:
     """The fields that can change a verdict, in a comparable form."""
     return {
-        "tiers": sorted((round(t.max_fpl), round(t.discount_pct)) for t in p.tiers),
+        "tiers": sorted((round(t.max_fpl), -1 if t.discount_pct is None else round(t.discount_pct), t.facility) for t in p.tiers),
         "asset_test.applies": p.asset_test.applies,
         "asset_test.limit_usd": p.asset_test.limit_usd,
         "residency.kind": p.residency.kind,
@@ -97,25 +101,22 @@ def signature(p: RuleProgram) -> dict:
 
 def diff(a: RuleProgram, b: RuleProgram) -> dict:
     sa, sb = signature(a), signature(b)
-    return {k: {"reading_1": sa[k], "reading_2": sb[k]} for k in sa if sa[k] != sb[k]}
+    out = {k: {"reading_1": sa[k], "reading_2": sb[k]} for k in sa if sa[k] != sb[k]}
+    if "tiers" in out:  # show the full tiers so the judge model can rebuild them with quotes
+        dump = lambda p: [t.model_dump(include={"min_fpl", "max_fpl", "discount_pct", "facility", "quote"}) for t in p.tiers]
+        out["tiers"] = {"reading_1": dump(a), "reading_2": dump(b),
+                        "answer_shape": "a list of tier objects {min_fpl, max_fpl, discount_pct, facility, quote}"}
+    return out
 
 
 def _apply(prog: RuleProgram, field: str, value, quote: str) -> None:
     if field == "tiers" and isinstance(value, list):
-        old = {round(t.max_fpl): t for t in prog.tiers}
-        tiers = []
-        for item in value:
-            mx, pct = (item if isinstance(item, (list, tuple)) else (item.get("max_fpl"), item.get("discount_pct")))
-            t = old.get(round(mx))
-            if t is None:
-                t = Tier(max_fpl=mx, discount_pct=pct, quote=quote)
-            t.discount_pct = pct
-            tiers.append(t)
-        tiers.sort(key=lambda t: t.max_fpl)
-        for prev, t in zip([None] + tiers[:-1], tiers):
-            if prev and t.min_fpl < prev.max_fpl:
-                t.min_fpl = prev.max_fpl
-        prog.tiers = tiers
+        try:
+            tiers = [Tier.model_validate(t) for t in value if isinstance(t, dict)]
+        except ValueError:
+            return  # malformed answer: keep the first reading; verify() still checks every quote
+        if tiers:
+            prog.tiers = sorted(tiers, key=lambda t: (t.facility, t.max_fpl))
     elif field == "presumptive":
         return  # list of programs: keep reading 1's entries; verify() proves each by its own quote
     elif "." in field:

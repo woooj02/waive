@@ -7,6 +7,7 @@ the policy sentence or the law it came from.
 
 from __future__ import annotations
 
+import re
 from datetime import date, timedelta
 
 from pydantic import BaseModel, Field
@@ -63,6 +64,18 @@ class Verdict(BaseModel):
 
 def _money(x: float) -> str:
     return f"${x:,.0f}"
+
+
+_GENERIC = {"the", "of", "hospital", "medical", "center", "health", "regional", "and", "inc", "campus", "uchealth",
+            "intermountain", "commonspirit", "hca", "healthone", "adventhealth", "banner"}
+
+
+def same_facility(a: str, b: str) -> bool:
+    """Facility names on bills and in policies differ ("UCHealth University of Colorado Hospital" vs
+    "University of Colorado Hospital"): compare the distinctive words."""
+    ta = set(re.findall(r"[a-z0-9]+", a.lower())) - _GENERIC
+    tb = set(re.findall(r"[a-z0-9]+", b.lower())) - _GENERIC
+    return bool(ta and tb) and len(ta & tb) / min(len(ta), len(tb)) >= 0.75
 
 
 def colorado_cap(household: Household, bill: Bill) -> dict | None:
@@ -137,9 +150,20 @@ def evaluate(program: RuleProgram | None, household: Household, bill: Bill) -> V
 
     tiers = sorted((t for t in program.tiers if t.verified), key=lambda t: t.max_fpl)
     # Policies write bounds as whole numbers ("0–250%", "251–400%"), so a household at 250.4% sits in the
-    # gap. Tolerate one point below a lower bound; if tiers overlap, the patient gets the larger discount.
+    # gap. Tolerate one point below a lower bound.
     fits = [t for t in tiers if t.min_fpl - 1 < p <= t.max_fpl]
-    tier = max(fits, key=lambda t: t.discount_pct) if fits else None
+    tier = None
+    if fits:
+        # Some systems set the discount per facility. Use this facility's row if the policy has one;
+        # otherwise a system-wide row; otherwise the smallest facility discount, labelled "at least".
+        own = [t for t in fits if t.facility and same_facility(t.facility, bill.hospital)]
+        general = [t for t in fits if not t.facility]
+        if own or general:
+            tier = max(own or general, key=lambda t: t.discount_pct or 0)
+        else:
+            tier = min(fits, key=lambda t: t.discount_pct or 0)
+            v.uncertain.append(f"This policy sets the discount per facility and we couldn't match yours; "
+                               f"you get at least {tier.discount_pct:g}% off (the smallest in the policy).")
 
     if tier is None:
         hs = program.hardship
@@ -158,7 +182,9 @@ def evaluate(program: RuleProgram | None, household: Household, bill: Bill) -> V
                                 quote=top.quote, source=program.source_url))
         return _fallback(v, "not_eligible", "Your income is above this hospital's limit.")
 
-    v.reasons.append(Reason(text=f"This hospital gives {tier.discount_pct:g}% off between {tier.min_fpl:g}% and "
+    where = f" at {tier.facility}" if tier.facility else ""
+    amount = f"{tier.discount_pct:g}% off" if tier.discount_pct is not None else "a discount (not a fixed percent)"
+    v.reasons.append(Reason(text=f"This policy gives {amount}{where} between {tier.min_fpl:g}% and "
                                  f"{tier.max_fpl:g}% of the poverty level.", quote=tier.quote, source=program.source_url))
 
     at = program.asset_test
@@ -172,10 +198,21 @@ def evaluate(program: RuleProgram | None, household: Household, bill: Bill) -> V
     return _grant(v, tier.discount_pct, bill)
 
 
-def _grant(v: Verdict, discount: float, bill: Bill) -> Verdict:
+def _grant(v: Verdict, discount: float | None, bill: Bill) -> Verdict:
+    likely = "likely " if v.missing or v.uncertain else ""
+    if discount is None:
+        # Eligible, but the policy sets the amount another way (state rates, AGB, an unreadable table).
+        v.status = "discount"
+        v.uncertain.append("The policy doesn't state this discount as a percent; the hospital calculates it.")
+        if v.colorado and v.colorado["total_max_usd"] < bill.balance_usd:
+            v.expected_usd = v.colorado["total_max_usd"]
+            v.headline = (f"You {likely}qualify for a discount, and Colorado law caps what you pay at "
+                          f"{_money(v.expected_usd)} of {_money(bill.balance_usd)}.")
+        else:
+            v.headline = f"You {likely}qualify for a discount on this {_money(bill.balance_usd)} bill."
+        return v
     v.discount_pct = discount
     v.expected_usd = round(bill.balance_usd * (1 - discount / 100), 2)
-    likely = "likely " if v.missing or v.uncertain else ""
     if discount >= 100:
         v.status = "free"
         v.headline = f"You {likely}owe $0 of {_money(bill.balance_usd)}."

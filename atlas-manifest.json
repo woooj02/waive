@@ -1,59 +1,429 @@
 [
- {"id": "uchealth", "hospital": "UCHealth", "system": "UCHealth", "city": "Aurora", "nonprofit": true,
+ {
+  "id": "uchealth",
+  "hospital": "UCHealth",
+  "system": "UCHealth",
+  "city": "Aurora",
+  "nonprofit": true,
   "seed": "https://www.uchealth.org/billing-insurance/financial-assistance/",
-  "hospitals": ["UCHealth University of Colorado Hospital", "UCHealth Poudre Valley Hospital", "UCHealth Medical Center of the Rockies", "UCHealth Memorial Hospital Central", "UCHealth Memorial Hospital North", "UCHealth Grandview Hospital", "UCHealth Broomfield Hospital", "UCHealth Highlands Ranch Hospital", "UCHealth Longs Peak Hospital", "UCHealth Greeley Hospital", "UCHealth Yampa Valley Medical Center", "UCHealth Pikes Peak Regional Hospital"]},
- {"id": "intermountain", "hospital": "Intermountain Health", "system": "Intermountain Health", "city": "Denver", "nonprofit": true,
+  "hospitals": [
+   "UCHealth University of Colorado Hospital",
+   "UCHealth Poudre Valley Hospital",
+   "UCHealth Medical Center of the Rockies",
+   "UCHealth Memorial Hospital Central",
+   "UCHealth Memorial Hospital North",
+   "UCHealth Grandview Hospital",
+   "UCHealth Broomfield Hospital",
+   "UCHealth Highlands Ranch Hospital",
+   "UCHealth Longs Peak Hospital",
+   "UCHealth Greeley Hospital",
+   "UCHealth Yampa Valley Medical Center",
+   "UCHealth Pikes Peak Regional Hospital",
+   "Parkview Medical Center",
+   "Parkview Pueblo West Hospital",
+   "Estes Valley Medical Center",
+   "Estes Park Health"
+  ]
+ },
+ {
+  "id": "intermountain",
+  "hospital": "Intermountain Health",
+  "system": "Intermountain Health",
+  "city": "Denver",
+  "nonprofit": true,
   "seed": "https://intermountainhealthcare.org/for-patients/financial-assistance/colorado-montana-wyoming",
-  "hospitals": ["Intermountain Health Saint Joseph Hospital", "Intermountain Health Lutheran Hospital", "Intermountain Health Good Samaritan Hospital", "Intermountain Health Platte Valley Hospital", "Intermountain Health St. Mary's Regional Hospital"]},
- {"id": "commonspirit-st-anthony", "hospital": "CommonSpirit St. Anthony Hospital", "system": "CommonSpirit Health", "city": "Lakewood", "nonprofit": true,
-  "hospitals": ["CommonSpirit St. Anthony Hospital", "St. Anthony Hospital", "CommonSpirit St. Anthony North Hospital", "CommonSpirit St. Anthony Summit Hospital"]},
- {"id": "commonspirit-penrose", "hospital": "CommonSpirit Penrose Hospital", "system": "CommonSpirit Health", "city": "Colorado Springs", "nonprofit": true,
-  "hospitals": ["CommonSpirit Penrose Hospital", "CommonSpirit St. Francis Hospital", "Penrose-St. Francis Health Services"]},
- {"id": "commonspirit-st-mary-corwin", "hospital": "CommonSpirit St. Mary-Corwin Hospital", "system": "CommonSpirit Health", "city": "Pueblo", "nonprofit": true,
-  "hospitals": ["CommonSpirit St. Mary-Corwin Hospital", "CommonSpirit St. Thomas More Hospital"]},
- {"id": "commonspirit-longmont-united", "hospital": "CommonSpirit Longmont United Hospital", "system": "CommonSpirit Health", "city": "Longmont", "nonprofit": true,
-  "hospitals": ["CommonSpirit Longmont United Hospital"]},
- {"id": "commonspirit-mercy", "hospital": "CommonSpirit Mercy Hospital", "system": "CommonSpirit Health", "city": "Durango", "nonprofit": true,
-  "hospitals": ["CommonSpirit Mercy Hospital", "Mercy Regional Medical Center"]},
- {"id": "healthone", "hospital": "HCA HealthONE", "system": "HCA Healthcare (for-profit)", "city": "Denver", "nonprofit": false,
+  "hospitals": [
+   "Intermountain Health Saint Joseph Hospital",
+   "Intermountain Health Lutheran Hospital",
+   "Intermountain Health Good Samaritan Hospital",
+   "Intermountain Health Platte Valley Hospital",
+   "Intermountain Health St. Mary's Regional Hospital"
+  ]
+ },
+ {
+  "id": "commonspirit-st-anthony",
+  "hospital": "CommonSpirit St. Anthony Hospital",
+  "system": "CommonSpirit Health",
+  "city": "Lakewood",
+  "nonprofit": true,
+  "hospitals": [
+   "CommonSpirit St. Anthony Hospital",
+   "St. Anthony Hospital",
+   "CommonSpirit St. Anthony North Hospital",
+   "CommonSpirit St. Anthony Summit Hospital"
+  ]
+ },
+ {
+  "id": "commonspirit-penrose",
+  "hospital": "CommonSpirit Penrose Hospital",
+  "system": "CommonSpirit Health",
+  "city": "Colorado Springs",
+  "nonprofit": true,
+  "hospitals": [
+   "CommonSpirit Penrose Hospital",
+   "CommonSpirit St. Francis Hospital",
+   "Penrose-St. Francis Health Services"
+  ]
+ },
+ {
+  "id": "commonspirit-st-mary-corwin",
+  "hospital": "CommonSpirit St. Mary-Corwin Hospital",
+  "system": "CommonSpirit Health",
+  "city": "Pueblo",
+  "nonprofit": true,
+  "hospitals": [
+   "CommonSpirit St. Mary-Corwin Hospital",
+   "CommonSpirit St. Thomas More Hospital"
+  ]
+ },
+ {
+  "id": "commonspirit-longmont-united",
+  "hospital": "CommonSpirit Longmont United Hospital",
+  "system": "CommonSpirit Health",
+  "city": "Longmont",
+  "nonprofit": true,
+  "hospitals": [
+   "CommonSpirit Longmont United Hospital"
+  ]
+ },
+ {
+  "id": "commonspirit-mercy",
+  "hospital": "CommonSpirit Mercy Hospital",
+  "system": "CommonSpirit Health",
+  "city": "Durango",
+  "nonprofit": true,
+  "hospitals": [
+   "CommonSpirit Mercy Hospital",
+   "Mercy Regional Medical Center"
+  ]
+ },
+ {
+  "id": "healthone",
+  "hospital": "HCA HealthONE",
+  "system": "HCA Healthcare (for-profit)",
+  "city": "Denver",
+  "nonprofit": false,
   "seed": "https://www.healthonecares.com/patient-resources/patient-financial-resources/financial-assistance",
-  "hospitals": ["HCA HealthONE Presbyterian/St. Luke's", "HCA HealthONE Swedish", "HCA HealthONE Rose", "HCA HealthONE Sky Ridge", "HCA HealthONE Aurora", "HCA HealthONE North Suburban", "Rocky Mountain Hospital for Children"]},
- {"id": "adventhealth", "hospital": "AdventHealth Colorado", "system": "AdventHealth", "city": "Denver", "nonprofit": true,
-  "hospitals": ["AdventHealth Porter", "AdventHealth Littleton", "AdventHealth Parker", "AdventHealth Avista", "AdventHealth Castle Rock"]},
- {"id": "banner", "hospital": "Banner Health", "system": "Banner Health", "city": "Greeley", "nonprofit": true,
-  "hospitals": ["Banner North Colorado Medical Center", "Banner McKee Medical Center", "Banner Fort Collins Medical Center", "Sterling Regional MedCenter", "East Morgan County Hospital"]},
- {"id": "denver-health", "hospital": "Denver Health", "system": "Denver Health and Hospital Authority (public)", "city": "Denver", "nonprofit": null,
+  "hospitals": [
+   "HCA HealthONE Presbyterian/St. Luke's",
+   "HCA HealthONE Swedish",
+   "HCA HealthONE Rose",
+   "HCA HealthONE Sky Ridge",
+   "HCA HealthONE Aurora",
+   "HCA HealthONE North Suburban",
+   "Rocky Mountain Hospital for Children"
+  ]
+ },
+ {
+  "id": "adventhealth",
+  "hospital": "AdventHealth Colorado",
+  "system": "AdventHealth",
+  "city": "Denver",
+  "nonprofit": true,
+  "hospitals": [
+   "AdventHealth Porter",
+   "AdventHealth Littleton",
+   "AdventHealth Parker",
+   "AdventHealth Avista",
+   "AdventHealth Castle Rock"
+  ]
+ },
+ {
+  "id": "banner",
+  "hospital": "Banner Health",
+  "system": "Banner Health",
+  "city": "Greeley",
+  "nonprofit": true,
+  "hospitals": [
+   "Banner North Colorado Medical Center",
+   "Banner McKee Medical Center",
+   "Banner Fort Collins Medical Center",
+   "Sterling Regional MedCenter",
+   "East Morgan County Hospital"
+  ]
+ },
+ {
+  "id": "denver-health",
+  "hospital": "Denver Health",
+  "system": "Denver Health and Hospital Authority (public)",
+  "city": "Denver",
+  "nonprofit": null,
   "seed": "https://denverhealth.org/patients-visitors/billing-insurance/financial-assistance/denver-health-financial-assistance-program",
-  "hospitals": ["Denver Health Medical Center"]},
- {"id": "childrens-colorado", "hospital": "Children's Hospital Colorado", "system": "Children's Hospital Colorado", "city": "Aurora", "nonprofit": true,
+  "hospitals": [
+   "Denver Health Medical Center"
+  ]
+ },
+ {
+  "id": "childrens-colorado",
+  "hospital": "Children's Hospital Colorado",
+  "system": "Children's Hospital Colorado",
+  "city": "Aurora",
+  "nonprofit": true,
   "seed": "https://www.childrenscolorado.org/globalassets/your-visit/financial-assistance-policy-english.pdf",
-  "hospitals": ["Children's Hospital Colorado", "Children's Hospital Colorado, Colorado Springs"]},
- {"id": "national-jewish", "hospital": "National Jewish Health", "system": "National Jewish Health", "city": "Denver", "nonprofit": true, "hospitals": ["National Jewish Health"]},
- {"id": "boulder-community", "hospital": "Boulder Community Health", "system": "Boulder Community Health", "city": "Boulder", "nonprofit": true, "hospitals": ["Boulder Community Health Foothills Hospital"]},
- {"id": "valley-view", "hospital": "Valley View Hospital", "system": "Valley View", "city": "Glenwood Springs", "nonprofit": true, "hospitals": ["Valley View Hospital"]},
- {"id": "vail-health", "hospital": "Vail Health Hospital", "system": "Vail Health", "city": "Vail", "nonprofit": true, "hospitals": ["Vail Health Hospital"]},
- {"id": "aspen-valley", "hospital": "Aspen Valley Health", "system": "Aspen Valley Health", "city": "Aspen", "nonprofit": null, "hospitals": ["Aspen Valley Hospital"]},
- {"id": "montrose", "hospital": "Montrose Regional Health", "system": "Montrose Regional Health", "city": "Montrose", "nonprofit": null, "hospitals": ["Montrose Memorial Hospital"]},
- {"id": "delta-health", "hospital": "Delta Health", "system": "Delta Health", "city": "Delta", "nonprofit": null, "hospitals": ["Delta Health Hospital"]},
- {"id": "community-hospital-gj", "hospital": "Community Hospital", "system": "Community Hospital", "city": "Grand Junction", "nonprofit": true, "hospitals": ["Community Hospital Grand Junction"]},
- {"id": "parkview-pueblo", "hospital": "Parkview Health", "system": "Parkview", "city": "Pueblo", "nonprofit": true, "hospitals": ["Parkview Medical Center", "Parkview Pueblo West Hospital"]},
- {"id": "slv-health", "hospital": "San Luis Valley Health", "system": "San Luis Valley Health", "city": "Alamosa", "nonprofit": true, "hospitals": ["San Luis Valley Regional Medical Center", "Conejos County Hospital"]},
- {"id": "heart-of-the-rockies", "hospital": "Heart of the Rockies Regional Medical Center", "system": "HRRMC", "city": "Salida", "nonprofit": null, "hospitals": ["Heart of the Rockies Regional Medical Center"]},
- {"id": "estes-park-health", "hospital": "Estes Park Health", "system": "Estes Park Health", "city": "Estes Park", "nonprofit": null, "hospitals": ["Estes Park Health"]},
- {"id": "memorial-regional-craig", "hospital": "Memorial Regional Health", "system": "Memorial Regional Health", "city": "Craig", "nonprofit": null, "hospitals": ["Memorial Regional Hospital"]},
- {"id": "gunnison-valley", "hospital": "Gunnison Valley Health", "system": "Gunnison Valley Health", "city": "Gunnison", "nonprofit": null, "hospitals": ["Gunnison Valley Hospital"]},
- {"id": "southwest-health", "hospital": "Southwest Health System", "system": "Southwest Health System", "city": "Cortez", "nonprofit": true, "hospitals": ["Southwest Memorial Hospital"]},
- {"id": "arkansas-valley", "hospital": "Arkansas Valley Regional Medical Center", "system": "AVRMC", "city": "La Junta", "nonprofit": true, "hospitals": ["Arkansas Valley Regional Medical Center"]},
- {"id": "grand-river", "hospital": "Grand River Health", "system": "Grand River Health", "city": "Rifle", "nonprofit": null, "hospitals": ["Grand River Hospital"]},
- {"id": "pagosa-springs", "hospital": "Pagosa Springs Medical Center", "system": "Pagosa Springs Medical Center", "city": "Pagosa Springs", "nonprofit": null, "hospitals": ["Pagosa Springs Medical Center"]},
- {"id": "middle-park", "hospital": "Middle Park Health", "system": "Middle Park Health", "city": "Kremmling", "nonprofit": null, "hospitals": ["Middle Park Health"]},
- {"id": "st-vincent-leadville", "hospital": "St. Vincent Health", "system": "St. Vincent Health", "city": "Leadville", "nonprofit": null, "hospitals": ["St. Vincent General Hospital"]},
- {"id": "mt-san-rafael", "hospital": "Mt. San Rafael Hospital", "system": "Mt. San Rafael", "city": "Trinidad", "nonprofit": null, "hospitals": ["Mt. San Rafael Hospital"]},
- {"id": "prowers", "hospital": "Prowers Medical Center", "system": "Prowers Medical Center", "city": "Lamar", "nonprofit": null, "hospitals": ["Prowers Medical Center"]},
- {"id": "colorado-plains", "hospital": "Colorado Plains Medical Center", "system": "Colorado Plains Medical Center", "city": "Fort Morgan", "nonprofit": null, "hospitals": ["Colorado Plains Medical Center"]},
- {"id": "pioneers-meeker", "hospital": "Pioneers Medical Center", "system": "Pioneers Medical Center", "city": "Meeker", "nonprofit": null, "hospitals": ["Pioneers Medical Center"]},
- {"id": "rio-grande", "hospital": "Rio Grande Hospital", "system": "Rio Grande Hospital", "city": "Del Norte", "nonprofit": null, "hospitals": ["Rio Grande Hospital"]},
- {"id": "spanish-peaks", "hospital": "Spanish Peaks Regional Health Center", "system": "Spanish Peaks", "city": "Walsenburg", "nonprofit": null, "hospitals": ["Spanish Peaks Regional Health Center"]},
- {"id": "yuma-district", "hospital": "Yuma District Hospital", "system": "Yuma District Hospital", "city": "Yuma", "nonprofit": null, "hospitals": ["Yuma District Hospital"]},
- {"id": "melissa-memorial", "hospital": "Melissa Memorial Hospital", "system": "Melissa Memorial Hospital", "city": "Holyoke", "nonprofit": null, "hospitals": ["Melissa Memorial Hospital"]}
+  "hospitals": [
+   "Children's Hospital Colorado",
+   "Children's Hospital Colorado, Colorado Springs"
+  ]
+ },
+ {
+  "id": "national-jewish",
+  "hospital": "National Jewish Health",
+  "system": "National Jewish Health",
+  "city": "Denver",
+  "nonprofit": true,
+  "hospitals": [
+   "National Jewish Health"
+  ]
+ },
+ {
+  "id": "boulder-community",
+  "hospital": "Boulder Community Health",
+  "system": "Boulder Community Health",
+  "city": "Boulder",
+  "nonprofit": true,
+  "hospitals": [
+   "Boulder Community Health Foothills Hospital"
+  ]
+ },
+ {
+  "id": "valley-view",
+  "hospital": "Valley View Hospital",
+  "system": "Valley View",
+  "city": "Glenwood Springs",
+  "nonprofit": true,
+  "hospitals": [
+   "Valley View Hospital"
+  ]
+ },
+ {
+  "id": "vail-health",
+  "hospital": "Vail Health Hospital",
+  "system": "Vail Health",
+  "city": "Vail",
+  "nonprofit": true,
+  "hospitals": [
+   "Vail Health Hospital"
+  ]
+ },
+ {
+  "id": "aspen-valley",
+  "hospital": "Aspen Valley Health",
+  "system": "Aspen Valley Health",
+  "city": "Aspen",
+  "nonprofit": null,
+  "hospitals": [
+   "Aspen Valley Hospital"
+  ]
+ },
+ {
+  "id": "montrose",
+  "hospital": "Montrose Regional Health",
+  "system": "Montrose Regional Health",
+  "city": "Montrose",
+  "nonprofit": null,
+  "hospitals": [
+   "Montrose Memorial Hospital"
+  ]
+ },
+ {
+  "id": "delta-health",
+  "hospital": "Delta Health",
+  "system": "Delta Health",
+  "city": "Delta",
+  "nonprofit": null,
+  "hospitals": [
+   "Delta Health Hospital"
+  ]
+ },
+ {
+  "id": "community-hospital-gj",
+  "hospital": "Community Hospital",
+  "system": "Community Hospital",
+  "city": "Grand Junction",
+  "nonprofit": true,
+  "hospitals": [
+   "Community Hospital Grand Junction"
+  ]
+ },
+ {
+  "id": "slv-health",
+  "hospital": "San Luis Valley Health",
+  "system": "San Luis Valley Health",
+  "city": "Alamosa",
+  "nonprofit": true,
+  "hospitals": [
+   "San Luis Valley Regional Medical Center",
+   "Conejos County Hospital"
+  ]
+ },
+ {
+  "id": "heart-of-the-rockies",
+  "hospital": "Heart of the Rockies Regional Medical Center",
+  "system": "HRRMC",
+  "city": "Salida",
+  "nonprofit": null,
+  "hospitals": [
+   "Heart of the Rockies Regional Medical Center"
+  ]
+ },
+ {
+  "id": "memorial-regional-craig",
+  "hospital": "Memorial Regional Health",
+  "system": "Memorial Regional Health",
+  "city": "Craig",
+  "nonprofit": null,
+  "hospitals": [
+   "Memorial Regional Hospital"
+  ]
+ },
+ {
+  "id": "gunnison-valley",
+  "hospital": "Gunnison Valley Health",
+  "system": "Gunnison Valley Health",
+  "city": "Gunnison",
+  "nonprofit": null,
+  "hospitals": [
+   "Gunnison Valley Hospital"
+  ]
+ },
+ {
+  "id": "southwest-health",
+  "hospital": "Southwest Health System",
+  "system": "Southwest Health System",
+  "city": "Cortez",
+  "nonprofit": true,
+  "hospitals": [
+   "Southwest Memorial Hospital"
+  ]
+ },
+ {
+  "id": "arkansas-valley",
+  "hospital": "Arkansas Valley Regional Medical Center",
+  "system": "AVRMC",
+  "city": "La Junta",
+  "nonprofit": true,
+  "hospitals": [
+   "Arkansas Valley Regional Medical Center"
+  ]
+ },
+ {
+  "id": "grand-river",
+  "hospital": "Grand River Health",
+  "system": "Grand River Health",
+  "city": "Rifle",
+  "nonprofit": null,
+  "hospitals": [
+   "Grand River Hospital"
+  ]
+ },
+ {
+  "id": "pagosa-springs",
+  "hospital": "Pagosa Springs Medical Center",
+  "system": "Pagosa Springs Medical Center",
+  "city": "Pagosa Springs",
+  "nonprofit": null,
+  "hospitals": [
+   "Pagosa Springs Medical Center"
+  ]
+ },
+ {
+  "id": "middle-park",
+  "hospital": "Middle Park Health",
+  "system": "Middle Park Health",
+  "city": "Kremmling",
+  "nonprofit": null,
+  "hospitals": [
+   "Middle Park Health"
+  ]
+ },
+ {
+  "id": "st-vincent-leadville",
+  "hospital": "St. Vincent Health",
+  "system": "St. Vincent Health",
+  "city": "Leadville",
+  "nonprofit": null,
+  "hospitals": [
+   "St. Vincent General Hospital"
+  ]
+ },
+ {
+  "id": "mt-san-rafael",
+  "hospital": "Mt. San Rafael Hospital",
+  "system": "Mt. San Rafael",
+  "city": "Trinidad",
+  "nonprofit": null,
+  "hospitals": [
+   "Mt. San Rafael Hospital"
+  ]
+ },
+ {
+  "id": "prowers",
+  "hospital": "Prowers Medical Center",
+  "system": "Prowers Medical Center",
+  "city": "Lamar",
+  "nonprofit": null,
+  "hospitals": [
+   "Prowers Medical Center"
+  ]
+ },
+ {
+  "id": "colorado-plains",
+  "hospital": "Colorado Plains Medical Center",
+  "system": "Colorado Plains Medical Center",
+  "city": "Fort Morgan",
+  "nonprofit": null,
+  "hospitals": [
+   "Colorado Plains Medical Center"
+  ]
+ },
+ {
+  "id": "pioneers-meeker",
+  "hospital": "Pioneers Medical Center",
+  "system": "Pioneers Medical Center",
+  "city": "Meeker",
+  "nonprofit": null,
+  "hospitals": [
+   "Pioneers Medical Center"
+  ]
+ },
+ {
+  "id": "rio-grande",
+  "hospital": "Rio Grande Hospital",
+  "system": "Rio Grande Hospital",
+  "city": "Del Norte",
+  "nonprofit": null,
+  "hospitals": [
+   "Rio Grande Hospital"
+  ]
+ },
+ {
+  "id": "spanish-peaks",
+  "hospital": "Spanish Peaks Regional Health Center",
+  "system": "Spanish Peaks",
+  "city": "Walsenburg",
+  "nonprofit": null,
+  "hospitals": [
+   "Spanish Peaks Regional Health Center"
+  ]
+ },
+ {
+  "id": "yuma-district",
+  "hospital": "Yuma District Hospital",
+  "system": "Yuma District Hospital",
+  "city": "Yuma",
+  "nonprofit": null,
+  "hospitals": [
+   "Yuma District Hospital"
+  ]
+ },
+ {
+  "id": "melissa-memorial",
+  "hospital": "Melissa Memorial Hospital",
+  "system": "Melissa Memorial Hospital",
+  "city": "Holyoke",
+  "nonprofit": null,
+  "hospitals": [
+   "Melissa Memorial Hospital"
+  ]
+ }
 ]

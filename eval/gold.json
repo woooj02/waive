@@ -1,0 +1,32 @@
+{
+ "_about": "Hand-checked labels for the evaluation. Each label has a verbatim quote from the policy; scripts/eval.py refuses to run if a quote isn't found in the policy text. Labels were drafted with an AI coding assistant (not Nemotron) by reading each policy, then checked against the quote. null means the policy doesn't state it clearly, and that field isn't scored for that policy.",
+ "uchealth": {
+  "free_to_fpl": [250, "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges"],
+  "discount_to_fpl": [400, "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges"],
+  "residency_kind": ["state", "An individual must be a Resident of Colorado in order to qualify for Financial Assistance."],
+  "insured_eligible": [true, "The Patient is Uninsured or Under-insured; and"],
+  "hardship_pct": [50, "is greater than 50% of the Patient's total annual Family Income and Financial Resources combined."],
+  "window_days": [365, "Applicants have the later of (a) 365 days from the date of the first post-discharge Billing"],
+  "providers_scope": ["listed", "UCHealth maintains a document separate from the FAP that lists the physicians"],
+  "facility_discount": [{"facility": "University of Colorado Hospital", "fpl": 275, "discount_pct": 93}, "University of Colorado Hospital 20% 93% 87% 80% 80%"]
+ },
+ "intermountain": {
+  "free_to_fpl": [250, "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for"],
+  "discount_to_fpl": [500, "incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines,"],
+  "residency_kind": ["service_area", "Residency within an Intermountain service area for non-emergent hospital services"],
+  "insured_eligible": [true, "Uninsured and Underinsured patients meeting other eligibility criteria and with annual family"],
+  "hardship_pct": [25, "Intermountain Health charges limited to 25% of their annual family income."],
+  "providers_scope": ["listed", "Providers not covered under this policy"],
+  "discount_pct_250_500": [null, "Discounts are outlined in the Financial Assistance Patient Responsibility Matrix"]
+ },
+ "childrens-colorado": {
+  "free_to_fpl": [null, "with the level of discount for which an individual is eligible for, determined on a sliding fee scale"],
+  "asset_test": [false, "does not consider liquid or illiquid assets or resources in determining eligibility."],
+  "residency_kind": ["state", "HDC and CICP applicants must be residents of Colorado."],
+  "window_days": [365, "The application must be completed within 365 days from the date of services or date of discharge."]
+ },
+ "healthone": {
+  "free_to_fpl": [250, "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed."],
+  "discount_to_fpl": [400, "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level"]
+ }
+}
