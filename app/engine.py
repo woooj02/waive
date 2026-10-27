@@ -194,11 +194,14 @@ def _fallback(v: Verdict, status: str, headline: str) -> Verdict:
     v.status, v.headline = status, headline
     if v.colorado and status in ("not_eligible", "no_policy", "needs_info"):
         cap = v.colorado["total_max_usd"]
+        monthly = _money(v.colorado["monthly_max_usd"])
+        v.status = "colorado_cap"
+        v.expected_usd = cap
         if cap < v.balance_usd:
-            v.status = "colorado_cap"
-            v.expected_usd = cap
-            v.headline = (f"Colorado law caps this bill at {_money(cap)} "
-                          f"({_money(v.colorado['monthly_max_usd'])}/month for at most 36 months).")
+            v.headline = f"Colorado law caps this bill at {_money(cap)} ({monthly}/month for at most 36 months)."
+        else:
+            v.headline = (f"Colorado law covers you: state discounted rates, and payments of at most {monthly}/month "
+                          f"for 36 months.")
         v.reasons.append(Reason(text=f"At or below {CO_HDC_MAX_FPL}% of the poverty level, Colorado's Hospital "
                                      f"Discounted Care applies at every Colorado hospital.", source=CO_HDC_SOURCE))
     return v

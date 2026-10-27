@@ -1,0 +1,59 @@
+[
+ {
+  "id": "er-visit-uchealth",
+  "title": "ER visit, uninsured",
+  "hospital": "UCHealth University of Colorado Hospital",
+  "statement_date": "2026-10-15",
+  "household": {
+   "size": 4,
+   "income_usd": 70000,
+   "state": "CO",
+   "insured": false
+  },
+  "story": "Family of four, $70,000 a year, no insurance. An ER visit after a fall.",
+  "total": 8412.0,
+  "balance": 8412.0,
+  "files": [
+   "er-visit-uchealth-photo.jpg",
+   "er-visit-uchealth.pdf"
+  ]
+ },
+ {
+  "id": "surgery-saint-joseph",
+  "title": "Outpatient surgery, insured",
+  "hospital": "Intermountain Health Saint Joseph Hospital",
+  "statement_date": "2026-09-30",
+  "household": {
+   "size": 2,
+   "income_usd": 80000,
+   "state": "CO",
+   "insured": true
+  },
+  "story": "Couple earning $80,000 with a high-deductible plan; $3,940 left after insurance.",
+  "total": 13250.0,
+  "balance": 3940.0,
+  "files": [
+   "surgery-saint-joseph-photo.jpg",
+   "surgery-saint-joseph.pdf"
+  ]
+ },
+ {
+  "id": "imaging-not-eligible",
+  "title": "Imaging, high income",
+  "hospital": "Children's Hospital Colorado",
+  "statement_date": "2026-10-05",
+  "household": {
+   "size": 3,
+   "income_usd": 190000,
+   "state": "CO",
+   "insured": false
+  },
+  "story": "Family of three earning $190,000: the honest 'you probably don't qualify' case.",
+  "total": 2150.0,
+  "balance": 2150.0,
+  "files": [
+   "imaging-not-eligible-photo.jpg",
+   "imaging-not-eligible.pdf"
+  ]
+ }
+]
