@@ -5,7 +5,7 @@
  "nonprofit": true,
  "model_source": "hand reference",
  "summary_source": "hand reference",
- "solver_seconds": 0.137,
+ "solver_seconds": 0.144,
  "model": {
   "hospital": "UCHealth",
   "doc": "policy",
@@ -254,7 +254,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.004,
+   "seconds": 0.003,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts"
   },
   {
@@ -618,7 +618,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.005,
+   "seconds": 0.006,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)"
   },
   {
@@ -757,7 +757,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.003,
+   "seconds": 0.004,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts"
   }
  ]

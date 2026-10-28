@@ -5,7 +5,7 @@
  "nonprofit": false,
  "model_source": "hand reference",
  "summary_source": null,
- "solver_seconds": 0.032,
+ "solver_seconds": 0.037,
  "model": {
   "hospital": "HCA HealthONE",
   "doc": "policy",
@@ -158,7 +158,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.0,
+   "seconds": 0.001,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)"
   },
   {

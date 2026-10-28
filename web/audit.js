@@ -22,6 +22,18 @@
       <div class="f-bad"><b>${tot("counterexamples")}</b><span>counterexamples found</span></div>
       <div><b>${(secs * 1000).toFixed(0)} ms</b><span>total Z3 time</span></div>
       ${hand ? `<p class="src-note">Formal models: <b>hand-written references</b> (every quote checked against the policy). The Nemotron-formalised models replace these once they're run and scored.</p>` : ""}`;
+    const SHORT = { co_hdc_coverage: "Covers all HDC-eligible", co_hdc_assets: "Ignores savings", co_hdc_public: "No Medicaid-first rule",
+      co_eca_182: "No collections before day 182", co_window_181: "181-day window", co_window_insured: "Insured: +45 days",
+      co_plan_4pct: "4% payment cap", fed_window_240: "501(r): 240-day window", fed_eca_120: "501(r): 120-day wait",
+      monotone: "No income-band gaps", summary_matches_policy: "Summary matches policy" };
+    const cols = Object.keys(index.checks || {});
+    const sym = { counterexample: ["✗", "f-bad", "counterexample"], proved: ["✓", "f-ok", "proved"], not_stated: ["–", "f-na", "not stated"],
+      "n/a": ["n/a", "f-na", "doesn't apply"], unknown: ["?", "f-na", "solver timed out"] };
+    $("#a-matrix").innerHTML = `<thead><tr><th scope="col">Hospital</th>${cols.map((c) => `<th scope="col" title="${esc(index.checks[c])}">${esc(SHORT[c] || index.checks[c])}</th>`).join("")}</tr></thead>
+      <tbody>${ps.map((p) => `<tr><th scope="row"><button class="linkish" data-open="${esc(p.id)}">${esc(p.hospital)}</button></th>${cols.map((c) => {
+        const [t, k, l] = sym[p.checks?.[c]] || ["", "", "not checked"];
+        return `<td class="${k}" title="${esc(l)}"><span aria-label="${esc(l)}">${t}</span></td>`; }).join("")}</tr>`).join("")}</tbody>`;
+    $$("[data-open]").forEach((b) => b.addEventListener("click", () => { open(b.dataset.open); $("#a-detail").scrollIntoView({ behavior: "smooth" }); }));
     $("#a-list").innerHTML = ps.map((p) => `
       <button class="a-item" data-id="${esc(p.id)}" aria-pressed="false">
         <b>${esc(p.hospital)}</b>

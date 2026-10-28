@@ -275,3 +275,12 @@ details.model code { font-size: 12px; white-space: pre-wrap; }
   .a-hero h1 { font-size: 30px; }
   .pair { grid-template-columns: 1fr; }
 }
+.matrix-wrap { overflow-x: auto; margin: 0 0 18px; }
+table.matrix { border-collapse: separate; border-spacing: 3px; font-size: 13px; background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 8px; width: 100%; }
+table.matrix thead th { font: 600 11.5px/1.25 var(--sans); color: var(--ink-2); vertical-align: bottom; padding: 4px; max-width: 92px; }
+table.matrix tbody th { text-align: left; white-space: nowrap; padding-right: 10px; font-weight: 600; }
+table.matrix td { text-align: center; font: 700 15px var(--sans); border-radius: 6px; height: 30px; min-width: 64px; }
+table.matrix td.f-bad { background: var(--stop-bg); color: var(--stop); }
+table.matrix td.f-ok { background: var(--go-bg); color: var(--go); }
+table.matrix td.f-na { background: #f3f1ea; color: var(--ink-3); font-weight: 600; font-size: 12px; }

@@ -78,13 +78,25 @@ def main() -> None:
                "model": json.loads(pm.model_dump_json()), "findings": findings}
         (OUT / f"{pid}.json").write_text(json.dumps(doc, indent=1))
         count = lambda st: sum(f["status"] == st for f in findings)  # noqa: E731
+        rank = {"counterexample": 0, "unknown": 1, "not_stated": 2, "proved": 3, "n/a": 4}
+        checks: dict = {}
+        for f in findings:  # worst verdict per check
+            if f["check"] not in checks or rank[f["status"]] < rank[checks[f["check"]]]:
+                checks[f["check"]] = f["status"]
         index.append({"id": pid, "hospital": pm.hospital, "model_source": source, "nonprofit": pm.nonprofit,
+                      "checks": checks,
                       "proved": count("proved"), "counterexamples": count("counterexample"),
                       "not_stated": count("not_stated"), "solver_seconds": secs,
                       "headline": next((f["summary"] for f in findings if f["status"] == "counterexample"), "")})
         print(f"{pm.hospital:32} [{source}] proved {index[-1]['proved']:2}  counterexamples "
               f"{index[-1]['counterexamples']:2}  not stated {index[-1]['not_stated']:2}  ({secs}s)")
-    (OUT / "index.json").write_text(json.dumps({"made": time.strftime("%Y-%m-%d"), "policies": index}, indent=1))
+    titles = {}
+    for pid in [p["id"] for p in index]:
+        for f in json.loads((OUT / f"{pid}.json").read_text())["findings"]:
+            titles.setdefault(f["check"], f["title"] if f["check"] != "summary_matches_policy"
+                              else "Plain-language summary matches the policy")
+    (OUT / "index.json").write_text(json.dumps({"made": time.strftime("%Y-%m-%d"), "checks": titles,
+                                                "policies": index}, indent=1))
 
 
 if __name__ == "__main__":

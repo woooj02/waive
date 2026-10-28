@@ -5,7 +5,7 @@
  "nonprofit": true,
  "model_source": "hand reference",
  "summary_source": null,
- "solver_seconds": 0.118,
+ "solver_seconds": 0.124,
  "model": {
   "hospital": "Intermountain Health",
   "doc": "policy",
