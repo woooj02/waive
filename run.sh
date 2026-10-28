@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ./run.sh            serve on http://127.0.0.1:${PORT:-8100} with auto-reload
-# ./run.sh test       run the test suite (offline, mock engine)
+# ./run.sh test       run the test suite (offline, no API calls)
 # ./run.sh setup      create the venv and install everything
 set -euo pipefail
 cd "$(dirname "$0")"
