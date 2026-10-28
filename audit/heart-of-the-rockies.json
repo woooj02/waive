@@ -7,7 +7,7 @@
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.806,
+ "solver_seconds": 1.623,
  "model": {
   "hospital": "Heart of the Rockies Regional Medical Center",
   "doc": "policy",
@@ -433,12 +433,17 @@
      "holds": false
     }
    ],
-   "seconds": 0.01,
+   "seconds": 0.016,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
-    "counterexample"
+    "counterexample",
+    "proved"
    ],
+   "votes": {
+    "agree": 0,
+    "of": 5
+   },
    "confidence": "disputed",
    "review": {
     "verdict": "upheld",
@@ -588,12 +593,17 @@
      "holds": false
     }
    ],
-   "seconds": 0.008,
+   "seconds": 0.014,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
-    "counterexample"
+    "counterexample",
+    "proved"
    ],
+   "votes": {
+    "agree": 0,
+    "of": 5
+   },
    "confidence": "disputed",
    "review": {
     "verdict": "rejected",
@@ -743,13 +753,18 @@
      "holds": false
     }
    ],
-   "seconds": 0.021,
+   "seconds": 0.03,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
-    "counterexample"
+    "counterexample",
+    "proved"
    ],
-   "confidence": "confirmed",
+   "votes": {
+    "agree": 1,
+    "of": 5
+   },
+   "confidence": "disputed",
    "review": {
     "verdict": "qualified",
     "note": "A band gap: the policy's bands stop at 200% and restart at 201% (and at 225%/226%). Likely a rounding convention, not an intended exclusion."
@@ -778,6 +793,10 @@
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -803,6 +822,10 @@
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -833,6 +856,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -863,6 +890,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -888,6 +919,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -918,6 +953,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -943,6 +982,10 @@
    "second_opinion": [
     "n/a"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -968,6 +1011,10 @@
    "second_opinion": [
     "n/a"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -975,7 +1022,7 @@
    "title": "Earning less never means getting less help",
    "status": "counterexample",
    "law": [],
-   "summary": "A household of 3 earning $54,813 a year (200.6% of the poverty line), living in Colorado, uninsured, owing $0 gets no help; the same household earning more, at 376.00% of the poverty line, gets 20% off. The written income bands leave a gap between them.",
+   "summary": "A household of 3 earning $54,813 a year (200.6% of the poverty line), living in Colorado, uninsured, owing $0 gets no help; the same household earning more, at 351.00% of the poverty line, gets 30% off. The written income bands leave a gap between them.",
    "severity": "ambiguity",
    "household": {
     "size": 3,
@@ -1001,8 +1048,8 @@
    },
    "household_b": {
     "size": 3,
-    "income_usd": 102723.2,
-    "fpl_pct": 376.0,
+    "income_usd": 95893.2,
+    "fpl_pct": 351.0,
     "assets_usd": 0.0,
     "bill_usd": 0.01,
     "first_statement_day": 46,
@@ -1016,7 +1063,7 @@
     "applied_public_programs": true,
     "presumptive_program": false,
     "exact": {
-     "income": "513616/5",
+     "income": "479466/5",
      "assets": "0",
      "bill": "167/19028"
     }
@@ -1028,7 +1075,7 @@
     },
     "b": {
      "covered": true,
-     "best_stated_discount_pct": 20.0
+     "best_stated_discount_pct": 30.0
     }
    },
    "clauses": [
@@ -1129,12 +1176,16 @@
      "holds": false
     }
    ],
-   "seconds": 0.037,
+   "seconds": 0.072,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 0,
+    "of": 5
+   },
    "confidence": "disputed"
   }
  ]

@@ -1,0 +1,244 @@
+{
+ "model": {
+  "hospital": "Colorado Plains Medical Center",
+  "doc": "policy",
+  "source_url": "https://lcmcwmh.com/wp-content/uploads/2025/06/PFS-F-02-Financial-Assistance-Policy.pdf",
+  "nonprofit": null,
+  "requires": [
+   {
+    "id": "req_uninsured_or_underinsured",
+    "label": "Patient must be uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care, based upon a determination of financial need in accordance with this Policy."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_fpl_100_125",
+    "label": "Free care for 100%-125% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 100.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 125.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at 100% and below 125% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_fpl_126_150",
+    "label": "90% discount for 126%-150% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 126.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 90.0,
+    "quote": "Patients whose family income is at 126% and below 150% of the FPL are eligible to receive a 90% discount."
+   },
+   {
+    "id": "rule_fpl_151_175",
+    "label": "80% discount for 151%-175% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 151.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 175.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "Patients whose family income is at 151% and below 175% of the FPL are eligible to receive an 80% discount."
+   },
+   {
+    "id": "rule_fpl_176_200",
+    "label": "70% discount for 176%-200% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 176.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 70.0,
+    "quote": "Patients whose family income is at 176% and below 200% of the FPL are eligible to receive a 70% discount."
+   },
+   {
+    "id": "rule_fpl_201_300",
+    "label": "65% discount for 201%-300% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 201.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 65.0,
+    "quote": "Patients whose family income is at 201% and below 300% of the FPL are eligible to receive a 65% discount."
+   },
+   {
+    "id": "rule_catastrophic_over_300",
+    "label": "Case-by-case discount over 300% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients whose family income exceeds 300% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Little Colorado Medical Center; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients."
+   },
+   {
+    "id": "rule_presumptive",
+    "label": "Presumptive eligibility",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: 1. State-funded prescription programs; 2. Homelessness or received care from a homeless clinic; 3. Participation in Women, Infants and Children programs (WIC); 4. Food stamp eligibility; 5. Subsidized school lunch program eligibility; 6. Eligibility for other state or local assistance program that are unfunded (e.g., Medicaid spend-down); 7. Low income/subsidized housing is provided as a valid address; and 8. Patient is deceased with no known estate."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy does not require patients to have applied for public programs (Medicaid) to be eligible for financial assistance.",
+   "The policy does not require cooperation with the hospital's application process as a strict eligibility condition, though it is part of the determination process.",
+   "Extraordinary collection actions (wage garnishments, liens, etc.) are not permitted without first making reasonable efforts to determine charity care eligibility.",
+   "Emergency room physicians and certain other providers (INNOVA, WIHCC) are not covered by this financial assistance policy per Exhibit B.",
+   "req_uninsured_or_underinsured may leave out a condition: Policy also requires inability to pay and ineligibility for government programs."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "Little Colorado Medical Center appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require Colorado residency for any assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "Little Colorado Medical Center appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require living in the hospital's service area for any assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_emergency_or_medically_necessary",
+    "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+    "quote": "Financial Assistance is defined as healthcare services provided at no charge or at a reduced charge to patients who do not have nor cannot obtain adequate financial resources or other means to pay for their care.",
+    "why": "Policy does not limit assistance to emergency or medically necessary care only."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Accounts eligible for Charity Care are to be addressed within 240 days of first bill.",
+    "why": "240-day period is for addressing accounts, not for submitting applications."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_catastrophic_over_300",
+    "claim": "A patient with (fpl_pct > 300) gets an unstated amount of help",
+    "quote": "Patients whose family income exceeds 300% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Little Colorado Medical Center; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients.",
+    "why": "Policy does not specify discount amount for income over 300% FPL."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_presumptive",
+    "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+    "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: 1. State-funded prescription programs; 2. Homelessness or received care from a homeless clinic; 3. Participation in Women, Infants and Children programs (WIC); 4. Food stamp eligibility; 5. Subsidized school lunch program eligibility; 6. Eligibility for other state or local assistance program that are unfunded (e.g., Medicaid spend-down); 7. Low income/subsidized housing is provided as a valid address; and 8. Patient is deceased with no known estate.",
+    "why": "Policy does not specify discount amount for presumptive eligibility."
+   }
+  ],
+  "clauses": 11,
+  "clauses_proven": 8,
+  "unsupported": 6
+ },
+ "cost_usd": 0.00406,
+ "made": "2026-10-28"
+}

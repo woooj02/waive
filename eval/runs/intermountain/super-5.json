@@ -1,0 +1,182 @@
+{
+ "model": {
+  "hospital": "Intermountain Health",
+  "doc": "policy",
+  "source_url": "https://www.intermountainhealth.org/-/media/files/intermountain-health/for-patients/financial-assistance/2026/imh-financial-assistance-policy-2026_english.ashx",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_exhaust_other_options",
+    "label": "Other payment options must be exhausted",
+    "cond": [
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties, unless prohibited by local, state, or federal laws."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_fully_discounted_care",
+    "label": "Fully Discounted (No Charge) Care",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for fully Discounted Care."
+   },
+   {
+    "id": "rule_discounted_care",
+    "label": "Discounted Care",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 500.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines, and"
+   },
+   {
+    "id": "rule_medical_hardship",
+    "label": "Medical Hardship",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 25.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patient, or patient\u2019s Guarantor, has annual family income in excess of 500% of the Federal Poverty Guidelines\n2. Patient, or patient\u2019s Guarantor, has exhausted all other payment options including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties; and\n3. The out-of-pocket, patient obligations resulting from medical services provided by Intermountain Health providers exceed 25% of annual family income."
+   },
+   {
+    "id": "rule_uninsured_discount",
+    "label": "Uninsured Discount",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients ineligible for financial assistance and having no third-party coverage for Medically Necessary services provided by Intermountain Health will be considered for a discount as covered by the Intermountain Health Patient Discount Policy."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Residency within an Intermountain service area is required for non-emergent hospital services; trauma and emergency services are covered regardless of residency status.",
+   "Financial assistance is provided for a period of twelve months upon approval and applied to all eligible accounts incurred for services received prior to application date.",
+   "Extraordinary collection actions will not be pursued without first making reasonable efforts to determine financial assistance eligibility, including validating the debt and identifying third-party payments.",
+   "The policy limits charges for emergency or other Medically Necessary care to the Amounts Generally Billed (AGB) to individuals who have insurance.",
+   "Services not eligible for financial assistance include elective procedures not Medically Necessary (e.g., cosmetic services) and care from providers not billed through Intermountain Health.",
+   "req_exhaust_other_options may leave out a condition: Exhausting other payment options is required but only for discounted care tiers, not every form of assistance.",
+   "rule_discounted_care may leave out a condition: Requires exhaustion of other payment options, which the claim omits.",
+   "rule_medical_hardship may leave out a condition: Requires exhaustion of other payment options, which the claim omits."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "rule_discounted_care: the clause fpl_pct >= 251.0 OR fpl_pct <= 500.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_emergency_care_access",
+    "claim": "Every form of assistance requires: (emergency)",
+    "quote": "Intermountain Health will provide, without discrimination, care of emergency medical conditions to individuals regardless of their ability to pay or their eligibility for financial assistance or for government assistance.",
+    "why": "Emergency care access is guaranteed regardless of assistance eligibility, not a requirement for receiving assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_cooperation_for_assistance",
+    "claim": "Every form of assistance requires: (applied_public_programs)",
+    "quote": "They will also contribute to the cost of their care according to their ability to pay. Individuals with the financial capacity to purchase health insurance shall be encouraged to do so, as a means of assuring access to health care services, for their overall personal health. Access to insurance or Medicaid coverage has extended significantly through the federal and state Health Exchanges. It is expected that any uninsured patient cooperate with Intermountain Health in determining the availability of Medicaid or insurance coverage.",
+    "why": "Cooperation expectation is stated but not framed as a strict requirement for every form of assistance."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_uninsured_discount",
+    "claim": "A patient with (not insured) gets an unstated amount of help",
+    "quote": "Patients ineligible for financial assistance and having no third-party coverage for Medically Necessary services provided by Intermountain Health will be considered for a discount as covered by the Intermountain Health Patient Discount Policy.",
+    "why": "Policy states consideration for a discount via another policy, not specifying the amount of help."
+   }
+  ],
+  "clauses": 7,
+  "clauses_proven": 5,
+  "unsupported": 3
+ },
+ "cost_usd": 0.00723,
+ "fresh_calls": 3
+}

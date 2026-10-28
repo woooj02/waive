@@ -1,0 +1,161 @@
+{
+ "model": {
+  "hospital": "Community Hospital",
+  "doc": "policy",
+  "source_url": "https://communityhospital-corporate-cdn.codespeed.app/files/Financial+Assistance+Policy.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_free_care",
+    "label": "Free care (<=100% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 100.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at or below 100% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_discount_50",
+    "label": "Up to 50% discount (100-150% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 100.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 50.0,
+    "quote": "Patient whose family income is over 100% and below 150% of the FPL would be eligible for up to a 50% discount."
+   },
+   {
+    "id": "rule_case_by_case",
+    "label": "Case-by-case discounted rates (>150% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients whose family income exceeds 150% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Community Hospital; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "service",
+     "days": 240,
+     "quote": "Accounts turned to bad debt remain eligible for financial assistance consideration as long as the complete application and documentation are submitted prior to 240 days from the date of the initial account statement;"
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "service",
+     "days": 120,
+     "quote": "ECA\u2019s will not be initiated by Community Hospital or by an outside collection agency acting on behalf of Community Hospital until at least 120 days after the initial guarantor account statement has been mailed."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Eligibility requires being uninsured, underinsured, ineligible for any government health care program, and unable to pay for care based on financial need determination.",
+   "The hospital may explore external data sources, consider assets, and review payment history in financial need determination.",
+   "Presumptive eligibility may be determined for homelessness or deceased patient with no known estate.",
+   "Benefits under the program will not exceed twelve months and are subject to reevaluation.",
+   "The hospital reserves the right to exclude or limit non-urgent services from the FAP.",
+   "Elective procedures and flat rate procedures including cosmetic, bariatric lithotripsy are not eligible; complications due to elective procedures considered case by case.",
+   "Extraordinary collection actions may be suspended if patient meets FAP eligibility criteria during collection activity.",
+   "Financial counselors available for prescreening; applications available at no cost via mail, online, or at financial counselor offices.",
+   "Applicant denied has right to appeal in writing within 30 days of denial receipt.",
+   "Applicant must provide required information within 14 days of application date; failure may result in denial but can reapply with complete documentation.",
+   "Misrepresentation or falsification of information causes withdrawal of financial assistance retroactively and currently.",
+   "Relatives or guardians may apply for an incapacitated or deceased individual.",
+   "Gross personal and business income used for eligibility; income determination consistent with CICP program guidelines.",
+   "Minimum documentation: copy of last year\u2019s tax return, last three months\u2019 income, or bank statement for proof of income, checking/savings/investment account balances.",
+   "Requests for charity processed promptly; written notification within 30 days of completed application receipt.",
+   "Community Hospital will not engage in extraordinary collection actions before making reasonable effort to determine FAP eligibility.",
+   "Reasonable efforts include validating debt, identifying third-party payments, offering charity application opportunity, and offering payment plan.",
+   "If collection agency identifies patient meets FAP eligibility, account considered for FAP and collection activity suspended; if full adjustment, account returned; if partial adjustment or non-cooperation or ineligibility, collection resumes.",
+   "Community Hospital is a not-for-profit hospital that conforms with the final IRC 501(r) rules.",
+   "AGB calculated as percent of total reimbursement from Medicare and commercial insurance of prior 12-month look-back period (May 1-April 30), recalculated annually.",
+   "Itemized statement provided showing charges and discount amount applied after complete FAP application submitted.",
+   "Determination may be done at any point in collection cycle; re-evaluated if last evaluation >1 year prior or new relevant information arises.",
+   "Patient responsible for notifying hospital of additional relevant information."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "rule_discount_50: the clause fpl_pct >= 100.0 OR fpl_pct < 150.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "Community Hospital appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require Colorado residency for any assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "Community Hospital appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require living in the hospital's service area for any assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_medically_necessary",
+    "claim": "Every form of assistance requires: (medically_necessary)",
+    "quote": "Community Hospital appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require medically necessary care for all assistance; elective complications may be considered case-by-case."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Accounts eligible for Charity Care are to be addressed within 240 days of first bill.",
+    "why": "240-day deadline is for addressing accounts, not for patient to submit application."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_case_by_case",
+    "claim": "A patient with (fpl_pct > 150) gets an unstated amount of help",
+    "quote": "Patients whose family income exceeds 150% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Community Hospital; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients.",
+    "why": "Policy states discounted rates not greater than AGB, but claim does not specify this limit."
+   }
+  ],
+  "clauses": 6,
+  "clauses_proven": 3,
+  "unsupported": 5
+ },
+ "cost_usd": 0.00707,
+ "made": "2026-10-28"
+}

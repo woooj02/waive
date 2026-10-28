@@ -1,0 +1,118 @@
+{
+ "model": {
+  "hospital": "Banner Health",
+  "doc": "summary",
+  "source_url": "https://www.bannerhealth.com/-/media/Files/Project/BH/Patients-Visitors/Billing/Financial-Assistance/2025-documents/9999-0061-BH-Summary-Of-Financial-Assistance-Programs-And-Application.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "uninsured_fap_400pct",
+    "label": "Financial Assistance for Uninsured patients (<=400% FPL)",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Uninsured patient, you will qualify for BH Financial Assistance (1) if you have an annual household income and household size that is equal to or less than 400% of the Federal Poverty Level and lack other assets to pay the Hospital\u2019s full charges"
+   },
+   {
+    "id": "uninsured_discounted_care",
+    "label": "Discounted care for Uninsured patients not qualifying for FAP",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Uninsured patient, you may qualify for a discounted rate if you do not meet the qualifications for the Financial Assistance Program based on Federal Poverty Level guidelines. Qualification for the discounted care means, you will be charged 1.25 x AGB (Amounts Generally Billed)"
+   },
+   {
+    "id": "underinsured_balance_after_insurance",
+    "label": "Financial Assistance for Underinsured/Balance After Insurance",
+    "when": [
+     [
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Underinsured patient, you may qualify for BH Financial Assistance for Underinsured/Balance After Insurance discount. You will need to apply for consideration and meet both Hospital bill balance requirements stated in the Financial Assistance Policy and Federal Poverty Level guidelines."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy requires application for Medicaid/AHCCCS and cooperation in the application process for uninsured patients seeking financial assistance.",
+   "Policy states that patients qualifying for financial assistance will in no case be charged more than Amounts Generally Billed (AGB) for emergency services or other medically necessary services.",
+   "Policy states that patients will never be required to make advance payment or other payment arrangements to receive emergency services.",
+   "For non-emergent services, patients will be required in most situations to make a substantial advance deposit or other payment arrangements based upon an estimate of the Amounts Generally Billed.",
+   "Policy includes a lien recovery provision: any third-party funding received or eligible to receive pursuant to Arizona\u2019s health care lien statute may be considered and recovered by Banner Health to offset the financial assistance discount provided.",
+   "Policy does not specify exact timing for application submission, ECA restrictions, or first statement issuance beyond general references to cooperation and process.",
+   "Policy does not define specific payment plan terms (maximum percentage of monthly income, maximum months, minimum monthly payment).",
+   "uninsured_fap_400pct may leave out a condition: policy requires applying for Medicaid/cooperation/denial beyond income/assets",
+   "underinsured_balance_after_insurance may leave out a condition: policy requires meeting hospital bill balance requirements in addition to FPL"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "rule:medically_indigent_household",
+    "claim": "A patient with (bill_pct_income > 50) gets an unstated amount of help",
+    "quote": "A Medically Indigent Patient means a household with medical expenses incurred during the previous 12 months, where the portion for which the household is responsible exceeds 50% of the household\u2019s total income for that year.",
+    "why": "policy defines term but does not state it confers financial assistance"
+   }
+  ],
+  "clauses": 4,
+  "clauses_proven": 3,
+  "unsupported": 1
+ },
+ "cost_usd": 0.00323,
+ "made": "2026-10-28"
+}

@@ -1,0 +1,164 @@
+{
+ "model": {
+  "hospital": "Spanish Peaks Regional Health Center",
+  "doc": "policy",
+  "source_url": "https://www.sprhc.org/files/be3a9926d/PFS.038-Financial-Assistance.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_medically_necessary_non_emergency",
+    "label": "Medically necessary care for non-emergency services",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Services and items (other than emergency care) must be medically necessary as determined by the patient\u2019s physician to be eligible for financial assistance."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_fap_250",
+    "label": "Financial Assistance Program up to 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients will be considered as eligible for financial assistance up to 250% of the federal poverty level (FPL)."
+   },
+   {
+    "id": "rule_agb_cap",
+    "label": "AGB cap for emergency and medically necessary care",
+    "when": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "In no event shall the reduced rate charged to patients eligible for financial assistance for emergency care or medically necessary services be greater than the AGB for such services."
+   },
+   {
+    "id": "rule_gross_charge_limit",
+    "label": "Gross charge limit for other care",
+    "when": [
+     [
+      {
+       "var": "emergency",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "With respect to medical care provided other than emergency care and medically necessary services, patients eligible for financial assistance shall not be charged more than gross charges for such care."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Eligibility for financial assistance is determined by comparison of household income to FPL, with discount based on Amounts Generally Billed (AGB).",
+   "AGB is calculated annually using the look-back method per Section 501(r) of the Code and applied by the 45th day after the first day of the fiscal year start.",
+   "Patients deemed eligible for financial assistance will not receive future bills for previously provided services based on undiscounted gross charges.",
+   "The policy defers to HDC and CICP Operations Manual for screening, application, appeals, and eligibility determinations.",
+   "If a patient is not eligible for public programs and lacks insurance, the Self-Pay Discount policy applies.",
+   "The policy requires completion of the Financial Assistance Application with all necessary documentation; refusal to complete renders patient ineligible.",
+   "HCHD assists patients with applying for Medicaid, HDC, or CICP coverage and expects cooperation in providing documentation.",
+   "Financial assistance decisions are approved by Patient Financial Services management team.",
+   "Notifications of determination are made per HDC \u00a76.01 and \u00a711.01.",
+   "Laminated cards for CICP and HDC eligibility are issued with effective dates, mailed or in person.",
+   "Appeals follow HDC Article XI.",
+   "HCHD will not bill patient balances to those who qualify for CICP or HDC; balances are adjusted to internal financial assistance program.",
+   "HCHD permits public to obtain, in writing and free of charge, the actual AGB percentage and calculation methodology.",
+   "HCHD makes reasonable efforts to determine financial assistance eligibility before engaging in extraordinary collection actions (ECAs)",
+   "HCHD has a separate Patient Collections Policy consistent with Section 501(r)(6) of the Code, widely publicized and available.",
+   "Policy does not discourage seeking emergency care, requires no pre-payment, and prohibits debt collection activities that interfere with medical screening or stabilization under EMTALA.",
+   "Policy is widely publicized in communities served consistent with Section 501(r) of the Code and related regulations.",
+   "Contact for application or information: Financial Counseling Specialist at Spanish Peaks Regional Health Center, 23500 US Highway 160, Walsenburg CO 81089, 719-738-4544.",
+   "Appendix B lists providers delivering emergency or medically necessary care in HCHD facilities, indicating which are covered by this policy.",
+   "req_medically_necessary_non_emergency may leave out a condition: Medically necessary care is required only for non-emergency services; emergency care is eligible without this condition."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "Scope: Huerfano County Hospital District",
+    "why": "Policy scope limited to Huerfano County Hospital District does not establish Colorado residency as a requirement for every form of assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "This policy is applicable to all service areas/divisions of HCHD.",
+    "why": "Statement that policy applies to all service areas/divisions of HCHD does not require patients to live in the hospital's service area for assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Patients who complete the screening process and appear eligible for HDC or the CICP and want to apply, or patients who appear ineligible but who still wish to complete the application to find out for sure have 45 days from the date of the screening to submit all required documentation to Patient Financial Services (Appendix A).",
+    "why": "45-day deadline is from date of screening, not date of service."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Patients who complete the screening process and appear eligible for HDC or the CICP and want to apply, or patients who appear ineligible but who still wish to complete the application to find out for sure have 45 days from the date of the screening to submit all required documentation to Patient Financial Services (Appendix A).",
+    "why": "45-day deadline is from date of screening, not first post-discharge bill."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_fap_250",
+    "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
+    "quote": "Patients will be considered as eligible for financial assistance up to 250% of the federal poverty level (FPL).",
+    "why": "Eligibility up to 250% FPL is stated, but the amount of help is based on AGB, not unspecified."
+   }
+  ],
+  "clauses": 6,
+  "clauses_proven": 4,
+  "unsupported": 5
+ },
+ "cost_usd": 0.00468,
+ "made": "2026-10-28"
+}

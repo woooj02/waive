@@ -7,7 +7,7 @@
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.161,
+ "solver_seconds": 0.551,
  "model": {
   "hospital": "Mt. San Rafael Hospital",
   "doc": "policy",
@@ -156,12 +156,17 @@
      "holds": false
     }
    ],
-   "seconds": 0.011,
+   "seconds": 0.017,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
-    "counterexample"
+    "counterexample",
+    "proved"
    ],
+   "votes": {
+    "agree": 4,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -187,6 +192,10 @@
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -206,12 +215,16 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.002,
+   "seconds": 0.001,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -242,6 +255,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -272,6 +289,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -297,6 +318,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -327,6 +352,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -352,6 +381,10 @@
    "second_opinion": [
     "n/a"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -377,6 +410,10 @@
    "second_opinion": [
     "n/a"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -458,12 +495,16 @@
      "holds": false
     }
    ],
-   "seconds": 0.034,
+   "seconds": 0.048,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 0,
+    "of": 5
+   },
    "confidence": "disputed"
   }
  ]

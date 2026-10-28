@@ -1,0 +1,209 @@
+{
+ "model": {
+  "hospital": "Heart of the Rockies Regional Medical Center",
+  "doc": "policy",
+  "source_url": "https://www.hrrmc.com/documents/brochures/Finance-Assistance_2021.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "sliding_scale_discount",
+    "label": "Sliding Scale Income-Based Discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 201.0
+      },
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 225.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 226.0
+      },
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      },
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 275.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 276.0
+      },
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 301.0
+      },
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 325.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 326.0
+      },
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 350.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 351.0
+      },
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 375.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 376.0
+      },
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 401.0
+      },
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 425.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Financial assistance will be determined on a sliding scale based on family size and family income."
+   },
+   {
+    "id": "uninsured_or_underinsured_charity_care",
+    "label": "Charity Care for Uninsured or Underinsured",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "HRRMC will provide financial assistance (charity care) to qualified patients who are uninsured or underinsured and do not have the financial means to pay for hospital services."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy specifies that charity care is available for emergency or unscheduled, non-elective services. It requires completion of a Financial Assistance Application with all requested household expenses and medical bills, gross income, family size, employment status and future earning capacity, other financial resources, other financial obligations, dollar amount/frequency/nature of hospital/medical services, three months of bank statements from each contributing to household income, last available W-2 for all family members, most recent four employer paycheck stubs and prior year, and State Income Tax Return for the most current or two of: Most current and prior year's Federal Tax Return. Income calculation includes all monies received before taxes from all sources with specific exclusions noted. For family units of more than 8 members, add $4,540 for each additional member. Pregnant women count as two people for the purpose of the chart. Charity care is not a substitute for personal responsibility; patients are expected to cooperate with procedures and contribute based on ability to pay. The program is for patients who do not qualify for federal, state, or local assistance and are unable to establish approved payments or pay balances in full.",
+   "sliding_scale_discount may leave out a condition: policy requires completion of Financial Assistance application with documentation",
+   "uninsured_or_underinsured_charity_care may leave out a condition: policy requires inability to pay for hospital services"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "sliding_scale_discount: the clause fpl_pct >= 201.0 OR fpl_pct <= 225.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 226.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 251.0 OR fpl_pct <= 275.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 276.0 OR fpl_pct <= 300.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 301.0 OR fpl_pct <= 325.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 326.0 OR fpl_pct <= 350.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 351.0 OR fpl_pct <= 375.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 376.0 OR fpl_pct <= 400.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 401.0 OR fpl_pct <= 425.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [
+   "sliding_scale_discount: the clause fpl_pct >= 201.0 OR fpl_pct <= 225.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 226.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 251.0 OR fpl_pct <= 275.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 276.0 OR fpl_pct <= 300.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 301.0 OR fpl_pct <= 325.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 326.0 OR fpl_pct <= 350.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 351.0 OR fpl_pct <= 375.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 376.0 OR fpl_pct <= 400.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_scale_discount: the clause fpl_pct >= 401.0 OR fpl_pct <= 425.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "dropped": [],
+  "clauses": 2,
+  "clauses_proven": 2,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00514,
+ "made": "2026-10-28"
+}

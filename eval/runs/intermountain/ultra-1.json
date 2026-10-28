@@ -1,0 +1,218 @@
+{
+ "model": {
+  "hospital": "Intermountain Health",
+  "doc": "policy",
+  "source_url": "https://www.intermountainhealth.org/-/media/files/intermountain-health/for-patients/financial-assistance/2026/imh-financial-assistance-policy-2026_english.ashx",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req-service-area-or-emergency",
+    "label": "Residency in service area for non-emergent services; emergency covered regardless",
+    "cond": [
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Residency within an Intermountain service area for non-emergent hospital services and/or extenuating circumstances. Trauma and emergency services provided in an emergency setting are covered regardless of residency status."
+   },
+   {
+    "id": "req-uninsured-or-underinsured",
+    "label": "Patient must be uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Eligibility for financial assistance shall be considered for those individuals who are uninsured, underinsured, and unable to pay for their care, based upon a determination of financial need in accordance with this Policy."
+   },
+   {
+    "id": "req-applied-public-programs",
+    "label": "Must apply for public programs (Medicaid, etc.) unless prohibited by law",
+    "cond": [
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties, unless prohibited by local, state, or federal laws."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule-fully-discounted",
+    "label": "Fully Discounted Care (100% waiver) for income <= 250% FPL",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for fully Discounted Care."
+   },
+   {
+    "id": "rule-discounted-care",
+    "label": "Discounted Care (sliding scale per Matrix) for income >250% and <=500% FPL",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines, and All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "A reasonable payment plan will be established between Intermountain Health and the patient, or patient guarantor, for any balance remaining after the cost of care has been discounted under the financial assistance policy."
+  },
+  "notes": [
+   "Policy applies to multiple hospitals across Colorado, Idaho, Montana, and Utah; service area residency required only for non-emergent services.",
+   "Discounted Care uses a 'Financial Assistance Patient Responsibility Matrix \u2013 Attachment B' (sliding scale) not provided in text; discount_pct set to null.",
+   "Medical Hardship caps patient charges at 25% of annual family income for the calendar year; applies to all qualified services during that year.",
+   "Presumptive eligibility uses predictive modeling and public records; may relax documentation requirements.",
+   "Deceased patient accounts reviewed for adjustment; surviving spouse may apply per state law.",
+   "Financial Assistance determinations valid for 12 months; re-application allowed after income/status change; re-submission required if >6 months since denial.",
+   "Charges for eligible patients limited to Amounts Generally Billed (AGB) calculated via look-back method per \u00a71.501(r)-5(b).",
+   "Excluded services: elective/cosmetic procedures, independent physician services, private-duty nursing, ambulance transport, other non-Intermountain-billed providers.",
+   "Appeals must be filed in writing within 90 days of determination.",
+   "Collection policies comply with federal/state regulations; no extraordinary collections until financial assistance screening completed and patient informed.",
+   "COBRA premium assistance may be offered for limited time; patient must cooperate in determining eligibility.",
+   "Policy prohibits screening for financial assistance prior to rendering emergency services per EMTALA.",
+   "req-applied-public-programs may leave out a condition: also requires exhaustion of private coverage and other third-party assistance",
+   "rule-fully-discounted may leave out a condition: also requires exhaustion of all other payment options",
+   "rule-discounted-care may leave out a condition: also requires exhaustion of all other payment options"
+  ]
+ },
+ "report": {
+  "model": "ultra",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "requirement",
+    "id": "req-medically-necessary",
+    "quote": "Services and goods eligible under this financial assistance policy include the following: 1. Trauma and emergency medical services provided in an emergency setting. 2. Services for a condition that, if not treated promptly, would lead to an adverse change in the health status of a patient; 3. Non-elective services provided in response to life-threatening circumstances in a non-emergency room setting; and/or 4. Other Medically Necessary services scheduled in advance and assessed and approved at the discretion of Intermountain Health."
+   },
+   {
+    "kind": "rule",
+    "id": "rule-medical-hardship",
+    "quote": "Patient, or patient's Guarantor, has annual family income in excess of 500% of the Federal Poverty Guidelines and The out-of-pocket, patient obligations resulting from medical services provided by Intermountain Health providers exceed 25% of annual family income. Patient, or patient's Guarantor, meeting eligibility criteria for Medical Hardship shall have their Intermountain Health charges limited to 25% of their annual family income."
+   },
+   {
+    "kind": "collection timing",
+    "id": "collection timing",
+    "quote": "No extraordinary collection actions will be pursued against any patient without first making reasonable efforts to determine whether that patient is eligible for financial assistance. Reasonable efforts also include a prohibition on collection actions pursued against an uninsured patient (or one likely to be underinsured) until the patient has been made aware of the care site's financial assistance policy and has had the opportunity to apply for it or has availed themselves of a reasonable payment plan."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule-presumptive-eligibility",
+    "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+    "quote": "For patients, or patients' Guarantors, who are unable to provide required documentation but meet certain financial need criteria, Intermountain Health may grant Financial Assistance. In particular, presumptive eligibility may be determined on the basis of individual life circumstances that may include: 1. State-funded prescription programs; 2. Homeless or one who received care from a homeless clinic; 3. Participation in Women, Infants and Children (WIC) programs; 4. Food stamp eligibility; 5. Subsidized school lunch program eligibility; 6. Eligibility for other state or local assistance programs that are unfunded (e.g., Medicaid spend-down); 7. Low income/subsidized housing is provided as a valid address 8. Eligibility based on health care industry sources of information (e.g., public record data, socioeconomic information, vendor calculated scores).",
+    "why": "presumptive eligibility is discretionary, not a guaranteed rule"
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule-uninsured-discount",
+    "claim": "A patient with (not insured) gets an unstated amount of help",
+    "quote": "Uninsured Discount: Patients ineligible for financial assistance and having no third-party coverage for Medically Necessary services provided by Intermountain Health will be considered for a discount as covered by the Intermountain Health Patient Discount Policy.",
+    "why": "refers to separate Patient Discount Policy, not stated here"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "If eligibility is approved, the patient will be granted Financial Assistance for a period of twelve months. Financial Assistance will also be applied to all eligible accounts incurred for services received prior to application date.",
+    "why": "quote refers to assistance duration, not application deadline"
+   }
+  ],
+  "clauses": 9,
+  "clauses_proven": 5,
+  "unsupported": 3
+ },
+ "cost_usd": 0.0,
+ "fresh_calls": 0
+}

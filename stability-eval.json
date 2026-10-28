@@ -1,0 +1,419 @@
+{
+ "references": [
+  "childrens-colorado",
+  "healthone",
+  "intermountain",
+  "uchealth",
+  "uchealth-summary"
+ ],
+ "summary": {
+  "docs": 5,
+  "runs": 5,
+  "cost_usd_new_calls": 0.4132,
+  "ultra": {
+   "label": "Nemotron 3 Ultra",
+   "verdict_agreement_mean_pct": 90,
+   "lowest_run_pct": 90,
+   "highest_run_pct": 90,
+   "same_verdict_every_run_pct": 100
+  },
+  "super": {
+   "label": "Nemotron 3 Super",
+   "verdict_agreement_mean_pct": 88,
+   "lowest_run_pct": 84,
+   "highest_run_pct": 92,
+   "same_verdict_every_run_pct": 76
+  },
+  "findings": {
+   "distinct_counterexamples": 25,
+   "all": {
+    "n": 25,
+    "real": 21,
+    "real_pct": 84
+   },
+   "inconclusive": {
+    "n": 8,
+    "real": 7,
+    "real_pct": 88
+   },
+   "one_super_run": {
+    "note": "every pairing of a finding with one Super run (what the audit used)",
+    "confirmed": {
+     "n": 45,
+     "real": 42,
+     "real_pct": 93
+    },
+    "disputed": {
+     "n": 40,
+     "real": 28,
+     "real_pct": 70
+    }
+   },
+   "super_majority": {
+    "note": "confirmed when most of 5 Super runs fail the same case",
+    "confirmed": {
+     "n": 8,
+     "real": 8,
+     "real_pct": 100
+    },
+    "disputed": {
+     "n": 9,
+     "real": 6,
+     "real_pct": 67
+    }
+   }
+  }
+ },
+ "findings": [
+  {
+   "doc": "childrens-colorado",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it is turned away by this requirement: \"Uninsured or underinsured required for HDC and CICP\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": false,
+   "inconclusive": false,
+   "super_votes": [
+    true,
+    true,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "doc": "childrens-colorado",
+   "check": "co_eca_182",
+   "summary": "If the first bill goes out on day 46 after care (Colorado allows bills from day 46), the policy's written timeline allows collection actions from day 166. Colorado law bars them until day 182.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "doc": "childrens-colorado",
+   "check": "co_window_insured",
+   "summary": "If insurance takes until day 321 to process and the first bill arrives then, the policy's window has already closed on day 365; Colorado gives until day 366. The same happens for every first-bill day after day 321.",
+   "real": false,
+   "inconclusive": false,
+   "super_votes": [
+    false,
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "doc": "childrens-colorado",
+   "check": "fed_window_240",
+   "summary": "If the first bill goes out on day 126 after care (common when insurance is billed first), the policy stops taking applications on day 365; 501(r) keeps them open until day 366. The same happens for every first-bill day after day 126.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    false,
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "doc": "childrens-colorado",
+   "check": "monotone",
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, under-insured, after non-emergency care gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "real": true,
+   "inconclusive": true,
+   "super_votes": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "doc": "childrens-colorado",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, after non-emergency care meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": true,
+   "inconclusive": true,
+   "super_votes": [
+    true,
+    true,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "doc": "childrens-colorado",
+   "check": "monotone",
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, under-insured, after non-emergency care gets no help; the same household earning more, at 400.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "real": true,
+   "inconclusive": true,
+   "super_votes": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "doc": "healthone",
+   "check": "co_eca_182",
+   "summary": "If the first bill goes out on day 46 after care (Colorado allows bills from day 46), the policy's written timeline allows collection actions from day 76. Colorado law bars them until day 182.",
+   "real": false,
+   "inconclusive": false,
+   "super_votes": [
+    false,
+    true,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "doc": "healthone",
+   "check": "monotone",
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    false,
+    false,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "doc": "healthone",
+   "check": "monotone",
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, under-insured gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    false,
+    false,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "doc": "healthone",
+   "check": "monotone",
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, uninsured gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "real": true,
+   "inconclusive": true,
+   "super_votes": [
+    false,
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "doc": "intermountain",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, after non-emergency care is turned away by this requirement: \"Residency in service area for non-emergent services; emergency covered regardless\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    false,
+    false,
+    true,
+    false,
+    false
+   ]
+  },
+  {
+   "doc": "intermountain",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it is turned away by this requirement: \"Patient must be uninsured or underinsured\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "doc": "intermountain",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, who hasn't applied for Medicaid is turned away by this requirement: \"Must apply for public programs (Medicaid, etc.) unless prohibited by law\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    false,
+    true,
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "doc": "intermountain",
+   "check": "co_hdc_public",
+   "summary": "Two households differ only in whether they applied for Medicaid or other public programs: A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, who hasn't applied for Medicaid is treated worse than the same household with a Medicaid application on file. Colorado law says whether they applied for Medicaid or other public programs must not decide discounted care.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    false,
+    true,
+    true,
+    false,
+    true
+   ]
+  },
+  {
+   "doc": "intermountain",
+   "check": "monotone",
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, uninsured gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "real": false,
+   "inconclusive": true,
+   "super_votes": [
+    true,
+    true,
+    false,
+    true,
+    false
+   ]
+  },
+  {
+   "doc": "intermountain",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, after non-emergency care is turned away by this requirement: \"Residency in service area required for non-emergent services; emergency services covered regardless of residency\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    false,
+    false,
+    true,
+    false,
+    false
+   ]
+  },
+  {
+   "doc": "intermountain",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, who hasn't applied for Medicaid is turned away by this requirement: \"Must have applied for public programs (Medicaid, etc.) unless prohibited by law\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    false,
+    true,
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "doc": "intermountain",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, who hasn't applied for Medicaid may be denied by this requirement: \"Patient must cooperate in applying for public programs and other payment options\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    false,
+    true,
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "doc": "intermountain",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": true,
+   "inconclusive": true,
+   "super_votes": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "doc": "uchealth",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": true,
+   "inconclusive": true,
+   "super_votes": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "doc": "uchealth",
+   "check": "monotone",
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, uninsured gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "real": true,
+   "inconclusive": true,
+   "super_votes": [
+    false,
+    true,
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "doc": "uchealth",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it is turned away by this requirement: \"Patient must be uninsured or underinsured\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "doc": "uchealth-summary",
+   "check": "co_hdc_coverage",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it is turned away by this requirement: \"Uninsured or underinsured\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "doc": "uchealth-summary",
+   "check": "monotone",
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, uninsured gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "real": true,
+   "inconclusive": false,
+   "super_votes": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  }
+ ]
+}

@@ -1,0 +1,186 @@
+{
+ "model": {
+  "hospital": "Aspen Valley Health",
+  "doc": "policy",
+  "source_url": "https://vrh.org/wp-content/uploads/2025/08/Financial-Assistance-Guidelines-2025-published.pdf",
+  "nonprofit": null,
+  "requires": [
+   {
+    "id": "req_residency",
+    "label": "Patient must be resident of New Hampshire or Vermont",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "a. Patient must be a resident of New Hampshire or Vermont, except instances where presumptive charity guidelines are used."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_standard_100",
+    "label": "Standard application: 100% charity for income \u2264225% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 225.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "To be eligible for 100% approval for the Valley Regional Hospital Financial Assistance Program, family income must be less than or equal to 225% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_standard_75",
+    "label": "Standard application: 75% charity for income 226%-250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 226.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 75.0,
+    "quote": "To be eligible for 75% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 226%-250% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_standard_50",
+    "label": "Standard application: 50% charity for income 251%-275% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 275.0
+      }
+     ]
+    ],
+    "discount_pct": 50.0,
+    "quote": "To be eligible for 50% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 251%-275% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_standard_25",
+    "label": "Standard application: 25% charity for income 276%-300% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 276.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 25.0,
+    "quote": "To be eligible for 25% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 276%-300% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_uninsured_discount",
+    "label": "Uninsured discount applied prior to financial assistance",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "For fiscal year FY25-10/1/24-9/30/25 the discount determined as above it 45%."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Assets include savings, certificates of deposit and checking: up to $5,000 per person/$10,000 per family; equity in primary residence up to $100,000 ($150,000 for applicants aged 55 or older).",
+   "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: state-funded prescription programs; homeless or received care from a homeless clinic; participation in WIC; food stamp eligibility; subsidized school lunch program eligibility; eligibility for other state or local assistance programs that are unfunded (e.g., Medicaid spend-down, QMB); participation in other state Medicaid programs for which the hospital is not considered a participating provider; dates of service rendered prior to any Medicaid coverage period, or if timely filing requirements were not met due to non-disclosure by the patient; low income/subsidized housing is provided as a valid address; and patient is deceased with no known estate.",
+   "Patients receiving financial assistance must reapply at 6-month intervals; patients living on fixed incomes such as social security will need to reapply each year.",
+   "If a patient has paid an outstanding balance and subsequently submits a completed Financial Assistance Application which is approved for financial assistance through the application process, the hospital will refund any amount the individual has paid for the care.",
+   "All insurance payments and contractual adjustments as well as the uninsured discount are taken prior to the financial assistance adjustment being applied.",
+   "Patients without insurance, including uninsured patients who qualify for financial assistance under this Policy, may not be charged any more than the amount generally billed to patients who have insurance covering the same care.",
+   "Valley Regional Hospital will not impose extraordinary collections actions, such as engaging legal action, for any patient without first making reasonable efforts to determine whether that patient is eligible for financial assistance.",
+   "Appeals Process: If VRH denies partial or total financial assistance, then the patient (or his/her agent) can appeal the decision within 30 days.",
+   "Valley Regional Hospital determines eligibility using the national Federal Poverty Income Guidelines, which are published on a yearly basis.",
+   "You may be granted Financial Assistance for any date of service before your effective date with Vermont or New Hampshire Medicaid. The hospital will apply current Medicaid guidelines to show proof of household income.",
+   "Excluded services: Elective cosmetic procedures, Hearing Aids and repairs, DOT Examinations, Sports Physicals, Gait Analysis, Dry Needling.",
+   "req_residency may leave out a condition: Residency requirement does not apply when presumptive charity guidelines are used."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "rule_presumptive",
+    "quote": "Once determined, due to the inherent nature of the presumptive circumstances, the only discount that can be granted is a 100% write off of the account balance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_coverage_type",
+    "claim": "Every form of assistance requires: (medically_necessary)",
+    "quote": "This policy outlines the following with respect to all emergency or other medically necessary care provided by Valley Regional Hospital and Valley Regional owned physician clinics:",
+    "why": "Policy covers preventative care and some elective services, not only emergency or medically necessary care."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 10 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The applicant must return applications to Valley Regional Hospital within ten -(10) days of receipt.",
+    "why": "10-day deadline is for returning application after receipt, not for submitting after date of service."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_uninsured_discount",
+    "claim": "A patient with (not insured) gets 45% off",
+    "quote": "For fiscal year FY25-10/1/24-9/30/25 the discount determined as above it 45%.",
+    "why": "45% discount applies to uninsured patients prior to financial assistance adjustment, not as standalone assistance."
+   }
+  ],
+  "clauses": 8,
+  "clauses_proven": 6,
+  "unsupported": 3
+ },
+ "cost_usd": 0.00436,
+ "made": "2026-10-28"
+}

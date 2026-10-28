@@ -1,0 +1,218 @@
+{
+ "model": {
+  "hospital": "UCHealth",
+  "doc": "policy",
+  "source_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/2026/09/29153210/UCHealth-Financial-Assistance-Policy-English-09_28_26.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_medically_necessary",
+    "label": "Care must be emergency or medically necessary",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services"
+   },
+   {
+    "id": "req_uninsured_or_underinsured",
+    "label": "Patient must be uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "for Uninsured and Under-insured Patients to apply and be considered for Financial Assistance"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_income_0_250",
+    "label": "Income-based assistance: FPL <= 250%",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges for care covered by this policy"
+   },
+   {
+    "id": "rule_income_251_400",
+    "label": "Income-based assistance: FPL 251-400%",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A"
+   },
+   {
+    "id": "rule_catastrophic",
+    "label": "Catastrophic Balance Financial Assistance",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income_assets",
+       "op": ">",
+       "value": 50.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined"
+   },
+   {
+    "id": "rule_presumptive",
+    "label": "Presumptive Eligibility",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy"
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 365,
+     "quote": "Applicants have the later of (a) 365 days from the date of the first post-discharge Billing Statement"
+    },
+    {
+     "anchor": "first_statement",
+     "days": 30,
+     "quote": "or (b) 30 days after notice of the initiation of one or more Extraordinary Collection Actions (ECA) has been provided"
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 365,
+     "quote": "UCHealth does not initiate ECAs prior to (a) 365 days from the date UCHealth provides the first post-discharge Billing Statement to the Patient"
+    },
+    {
+     "anchor": "first_statement",
+     "days": 30,
+     "quote": "UCHealth will refrain from initiating ECAs for at least 365 days from the date the Hospital mails the first post-discharge Billing Statement to the Guarantor for the care, and will make reasonable efforts as described above and as required by law, at least 30 days in advance of initiating ECAs"
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Residency exception for unscheduled emergency services is at UCHealth's sole discretion.",
+   "Services not covered: non-emergent/non-medically necessary care (elective/cosmetic), transplant procedures, self-pay packages, single case agreements, grants & research, or when third party has legal obligation to pay.",
+   "Provider coverage varies by facility; separate provider list maintained and updated quarterly.",
+   "Discounts for 251-400% FPL and Catastrophic are facility-specific per Appendix A tables (AGB percentages).",
+   "AGB (Amount Generally Billed) cap applies: patients approved for Financial Assistance will not be charged more than AGB for emergency/medically necessary care.",
+   "If self-pay discount at a facility exceeds AGB, the self-pay discount applies instead.",
+   "Presumptive eligibility only applies to current services and past accounts, not future services.",
+   "Income verification documents required (pay stubs, bank statements, tax returns, etc.) but not modeled as eligibility criteria.",
+   "Residency documentation required (Colorado ID, pay stub with CO address, rental agreement, utility bill, etc.) but not modeled as eligibility criteria.",
+   "Application processing within 14 days of receipt; written determination provided.",
+   "Eligibility validity periods: 365 days for <=250% FPL, 180 days for 251-400% FPL from last signed application.",
+   "Incomplete applications denied but ECAs paused; applicant gets notice of missing info and opportunity to complete within application period or 30 days of notice.",
+   "Approved assistance reverses ECAs and refunds excess payments (except $1 or less).",
+   "UCHealth sends at least 4 monthly billing statements (30 days apart) before referring to collections.",
+   "Insured balances unpaid 120+ days referred to collections; uninsured balances unpaid 182+ days referred to collections.",
+   "No credit reporting or property liens for patient debt.",
+   "Family definition: 2+ people related by birth/marriage/adoption residing together; members not responsible for patients 18+.",
+   "Family Income: before-tax aggregate of all family members; excludes non-cash benefits and capital gains/losses.",
+   "Financial Resources: cash, bank deposits, easily withdrawable assets (checking, savings, trusts, CDs).",
+   "Guarantor: financially responsible individual, typically 18+; minors may be own guarantor for certain treatments.",
+   "Medically Necessary defined per Colorado regulations 10 CCR 2505-10 8.076.1.8; emergent services deemed medically necessary.",
+   "Policy references Colorado Hospital Discounted Care law and federal 501(r) regulations.",
+   "Services at UCHealth clinics both inside and outside Colorado are eligible for Financial Assistance.",
+   "UCHealth employees residing outside Colorado but receiving services at UCHealth facility do not have to meet residency requirements.",
+   "Patients with UCHealth debt are not denied services for non-emergency care and not excluded from financial assistance.",
+   "UCHealth does not deny discounted care based on failure to apply for public benefits.",
+   "UCHealth does not participate in fundraising for specific patient care.",
+   "UCHealth not responsible for housing, food, transportation, immigration status, or continuity of care.",
+   "req_medically_necessary may leave out a condition: only applies to emergency or medically necessary care, not all assistance",
+   "req_uninsured_or_underinsured may leave out a condition: only applies to Uninsured and Under-insured Patients, not all assistance",
+   "1 may leave out a condition: policy refrains from ECAs for at least 365 days, not 30 days"
+  ]
+ },
+ "report": {
+  "model": "ultra",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "requirement",
+    "id": "req_colorado_resident",
+    "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance. For unscheduled emergency services, UCHealth may, at its sole discretion, make an exception to the residency requirement."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_self_pay_discount",
+    "claim": "A patient with (not insured) gets an unstated amount of help",
+    "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
+    "why": "self-pay discount is separate from Financial Assistance program"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_income_251_400",
+    "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A",
+    "why": "policy specifies discount via Appendix A table, not unstated amount"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_catastrophic",
+    "claim": "A patient with (bill_pct_income_assets > 50) gets an unstated amount of help",
+    "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined",
+    "why": "policy specifies discount via Appendix A or 50% of income, not unstated amount"
+   }
+  ],
+  "clauses": 8,
+  "clauses_proven": 6,
+  "unsupported": 3
+ },
+ "cost_usd": 0.01901,
+ "fresh_calls": 2
+}

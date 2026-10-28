@@ -1,0 +1,253 @@
+{
+ "model": {
+  "hospital": "CommonSpirit Longmont United Hospital",
+  "doc": "policy",
+  "source_url": "https://www.mountain.commonspirit.org/patient-tools/billing-and-financial-services/financial-assistance-hospital-discounted-care",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "co_fap_0_250",
+    "label": "Colorado Financial Assistance 0-250% FPL",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "The legislation requires hospitals to provide financial assistance to patients in emergent situations and whose incomes are less than 250 percent of the current year\u2019s federal poverty level."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "is committed to offering reasonable payment plan options to its patients, and will allow for at least 30 days past the payment due date before pursuing collections."
+  },
+  "notes": [
+   "The policy mentions treatment of emergent and urgent patients regardless of ability to pay or coverage status, but this is not a formal requirement for financial assistance eligibility.",
+   "The policy references compliance with PPACA, IRC Section 501(r), and Colorado Senate Bill 14-50, but these are not modeled as specific eligibility criteria beyond the 250% FPL requirement for Colorado Financial Assistance.",
+   "Copayment minimums are noted with asterisks but not modeled as they relate to patient cost-sharing rather than discount percentage.",
+   "The policy includes Kansas and Utah facilities with different FPL brackets, modeled as separate rules.",
+   "The policy mentions screening uninsured patients for financial assistance when possible, but this is procedural and not a requirement for assistance.",
+   "co_fap_0_250 may leave out a condition: policy limits assistance to emergent situations only, not all medically necessary care"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "co_hdc_insured_0_250_ip: the clause co_resident true None OR in_service_area true None OR insured true None OR inpatient true None OR fpl_pct >= 0.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_insured_0_250_op: the clause co_resident true None OR in_service_area true None OR insured true None OR inpatient false None OR fpl_pct >= 0.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_insured_0_250_charge: the clause co_resident true None OR in_service_area true None OR insured true None OR fpl_pct >= 0.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_insured_251_299_ip: the clause co_resident true None OR in_service_area true None OR insured true None OR inpatient true None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_insured_251_299_op: the clause co_resident true None OR in_service_area true None OR insured true None OR inpatient false None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_insured_251_299_charge: the clause co_resident true None OR in_service_area true None OR insured true None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_insured_300_399_ip: the clause co_resident true None OR in_service_area true None OR insured true None OR inpatient true None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_insured_300_399_op: the clause co_resident true None OR in_service_area true None OR insured true None OR inpatient false None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_insured_300_399_charge: the clause co_resident true None OR in_service_area true None OR insured true None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_uninsured_0_250_ip: the clause co_resident true None OR in_service_area true None OR insured false None OR inpatient true None OR fpl_pct >= 0.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_uninsured_0_250_op: the clause co_resident true None OR in_service_area true None OR insured false None OR inpatient false None OR fpl_pct >= 0.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_uninsured_0_250_charge: the clause co_resident true None OR in_service_area true None OR insured false None OR fpl_pct >= 0.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_uninsured_251_299_ip: the clause co_resident true None OR in_service_area true None OR insured false None OR inpatient true None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_uninsured_251_299_op: the clause co_resident true None OR in_service_area true None OR insured false None OR inpatient false None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_uninsured_251_299_charge: the clause co_resident true None OR in_service_area true None OR insured false None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_uninsured_300_399_ip: the clause co_resident true None OR in_service_area true None OR insured false None OR inpatient true None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_uninsured_300_399_op: the clause co_resident true None OR in_service_area true None OR insured false None OR inpatient false None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_uninsured_300_399_charge: the clause co_resident true None OR in_service_area true None OR insured false None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ks_fap_151_200: the clause fpl_pct >= 151.0 OR fpl_pct <= 200.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ks_fap_151_200_charge: the clause fpl_pct >= 151.0 OR fpl_pct <= 200.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ks_fap_201_250: the clause fpl_pct >= 201.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ks_fap_201_250_charge: the clause fpl_pct >= 201.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ut_fap_251_299: the clause fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ut_fap_251_299_charge: the clause fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ut_fap_300_399: the clause fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ut_fap_300_399_charge: the clause fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_0_250_ip",
+    "quote": "0-250% ... $650 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_0_250_op",
+    "quote": "0-250% ... $50 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_0_250_charge",
+    "quote": "0-250% ... 15% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_251_299_ip",
+    "quote": "251-299% ... $650 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_251_299_op",
+    "quote": "251-299% ... $50 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_251_299_charge",
+    "quote": "251-299% ... 25% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_300_399_ip",
+    "quote": "300-399% ... $650 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_300_399_op",
+    "quote": "300-399% ... $50 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_300_399_charge",
+    "quote": "300-399% ... 35% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_0_250_ip",
+    "quote": "0-250% ... $0 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_0_250_op",
+    "quote": "0-250% ... $0 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_0_250_charge",
+    "quote": "0-250% ... 0% copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_251_299_ip",
+    "quote": "251-299% ... $650 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_251_299_op",
+    "quote": "251-299% ... $50 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_251_299_charge",
+    "quote": "251-299% ... 25% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_300_399_ip",
+    "quote": "300-399% ... $650 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_300_399_op",
+    "quote": "300-399% ... $50 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_300_399_charge",
+    "quote": "300-399% ... 35% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "ks_fap_0_150",
+    "quote": "0-150% ... $650 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "ks_fap_151_200",
+    "quote": "151-200% ... $50 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "ks_fap_151_200_charge",
+    "quote": "151-200% ... 15% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "ks_fap_201_250",
+    "quote": "201-250% ... 20% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "ks_fap_201_250_charge",
+    "quote": "201-250% ... 35% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "ut_fap_0_250",
+    "quote": "0-250% ... $650 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "ut_fap_251_299",
+    "quote": "251-299% ... $50 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "ut_fap_251_299_charge",
+    "quote": "251-299% ... 25% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "ut_fap_300_399",
+    "quote": "300-399% ... $650 copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "ut_fap_300_399_charge",
+    "quote": "300-399% ... 35% of charges"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "will allow for at least 30 days past the payment due date before pursuing collections.",
+    "why": "policy describes collections timeline, not application submission deadline"
+   }
+  ],
+  "clauses": 29,
+  "clauses_proven": 1,
+  "unsupported": 1
+ },
+ "cost_usd": 0.01209,
+ "made": "2026-10-28"
+}

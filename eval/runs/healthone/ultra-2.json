@@ -1,0 +1,222 @@
+{
+ "model": {
+  "hospital": "HCA HealthONE",
+  "doc": "policy",
+  "source_url": "https://www.healthonecares.com/patient-resources/patient-financial-resources/financial-assistance",
+  "nonprofit": false,
+  "requires": [
+   {
+    "id": "req_non_elective",
+    "label": "Care must be non-elective",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Financial relief may be available to patients who have received non-elective care"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_full_charity",
+    "label": "Full charity discount (0-250% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed"
+   },
+   {
+    "id": "rule_partial_charity",
+    "label": "Partial charity discount (251-400% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ],
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe"
+   },
+   {
+    "id": "rule_uninsured_discount",
+    "label": "Uninsured discount (managed care equivalent)",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures, will receive discount similar to managed care, referred to as an \"uninsured discount\""
+   },
+   {
+    "id": "rule_hdc_full",
+    "label": "Hospital Discounted Care (income <= 250% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "For patients whose income is at or below 250% of the Federal Poverty Guidelines, the limits to how much the hospital can charge must follow the rules of Hospital Discounted Care"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 30,
+     "quote": "Tell you in writing 30 days before they send you to collections"
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": 36,
+   "min_monthly_usd": null,
+   "quote": "You do not owe any more money after: You make 36 monthly payments, or You pay the full discounted amount in your payment plan"
+  },
+  "notes": [
+   "Policy applies to non-elective care only; elective cosmetic procedures and facility designated self-pay flat rate procedures are excluded from uninsured discount.",
+   "Some locations may have additional criteria for charity eligibility (high medical costs, more lenient income levels).",
+   "Medicare beneficiaries require independent income and resource verification (PRM-I \u00a7 312); preferred documentation is most current year's Federal Tax Return, or two pieces from: State Income Tax Return, Most Recent Employer Pay Stubs, Written documentation from income sources, Copy of all bank statements for last three months, Current credit report.",
+   "Uninsured discount amount may vary by location based on state requirements, patient income levels, and local rates.",
+   "Hospital Discounted Care is a Colorado law; patients may qualify regardless of citizenship or immigration status, and even if they have health insurance.",
+   "Hospital must bill insurance before making a payment plan for insured patients.",
+   "Determination must be communicated within 21 days after application completion; appeals must be filed in writing within 30 days of decision date.",
+   "Patients can refuse screening for public programs; if they refuse, they cannot sue the hospital for not giving discounts or not checking for programs.",
+   "Complaints can be filed with hospital, provider, or Health Care Policy and Financing (303-866-2580, hcpf_HospDiscountCare@state.co.us).",
+   "Pricing information on website is strictly an estimate; final bill may differ substantially.",
+   "req_non_elective may leave out a condition: policy restricts to non-elective care but does not require emergency or medically_necessary specifically",
+   "rule_hdc_full may leave out a condition: policy requires Colorado residency for Hospital Discounted Care, but claim omits this condition"
+  ]
+ },
+ "report": {
+  "model": "ultra",
+  "lint": [
+   "the requirements together exclude every household",
+   "rule rule_full_charity can never apply to anyone (its clauses contradict each other or the requirements)",
+   "rule rule_partial_charity can never apply to anyone (its clauses contradict each other or the requirements)",
+   "rule rule_uninsured_discount can never apply to anyone (its clauses contradict each other or the requirements)",
+   "rule rule_hdc_full can never apply to anyone (its clauses contradict each other or the requirements)"
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_no_outstanding_payer_liability",
+    "claim": "Every form of assistance requires: (not insured)",
+    "quote": "No charity discount can be applied to any account with any outstanding payer liability",
+    "why": "claim misstates requirement; policy bars charity discount with outstanding payer liability, not assistance generally, and does not require not insured"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The hospital must check to see if you qualify within 45 days of when you got care",
+    "why": "policy states hospital must check eligibility within 45 days of care, not that patient must submit application by that deadline"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "The hospital has 45 days to see if you can get help after you ask them",
+    "why": "policy states hospital has 45 days to assess eligibility after patient asks for help, not that patient must submit application by that deadline"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_full_charity",
+    "claim": "A patient with (fpl_pct <= 250) AND (not insured OR underinsured) gets 100% off",
+    "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed",
+    "why": "policy states 100% charity discount for FPL <= 250% with documentation, but claim incorrectly adds insurance status condition not in quote or policy for this rule"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_partial_charity",
+    "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) AND (not insured OR underinsured) gets an unstated amount of help",
+    "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe",
+    "why": "policy states expanded financial assistance may reduce amount owed for FPL 251-400%, but does not specify amount of help"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_uninsured_discount",
+    "claim": "A patient with (not insured) gets an unstated amount of help",
+    "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures, will receive discount similar to managed care, referred to as an \"uninsured discount\"",
+    "why": "policy states uninsured discount for self-pay patients excluding certain procedures, but does not specify amount of help"
+   }
+  ],
+  "clauses": 6,
+  "clauses_proven": 5,
+  "unsupported": 6
+ },
+ "cost_usd": 0.01963,
+ "fresh_calls": 3
+}

@@ -1,0 +1,198 @@
+{
+ "model": {
+  "hospital": "Boulder Community Health",
+  "doc": "policy",
+  "source_url": "https://www.bch.org/documents/Financial%20Assistance/Financial-Assistance-Policy-2026.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_colorado_residency_for_qccp_and_hdc",
+    "label": "Colorado residency required for Qualified Charity Care Program and Hospital Discounted Care",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Applicant must be a Colorado resident. An applicant is a Colorado resident if they currently live in Colorado and intend to remain in Colorado."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_qccp",
+    "label": "Qualified Charity Care Program: up to 100% discount for adjusted FPL at or below 250%",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Discounts are available to patients whose adjusted income is at or below 250% of the FPL."
+   },
+   {
+    "id": "rule_wecare",
+    "label": "WeCare: discount for adjusted FPL between 250% and 350%",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 350.0
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Applicants who are over the income threshold for the Qualified Charity care Program whose adjusted household income is between 250% and 350% of the FPL."
+   },
+   {
+    "id": "rule_hdc",
+    "label": "Hospital Discounted Care: up to 100% discount for FPL at or below 250%",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "FPL at or under 250%"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": 4.0,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "Payment plans that are established to pay the bills may not exceed four (4) percent of the patient's monthly household income."
+  },
+  "notes": [
+   "AGB rate is used for certain emergency services for non-residents under WeCare.",
+   "Excluded services include experimental/non-USFDA approved treatments, nursing home care, elective non-medically necessary surgeries, chiropractic, court ordered procedures, non-urgent dental, abortions except where required by law, cosmetic surgery, mental health services as a primary diagnosis, CU Sports Medicine services.",
+   "For WeCare, applicants must be screened for Medicaid/CHP+/Medicare and provide denial letter if applicable.",
+   "Multiple discounts are not allowed: financial assistance discount cannot be combined with employee discount, Medical Staff discount, or Self-Pay pricing discounts.",
+   "For bills from health care professionals, payment plan limit is two (2) percent of monthly household income.",
+   "Once 36 payments have been made, the remainder of the bill is forgiven and collection activities cease.",
+   "req_colorado_residency_for_qccp_and_hdc may leave out a condition: Colorado residency required for QCCP and HDC but not for WeCare (which allows non-residents for emergency services)"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "req_date_of_service_within_181_days: has no conditions; remove it or give its conditions"
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_emergency_or_medically_necessary_care",
+    "claim": "Every form of assistance requires: (medically_necessary)",
+    "quote": "As a tax-exempt, non-profit organization, Boulder Community Health (BCH) is dedicated to ensuring that emergency and other medically necessary care is accessible to all patients, regardless of ability to pay, ability to qualify for financial assistance, or the availability of third party coverage.",
+    "why": "policy ensures accessibility but does not restrict assistance to emergency/medically necessary care only"
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_presumptive",
+    "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+    "quote": "Extraordinary circumstances may result in eligibility for presumptive financial assistance on a case-by-case basis.",
+    "why": "policy mentions presumptive assistance for extraordinary circumstances but does not tie eligibility solely to presumptive_program"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Patients who do not submit all the required documentation within 45 calendar days may need to submit updated documentation to complete the application.",
+    "why": "45-day deadline is for submitting documentation, not for submitting the application itself"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Patients who do not submit all the required documentation within 30 calendar days may need to submit updated documentation to complete the application.",
+    "why": "30-day deadline applies to WeCare documentation, not application submission, and is tied to first statement, not service"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_qccp",
+    "claim": "A patient with (co_resident) AND (fpl_pct <= 250) AND (medically_necessary) gets 100% off",
+    "quote": "Discounts are available to patients whose adjusted income is at or below 250% of the FPL.",
+    "why": "policy states discounts based on FPL but does not specify 100% off"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_wecare",
+    "claim": "A patient with (fpl_pct >= 250) AND (fpl_pct <= 350) AND (medically_necessary) gets an unstated amount of help",
+    "quote": "Applicants who are over the income threshold for the Qualified Charity care Program whose adjusted household income is between 250% and 350% of the FPL.",
+    "why": "policy specifies income range but does not state amount of help"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_hdc",
+    "claim": "A patient with (co_resident) AND (fpl_pct <= 250) AND (medically_necessary) gets 100% off",
+    "quote": "FPL at or under 250%",
+    "why": "policy states FPL <= 250% but does not specify 100% off"
+   }
+  ],
+  "clauses": 6,
+  "clauses_proven": 4,
+  "unsupported": 7
+ },
+ "cost_usd": 0.00724,
+ "made": "2026-10-28"
+}

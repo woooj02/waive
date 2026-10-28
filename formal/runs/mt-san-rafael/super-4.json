@@ -1,0 +1,140 @@
+{
+ "model": {
+  "hospital": "Mt. San Rafael Hospital",
+  "doc": "policy",
+  "source_url": "https://www.msrhc.org/docs/MSRH_Charity_Care_Policy_2014_revised_2022_v2.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "r_financially_indigent",
+    "label": "Financially Indigent",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients may only be granted classification as Financially Indigent if their yearly income as set forth on the Financial Assistance Application is less than or equal to 250% of the poverty guidelines updated annually in the Federal Register by the U.S. Department of Health and Human Services (\"Federal Poverty Guidelines\")."
+   },
+   {
+    "id": "r_medically_indigent_i",
+    "label": "Medically Indigent (Initial Assessment)",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 10.0
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "To be considered for classification as a Medically Indigent patient, the amount owed by the patient after payment by all third-party payers must exceed ten percent (10%) of the patient\u2019s income and the patient must be unable to pay the remaining bill."
+   },
+   {
+    "id": "r_medically_indigent_ii_a",
+    "label": "Medically Indigent (Acceptance i)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "(i) Income Must be Equal To or Less Than 500% of the Federal Poverty Guidelines.   The patient\u2019s income must be equal to or less than 500% of the Federal Poverty Guidelines."
+   },
+   {
+    "id": "r_medically_indigent_ii_b",
+    "label": "Medically Indigent (Catastrophic Medical Indigence)",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 50.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "(ii) Catastrophic Medical Indigence.   The patient\u2019s remaining bill must be greater than 50% of the patient\u2019s income, and the patient\u2019s income must be greater than 500% of the Federal Poverty Guidelines."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Applications remain on file for 365 days. The policy references SB12-134 for Colorado hospitals. The policy includes provisions for income verification via public benefit program participation, written or verbal attestation, and documentation efforts for low-value accounts (<=$500). Expired patients may be deemed to have no income. The hospital may consider other financial assets and liabilities in determining ability to pay. Falsification of information may result in denial or revocation of assistance. If qualified for other charity programs such as CICP or the Hospital Discount Care Program, this application will not be considered for additional discounts or balance adjustments. Physician services (e.g., emergency room physicians) not employed by the hospital may result in separate bills.",
+   "r_financially_indigent may leave out a condition: policy additionally requires completion of Financial Assistance Application",
+   "r_medically_indigent_i may leave out a condition: policy additionally requires inability to pay remaining bill",
+   "r_medically_indigent_ii_a may leave out a condition: policy additionally requires meeting initial assessment criteria (>10% of income owed and unable to pay)",
+   "r_medically_indigent_ii_b may leave out a condition: policy additionally requires meeting initial assessment criteria (>10% of income owed and unable to pay)"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 4,
+  "clauses_proven": 4,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00299,
+ "made": "2026-10-28"
+}

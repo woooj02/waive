@@ -3,6 +3,7 @@
     ./venv/bin/python scripts/audit.py                  # Nemotron models in formal/, else hand references
     ./venv/bin/python scripts/audit.py --source hand    # only the hand-written references in eval/formal/
     ./venv/bin/python scripts/audit.py --formalize uchealth childrens-colorado   # run Nemotron first (costs money)
+    ./venv/bin/python scripts/audit.py --super-runs 5   # up to 5 independent Super models per policy (live if missing)
 
 Writes audit/<id>.json (findings with counterexamples and quotes) and audit/index.json (the overview the app
 shows). Every finding records which model it came from: "nemotron" or "hand reference".
@@ -15,13 +16,14 @@ import json
 import re
 import sys
 import time
+from concurrent.futures import ProcessPoolExecutor  # Z3 isn't thread-safe: processes, not threads
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app import llm  # noqa: E402
 from app.formal import PolicyModel  # noqa: E402
-from app.auditing import audit_document, dropped_rules  # noqa: E402
+from app.auditing import RUNS, audit_document, dropped_rules  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 HAND, NEMO, OUT = ROOT / "eval" / "formal", ROOT / "formal", ROOT / "audit"
@@ -55,6 +57,30 @@ def run_formalize(pid: str) -> None:
 
 
 
+
+
+def super_run(task: tuple[str, int]) -> str:
+    """One more independent Nemotron 3 Super model of a policy, for majority confirmation (cached per run number)."""
+    import os
+    from app.formalize import formalize_once
+    pid, j = task
+    out = RUNS / pid / f"super-{j}.json"
+    if out.exists():
+        return ""
+    os.environ["LLM_RUN"] = str(j)
+    first = PolicyModel(**json.loads((NEMO / f"{pid}.json").read_text())["model"])
+    meter = llm.Meter()
+    try:
+        pm, report = formalize_once((CORPUS / f"{pid}.txt").read_text(), "super", meter, doc=first.doc,
+                                    source_url=first.source_url)
+    except Exception as exc:  # reported; the audit uses the runs that exist
+        return f"{pid} Super run {j}: {type(exc).__name__}: {str(exc)[:200]}"
+    pm.nonprofit, pm.hospital = first.nonprofit, first.hospital
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps({"model": json.loads(pm.model_dump_json()), "report": report,
+                               "cost_usd": round(sum(c.orig_cost_usd for c in meter.calls), 5),
+                               "made": time.strftime("%Y-%m-%d")}, indent=1))
+    return ""
 
 
 def _safe_formalize(pid: str) -> str:
@@ -94,10 +120,6 @@ def settle(pid: str, findings: list[dict], pm: PolicyModel) -> None:
             f["summary"] = f["summary"].split("Z3's case: ")[-1]
         elif a["verdict"] == "refuted":
             f["status"] = "refuted"
-    LEDGER.append(sum(c.orig_cost_usd for c in meter.calls))
-
-
-LEDGER: list[float] = []
 
 
 
@@ -135,10 +157,64 @@ def load(pid: str, source: str) -> tuple[PolicyModel, str] | None:
     return None
 
 
+def audit_one(task: tuple[str, str, bool]) -> dict | None:
+    """One document's audit, in a fresh process: Z3's choice among equally valid counterexamples can depend on
+    solver state left by earlier documents, so each document starts clean and its findings depend on it alone."""
+    pid, source_arg, adjudicate = task
+    got = load(pid, source_arg)
+    if not got:
+        return None
+    pm, source = got
+    lost = dropped_rules(pid) if source == "nemotron" else 0
+    if not pm.rules:  # nothing survived the checks: auditing it would only "find" that nothing grants help
+        print(f"{pm.hospital:32} [{source}] not formalised: no rule survived the checks")
+        return {"id": pid, "hospital": display_name(pid, pm), "model_source": source,
+                "nonprofit": pm.nonprofit, "not_formalised": True, "checks": {}, "proved": 0,
+                "counterexamples": 0, "not_stated": 0, "solver_seconds": 0, "doc": pm.doc,
+                "hospitals": shared_hospitals(pid),
+                "reason": f"none of the model's rules survived the quote and meaning checks ({lost} dropped)"}
+    t0 = time.monotonic()
+    pair = load(f"{pid}-summary", source_arg)
+    findings = audit_document(pid, pm, source, pair[0] if pair else None)
+    secs = round(time.monotonic() - t0, 3)
+    if adjudicate and source == "nemotron":
+        settle(pid, findings, pm)
+    doc = {"id": pid, "hospital": display_name(pid, pm), "dropped_rules": lost,
+           "tax_status": MANIFEST.get(pid.removesuffix("-summary"), {}).get("tax_status", ""), "source_url": pm.source_url, "nonprofit": pm.nonprofit,
+           "model_source": source, "summary_source": pair[1] if pair else None, "solver_seconds": secs,
+           "model": json.loads(pm.model_dump_json()), "findings": findings}
+    (OUT / f"{pid}.json").write_text(json.dumps(doc, indent=1))
+    count = lambda st: sum(f["status"] == st for f in findings)  # noqa: E731
+    rank = {"counterexample": 0, "inconclusive": 1, "unknown": 1, "not_stated": 2, "proved": 3, "refuted": 3,
+            "n/a": 4}
+    checks: dict = {}
+    for f in findings:  # worst verdict per check
+        if f["check"] not in checks or rank[f["status"]] < rank[checks[f["check"]]]:
+            checks[f["check"]] = f["status"]
+    conf = {f["check"]: f.get("confidence") for f in findings if f.get("confidence")}
+    row = {"id": pid, "hospital": display_name(pid, pm), "model_source": source, "nonprofit": pm.nonprofit,
+           "checks": checks, "inconclusive": count("inconclusive"), "confidence": conf,
+           "proved": count("proved"), "counterexamples": count("counterexample"),
+           "confirmed_counterexamples": sum(f["status"] == "counterexample" and
+                                             f.get("confidence") in ("confirmed", "adjudicated")
+                                             for f in findings),
+           "refuted": count("refuted"),
+           "reviewed": sum(1 for f in findings if f.get("review")),
+           "disputed": sum(f.get("confidence") == "disputed" for f in findings),
+           "doc": pm.doc, "hospitals": shared_hospitals(pid),
+           "not_stated": count("not_stated"), "solver_seconds": secs,
+           "headline": next((f["summary"] for f in findings if f["status"] == "counterexample"), "")}
+    print(f"{pm.hospital:32} [{source}] proved {row['proved']:2}  counterexamples "
+          f"{row['counterexamples']:2}  not stated {row['not_stated']:2}  ({secs}s)")
+    return row
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--source", choices=["auto", "hand", "nemotron"], default="auto")
     ap.add_argument("--formalize", nargs="*", default=[])
+    ap.add_argument("--super-runs", type=int, default=0,
+                    help="make sure each policy has this many independent Super models (run 1 is the pipeline's)")
     ap.add_argument("--adjudicate", action="store_true",
                     help="Nemotron 3 Ultra settles disputed / inconclusive counterexamples (costs a little)")
     args = ap.parse_args()
@@ -150,64 +226,23 @@ def main() -> None:
             if url not in seen and (CORPUS / f"{meta.stem}.txt").exists():
                 seen.add(url)
                 todo.append(meta.stem)
-    from concurrent.futures import ProcessPoolExecutor  # Z3 isn't thread-safe: one process per document
     with ProcessPoolExecutor(4) as pool:
         for pid, exc in zip(todo, pool.map(_safe_formalize, todo)):
             if exc:
                 print(f"{pid}: not formalised ({exc})")
+        runs = [(p.stem, j) for p in sorted(NEMO.glob("*.json")) if not p.stem.endswith("-summary")
+                for j in range(2, args.super_runs + 1)]
+        for err in pool.map(super_run, runs):
+            if err:
+                print(err)
 
     ids = sorted({p.stem for p in HAND.glob("*.json")} | {p.stem for p in NEMO.glob("*.json")})
     OUT.mkdir(exist_ok=True)
     for old in OUT.glob("*.json"):  # no stale audits from an earlier run
         old.unlink()
-    index = []
-    for pid in [i for i in ids if not i.endswith("-summary")]:
-        got = load(pid, args.source)
-        if not got:
-            continue
-        pm, source = got
-        lost = dropped_rules(pid) if source == "nemotron" else 0
-        if not pm.rules:  # nothing survived the checks: auditing it would only "find" that nothing grants help
-            index.append({"id": pid, "hospital": display_name(pid, pm), "model_source": source,
-                          "nonprofit": pm.nonprofit, "not_formalised": True, "checks": {}, "proved": 0,
-                          "counterexamples": 0, "not_stated": 0, "solver_seconds": 0, "doc": pm.doc,
-                          "hospitals": shared_hospitals(pid),
-                          "reason": f"none of the model's rules survived the quote and meaning checks ({lost} dropped)"})
-            print(f"{pm.hospital:32} [{source}] not formalised: no rule survived the checks")
-            continue
-        t0 = time.monotonic()
-        pair = load(f"{pid}-summary", args.source)
-        findings = audit_document(pid, pm, source, pair[0] if pair else None)
-        secs = round(time.monotonic() - t0, 3)
-        if args.adjudicate and source == "nemotron":
-            settle(pid, findings, pm)
-        doc = {"id": pid, "hospital": display_name(pid, pm), "dropped_rules": lost,
-               "tax_status": MANIFEST.get(pid.removesuffix("-summary"), {}).get("tax_status", ""), "source_url": pm.source_url, "nonprofit": pm.nonprofit,
-               "model_source": source, "summary_source": pair[1] if pair else None, "solver_seconds": secs,
-               "model": json.loads(pm.model_dump_json()), "findings": findings}
-        (OUT / f"{pid}.json").write_text(json.dumps(doc, indent=1))
-        count = lambda st: sum(f["status"] == st for f in findings)  # noqa: E731
-        rank = {"counterexample": 0, "inconclusive": 1, "unknown": 1, "not_stated": 2, "proved": 3, "refuted": 3,
-                "n/a": 4}
-        checks: dict = {}
-        for f in findings:  # worst verdict per check
-            if f["check"] not in checks or rank[f["status"]] < rank[checks[f["check"]]]:
-                checks[f["check"]] = f["status"]
-        conf = {f["check"]: f.get("confidence") for f in findings if f.get("confidence")}
-        index.append({"id": pid, "hospital": display_name(pid, pm), "model_source": source, "nonprofit": pm.nonprofit,
-                      "checks": checks, "inconclusive": count("inconclusive"), "confidence": conf,
-                      "proved": count("proved"), "counterexamples": count("counterexample"),
-                      "confirmed_counterexamples": sum(f["status"] == "counterexample" and
-                                                       f.get("confidence") in ("confirmed", "adjudicated")
-                                                       for f in findings),
-                      "refuted": count("refuted"),
-                      "reviewed": sum(1 for f in findings if f.get("review")),
-                      "disputed": sum(f.get("confidence") == "disputed" for f in findings),
-                      "doc": pm.doc, "hospitals": shared_hospitals(pid),
-                      "not_stated": count("not_stated"), "solver_seconds": secs,
-                      "headline": next((f["summary"] for f in findings if f["status"] == "counterexample"), "")})
-        print(f"{pm.hospital:32} [{source}] proved {index[-1]['proved']:2}  counterexamples "
-              f"{index[-1]['counterexamples']:2}  not stated {index[-1]['not_stated']:2}  ({secs}s)")
+    with ProcessPoolExecutor(4, max_tasks_per_child=1) as pool:  # a fresh interpreter per document
+        tasks = [(i, args.source, args.adjudicate) for i in ids if not i.endswith("-summary")]
+        index = [row for row in pool.map(audit_one, tasks) if row]
     titles = {}
     for pid in [p["id"] for p in index if not p.get("not_formalised")]:
         for f in json.loads((OUT / f"{pid}.json").read_text())["findings"]:

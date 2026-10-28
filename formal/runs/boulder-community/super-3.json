@@ -1,0 +1,204 @@
+{
+ "model": {
+  "hospital": "Boulder Community Health",
+  "doc": "policy",
+  "source_url": "https://www.bch.org/documents/Financial%20Assistance/Financial-Assistance-Policy-2026.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "qccp_base",
+    "label": "Qualified Charity Care Program base eligibility",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">=",
+       "value": 0.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients residing in the BCH service area, receiving medically necessary nonemergent/scheduled hospital services are eligible to apply for the Qualified Charity Care Program."
+   },
+   {
+    "id": "wecare_base",
+    "label": "WeCare base eligibility",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 350.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">=",
+       "value": 0.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Applicants who are over the income threshold for the Qualified Charity care Program whose adjusted household income is between 250% and 350% of the FPL."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": 4.0,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "Payment plans that are established to pay the bills may not exceed four (4) percent of the patient's monthly household income."
+  },
+  "notes": [
+   "AGB rate is used for certain emergency services outside service area or state under WeCare.",
+   "Multiple discounts are not allowed: a financial assistance discount cannot be combined with any other discount offered by the hospital.",
+   "Self-pay discount: 50% for facility charges, 20% for physician clinic charges for uninsured patients qualifying for financial assistance.",
+   "Excluded services vary by program and include cosmetic, experimental, elective non-medically necessary, etc.",
+   "For WeCare, applicants over income threshold for QCCP (i.e., >250% FPL) and between 250%-350% FPL are eligible.",
+   "For WeCare, applicants receiving emergency services and residing outside US or outside Colorado may be eligible for AGB rate discount.",
+   "For WeCare, applicants residing outside BCH service area may be eligible if referred by BCH-owned physician practice or if service provided by BCH facility within their zip code.",
+   "Hospital Discounted Care requires screening for Medicaid, CHP+, Medicare, Emergency Medicaid, and Hospital Discounted Care for all uninsured patients.",
+   "Patients with health insurance may be eligible for financial assistance if they follow guidelines of each health plan.",
+   "Insured patients are expected to pay deductibles, estimated coinsurance, and/or copays the day services are rendered.",
+   "Applicants in custody of a law enforcement agency are ineligible for QCCP, WeCare, and presumptive assistance.",
+   "College students from outside Colorado or US in Colorado for higher education are ineligible for QCCP.",
+   "Visitors from other states or countries are ineligible for QCCP.",
+   "Applicants with FPL over 250% are ineligible for QCCP.",
+   "Applicants with FPL over 350% are ineligible for WeCare.",
+   "Applicants that received scheduled/elective services and reside outside Colorado or US are ineligible for WeCare.",
+   "Applicants that qualify for Health First Colorado or CHP+ are ineligible for WeCare.",
+   "Proof of income, address, and liquid assets required for QCCP and WeCare; homeless exempt from income documentation.",
+   "Patients who do not submit required documentation within 45 days (QCCP, HDC) or 30 days (WeCare) may need to submit updated documentation.",
+   "Once 36 payments have been made under QCCP, WeCare, or HDC payment plans, remainder of bill is forgiven and collection ceases.",
+   "For bills from health care professionals, payment plan limit is two (2) percent of monthly household income (QCCP, WeCare, HDC).",
+   "WeCare payment arrangement: interest free, tiers based on balance: $50-$499.99 up to 6 months, $500-$999.99 up to 12 months, $1,000-$2,499.99 up to 18 months, $2,500-$4,999.99 up to 24 months (auto), $5,000+ up to 36 months (auto).",
+   "BCH may limit Medicaid enrollment for certain services.",
+   "Deductibles and co-pays required for Medicaid per law.",
+   "Health Share plans: if not in-network with BCH, patient considered uninsured and must bill health share first.",
+   "BCH Physician Clinic charges: 20% discount for uninsured patients qualifying for financial assistance (not for vaccines, drugs, implants, DME, remote device checks, or services with different self-pay structure).",
+   "BCH Facility Charges: auto 50% self-pay rate for uninsured, reversed if financial assistance qualifies or insurance is billed.",
+   "Patients must cooperate with BCH to provide information/documentation for eligibility and to apply for assistance.",
+   "Patients must cooperate to establish reasonable payment plan and make good faith efforts to honor it.",
+   "Patients must promptly notify BCH of any change in financial situation.",
+   "BCH notifies eligibility determination within 14 days after request and documentation.",
+   "BCH provides refund if payments exceed approved financial assistance rate and established copayment.",
+   "BCH provides options for payment arrangements.",
+   "BCH honors right to ask questions and seek reconsideration.",
+   "BCH annually reviews and incorporates federal poverty guidelines.",
+   "AGB percentage separately calculated and updated annually for covered facilities and providers, available in Addendum A.",
+   "BCH makes eligibility determinations and application process equitable, consistent, and timely.",
+   "qccp_base may leave out a condition: Missing requirement: applicants must not be ineligible (e.g., not in law enforcement custody, not out-of-state college students)",
+   "wecare_base may leave out a condition: Missing exclusions: e.g., applicants qualifying for Health First Colorado/CHP+, or those with scheduled/elective services outside CO/US"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "hdc_base",
+    "quote": "Eligibility: \u2022 Colorado residency. ... \u2022 FPL at or under 250% \u2022 Date of service or date of discharge is within 181 days"
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:presumptive_base",
+    "claim": "A patient with (presumptive_program) AND (bill_pct_income >= 0) gets an unstated amount of help",
+    "quote": "Extraordinary circumstances may result in eligibility for presumptive financial assistance on a case-by-case basis. Some examples include: -Individual is stated/verified to be homeless.",
+    "why": "Presumptive assistance is case-by-case, not automatic based on presumptive_program alone"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 181 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The date of service (or date of discharge whichever is later) must be within 181 days from the date of applying for the Qualified Charity Care Program.",
+    "why": "181-day limit applies to Qualified Charity Care Program only, not all financial assistance applications"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 181 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Date of service or date of discharge is within 181 days",
+    "why": "181-day limit applies to Hospital Discounted Care only, not all financial assistance applications"
+   }
+  ],
+  "clauses": 4,
+  "clauses_proven": 2,
+  "unsupported": 3
+ },
+ "cost_usd": 0.00559,
+ "made": "2026-10-28"
+}

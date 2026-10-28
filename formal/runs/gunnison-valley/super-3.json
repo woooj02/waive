@@ -1,0 +1,248 @@
+{
+ "model": {
+  "hospital": "Gunnison Valley Health",
+  "doc": "policy",
+  "source_url": "https://www.gunnisonvalleyhealth.org/documents/content/Financial-Assistance-Policy-2023[100].pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_co_resident",
+    "label": "Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "GVH and FMC provide financial assistance to Gunnison, Hinsdale and Saguache County Residents."
+   },
+   {
+    "id": "req_in_service_area",
+    "label": "In service area",
+    "cond": [
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "GVH and FMC provide financial assistance to Gunnison, Hinsdale and Saguache County Residents."
+   },
+   {
+    "id": "req_emergency_or_medically_necessary",
+    "label": "Emergency or medically necessary care",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "You may be eligible for financial assistance for emergencies or medically necessary healthcare services..."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_fap_standard",
+    "label": "Standard FAP discount up to 400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "You may be eligible for financial assistance for emergencies or medically necessary healthcare services, if your family income is at or below 400 percent of the federal poverty guidelines, as published annually."
+   },
+   {
+    "id": "rule_presumptive_homeless",
+    "label": "Presumptive eligibility - homeless",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Homelessness"
+   },
+   {
+    "id": "rule_presumptive_deceased_no_estate",
+    "label": "Presumptive eligibility - deceased with no estate",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Deceased with no estate."
+   },
+   {
+    "id": "rule_presumptive_medicaid_eligible_not_active",
+    "label": "Presumptive eligibility - Medicaid eligible but not active",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Medicaid eligible, but not active for a date of service. 90 days look back period."
+   },
+   {
+    "id": "rule_presumptive_mental_incapacitation",
+    "label": "Presumptive eligibility - mental incapacitation",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Mental incapacitation: No one to act on patient\u2019s behalf."
+   },
+   {
+    "id": "rule_presumptive_out_of_state_medicaid",
+    "label": "Presumptive eligibility - out-of-state Medicaid",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients are eligible for out-of-state Medicaid and GVH and FMC do not participate in the States Medicaid Program."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "Reasonable Payment Plan: A payment plan that is negotiated between GVH and FMC and the guarantor for any balances owed. The payment plan shall consider the patient, or guarantor's income and assets, the amount owed and any prior payments."
+  },
+  "notes": [
+   "The policy excludes or limits non-urgent, elective or not medically necessary services from the FAP. Specific exclusions mentioned: cosmetic surgery, ophthalmology, integrative therapies, and oncology.",
+   "Physical Therapy and Behavioral Health are limited to six visits based on medical necessity.",
+   "Once approved for financial assistance, eligibility is valid for 6 months from the application date.",
+   "If eligibility is approved, the patient, or guarantor will be granted financial assistance for a period of six months following the date of the completed Financial Assistance Application. Financial assistance will also be applied to all eligible accounts incurred for services received for the next six months or 90 days prior to the completed application date.",
+   "If GVH and FMC contacts the patient, or guarantor to request missing information, the patient, or guarantor will have a period of 30 days to respond. Failure to respond within that 30-day period will result in the Application being denied.",
+   "Hospital FAP discounts receive the appropriate level of approval: Financial Counselor ($1.00-$5,000.99), Customer Service Supervisor ($1001-$5,000.99), Revenue Cycle Director ($5,001.00-$10,000), Chief Financial Officer (>$10,000.00).",
+   "Gunnison Valley Health's AGB percentage is 71% of gross charges for inpatient and outpatient services.",
+   "If a patient qualifies for financial assistance under this policy, the patient's billed charges will be no more than the same amounts generally billed (AGB) for emergency or other medically necessary health care services as patients who have insurance coverage.",
+   "During the Notification Period (120 Days), the Hospital will provide each patient with at least three Billing Statements, a Seriously Past Due notice, and a final notice that provides the individual with the amount owed. The hospital may initiate External Collection Activity (ECA), but only after the Final notice letter has been provided and a period of at least 30 days have elapsed.",
+   "req_in_service_area may leave out a condition: policy limits assistance to residents of three specific counties, not the general service area"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "rule_medical_hardship",
+    "quote": "Patient, or patient\u2019s guarantor, has annual family income in excess of 400% of the Federal Poverty Guidelines, but less than $200,000, and ... The out-of-pocket, patient obligations resulting from medical services provided by GVH and FMC providers exceed 20% of annual family income."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_exhaust_other_options",
+    "claim": "Every form of assistance requires: (applied_public_programs)",
+    "quote": "The FAP will provide benefits as a last resort. All other payment options, including but not limited to private insurance, Medicare, Medicaid, CHP, third party Liability, and CICP must be explored for eligibility and secured where eligible prior to the application for financial assistance.",
+    "why": "policy requires exploring and securing other options where eligible, not merely applying for public programs"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Application for financial assistance will be considered if the complete application and documentation is submitted prior to 180 days from the date of the initial account statement.",
+    "why": "deadline is 180 days from initial account statement, not date of service"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_fap_standard",
+    "claim": "A patient with (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "You may be eligible for financial assistance for emergencies or medically necessary healthcare services, if your family income is at or below 400 percent of the federal poverty guidelines, as published annually.",
+    "why": "policy states eligibility but not the amount of help for FPL <= 400%"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_presumptive_homeless",
+    "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+    "quote": "Homelessness",
+    "why": "policy lists homelessness as a presumptive eligibility criterion but does not specify the amount of help"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_presumptive_deceased_no_estate",
+    "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+    "quote": "Deceased with no estate.",
+    "why": "policy lists deceased with no estate as a presumptive eligibility criterion but does not specify the amount of help"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_presumptive_medicaid_eligible_not_active",
+    "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+    "quote": "Medicaid eligible, but not active for a date of service. 90 days look back period.",
+    "why": "policy lists Medicaid eligible but not active as a presumptive eligibility criterion but does not specify the amount of help"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_presumptive_mental_incapacitation",
+    "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+    "quote": "Mental incapacitation: No one to act on patient\u2019s behalf.",
+    "why": "policy lists mental incapacitation as a presumptive eligibility criterion but does not specify the amount of help"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_presumptive_out_of_state_medicaid",
+    "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+    "quote": "Patients are eligible for out-of-state Medicaid and GVH and FMC do not participate in the States Medicaid Program.",
+    "why": "policy lists out-of-state Medicaid eligibility as a presumptive eligibility criterion but does not specify the amount of help"
+   }
+  ],
+  "clauses": 11,
+  "clauses_proven": 9,
+  "unsupported": 8
+ },
+ "cost_usd": 0.0059,
+ "made": "2026-10-28"
+}

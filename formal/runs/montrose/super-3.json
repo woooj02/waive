@@ -1,0 +1,45 @@
+{
+ "model": {
+  "hospital": "Montrose Regional Health",
+  "doc": "summary",
+  "source_url": "https://montrosehealth.com/wp-content/uploads/2021/11/Plain-Language-Summary-of-Charity-Care-and-Financial-Assistance-Policy_Final-MRH-1.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy mentions service exclusions not typically eligible for financial assistance, including transplants, cosmetic services and other services.",
+   "The policy references AGB (amounts generally billed) as a limit on charges for medically necessary care.",
+   "The policy states that individuals with sufficient insurance coverage or assets may be deemed ineligible for financial assistance.",
+   "The policy provides multiple ways to apply: online, in person at the Business Office, by mail, or by phone.",
+   "Applications must be submitted to the Business Office at 800 S 3rd Street, Montrose, CO 81401 during specified hours.",
+   "The policy and application are available in English and Spanish, with translation aids available upon request."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "sliding_scale_fap: has no conditions; remove it or give its conditions"
+  ],
+  "repaired": true,
+  "lint_after": [
+   "no rules: the model grants help to nobody"
+  ],
+  "dropped": [],
+  "clauses": 0,
+  "clauses_proven": 0,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00097,
+ "made": "2026-10-28"
+}

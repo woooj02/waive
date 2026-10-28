@@ -1,0 +1,167 @@
+{
+ "model": {
+  "hospital": "Arkansas Valley Regional Medical Center",
+  "doc": "policy",
+  "source_url": "https://www.avrmc.org/docs/Financial_Assistance_policy.pdf?sub=For%20Patients",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_medically_necessary",
+    "label": "Medically necessary service",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "The service was considered 'Medically Necessary' (not elective)"
+   },
+   {
+    "id": "req_uninsured",
+    "label": "Patient is uninsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "(II)The patient is uninsured (or an insured patient that has specifically requested screening)"
+   },
+   {
+    "id": "req_requested_screening",
+    "label": "Insured patient requested screening",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "(II)The patient is uninsured (or an insured patient that has specifically requested screening)"
+   },
+   {
+    "id": "req_fpl_le_250",
+    "label": "Income at or below 250% FPL",
+    "cond": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "(III)The patient\u2019s annual family income is NOT more than two hundred fifty percent (250%) of the federal poverty guidelines."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_self_pay_discount",
+    "label": "Self-pay discount for non-qualifiers",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "a.All uninsured patients receive a 40% Self-Pay discount on their account balance at the time of billing."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": 46
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy effective for dates of service on or subsequent to September 1, 2022.",
+   "Screening occurs within 45 days of date of service or discharge.",
+   "Patients may apply up to three months prior to receiving service; eligibility valid for one year after determination if approved.",
+   "Hospital will contact patient monthly for six months after discharge if no opt-out or verbal decline (not valid).",
+   "If patient requests cessation of contact, hospital must document and honor request.",
+   "If no response after 182 days of contact attempts, lack of cooperation considered informed decision to decline screening.",
+   "Patients not billed prior to 46 days after discharge.",
+   "Out-of-state Medicaid balances deemed infeasible to process are adjusted off as charity.",
+   "Nothing in policy affects right to pursue collection of personal injury, bodily injury, liability, etc.",
+   "Patients who do not qualify for financial assistance receive only the 40% self-pay discount.",
+   "Self-pay patients who opt out (sign form) subject to Co-Insurance and Payment Arrangement policy.",
+   "Good faith estimates provided to uninsured patients, but no payment request until opt-out or denial.",
+   "req_uninsured may leave out a condition: Every form of assistance also allows insured patients who specifically request screening.",
+   "req_requested_screening may leave out a condition: Every form of assistance also allows uninsured patients."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "req_uninsured_or_requested_screening: the clause insured false None OR insured true None is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "rule_charity_care: the clause insured false None OR insured true None is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [
+   "the requirements together exclude every household",
+   "rule rule_charity_care can never apply to anyone (its clauses contradict each other or the requirements)",
+   "rule rule_self_pay_discount can never apply to anyone (its clauses contradict each other or the requirements)"
+  ],
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "rule_charity_care",
+    "quote": "Patients that are screened for financial aid per the above guidelines and are approved (household income is proven to be less than 250% of the federal poverty level) shall have all outstanding amounts owed by the patient for the specific episode of care ... adjusted off as \u2018Charity\u2019 and the patient will not be billed or collected from for such balances."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "The patient received a service at AVRMC or an AVRMC physician clinic.",
+    "why": "Policy does not require Colorado residency for every form of assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_info_within_182_days",
+    "claim": "Every form of assistance requires: (applied_public_programs)",
+    "quote": "(IV)The patient complies in supplying the necessary information to AVRMC within 182 days of requested date.",
+    "why": "Quote refers to supplying information, not applying for public programs."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 182 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "(IV)The patient complies in supplying the necessary information to AVRMC within 182 days of requested date.",
+    "why": "182-day period is for supplying information, not submitting an application."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 182 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "(IV)The patient complies in supplying the necessary information to AVRMC within 182 days of requested date.",
+    "why": "No mention of first post-discharge bill as anchor for any deadline."
+   }
+  ],
+  "clauses": 8,
+  "clauses_proven": 5,
+  "unsupported": 4
+ },
+ "cost_usd": 0.00455,
+ "made": "2026-10-28"
+}

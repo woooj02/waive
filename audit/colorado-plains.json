@@ -7,7 +7,7 @@
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.566,
+ "solver_seconds": 1.704,
  "model": {
   "hospital": "Colorado Plains Medical Center",
   "doc": "policy",
@@ -371,12 +371,16 @@
      "holds": false
     }
    ],
-   "seconds": 0.012,
+   "seconds": 0.015,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
     "counterexample"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed",
    "review": {
     "verdict": "upheld",
@@ -516,6 +520,10 @@
    "second_opinion": [
     "counterexample"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed",
    "review": {
     "verdict": "rejected",
@@ -649,12 +657,16 @@
      "holds": false
     }
    ],
-   "seconds": 0.012,
+   "seconds": 0.015,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
     "counterexample"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed",
    "review": {
     "verdict": "rejected",
@@ -788,12 +800,16 @@
      "holds": false
     }
    ],
-   "seconds": 0.022,
+   "seconds": 0.026,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
     "counterexample"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -813,12 +829,16 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.004,
+   "seconds": 0.001,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -832,12 +852,12 @@
      "quote": "DENY DISCOUNTED CARE ON THE BASIS THAT THE PATIENT HAS NOT APPLIED FOR ANY PUBLIC BENEFITS PROGRAM"
     }
    ],
-   "summary": "Two households differ only in whether they applied for Medicaid or other public programs: A household of 2 earning $27,000 a year (124.8% of the poverty line), living in Colorado, uninsured, owing $0 is treated worse than the same household with no Medicaid application. Colorado law says whether they applied for Medicaid or other public programs must not decide discounted care.",
+   "summary": "Two households differ only in whether they applied for Medicaid or other public programs: One person earning $27,000 a year (169.2% of the poverty line), living in Colorado, uninsured, owing $0 is treated worse than the same household with no Medicaid application. Colorado law says whether they applied for Medicaid or other public programs must not decide discounted care.",
    "severity": "gap",
    "household": {
-    "size": 2,
+    "size": 1,
     "income_usd": 27000.0,
-    "fpl_pct": 124.76,
+    "fpl_pct": 169.17,
     "assets_usd": 0.0,
     "bill_usd": 0.5,
     "first_statement_day": 46,
@@ -857,9 +877,9 @@
     }
    },
    "household_b": {
-    "size": 2,
+    "size": 1,
     "income_usd": 27000.0,
-    "fpl_pct": 124.76,
+    "fpl_pct": 169.17,
     "assets_usd": 0.0,
     "bill_usd": 0.5,
     "first_statement_day": 46,
@@ -881,7 +901,7 @@
    "policy_outcome": {
     "a": {
      "covered": true,
-     "best_stated_discount_pct": 100.0
+     "best_stated_discount_pct": 80.0
     },
     "b": {
      "covered": false,
@@ -919,7 +939,7 @@
      "label": "Free care for income at 100% and below 125% FPL",
      "quote": "Patients whose family income is at 100% and below 125% of the FPL are eligible to receive free care.",
      "discount_pct": 100.0,
-     "holds": true
+     "holds": false
     },
     {
      "kind": "rule",
@@ -935,7 +955,7 @@
      "label": "80% discount for income at 151% and below 175% FPL",
      "quote": "Patients whose family income is at 151% and below 175% of the FPL are eligible to receive an 80% discount.",
      "discount_pct": 80.0,
-     "holds": false
+     "holds": true
     },
     {
      "kind": "rule",
@@ -970,12 +990,16 @@
      "holds": false
     }
    ],
-   "seconds": 0.027,
+   "seconds": 0.033,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 0,
+    "of": 5
+   },
    "confidence": "disputed"
   },
   {
@@ -1006,6 +1030,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -1036,6 +1064,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -1061,6 +1093,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -1091,6 +1127,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -1116,6 +1156,10 @@
    "second_opinion": [
     "n/a"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -1141,6 +1185,10 @@
    "second_opinion": [
     "n/a"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -1148,7 +1196,7 @@
    "title": "Earning less never means getting less help",
    "status": "inconclusive",
    "law": [],
-   "summary": "Inconclusive: 1 of the model's rules were dropped by the quote and meaning checks, so a missing rule may be our error. Z3's case: A household of 3 earning $34,323 a year (125.6% of the poverty line), living in Colorado, uninsured, owing $0, who hasn't applied for Medicaid gets no help; the same household earning more, at 126.00% of the poverty line, gets 90% off. The written income bands leave a gap between them.",
+   "summary": "Inconclusive: 1 of the model's rules were dropped by the quote and meaning checks, so a missing rule may be our error. Z3's case: A household of 3 earning $34,323 a year (125.6% of the poverty line), living in Colorado, uninsured, owing $0, who hasn't applied for Medicaid gets no help; the same household earning more, at 151.00% of the poverty line, gets 80% off. The written income bands leave a gap between them.",
    "severity": "ambiguity",
    "household": {
     "size": 3,
@@ -1174,8 +1222,8 @@
    },
    "household_b": {
     "size": 3,
-    "income_usd": 34423.2,
-    "fpl_pct": 126.0,
+    "income_usd": 41253.2,
+    "fpl_pct": 151.0,
     "assets_usd": 0.0,
     "bill_usd": 0.01,
     "first_statement_day": 46,
@@ -1189,7 +1237,7 @@
     "applied_public_programs": false,
     "presumptive_program": false,
     "exact": {
-     "income": "172116/5",
+     "income": "206266/5",
      "assets": "0",
      "bill": "167/11928"
     }
@@ -1201,7 +1249,7 @@
     },
     "b": {
      "covered": true,
-     "best_stated_discount_pct": 90.0
+     "best_stated_discount_pct": 80.0
     }
    },
    "clauses": [
@@ -1286,12 +1334,16 @@
      "holds": false
     }
    ],
-   "seconds": 0.034,
+   "seconds": 0.039,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [
     "counterexample"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   }
  ]

@@ -1,0 +1,202 @@
+{
+ "model": {
+  "hospital": "UCHealth",
+  "doc": "policy",
+  "source_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/2026/09/29153210/UCHealth-Financial-Assistance-Policy-English-09_28_26.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule-income-0-250",
+    "label": "Income-based assistance: 0-250% FPL",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges for care covered by this policy"
+   },
+   {
+    "id": "rule-income-251-400",
+    "label": "Income-based assistance: 251-400% FPL",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A"
+   },
+   {
+    "id": "rule-catastrophic",
+    "label": "Catastrophic Balance Financial Assistance",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income_assets",
+       "op": ">",
+       "value": 50.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined"
+   },
+   {
+    "id": "rule-presumptive",
+    "label": "Presumptive Eligibility",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy"
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 365,
+     "quote": "365 days from the date of the first post-discharge Billing Statement"
+    },
+    {
+     "anchor": "first_statement",
+     "days": 30,
+     "quote": "30 days after notice of the initiation of one or more Extraordinary Collection Actions (ECA) has been provided"
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 365,
+     "quote": "UCHealth will refrain from initiating ECAs for at least 365 days from the date the Hospital mails the first post-discharge Billing Statement"
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Residency requirement (Colorado resident) applies to Financial Assistance but may be waived at hospital's sole discretion for unscheduled emergency services (B.2). UCHealth employees residing outside Colorado are exempt from residency requirement (A.9).",
+   "Services not covered: non-emergent/non-medically-necessary care (elective/cosmetic), transplant procedures, self-pay packages, single case agreements, grants & research, or when third party has legal obligation to pay (C.2).",
+   "Discounts for 251-400% FPL and Catastrophic assistance are facility-specific per Appendix A tables (AGB percentages). AGB discount applies; if self-pay discount > AGB, self-pay discount used instead (H.5, H.6).",
+   "Patients approved for Financial Assistance will not be charged more than Amount Generally Billed (AGB) for insured patients (H.5).",
+   "Presumptive eligibility only applies to current services and past accounts, not future services (G.4).",
+   "Application processing within 14 days of receipt (F.5). Income-based eligibility valid 365 days (\u2264250% FPL) or 180 days (251-400% FPL) from last signed application (F.6, F.7).",
+   "Incomplete applications denied but no ECAs initiated; 30-day notice with missing info provided; applicant can complete within application period or 30 days of notice (F.8).",
+   "ECAs reversed and refunds issued for overpayments >$1 upon approval (F.9).",
+   "No credit reporting or property liens for patient debt (I.7).",
+   "Four monthly billing statements sent before collections referral; insured accounts referred after 120 days unpaid, uninsured after 182 days (I.5).",
+   "Family definition: 2+ people related by birth/marriage/adoption residing together; members not responsible for patients 18+ (Definitions).",
+   "Financial Resources: cash, bank deposits, easily withdrawable assets (checking, savings, trusts, CDs) (Definitions).",
+   "Income includes wages, unemployment, workers comp, SSI, public assistance, veterans payments, survivor benefits, pension, interest, dividends, rents, royalties, estates, trusts, educational assistance, alimony, child support, outside assistance; excludes non-cash benefits (Definitions).",
+   "Provider coverage list maintained separately and updated quarterly (C.1).",
+   "rule-income-0-250 may leave out a condition: missing requirement of Colorado residency",
+   "rule-income-251-400 may leave out a condition: missing requirement of Colorado residency",
+   "rule-catastrophic may leave out a condition: missing requirement of Colorado residency",
+   "rule-presumptive may leave out a condition: missing requirement of Colorado residency"
+  ]
+ },
+ "report": {
+  "model": "ultra",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req-care-type",
+    "claim": "Every form of assistance requires: (medically_necessary)",
+    "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services",
+    "why": "policy limits assistance to emergency and medically necessary care, but does not require it for all forms of assistance (e.g., presumptive eligibility may apply to non-emergency)"
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req-uninsured-underinsured",
+    "claim": "Every form of assistance requires: (not insured OR underinsured)",
+    "quote": "for Uninsured and Under-insured Patients to apply and be considered for Financial Assistance",
+    "why": "catastrophic balance assistance does not require uninsured or underinsured status"
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule-self-pay-discount",
+    "claim": "A patient with (not insured) gets an unstated amount of help",
+    "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
+    "why": "self-pay discount is automatic and not contingent on applying for financial assistance"
+   },
+   {
+    "kind": "unsupported",
+    "id": "eca:1",
+    "claim": "The policy promises no extraordinary collection action before 30 days after the first post-discharge bill",
+    "quote": "at least 30 days in advance of initiating ECAs, to determine if the Patient is eligible for Financial Assistance",
+    "why": "policy requires 30 days notice before ECA initiation, not a 30-day ban on ECAs after first bill"
+   }
+  ],
+  "clauses": 7,
+  "clauses_proven": 4,
+  "unsupported": 4
+ },
+ "cost_usd": 0.0,
+ "fresh_calls": 0
+}

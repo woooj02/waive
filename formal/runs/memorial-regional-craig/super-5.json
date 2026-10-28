@@ -1,0 +1,159 @@
+{
+ "model": {
+  "hospital": "Memorial Regional Health",
+  "doc": "policy",
+  "source_url": "https://memorialregionalhealth.com/wp-content/uploads/Financial-Assistance-Policy-2025.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "presumptive",
+    "label": "Presumptive Eligibility",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Some examples of sources MRH may use to determine presumptive financial assistance include: 1. Homelessness 2. Food Stamp Eligibility 3. Low Income/Subsidized housing is provided as a valid address 4. Patient is deceased with no known estate 5. Patients that are Medicaid eligible whose claim is denied by Medicaid due to exhausted benefits"
+   },
+   {
+    "id": "sliding_scale_base",
+    "label": "Sliding Fee Schedule Base",
+    "when": [
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Determination for financial assistance will be made based on income guidelines in relation to family size. See attached sliding fee schedule for additional clarification."
+   },
+   {
+    "id": "medical_indigent_threshold_1",
+    "label": "Medical Indigent Threshold #1",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 301.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 25.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "A. Medical Indigent Threshold #1 1. A patient whose family income is between 301% and 500% of the Federal Poverty Level (FPL). 2. Patient\u2019s single incident medical bills are greater than 25% of yearly gross household income."
+   },
+   {
+    "id": "medical_indigent_threshold_2",
+    "label": "Medical Indigent Threshold #2",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 25.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "B. Medical Indigent Threshold #2 1. A patient whose family income is greater than 500% of the FPL. 2. Patient\u2019s single incident Medical bills are greater than 25% of yearly gross household income."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "service",
+     "days": 45,
+     "quote": "the form should be filled out completely, required supporting documents should be gathered and attached, and all documents should be submitted in and of the following manners within 45 days of applicable service"
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": 24,
+   "min_monthly_usd": 25.0,
+   "quote": "Accounts must be paid in full within 24 months from date of service 2. Payments plans must be a minimum of $25.00 per month"
+  },
+  "notes": [
+   "Eligible services include emergency medical services, services for conditions that if not promptly treated would lead to adverse health change, non-elective services for life-threatening circumstances in non-emergency room settings, elective services excluding cosmetic procedures, and primary care services.",
+   "Assets considered in review: bank account balances, cash reserves, retirement/IRA balances showing withdrawals, other easily accessible financial resources. Assets not considered: marketable assets currently listed for sale, real estate property listed for sale, tangible assets (vehicles, household goods), non-liquid, non-convertible resources.",
+   "AGB calculation uses look-back method with Medicaid, Medicare fee-for-service, and private insurer data from prior 12-month period; AGB percentage multiplied by gross charges for emergency and medically necessary care to determine AGB; discount applies to amount patient is personally responsible for after deductions, discounts, and insurance reimbursements.",
+   "If assistance approved, patient accounts adjusted based on sliding scale; if denied, appeals considered by providing additional/clariying information; assistance retroactively covers six months from approval date and remains valid for one year from first date of service applied to; patient must reapply to maintain assistance.",
+   "Patients may reapply if: six months passed since denial (new application not applied to prior denial service dates), significant financial changes since most recent approval/denial altering assistance level, or approved assistance set to expire.",
+   "No account forwarded to collections for 45 days after financial assistance application requested.",
+   "Minimum one contact attempt prior to forwarding account to collections, qualifying at guarantor level.",
+   "presumptive may leave out a condition: Presumptive eligibility also requires being medically indigent or meeting other policy criteria.",
+   "sliding_scale_base may leave out a condition: Sliding scale requires financial indigency via income guidelines, not just applying for public programs.",
+   "medical_indigent_threshold_1 may leave out a condition: Medical indigent threshold 1 additionally requires providing all required documentation for application.",
+   "medical_indigent_threshold_2 may leave out a condition: Medical indigent threshold 2 additionally requires providing all required documentation for application."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "presumptive: unknown variable 'homeless' (use only the listed facts)",
+   "presumptive: unknown variable 'snap' (use only the listed facts)",
+   "presumptive: unknown variable 'wic' (use only the listed facts)",
+   "presumptive: unknown variable 'medicaid' (use only the listed facts)",
+   "presumptive: unknown variable 'deceased_no_estate' (use only the listed facts)",
+   "presumptive: unknown variable 'medicaid_eligible_benefits_exhausted' (use only the listed facts)",
+   "presumptive: unknown variable 'low_income_subsidized_housing' (use only the listed facts)",
+   "presumptive: unknown variable 'food_stamp_eligibility' (use only the listed facts)",
+   "hardship: unknown variable 'catastrophic_hardship' (use only the listed facts)"
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "rule:hardship",
+    "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+    "quote": "MRH reserves the right to consider a Hardship application on a case-by-case basis for Medically Indigent patients who MRH determines to be eligible on the basis of an unusual financial situation that creates a demonstrably catastrophic, unusual, or extraordinary situation.",
+    "why": "Hardship applies to Medically Indigent patients, not those with presumptive_program alone."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "within 45 days of applicable service, 45 days from the date of primary insurance payment, or 45 days from Medicaid denial",
+    "why": "First post-discharge bill is not mentioned as a deadline for application submission."
+   }
+  ],
+  "clauses": 5,
+  "clauses_proven": 4,
+  "unsupported": 2
+ },
+ "cost_usd": 0.00702,
+ "made": "2026-10-28"
+}

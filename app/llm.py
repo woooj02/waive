@@ -168,7 +168,8 @@ def strip_json(text: str) -> str:
 
 
 def _key(model: str, messages: list, schema: dict | None, max_tokens: int) -> str:
-    blob = json.dumps([model, messages, schema, max_tokens], sort_keys=True, default=str)
+    run = os.environ.get("LLM_RUN")  # repeated independent runs get their own cache entries (scripts/stability_eval.py)
+    blob = json.dumps([model, messages, schema, max_tokens] + ([run] if run else []), sort_keys=True, default=str)
     return hashlib.sha256(blob.encode()).hexdigest()[:32]
 
 

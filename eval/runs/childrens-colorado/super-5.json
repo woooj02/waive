@@ -1,0 +1,190 @@
+{
+ "model": {
+  "hospital": "Children's Hospital Colorado",
+  "doc": "policy",
+  "source_url": "https://www.childrenscolorado.org/globalassets/your-visit/financial-assistance-policy-english.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_co_resident",
+    "label": "Must reside in Colorado",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "HDC and CICP applicants must be residents of Colorado."
+   },
+   {
+    "id": "req_in_service_area",
+    "label": "Must be in hospital's service area",
+    "cond": [
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "who received a health care service at a hospital-based CHCO location."
+   },
+   {
+    "id": "req_emergency_or_medically_necessary",
+    "label": "Care must be emergency or medically necessary",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_hdc",
+    "label": "Hospital Discounted Care (HDC)",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less)"
+   },
+   {
+    "id": "rule_limited_inpatient",
+    "label": "Limited financial assistance for Inpatient Services",
+    "when": [
+     [
+      {
+       "var": "inpatient",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "CHCO provides additional limited financial assistance for Inpatient Services only for individuals 251% to 400% FPG."
+   },
+   {
+    "id": "rule_self_pay_discount",
+    "label": "Self-Pay discount",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 35.0,
+    "quote": "At the time of billing, if the patient does not have HDC, a standard 35% discount will be applied to all self-pay balances."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 120,
+     "quote": "CHCO will not initiate ECAs for at least 120 days from the date CHCO provides the first post-discharge billing statement for the care."
+    }
+   ],
+   "first_statement_from_day": 46
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": 4.0,
+   "max_months": 36,
+   "min_monthly_usd": null,
+   "quote": "Monthly installments for hospital charges will not exceed 4% of their monthly household Income (2% for professional fees). After a cumulative 36 months of payments, CHCO will treat the Qualified Patient\u2019s bill as paid in full and will cease collection activities on any balance that remains unpaid."
+  },
+  "notes": [
+   "Assets are not considered in determining eligibility: \"CHCO follows the Income counting methodology established by the Colorado Department of Health Care Policy and Financing and does not consider liquid or illiquid assets or resources in determining eligibility.\"",
+   "CICP may be backdated up to 181 days: \"CICP may be backdated up to 181 days.\"",
+   "Screening process timing: \"CHCO Financial Counselors will attempt to complete the screening process within 45 days from the date of service or date of discharge, whichever is later.\"",
+   "Patient Contact Best Efforts: \"If a patient is discharged without being screened or completing the decline screening form for that Episode of Care, CHCO will use 'Patient Contact Best Efforts' to attempt to screen the patient. This includes attempts to reach the patient via phone calls, text, emails, and/or MyChart portal messages at least once a month for 6 months after the date of service, with the first round sent prior to the 45 day mark, unless the patient tells us to cease contacts. Billing Statements may be sent beginning 46 days after the date of service.\"",
+   "Insured patients screening window: \"Insured patients may request screening within 45 days of the date of service, or date of the first Billing Statement after insurance adjustment.\"",
+   "International Individuals: \"CHCO does offer some limited financial assistance for Emergency medical services to all patients, including International Individuals.\"",
+   "Services not covered by FAP: \"Health care services that are not Emergent or Medically Necessary, including elective or cosmetic surgery, and health care services related to a transplant procedure, self-pay package, single case agreement, grants & research, or when there is a legal obligation for a third party (e.g., certain individuals, entities, insurers or programs) to pay a claim.\"",
+   "Financial Assistance does not extend to costs associated with housing, food, transportation, community services, or services/supplies related to continuity of care (e.g., durable medical equipment, home care)."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "req_not_discount_based_on_public_benefits: has no conditions; remove it or give its conditions"
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "application window",
+    "id": "application window",
+    "quote": "The patient/Guarantor can still request to complete the full application even if the screening indicates that they are likely not eligible. ... within 45 days. ... The patient/guardian will be notified of any missing documentation within 3 business days from receipt of the application. ... Any services provided more than 365 days prior to the application date will not be eligible for Financial Assistance."
+   },
+   {
+    "kind": "application window",
+    "id": "application window",
+    "quote": "The patient/Guarantor can still request to complete the full application even if the screening indicates that they are likely not eligible. ... within 45 days. ... The patient/guardian will be notified of any missing documentation within 3 business days from receipt of the application. ... Any services provided more than 365 days prior to the application date will not be eligible for Financial Assistance."
+   }
+  ],
+  "clauses": 6,
+  "clauses_proven": 6,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00696,
+ "fresh_calls": 3
+}

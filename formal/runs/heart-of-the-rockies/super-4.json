@@ -1,0 +1,59 @@
+{
+ "model": {
+  "hospital": "Heart of the Rockies Regional Medical Center",
+  "doc": "policy",
+  "source_url": "https://www.hrrmc.com/documents/brochures/Finance-Assistance_2021.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "sliding_scale_discount",
+    "label": "Sliding Scale Income-Based Discount",
+    "when": [
+     [
+      {
+       "var": "size",
+       "op": ">=",
+       "value": 1.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 425.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Varying levels of discount percentages from 10% to 100% will be based on Annual Federal poverty guidelines."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy provides specific dollar income thresholds by family size and corresponding discount percentages from 10% to 100% for FPL levels from 200% to 425%. For family units of more than 8 members, add $4,540 for each additional member. Pregnant women count as two people for the purpose of this chart. The policy requires completion of the Financial Assistance Application with all required documentation of income, expenses, and assets. Charity care is available to qualified persons receiving emergency or unscheduled, non-elective services who are unable to pay for those services and do not qualify for federal, state, or local assistance. Income calculation includes all monies received before taxes from all sources with specific exclusions noted. Factors considered for charity determination include completed application, gross income, family size, employment status and future earning capacity, other financial resources, other financial obligations, dollar amount/frequency/nature of hospital/medical services, three months of bank statements, last available W-2, and state/federal tax returns. Medically necessary services are evaluated on a case-by-case basis at HRRMC\u2019s discretion. Non-elective services provided in response to life-threatening circumstances in a non-emergency room setting and emergency medical services provided in an emergency room setting are eligible for charity care. All Financial Assistance applicants will be required to provide supporting income verification documentation and to complete a Financial Assistance application.",
+   "sliding_scale_discount may leave out a condition: Policy requires completion of Financial Assistance application with documentation"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 1,
+  "clauses_proven": 1,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00101,
+ "made": "2026-10-28"
+}

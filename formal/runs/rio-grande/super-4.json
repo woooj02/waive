@@ -1,0 +1,189 @@
+{
+ "model": {
+  "hospital": "Rio Grande Hospital",
+  "doc": "policy",
+  "source_url": "https://riograndehospital.org/wp-content/uploads/2026/02/02272026-FAP-Revised-with-DSH-Corrections-v2.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_free_care",
+    "label": "Free care (<=100% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 100.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at or below 100% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_80_discount",
+    "label": "Up to 80% discount (100-125% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 101.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 133.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "Patients whose family income is over 100% and below 125% of the FPL would be eligible for up to an 80% discount."
+   },
+   {
+    "id": "rule_60_discount",
+    "label": "Up to 60% discount (125-150% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 134.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 60.0,
+    "quote": "Patients whose family income is over 125% and below 150% of the FPL would be eligible for up to a 60% discount."
+   },
+   {
+    "id": "rule_40_discount",
+    "label": "Up to 40% discount (150-200% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 151.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "Patients whose family income is over 150% and below 200% of the FPL would be eligible for up to a 40% discount."
+   },
+   {
+    "id": "rule_20_discount",
+    "label": "Up to 20% discount (200-250% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 201.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 20.0,
+    "quote": "Patients whose family income is over 200% and below 250% of the FPL would be eligible for up to a 20% discount."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy states that patients with income exceeding 250% FPL may be considered for financial assistance on a case-by-case basis for catastrophic illness or medical indigence at the discretion of RGH.",
+   "The policy excludes physician fees or other charges from non-employee providers such as Rocky Mountain Radiology, Aurora Denver Cardiology, Urology Associates, North Colorado Springs Foot Clinic, San Luis Valley Health, and Dr. Matthew K. Chang.",
+   "The policy states that no extraordinary collection action will be taken before 182 days from the first bill for self-pay accounts.",
+   "The policy states that RGH will refrain from initiating Extraordinary Collection Actions (ECA) for Emergency Care provided by RGH, including Emergency and Inpatient care and all attached emergency care including ancillary services such as laboratory, imaging and pharmacy.",
+   "The policy provides a sliding fee schedule with specific dollar amounts for different FPL ranges, though the vocabulary only supports percentage-based discounts.",
+   "rule_80_discount may leave out a condition: Policy specifies 100-125% FPL for 80% discount, not 101-133%.",
+   "rule_60_discount may leave out a condition: Policy specifies 125-150% FPL for 60% discount, not 134-150%.",
+   "rule_40_discount may leave out a condition: Policy specifies 150-200% FPL for 40% discount, not 151-200%.",
+   "rule_20_discount may leave out a condition: Policy specifies 200-250% FPL for 20% discount, not 201-250%."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "rule_80_discount: the clause fpl_pct >= 101.0 OR fpl_pct <= 133.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "rule_60_discount: the clause fpl_pct >= 134.0 OR fpl_pct <= 150.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "rule_40_discount: the clause fpl_pct >= 151.0 OR fpl_pct <= 200.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "rule_20_discount: the clause fpl_pct >= 201.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "write us at Rio Grande Hospital 310 CR 14, Del Norte Colorado, 81132",
+    "why": "Policy provides Colorado address for contact but does not require Colorado residency for assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "Rio Grande Hospital and Clinics (RGH) are dedicated to providing medically necessary healthcare services.",
+    "why": "Policy dedication statement does not impose residency or service area requirements for assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_emergency_or_medically_necessary",
+    "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+    "quote": "Financial Assistance is defined as healthcare services provided at no charge or at a reduced charge to patients who do not have nor cannot obtain adequate financial resources or other means to pay for their care.",
+    "why": "Definition of financial assistance does not require emergency or medically necessary care for all assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_uninsured_or_underinsured",
+    "claim": "Every form of assistance requires: (not insured OR underinsured)",
+    "quote": "You may be able to obtain financial assistance if you are uninsured, underinsured.",
+    "why": "Policy states financial assistance may be obtained if uninsured or underinsured, but does not require it for all assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Accounts eligible for Financial Assistance are to be addressed within 240 days of first bill.",
+    "why": "240-day period is for addressing accounts, not for submitting financial assistance applications."
+   }
+  ],
+  "clauses": 9,
+  "clauses_proven": 5,
+  "unsupported": 5
+ },
+ "cost_usd": 0.00769,
+ "made": "2026-10-28"
+}

@@ -1,0 +1,110 @@
+{
+ "model": {
+  "hospital": "Middle Park Health",
+  "doc": "policy",
+  "source_url": "https://middleparkhealth.org/wp-content/uploads/2025/07/CF.13.10.9%E2%80%93-Financial-Assistance-Policy.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "hdc_uninsured_underinsured",
+    "label": "Hospital Discounted Care for uninsured or underinsured patients",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients who are at or below 250% of the Federal Poverty Guidelines (FPG) are eligible for Hospital Discounted Care."
+   },
+   {
+    "id": "internal_charity_outpatient",
+    "label": "Internal charity care for outpatient services",
+    "when": [
+     [
+      {
+       "var": "inpatient",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Internal charity is not limited to the state of Colorado applicants. Eligibility shall be based solely on the total gross family income adjusted for family size and is only applicable to outpatient services."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": 4.0,
+   "max_months": 36,
+   "min_monthly_usd": null,
+   "quote": "Payment plans for patients who qualify cannot be more than four (4) % of the patient's gross monthly income for bills from the hospital."
+  },
+  "notes": [
+   "Assets are not considered for internal charity care.",
+   "Internal charity requires exhaustion of third-party payment sources including Hospital Discounted Care, Access One, Medicare, and/or Medicaid.",
+   "AccessOne payment plans offer 0% interest, no credit reporting, no fees, and combine bills into a single monthly payment.",
+   "Internal payment plans are available up to 12 months with a minimum payment of $25 a month.",
+   "Charity approval affects accounts within 6 months of the signed application date; discretion may be exercised for applications exceeding 6 months.",
+   "If charity care is denied, the patient has 30 calendar days to appeal, correct deficiencies, or request a review.",
+   "Any patient credit balance from charity care is refunded to the guarantor within 30 days of receiving the charity care designation.",
+   "Patients requesting charity may be required to apply for Medicaid prior to assistance; if Medicaid eligibility is established, charity adjustments are reversed and services billed to Medicaid.",
+   "The policy does not impose asset limits for Hospital Discounted Care beyond state guidelines.",
+   "The policy does not specify a minimum monthly payment for Hospital Discounted Care payment plans.",
+   "hdc_uninsured_underinsured may leave out a condition: adds co_resident requirement not in quote or policy text for HDC eligibility"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "If financial information is not provided to support a completed application for charity assistance within 45 days, it will be considered denied.",
+    "why": "policy denies application for missing documents within 45 days, not failure to submit application"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "If a patient does not respond within the 45-day period after their date of service or date of discharge, Middle Park Health will deny the financial assistance application.",
+    "why": "policy uses date of service or discharge, not first post-discharge bill"
+   }
+  ],
+  "clauses": 2,
+  "clauses_proven": 2,
+  "unsupported": 2
+ },
+ "cost_usd": 0.00312,
+ "made": "2026-10-28"
+}

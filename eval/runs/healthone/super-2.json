@@ -1,0 +1,198 @@
+{
+ "model": {
+  "hospital": "HCA HealthONE",
+  "doc": "policy",
+  "source_url": "https://www.healthonecares.com/patient-resources/patient-financial-resources/financial-assistance",
+  "nonprofit": false,
+  "requires": [
+   {
+    "id": "req_non_elective_care",
+    "label": "Non-elective care required",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Financial relief may be available to patients who have received non-elective care and do not qualify for state or federal assistance and are unable to establish partial payments or pay their balance."
+   },
+   {
+    "id": "req_no_outstanding_payer_liability",
+    "label": "No outstanding payer liability",
+    "cond": [
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "No charity discount can be applied to any account with any outstanding payer liability."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_charity_full",
+    "label": "Full charity care (0-250% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed."
+   },
+   {
+    "id": "rule_charity_partial",
+    "label": "Partial charity care (251-400% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe."
+   },
+   {
+    "id": "rule_uninsured_discount",
+    "label": "Uninsured discount",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures , will receive discount similar to managed care, referred to as an \"uninsured discount\"."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "service",
+     "days": 45,
+     "quote": "The hospital must check to see if you qualify within 45 days of when you got care."
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 30,
+     "quote": "Tell you in writing 30 days before they send you to collections."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": 36,
+   "min_monthly_usd": null,
+   "quote": "You do not owe any more money after: You make 36 monthly payments, or You pay the full discounted amount in your payment plan."
+  },
+  "notes": [
+   "Medicare beneficiaries require independent income and resource verification for charity care determination (PRM-I \u00a7 312).",
+   "For Medicare beneficiaries, preferred income documentation is the most current year's Federal Tax Return; alternatives include state tax return, pay stubs, written documentation from income sources, three months of bank statements, or current credit report.",
+   "Uninsured discount varies by location based on state requirements, patient income levels, and local rates.",
+   "At time of service, patients will be asked to make payment in full or establish monthly payment arrangements on patient liability amount.",
+   "Patients confirmed to be uninsured will be presented with an Uninsured Patient Information document outlining the uninsured discount process and additional account resolution options.",
+   "If a patient is eligible for assistance, they may enter into an appropriate payment plan and may request to renegotiate it with opportunity for a new financial assessment.",
+   "Some locations may have identified additional criteria for charity eligibility besides FPL (e.g., high medical costs, more lenient income levels).",
+   "Validation must be completed by the hospital to ensure that if any portion of the patient's medical services can be paid by any federal, state, or private payer, that payment has been received and posted to the account.",
+   "All Medicare accounts and all non-Medicare inpatient accounts will be required to have supporting income verification documentation.",
+   "If you do NOT have health insurance, the hospital must see if you qualify for public health coverage and discount programs within 45 days of when you got care.",
+   "If you refuse to let the hospital see if you qualify for public programs, you cannot sue the hospital for not giving you discounts or not checking for programs that can help you.",
+   "If you have health insurance, you must ask the hospital to see if you can get help with your bills; the hospital has 45 days to see if you can get help after you ask them.",
+   "If you disagree with the hospital's decision, you must ask in writing for your case to be checked for mistakes and file your appeal within 30 days of the date the hospital gave you their decision.",
+   "Before sending your bill to collections, the biller must: explain all services and fees in your preferred language, bill your insurance (if you have insurance) before making a payment plan, and tell you in writing 30 days before sending you to collections.",
+   "If your bill is sent to collections without doing all the steps listed above, you can file a complaint or take legal action.",
+   "Complaints may include poor communication from the hospital financial assistance office, bills that are not properly discounted, missing or late paperwork or applications, not getting the Patient Rights document, or anything else you want to tell us.",
+   "You can file a complaint with the hospital billing department at (866) 551-6004, with your hospital or provider at the same number, or with Health Care Policy and Financing at (303) 866-2580 or email hcpf_HospDiscountCare@state.co.us.",
+   "HealthONE Cares makes no guarantees regarding the accuracy of the pricing information provided herein; all estimates are based on information provided by a prospective patient and do not include unforeseen complications, additional tests or procedures, or non-hospital related charges, which may increase the ultimate pricing for services rendered.",
+   "req_non_elective_care may leave out a condition: policy restricts charity to non-elective care but uninsured discount applies to self-pay patients generally",
+   "1 may leave out a condition: 45-day deadline applies only to uninsured patients for public program screening, not general financial assistance application"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "For patients whose income is at or below 250% of the federal poverty guidelines or less.",
+    "why": "policy does not require Colorado residency for all assistance"
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "For patients whose income is at or below 250% of the federal poverty guidelines or less.",
+    "why": "policy does not require living in hospital's service area for all assistance"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "The hospital must give you information about your rights. The information must be in the language you prefer.",
+    "why": "quote about rights information does not state any application deadline"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:2",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 21 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "After you complete an application, the hospital must tell you if you qualify within 21 days.",
+    "why": "21-day deadline is for hospital determination after application completion, not patient submission deadline"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_charity_partial",
+    "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe.",
+    "why": "policy states help may reduce amount owed but does not specify discount percentage"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_uninsured_discount",
+    "claim": "A patient with (not insured) gets an unstated amount of help",
+    "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures , will receive discount similar to managed care, referred to as an \"uninsured discount\".",
+    "why": "policy states discount similar to managed care but does not specify percentage"
+   }
+  ],
+  "clauses": 7,
+  "clauses_proven": 5,
+  "unsupported": 6
+ },
+ "cost_usd": 0.00431,
+ "fresh_calls": 2
+}

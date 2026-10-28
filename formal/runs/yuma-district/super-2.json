@@ -1,0 +1,104 @@
+{
+ "model": {
+  "hospital": "Yuma District Hospital",
+  "doc": "policy",
+  "source_url": "https://yumahospital.org/wp-content/uploads/2025/06/Yuma_Website-Content-Doc_Batch_4_03.27.25.v1_discounted-care_english.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_1",
+    "label": "Income-based discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If your gross household income is at or below 250% of the federal poverty level:"
+   },
+   {
+    "id": "rule_2",
+    "label": "Payment plan based on income",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "You have the right to a payment plan based on your income."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": 4.0,
+   "max_months": 36,
+   "min_monthly_usd": null,
+   "quote": "Your monthly bill cannot be more than 4% of your monthly income."
+  },
+  "notes": [
+   "Policy mentions eligibility for public health coverage and discount programs like Health First Colorado, Child Health Plus (CHP+), Emergency Medicaid, Colorado Indigent Care Program (CICP), and hospital discounts.",
+   "Policy states that if you do NOT have health insurance, the hospital must see if you are eligible for public health coverage and discount programs.",
+   "Policy states that if you have health insurance, you have the right to have your eligibility checked for discounts and must ask to be screened.",
+   "Policy states that you may refuse to be screened, but if you refuse, you may lose your right to take legal action against the hospital and providers for not checking eligibility or not giving discounts.",
+   "Policy states that before sending a bill to collections, the hospital must: do the eligibility check, give a payment plan if eligible, explain services and fees in primary language, bill insurance if applicable, and notify of possible collections referral.",
+   "Policy states that if your bill is sent to collections without completing all required steps, you can take legal action.",
+   "Policy states that complaints can be filed with the hospital, provider, or the Department of Health Care Policy and Financing.",
+   "Policy provides contact information for filing complaints with the Department: 303-866-2580 or hcpf_HospDiscountCare@state.co.us.",
+   "Policy mentions that information about rights is available in your primary language.",
+   "Policy references websites for more information: https://hcpf.colorado.gov/colorado-hospital-discounted-care and https://hcpf.colorado.gov/hospital-discounted-care."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The hospital must check to see if you qualify within 45 days of when you received the service or ask to be screened.",
+    "why": "45-day period is for hospital to check eligibility, not for patient to submit application."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 14 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "The hospital must notify you of the decision within 14 days of completing an application.",
+    "why": "14-day period is for hospital to notify decision after application completion, not for patient to submit application."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_1",
+    "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
+    "quote": "If your gross household income is at or below 250% of the federal poverty level:",
+    "why": "Policy mentions discounts/payment plans but does not specify amount of help."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_2",
+    "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
+    "quote": "You have the right to a payment plan based on your income.",
+    "why": "Having a right to a payment plan does not equate to receiving discounted care; amount unspecified."
+   }
+  ],
+  "clauses": 2,
+  "clauses_proven": 2,
+  "unsupported": 4
+ },
+ "cost_usd": 0.00181,
+ "made": "2026-10-28"
+}

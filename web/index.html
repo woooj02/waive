@@ -32,7 +32,7 @@
   <section class="featured" id="a-featured" aria-label="One finding, with its evidence" hidden></section>
   <div class="a-stats" id="a-stats" aria-live="polite"></div>
   <div class="matrix-wrap"><table class="matrix" id="a-matrix" aria-label="Every check for every hospital"></table>
-    <p class="m-legend"><b class="ok">✓</b> proved for the encoded rules · <b class="no">✗</b> counterexample · <b>?</b> inconclusive (a rule was dropped in checking) · – not stated in the policy · n/a doesn't apply · <span class="dash">dashed</span> Nemotron 3 Ultra's and Super's models disagree</p></div>
+    <p class="m-legend"><b class="ok">✓</b> proved for the encoded rules · <b class="no">✗</b> counterexample · <b>?</b> inconclusive (a rule was dropped in checking) · – not stated in the policy · n/a doesn't apply · <span class="dash">dashed</span> disputed: most of Nemotron 3 Super's five models disagree with Ultra's</p></div>
   <div class="a-layout">
     <nav class="a-list" id="a-list" aria-label="Hospitals"></nav>
     <div id="a-detail" class="a-detail" tabindex="-1"><p class="sub">Loading the audit…</p></div>
@@ -140,7 +140,7 @@
     <div><b>1. Find</b>Tavily searches the web; Nemotron 3 Nano picks the hospital's own document; code fetches it.</div>
     <div><b>2. Formalise</b>Nemotron 3 Ultra writes the policy as rules over household facts (income, size, insurance, residency…) and deadlines.</div>
     <div><b>3. Check the translation</b>Code keeps a clause only if its quote is in the policy; Z3 rejects rules that can never apply; Nemotron 3 Super checks each quote says what the clause claims.</div>
-    <div><b>4. Second opinion</b>Nemotron 3 Super formalises the policy on its own. Z3 proves whether the two are equivalent and finds the household where they differ.</div>
+    <div><b>4. Second opinion</b>Nemotron 3 Super formalises the policy on its own, five times. Z3 replays each counterexample's exact household or day in every Super model; it is confirmed only when most of them fail too.</div>
     <div><b>5. Prove</b>Z3 checks ten legal requirements. A pass is a proof about the encoded rules within the stated range; a fail is a concrete household or day.</div>
   </div>
   <h2>Which model does what, and why</h2>
@@ -150,7 +150,7 @@
   <h2>What the audit can't do</h2>
   <ul class="limits">
     <li>It audits the <b>written</b> policy. A hospital may apply Colorado's law through a process its policy doesn't describe, so a counterexample means "the policy as written doesn't guarantee this", not "the hospital breaks the law".</li>
-    <li>The translation can be wrong. Every finding links to the policy's own words; disputed findings (the two models disagree) need a person to read the policy.</li>
+    <li>The translation can be wrong. Every finding links to the policy's own words; disputed findings (most of Super's five models don't fail for the same case) need a person to read the policy.</li>
     <li>Household facts the vocabulary can't express (specific services, documents, procedures) are left out and noted, never guessed.</li>
     <li>Only Colorado law and federal 501(r) are encoded. Policies change: each audit shows the document it used.</li>
     <li>Some hospital sites block downloads; those hospitals are missing, not passed.</li>

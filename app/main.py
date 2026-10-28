@@ -130,8 +130,11 @@ def audit_prove(policy_id: str):
 
 @app.get("/api/formal-eval")
 def formal_eval():
-    p = ROOT / "formal-eval.json"
-    return json.loads(p.read_text()) if p.exists() else {"status": "not run yet"}
+    p, runs = ROOT / "formal-eval.json", ROOT / "stability-eval.json"
+    out = json.loads(p.read_text()) if p.exists() else {"status": "not run yet"}
+    if runs.exists():  # repeated runs: stability, and how often a confirmed finding matches our reference
+        out["stability"] = json.loads(runs.read_text())["summary"]
+    return out
 
 
 @app.get("/api/eval")

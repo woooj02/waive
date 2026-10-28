@@ -1,0 +1,73 @@
+{
+ "model": {
+  "hospital": "Denver Health",
+  "doc": "policy",
+  "source_url": "https://www.denverhealth.org/patients-visitors/billing-insurance/enrollment-services",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "hdc",
+    "label": "Hospital Discounted Care",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients who are at or below 250% of the Federal Poverty Guidelines (FPG) are eligible for Hospital Discounted Care."
+   },
+   {
+    "id": "dhsfdp",
+    "label": "Denver Health Sliding Fee Discount Program",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you live outside of Denver County, you can always receive emergency medical care at Denver Health, even if you qualify for Medicaid or CHP+. You MUST live in Denver County to receive non-emergent care at Denver Health under the DHSFDP."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy mentions that enrollment in discount programs (DHSFDP and HDC) requires annual screening by an enrollment specialist.",
+   "Policy provides multiple application methods (online, phone, in-person, drop box) for Medicaid, CHP+, DHSFDP, and HDC.",
+   "Policy includes information about Health First Colorado (Medicaid) and CHP+ enrollment and updates.",
+   "Policy discusses Connect for Health Colorado as the state's health insurance marketplace.",
+   "Policy notes that DHSFDP and HDC are discount programs and not considered health insurance.",
+   "Policy states that falsifying information on application is fraud and must be reported to the state of Colorado.",
+   "hdc may leave out a condition: policy requires screening/application step before eligibility",
+   "dhsfdp may leave out a condition: policy requires non-emergent care context for residency requirement"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 2,
+  "clauses_proven": 2,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00094,
+ "made": "2026-10-28"
+}

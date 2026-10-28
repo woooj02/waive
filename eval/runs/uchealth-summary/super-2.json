@@ -1,0 +1,157 @@
+{
+ "model": {
+  "hospital": "UCHealth",
+  "doc": "summary",
+  "source_url": "https://www.uchealth.org/uchealth-financial-assistance-policy-summary-2024/",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_co_resident",
+    "label": "Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "if your family income is at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado."
+   },
+   {
+    "id": "req_care_type",
+    "label": "Emergency or medically necessary care",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "UCHealth provides financial assistance for emergency and other medically necessary care"
+   },
+   {
+    "id": "req_insurance_status",
+    "label": "Uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "If you do not have insurance or if you are under-insured, UCHealth provides financial assistance"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_free_care",
+    "label": "Free care up to 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Annual family income up to 250% of the FPG: free care"
+   },
+   {
+    "id": "rule_discounted_care",
+    "label": "Discounted care 251%-400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed"
+   },
+   {
+    "id": "rule_catastrophic",
+    "label": "Catastrophic balance discount",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 50.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Lawful presence status is not counted in determining residency status.",
+   "Charges Will Not Exceed Amount Generally Billed: If you are eligible to receive financial assistance under UCHealth\u2019s FAP, UCHealth will not charge you more for emergency or other medically necessary care than the amount UCHealth generally bills patients with commercial insurance, Medicare, and Medicaid coverage (\u2018Amount Generally Billed,\u2019 or \u2018AGB\u2019).",
+   "The policy mentions that additional measures may be applied for catastrophic encounters but does not specify exact criteria beyond the single account balance >50% of income.",
+   "No specific application timing, ECA timing, or first statement timing is provided in the plain language summary.",
+   "No payment plan details (max percent of monthly income, max months, min monthly USD) are stated in the plain language summary.",
+   "rule_catastrophic may leave out a condition: Policy also requires 'certain other financial resources' beyond income."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_discounted_care",
+    "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
+    "why": "Policy limits discount to AGB but claim does not specify amount."
+   }
+  ],
+  "clauses": 6,
+  "clauses_proven": 6,
+  "unsupported": 1
+ },
+ "cost_usd": 0.00257,
+ "fresh_calls": 2
+}

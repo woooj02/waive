@@ -1,0 +1,59 @@
+{
+ "model": {
+  "hospital": "Heart of the Rockies Regional Medical Center",
+  "doc": "policy",
+  "source_url": "https://www.hrrmc.com/documents/brochures/Finance-Assistance_2021.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "sliding_scale_discount",
+    "label": "Sliding Scale Income-Based Discount",
+    "when": [
+     [
+      {
+       "var": "size",
+       "op": ">=",
+       "value": 1.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 425.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Varying levels of discount percentages from 10% to 100% will be based on Annual Federal poverty guidelines."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy provides specific dollar income thresholds by family size and corresponding discount percentages from 10% to 100% for FPL levels from 200% to 425%. For family units over 8 members, add $4,540 per additional member. Pregnant women count as two people. Charity care is available for emergency or unscheduled, non-elective services to patients who are uninsured or underinsured and lack financial means to pay. Applicants must complete a Financial Assistance application with all required documentation of income, expenses, and assets. Income calculation includes all pre-tax monies from various sources but excludes certain benefits like Medicaid, food stamps, etc. Factors considered include completed application, gross income, family size, employment status, other financial resources and obligations, and details of medical services.",
+   "sliding_scale_discount may leave out a condition: Policy requires completion of Financial Assistance application with documentation"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 1,
+  "clauses_proven": 1,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00186,
+ "made": "2026-10-28"
+}

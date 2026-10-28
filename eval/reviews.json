@@ -1,5 +1,5 @@
 {
- "_about": "Build review of every finding confirmed by both models, done by reading the policy text during development (2026-10-28). verdict: upheld (the policy as written says this), qualified (true as written, with a caveat a reader needs), rejected (the policy says otherwise; both models missed it). 'match' picks the finding by a phrase from its summary.",
+ "_about": "Build review of every counterexample confirmed by the second model (first against one Nemotron 3 Super run, then against most of five), done by reading the policy text during development (2026-10-28). verdict: upheld (the policy as written says this), qualified (true as written, with a caveat a reader needs), rejected (the policy says otherwise; both models missed it). 'match' picks the finding by a phrase from its summary.",
  "reviews": [
   {
    "id": "aspen-valley",
@@ -238,6 +238,20 @@
    "match": "not under-insured",
    "verdict": "upheld",
    "note": "The policy describes assistance for patients who are uninsured or underinsured; HDC must screen an insured patient who asks."
+  },
+  {
+   "id": "healthone",
+   "check": "monotone",
+   "verdict": "qualified",
+   "match": "",
+   "note": "A band gap: full charity for '0 - 250%' of the poverty level, an expanded policy for 'between 251 and 400 percent'. Likely a rounding convention."
+  },
+  {
+   "id": "intermountain",
+   "check": "co_hdc_public",
+   "verdict": "qualified",
+   "match": "",
+   "note": "The policy requires public programs to be exhausted 'unless prohibited by local, state, or federal laws'. Colorado prohibits denying discounted care because a patient hasn't applied for public benefits, so the policy's own exception should cover this; it just doesn't say so."
   }
  ]
 }

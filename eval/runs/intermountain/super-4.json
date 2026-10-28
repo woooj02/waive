@@ -1,0 +1,201 @@
+{
+ "model": {
+  "hospital": "Intermountain Health",
+  "doc": "policy",
+  "source_url": "https://www.intermountainhealth.org/-/media/files/intermountain-health/for-patients/financial-assistance/2026/imh-financial-assistance-policy-2026_english.ashx",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_residency_non_emergent",
+    "label": "Residency required for non-emergent services",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Financial assistance shall be provided to patients who meet program qualifications and reside within one of Intermountain Health\u2019s service areas."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_fully_discounted_care",
+    "label": "Fully Discounted (No Charge) Care",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Uninsured and Underinsured patients meeting other eligibility criteria and with annual family incomes not in excess of 250% of the Federal Poverty Guidelines, and All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties, unless prohibited by local, state, or federal laws."
+   },
+   {
+    "id": "rule_discounted_care",
+    "label": "Discounted Care",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines, and All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "A reasonable payment plan will be established between Intermountain Health and the patient, or patient guarantor, for any balance remaining after the cost of care has been discounted under the financial assistance policy."
+  },
+  "notes": [
+   "The policy limits charges for emergency or other Medically Necessary care to the Amounts Generally Billed (AGB) for insured individuals, calculated using the Look Back Method per \u00a71.501(r)-5(b).",
+   "Eligible services include trauma and emergency medical services, services for conditions that would lead to adverse health changes if untreated, non-elective services for life-threatening circumstances in non-emergency settings, and other Medically Necessary services scheduled in advance and approved at Intermountain Health's discretion.",
+   "Services not eligible for Financial Assistance include elective procedures not Medically Necessary (e.g., cosmetic services) and care from providers not billed through Intermountain Health (e.g., independent physician services, private-duty nursing, ambulance transport).",
+   "Presumptive eligibility may be granted based on life circumstances such as participation in state-funded prescription programs, homelessness, WIC, food stamps, subsidized school lunch, other state/local assistance programs, low-income/subsidized housing, or health care industry sources of information.",
+   "The policy requires patients to cooperate in applying for public programs, private programs, and COBRA coverage; failure to cooperate may result in denial of financial assistance.",
+   "Extraordinary collection actions are prohibited until reasonable efforts are made to determine financial assistance eligibility, including verifying the debt and identifying third-party payments, and until the patient has been made aware of the financial assistance policy and had opportunity to apply or avail of a payment plan.",
+   "Collection actions are refrained against patients who provide documentation of applying for Medicaid or other publicly-sponsored health care programs.",
+   "Financial assistance determinations can be made during any stage of care after stabilization or during the collection cycle, after exhausting efforts to qualify for other public/private programs.",
+   "Notifications about financial assistance are posted on websites, in emergency departments, urgent care centers, admitting/registration areas, and other appropriate locations, in languages representing at least 5% of patients served annually.",
+   "Financial assistance information, including a contact number, is included in patient bills and through oral communication; information is available at registration points; financial counseling is available to help manage bills.",
+   "Caregivers working in patient registration, admitting, financial assistance, customer service, billing, and collections are educated about financial assistance and collection policies; referrals for financial assistance may be made by any Intermountain Health caregiver or medical staff.",
+   "Patients may appeal eligibility determinations within 90 days of determination by contacting Financial Assistance leadership.",
+   "Intermountain Health documents financial assistance (fully discounted, discounted, medical hardship) for internal and external compliance.",
+   "The policy applies to all Intermountain Health hospital facilities, clinics, and employed physicians in Colorado (Good Samaritan, Lutheran, Platte Valley, Saint Joseph, St. Mary\u2019s Regional), Idaho (Cassia Regional), Montana (Holy Rosary, St. James, St. Vincent Regional), and numerous Utah hospitals listed in Attachment A.",
+   "Excluded care sites: Mount Saint Vincent, Saltzer Health clinics, Tellica Imaging locations.",
+   "req_residency_non_emergent may leave out a condition: Residency or service area is required for non-emergent care, but emergent care is exempt from this requirement per policy.",
+   "rule_fully_discounted_care may leave out a condition: Missing requirement that all other payment options must be exhausted, which the quote includes but the claim omits.",
+   "rule_discounted_care may leave out a condition: Missing requirement that all other payment options must be exhausted, which the quote includes but the claim omits."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "req_financial_need_basis: has no conditions; remove it or give its conditions",
+   "rule_discounted_care: the clause fpl_pct >= 251.0 OR fpl_pct <= 500.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "rule_medical_hardship",
+    "quote": "Patient, or patient\u2019s Guarantor, has annual family income in excess of 500% of the Federal Poverty Guidelines; Patient, or patient\u2019s Guarantor, has exhausted all other payment options including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties; and The out-of-pocket, patient obligations resulting from medical services provided by Intermountain Health providers exceed 25% of annual family income."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_emergency_care_access",
+    "claim": "Every form of assistance requires: (emergency)",
+    "quote": "Intermountain Health will provide, without discrimination, care of emergency medical conditions to individuals regardless of their ability to pay or their eligibility for financial assistance or for government assistance.",
+    "why": "This quote ensures emergency care regardless of ability to pay, but does not make emergency care a requirement for receiving financial assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_cooperation_for_assistance",
+    "claim": "Every form of assistance requires: (applied_public_programs)",
+    "quote": "They will also contribute to the cost of their care according to their ability to pay. Individuals with the financial capacity to purchase health insurance shall be encouraged to do so, as a means of assuring access to health care services, for their overall personal health. Access to insurance or Medicaid coverage has extended significantly through the federal and state Health Exchanges. It is expected that any uninsured patient cooperate with Intermountain Health in determining the availability of Medicaid or insurance coverage.",
+    "why": "Cooperation is encouraged but not stated as a strict requirement for every form of assistance; the policy frames it as expectation, not mandate."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_financial_need_basis",
+    "claim": "Every form of assistance requires: (medically_necessary)",
+    "quote": "Financial Assistance shall be based on financial need and shall not consider race, ethnicity, religion, creed, gender, age, social or immigration status, sexual orientation, or insurance status.",
+    "why": "Financial need is the basis for assistance, but medically_necessary is not a universal requirement\u2014emergency care is covered regardless."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_out_of_area_emergent",
+    "claim": "Every form of assistance requires: (emergency)",
+    "quote": "Financial assistance shall be provided, without discrimination, to patients from outside the Intermountain Health services areas, who otherwise qualify for the program, and who present with an urgent, emergent, or life-threatening condition.",
+    "why": "This quote allows out-of-area patients with emergency conditions to receive assistance, but does not make emergency a requirement for all assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "If eligibility is approved, the patient will be granted Financial Assistance for a period of twelve months.",
+    "why": "The quote refers to the duration of assistance (12 months), not the deadline to submit an application."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "A Financial Assistance application will need to be re-submitted if more than six months has transpired since initial denial.",
+    "why": "The quote refers to reapplication after denial (6 months), not the initial deadline to submit an application."
+   }
+  ],
+  "clauses": 8,
+  "clauses_proven": 3,
+  "unsupported": 6
+ },
+ "cost_usd": 0.0091,
+ "fresh_calls": 3
+}

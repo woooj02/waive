@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.041,
+ "solver_seconds": 0.179,
  "model": {
   "hospital": "Spanish Peaks Regional Health Center",
   "doc": "policy",
@@ -137,12 +137,16 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.0,
+   "seconds": 0.001,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -168,6 +172,10 @@
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -193,6 +201,10 @@
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -223,6 +235,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -253,6 +269,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -278,6 +298,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -308,6 +332,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -333,6 +361,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -358,6 +390,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -377,6 +413,10 @@
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   }
  ]

@@ -1,0 +1,192 @@
+{
+ "model": {
+  "hospital": "Boulder Community Health",
+  "doc": "policy",
+  "source_url": "https://www.bch.org/documents/Financial%20Assistance/Financial-Assistance-Policy-2026.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "qccp_base",
+    "label": "Qualified Charity Care Program base eligibility",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">=",
+       "value": 0.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients residing in the BCH service area, receiving medically necessary nonemergent/scheduled hospital services are eligible to apply for the Qualified Charity Care Program."
+   },
+   {
+    "id": "wecare_base",
+    "label": "WeCare base eligibility",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 350.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">=",
+       "value": 0.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients residing in a BCH service area, receiving medically necessary nonemergent/scheduled hospital services, may apply for WeCare under this policy."
+   },
+   {
+    "id": "presumptive_base",
+    "label": "Presumptive financial assistance base eligibility",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">=",
+       "value": 0.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Extraordinary circumstances may result in eligibility for presumptive financial assistance on a case-by-case basis. Some examples include: -Individual is stated/verified to be homeless."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": 4.0,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "Payment plans that are established to pay the bills may not exceed four (4) percent of the patient's monthly household income."
+  },
+  "notes": [
+   "AGB rate is referenced but not numerically specified in the policy text; see Addendum A for facility-specific percentages.",
+   "Excluded services (cosmetic, transplant, research, etc.) are listed in the policy but not encoded in the model due to vocabulary limitations.",
+   "Self-pay discounts (20% for physician clinic, 50% for facility charges) are not modeled as financial assistance rules per instructions.",
+   "Multiple discounts are not allowed per policy.",
+   "MDsave program mentioned but not modeled as it is not a financial assistance discount under FAP.",
+   "Homeless individuals are exempt from income documentation requirements for QCCP, WeCare, and HDC.",
+   "Applicants must cooperate with documentation requirements; failure to submit within 30-45 days may require updated documentation.",
+   "WeCare payment arrangement tiers based on bill amount are not modeled as they pertain to payment plans, not discount eligibility.",
+   "Presumptive assistance examples include incarcerated, deceased with no estate, Medicaid eligibility mismatch, crime victims compensation, and out-of-state public program eligibility.",
+   "qccp_base may leave out a condition: Missing requirement: applicants must be Colorado residents.",
+   "wecare_base may leave out a condition: Missing requirement: applicants must be Colorado residents.",
+   "presumptive_base may leave out a condition: Presumptive assistance requires meeting program-specific eligibility beyond homelessness."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "hdc_base",
+    "quote": "Eligibility: \u2022 Colorado residency. \u2022 FPL at or under 250% \u2022 Date of service or date of discharge is within 181 days"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 181 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The date of service (or date of discharge whichever is later) must be within 181 days from the date of applying for the Qualified Charity Care Program.",
+    "why": "The 181-day limit applies to service date relative to application date, not application deadline after service."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 181 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Date of service or date of discharge is within 181 days",
+    "why": "The 181-day limit applies to service date relative to application date, not application deadline after service."
+   }
+  ],
+  "clauses": 4,
+  "clauses_proven": 3,
+  "unsupported": 2
+ },
+ "cost_usd": 0.00492,
+ "made": "2026-10-28"
+}

@@ -1,0 +1,176 @@
+{
+ "model": {
+  "hospital": "Colorado Plains Medical Center",
+  "doc": "policy",
+  "source_url": "https://lcmcwmh.com/wp-content/uploads/2025/06/PFS-F-02-Financial-Assistance-Policy.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_free_care",
+    "label": "Free care (100% discount)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 100.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 125.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at 100% and below 125% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_90pct_discount",
+    "label": "90% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 126.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 90.0,
+    "quote": "Patients whose family income is at 126% and below 150% of the FPL are eligible to receive a 90% discount."
+   },
+   {
+    "id": "rule_80pct_discount",
+    "label": "80% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 151.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 175.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "Patients whose family income is at 151% and below 175% of the FPL are eligible to receive an 80% discount."
+   },
+   {
+    "id": "rule_70pct_discount",
+    "label": "70% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 176.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 70.0,
+    "quote": "Patients whose family income is at 176% and below 200% of the FPL are eligible to receive a 70% discount."
+   },
+   {
+    "id": "rule_65pct_discount",
+    "label": "65% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 201.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 65.0,
+    "quote": "Patients whose family income is at 201% and below 300% of the FPL are eligible to receive a 65% discount."
+   },
+   {
+    "id": "rule_case_by_case_over_300",
+    "label": "Case-by-case discounted rates over 300% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients whose family income exceeds 300% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Little Colorado Medical Center; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Eligibility requires being uninsured, underinsured, ineligible for any government health care program, and unable to pay for care based on financial need determination. The policy lists specific services eligible for charity: emergency medical services in ER, services for conditions that if not promptly treated would lead to adverse health change, non-elective services in response to life-threatening circumstances in non-emergency room setting, and medically necessary services evaluated case-by-case. The policy states that financial assistance determination may be done at any point in the collection cycle and must be reevaluated if last evaluation was more than six months prior or if new relevant information arises. The policy requires submission of a completed Financial Assistance Application and as minimum documentation: copy of last year's tax return, last two months' income or bank statement for proof of income, checking and savings account balances, investment account balances. Presumptive eligibility may be based on: state-funded prescription programs, homelessness or care from homeless clinic, WIC participation, food stamp eligibility, subsidized school lunch eligibility, eligibility for other state/local unfunded assistance programs (e.g., Medicaid spend-down), low income/subsidized housing as valid address, or patient deceased with no known estate. The policy states that Little Colorado Medical Center will not engage in extraordinary collection actions before making reasonable effort to determine financial assistance eligibility, and reasonable efforts include validating the debt, documenting that patient was offered opportunity to apply for charity care and did not comply, and documenting that patient was offered payment plan but did not honor terms. Exhibit B specifies that emergency or medically necessary care provided by physicians and other providers not employed by LCMC (INNOVA emergency room providers, WIHCC-Winslow Indian Health Care Clinic family practice physicians covering IHS patients while working as inpatient hospitalists at LCMC) are not covered by this policy."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "rule_free_care: the clause fpl_pct >= 100.0 OR fpl_pct <= 125.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "rule_90pct_discount: the clause fpl_pct >= 126.0 OR fpl_pct <= 150.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "rule_80pct_discount: the clause fpl_pct >= 151.0 OR fpl_pct <= 175.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "rule_70pct_discount: the clause fpl_pct >= 176.0 OR fpl_pct <= 200.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "rule_65pct_discount: the clause fpl_pct >= 201.0 OR fpl_pct <= 300.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Accounts eligible for Charity Care are to be addressed within 240 days of first bill.",
+    "why": "The 240-day period addresses accounts, not the patient's application submission deadline."
+   }
+  ],
+  "clauses": 6,
+  "clauses_proven": 6,
+  "unsupported": 1
+ },
+ "cost_usd": 0.00662,
+ "made": "2026-10-28"
+}

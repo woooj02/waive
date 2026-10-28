@@ -1,0 +1,177 @@
+{
+ "model": {
+  "hospital": "Aspen Valley Health",
+  "doc": "policy",
+  "source_url": "https://vrh.org/wp-content/uploads/2025/08/Financial-Assistance-Guidelines-2025-published.pdf",
+  "nonprofit": null,
+  "requires": [
+   {
+    "id": "req_residency",
+    "label": "Patient must be a resident of New Hampshire or Vermont",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "a. Patient must be a resident of New Hampshire or Vermont, except instances where presumptive charity guidelines are used."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_standard_100",
+    "label": "Standard Application: 100% charity for income \u2264225% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 225.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "To be eligible for 100% approval for the Valley Regional Hospital Financial Assistance Program, family income must be less than or equal to 225% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_standard_75",
+    "label": "Standard Application: 75% charity for income 226%-250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 226.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 75.0,
+    "quote": "To be eligible for 75% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 226%-250% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_standard_50",
+    "label": "Standard Application: 50% charity for income 251%-275% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 275.0
+      }
+     ]
+    ],
+    "discount_pct": 50.0,
+    "quote": "To be eligible for 50% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 251%-275% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_standard_25",
+    "label": "Standard Application: 25% charity for income 276%-300% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 276.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 25.0,
+    "quote": "To be eligible for 25% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 276%-300% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_uninsured_discount",
+    "label": "Uninsured discount applied prior to financial assistance",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 45.0,
+    "quote": "For fiscal year FY25-10/1/24-9/30/25 the discount determined as above it 45%."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Eligibility may be determined via Standard Application Process, Presumptive Eligibility, or ED Quick Application (for patients outside catchment area >30 miles, not seen at VRH/VRH-owned practice, who sign attestation).",
+   "Assets include savings, certificates of deposit, checking, IRAs, stocks, bonds, 401Ks, mutual funds; sheltered assets: up to $5,000 per person/$10,000 per family in savings/CDs/checking; equity in primary residence up to $100,000 ($150,000 for applicants aged 55 or older).",
+   "Patients receiving financial assistance must reapply at 6-month intervals; those on fixed incomes (e.g., social security) must reapply annually.",
+   "Appeals process: patient may appeal denial within 30 days by writing to Director of Revenue Cycle; final decision within 30 days of receipt of appeal request.",
+   "Hospital will not impose extraordinary collection actions without first making reasonable efforts to determine financial assistance eligibility; exceptions require approval by Revenue Cycle Director and/or CFO.",
+   "Refunds: if patient pays outstanding balance and subsequently submits approved Financial Assistance Application, hospital will refund any amount paid for the care.",
+   "Excluded services: Elective cosmetic procedures, Hearing Aids and repairs, DOT Examinations, Sports Physicals, Gait Analysis, Dry Needling (see Exhibit A).",
+   "Providers accepting VRH Financial Assistance: All employed providers of VRH including VRH-owned physician clinics (Associates in Medicine, Valley Primary Care, Valley Regional Orthopedics, Valley Regional Surgical Associates, Valley Regional Urology, Valley Regional Womens\u2019 Health); independent providers Dartmouth Hitchcock, Medstream Anesthesia LLC, BlueWater Emergency Partners. Providers not accepting: any area independent provider group (e.g., Keady Family Practice, Charlestown Family Medicine).",
+   "Upon applicant\u2019s request, VRH will share application and supporting documentation with any hospital the applicant requests.",
+   "req_residency may leave out a condition: Residency requirement has an exception for presumptive charity guidelines."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "rule_presumptive",
+    "quote": "Once determined, due to the inherent nature of the presumptive circumstances, the only discount that can be granted is a 100% write off of the account balance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_coverage_type",
+    "claim": "Every form of assistance requires: (medically_necessary OR emergency)",
+    "quote": "Services Eligible Under this Policy. The following healthcare services are eligible for charity: 1. Medically necessary services. 2. Preventative care services",
+    "why": "Preventative care services are listed as eligible, so medically necessary or emergency is not required for all assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 10 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The applicant must return applications to Valley Regional Hospital within ten -(10) days of receipt.",
+    "why": "The 10-day deadline is to return the application after receipt, not from the date of service."
+   }
+  ],
+  "clauses": 8,
+  "clauses_proven": 6,
+  "unsupported": 2
+ },
+ "cost_usd": 0.00608,
+ "made": "2026-10-28"
+}

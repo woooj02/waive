@@ -1,0 +1,80 @@
+{
+ "model": {
+  "hospital": "National Jewish Health",
+  "doc": "policy",
+  "source_url": "https://www.nationaljewish.org/NJH/files/08/082c9c56-5cb6-4807-bc1b-b95526c5c62e.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_fap_general",
+    "label": "Financial Assistance - Medically Required Services",
+    "when": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "We offer financial assistance for services that are medically required."
+   },
+   {
+    "id": "rule_fap_location",
+    "label": "Financial Assistance - Location Restriction",
+    "when": [
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "We offer financial assistance only for health care services received at one of our locations."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 240,
+     "quote": "You have up to 240 days after the date of your initial patient responsibility statement to apply."
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "Start a payment plan arrangement with National Jewish Health. This will help you manage your account while your application is processed."
+  },
+  "notes": [
+   "Eligibility based on insurance coverage, income, family size, assets, and other issues, using Federal Poverty Level guidelines (Schedule 1).",
+   "Financial assistance may help pay for co-insurance and deductible amounts, but does not apply to co-payment amounts for physician services or patient balance amounts required by Medicaid or other need-based programs.",
+   "Financial assistance is not available when your insurance plan denies access to National Jewish Health.",
+   "Applications may require copies of tax returns, bank statements and pay stubs.",
+   "Complete applications receive a response within 20 business days.",
+   "If you do not make payments and do not contact us about payments, we may use a collection agency.",
+   "AGB applies: If you qualify for financial assistance, you cannot be charged more than the amounts generally billed (see Schedule 3).",
+   "rule_fap_general may leave out a condition: policy requires services to be received at one of their locations",
+   "rule_fap_location may leave out a condition: policy requires services to be medically required"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 2,
+  "clauses_proven": 2,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00149,
+ "made": "2026-10-28"
+}

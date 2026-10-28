@@ -33,11 +33,12 @@ Tavily search ─► Nemotron 3 Nano picks the hospital's own document ─► fe
      │      Z3:   rejects rules that can never fire and OR-vs-AND slips
      │      Nemotron 3 Super: does each quote really say what its clause claims?
      │
-     ├─► Nemotron 3 Super: independent formal model (same checks)
+     ├─► Nemotron 3 Super: five independent formal models (same checks), one per run
      │
-     └─► Z3 (app/law.py): 10 legal checks on each model + equivalence of the two models
-            a counterexample is "confirmed" only if the exact same household or day also fails in the
-            second model; otherwise "disputed" (needs a person). Every confirmed one is read against the policy.
+     └─► Z3 (app/law.py): 10 legal checks on each model + equivalence of the models
+            a counterexample is "confirmed" only if the exact same household or day also fails in most of
+            the five Super models; otherwise "disputed" (needs a person). Every confirmed one is read against
+            the policy.
 ```
 
 - **Encoding** (`app/formal.py`): a symbolic household (size, income, assets, bill, nine yes/no facts such as
@@ -61,7 +62,7 @@ Tavily search ─► Nemotron 3 Nano picks the hospital's own document ─► fe
 | Job | Model (Nebius Token Factory) |
 |---|---|
 | Write the policy as logic | `nvidia/Nemotron-3-Ultra-550b-a55b` |
-| Independent second model; meaning check of every quote | `nvidia/nemotron-3-super-120b-a12b` |
+| Five independent second models; meaning check of every quote | `nvidia/nemotron-3-super-120b-a12b` |
 | Pick the official document among search results | `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B` |
 | Read a bill photo (Check my bill tab) | `nvidia/Nemotron-3.5-Super-VL` |
 | Every legal decision | Z3, no model |
@@ -88,24 +89,41 @@ Z3. Nemotron found three clauses our own Children's reference had missed; we cor
 it in the file. No model is logically equivalent to our references on any whole document yet. Five references is a small
 set: treat these as directions, not precise rates.
 
+Repeated runs (`scripts/stability_eval.py`, results in `stability-eval.json`): each model formalised the same five
+documents five times with fresh calls. Ultra's wording changed from run to run, but every check got the same
+verdict in all five runs (90% each time). Super was less steady: the same verdict in every run on 76% of checks
+(84–92% per run). So one Super run is a noisy confirmer. We replayed each distinct counterexample Ultra found (25)
+against our reference model:
+
+| Confirmation rule | Confirmed, and the reference also fails | Disputed, but the reference also fails |
+|---|---|---|
+| One Super run (what we used before) | 42 of 45 pairings (93%) | 28 of 40 (70%) |
+| **Most of five Super runs** (used now) | **8 of 8** | 6 of 9 (67%) |
+
+A small sample again; it is also why disputed findings stay on the page for a person rather than being hidden.
+
 ## The Colorado audit (October 2026)
 
 28 policy documents found for 38 Colorado hospital systems (five sites blocked downloads); 25 formalised and
 audited, covering 64 hospitals; 3 documents lost every rule in the checks and are listed as not formalised.
 Z3 proved 90 requirements for the encoded rules and found 42 counterexamples. 11 are confirmed: the
-exact same household or day also fails in Nemotron 3 Super's independent model. Every confirmed counterexample
-was read against the policy text during development (9 upheld, 2 qualified); 8 findings in all
-were dismissed on review as translation errors, and 17 are inconclusive because a rule was dropped in checking.
-The reviews (`eval/reviews.json`, 34 entries, shown on each finding) are ours, not independent validation.
+exact same household or day also fails in most of five independent Nemotron 3 Super models. Every confirmed
+counterexample was read against the policy text during development (6 upheld, 5 qualified); 8 findings in all
+(4 of them confirmed) were dismissed on review as translation errors, and 17 are inconclusive because a rule was
+dropped in checking. The reviews (`eval/reviews.json`, 36 entries, shown on each finding) are ours, not
+independent validation.
 Tax status for 501(r) comes from IRS data (ProPublica Nonprofit Explorer); hospitals with no 501(c)(3) record
-(mostly public districts) skip the federal checks. All Z3 work for the state takes about 7.2 s.
+(mostly public districts) skip the federal checks. All Z3 work for the state, including replaying every finding
+against the five Super models, takes about 20 s; each document is audited in a fresh process so the counterexample
+Z3 reports depends on that document alone (two runs give identical output).
 
 ## Where Nebius Token Factory helped
 
 - One OpenAI-compatible endpoint for four Nemotron sizes, so the eval could compare them with one code path.
 - Structured output (`response_format` JSON schema) for the formal models.
 - Prefix caching: the policy text opens every prompt, so the meaning check reuses the cached policy tokens.
-- Low prices: the whole build, including every eval run and every policy, cost about $2.30.
+- Low prices: the whole build, including every eval run, five Super runs per policy and every policy, cost about
+  $3.10.
 
 ## Run it
 
@@ -117,8 +135,10 @@ cp .env.example .env          # add NEBIUS_API_KEY and TAVILY_API_KEY
 
 ./venv/bin/python scripts/build_atlas.py --fetch-only     # Tavily + Nano: collect policies into data/corpus/
 ./venv/bin/python scripts/audit.py --formalize all        # Ultra + Super formal models into formal/
-./venv/bin/python scripts/audit.py                        # Z3 audit into audit/
+./venv/bin/python scripts/audit.py --super-runs 5         # 4 more Super models per policy (live), then the Z3 audit
+./venv/bin/python scripts/audit.py                        # Z3 audit into audit/ (no API calls)
 ./venv/bin/python scripts/formal_eval.py                  # score the models against eval/formal/
+./venv/bin/python scripts/stability_eval.py --runs 5      # repeated runs: stability and confirmation rules
 LLM_NO_CACHE=1 ./venv/bin/python scripts/live_run.py childrens-colorado   # one policy, live, every call printed
 ```
 

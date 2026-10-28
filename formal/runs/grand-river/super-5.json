@@ -1,0 +1,67 @@
+{
+ "model": {
+  "hospital": "Grand River Health",
+  "doc": "policy",
+  "source_url": "https://grandriverhealth.org/patients-visitors/commitment-to-charity-care/",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_homeless_charity_care",
+    "label": "Homeless or transient patients receive 100% charity care",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients who are homeless or transient are generally considered automatically eligible for 100% charity care."
+   },
+   {
+    "id": "rule_sliding_scale_up_to_400_fpl",
+    "label": "Sliding scale financial assistance up to 400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Grand River Health\u2019s Sliding Scale is based on 400% of the Federal Poverty Level Guidelines."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "If you are having trouble paying your bill, payment plans are available."
+  },
+  "notes": [
+   "The policy mentions exploring other means of payment prior to offering Financial Assistance, including Hospital Discount Care Program, Medicaid, and CHP+. It requires applicants to apply for State Medicaid if applicable, must apply for HDC prior to Sliding Scale and be denied, and provide secure evidence of income and dependent information. The policy includes a one-time charity care program for unemployed patients determined at registration or pre-registration. It states that in the event of patient death, the hospital may pursue claims against the decedent\u2019s estate. It also notes that charity care may be extended with hospital administrative approval if illness makes it impossible to meet financial obligations. The hospital reserves the right to revoke financial assistance if the applicant knowingly misrepresented financial needs, and to extend or deny assistance for administrative or legal reasons, but will not deny or extend assistance based on race, color, creed, age, religion, or national origin. The CFO exercises final discretion. Definitions provided include Financial Assistance or Charity as inability to pay for medical care, Discount as reduction of total charges, Elective as cosmetic surgery (not medically necessary), Emergent/Urgent Medical Care as unexpected sudden onset health condition risking serious dysfunction/failure, and Uninsured/Self Pay as lacking commercial third-party payer coverage. Procedures such as identification prior to appointment, documentation requests, income verification via pay stub or W-2, investigation of assets/income, yearly policy review, notification of qualification prior to service, inpatient identification process, and estate recovery efforts are not modeled as requirements per instructions.",
+   "rule_sliding_scale_up_to_400_fpl may leave out a condition: policy requires sliding scale applicants to have first applied for and been denied Hospital Discount Care (HDC)"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 2,
+  "clauses_proven": 2,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00099,
+ "made": "2026-10-28"
+}

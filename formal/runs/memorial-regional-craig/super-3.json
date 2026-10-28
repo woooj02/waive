@@ -1,0 +1,230 @@
+{
+ "model": {
+  "hospital": "Memorial Regional Health",
+  "doc": "policy",
+  "source_url": "https://memorialregionalhealth.com/wp-content/uploads/Financial-Assistance-Policy-2025.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "presumptive_eligibility",
+    "label": "Presumptive Eligibility",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Some examples of sources MRH may use to determine presumptive financial assistance include: 1. Homelessness 2. Food Stamp Eligibility 3. Low Income/Subsidized housing is provided as a valid address 4. Patient is deceased with no known estate 5. Patients that are Medicaid eligible whose claim is denied by Medicaid due to exhausted benefits"
+   },
+   {
+    "id": "sliding_fee_schedule",
+    "label": "Sliding Fee Schedule",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "See attached sliding fee schedule for additional clarification."
+   },
+   {
+    "id": "sliding_fee_schedule",
+    "label": "Sliding Fee Schedule",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 201.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 240.0
+      }
+     ]
+    ],
+    "discount_pct": 60.0,
+    "quote": "See attached sliding fee schedule for additional clarification."
+   },
+   {
+    "id": "sliding_fee_schedule",
+    "label": "Sliding Fee Schedule",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 241.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 280.0
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "See attached sliding fee schedule for additional clarification."
+   },
+   {
+    "id": "sliding_fee_schedule",
+    "label": "Sliding Fee Schedule",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 281.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 20.0,
+    "quote": "See attached sliding fee schedule for additional clarification."
+   },
+   {
+    "id": "medical_indigent_threshold_1",
+    "label": "Medical Indigent Threshold #1",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 301.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 25.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "A. Medical Indigent Threshold #1 1. A patient whose family income is between 301% and 500% of the Federal Poverty Level (FPL). 2. Patient\u2019s single incident medical bills are greater than 25% of yearly gross household income. 3. Patient will be billed the lesser of 5% of gross annual family income or 50% of the amounts generally billed (AGB)."
+   },
+   {
+    "id": "medical_indigent_threshold_2",
+    "label": "Medical Indigent Threshold #2",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 25.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "B. Medical Indigent Threshold #2 1. A patient whose family income is greater than 500% of the FPL. 2. Patient\u2019s single incident Medical bills are greater than 25% of yearly gross household income. 3. Patient will be billed the lesser of 10% of gross annual family income or 50% of the AGB."
+   },
+   {
+    "id": "hardship_application",
+    "label": "Hardship Application",
+    "when": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "MRH reserves the right to consider a Hardship application on a case-by-case basis for Medically Indigent patients who MRH determines to be eligible on the basis of an unusual financial situation that creates a demonstrably catastrophic, unusual, or extraordinary situation."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "service",
+     "days": 45,
+     "quote": "the form should be filled out completely, required supporting documents should be gathered and attached, and all documents should be submitted in and of the following manners within 45 days of applicable service, 45 days from the date of primary insurance payment, or 45 days from Medicaid denial:"
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": 24,
+   "min_monthly_usd": 25.0,
+   "quote": "Accounts must be paid in full within 24 months from date of service 2. Payments plans must be a minimum of $25.00 per month"
+  },
+  "notes": [
+   "Eligible services include emergency medical services, services for conditions that would lead to adverse health status if not promptly treated, non-elective services for life-threatening circumstances in a non-emergency room setting, elective services excluding cosmetic procedures, and primary care services.",
+   "To determine AGB, MRH uses the 'look-back' method described in section 4(b)(2) of the IRS and Treasury\u2019s 501 rule, using data based on claims allowed by Medicaid in combination with Medicare fee for service and all private health insurers that pay claims to the hospital during the prior 12-month period. The AGB percentage is multiplied by gross charges for Emergency Care and Medically Necessary Care to determine AGB. The Financial Assistance Program eligible patient is considered to be charged only the amount he or she is personally responsible for paying, after all deductions, discounts and insurance reimbursements have been applied. The discount resulting from the AGB calculations applies to the amount the patient is personally responsible for paying rather than the total account.",
+   "Prior to consideration for financial assistance, patients must: A. Obtain health insurance if financial capacity allows B. Apply for Colorado Medicaid C. Apply for Hospital Discounted Care Program (HDC) D. Or Provide written documentation detailing why steps A, B or C are unable to be achieved.",
+   "In order to qualify for MRH Financial Assistance, patients must be: A. Overqualified for Hospital Discounted Care based off of an HDC Screening or have a Hospital Discounted Care ineligible determination letter. B. Financially indigent as determined by the criteria in this policy; C. Medically indigent as determined by the criteria in this policy; or D. Those who meet presumptive eligibility based upon the criteria in this policy",
+   "sliding_fee_schedule may leave out a condition: Policy references sliding fee schedule but does not define 20% discount for FPL 281-300%.",
+   "hardship_application may leave out a condition: Hardship applies to Medically Indigent patients with catastrophic situations, not all medically necessary care."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "sliding_fee_schedule: the clause fpl_pct >= 201.0 OR fpl_pct <= 240.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_fee_schedule: the clause fpl_pct >= 241.0 OR fpl_pct <= 280.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "sliding_fee_schedule: the clause fpl_pct >= 281.0 OR fpl_pct <= 300.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "medical_indigent_threshold_1: the clause fpl_pct >= 301.0 OR fpl_pct <= 500.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "the form should be filled out completely, required supporting documents should be gathered and attached, and all documents should be submitted in and of the following manners within 45 days of applicable service, 45 days from the date of primary insurance payment, or 45 days from Medicaid denial:",
+    "why": "Policy does not mention 45 days from first post-discharge bill as an option."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:presumptive_eligibility",
+    "claim": "A patient with (presumptive_program) gets 100% off",
+    "quote": "Some examples of sources MRH may use to determine presumptive financial assistance include: 1. Homelessness 2. Food Stamp Eligibility 3. Low Income/Subsidized housing is provided as a valid address 4. Patient is deceased with no known estate 5. Patients that are Medicaid eligible whose claim is denied by Medicaid due to exhausted benefits",
+    "why": "Policy mentions presumptive eligibility sources but does not specify 100% discount."
+   }
+  ],
+  "clauses": 8,
+  "clauses_proven": 8,
+  "unsupported": 2
+ },
+ "cost_usd": 0.00644,
+ "made": "2026-10-28"
+}

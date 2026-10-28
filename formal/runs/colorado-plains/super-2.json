@@ -1,0 +1,212 @@
+{
+ "model": {
+  "hospital": "Colorado Plains Medical Center",
+  "doc": "policy",
+  "source_url": "https://lcmcwmh.com/wp-content/uploads/2025/06/PFS-F-02-Financial-Assistance-Policy.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_fpl_100_125",
+    "label": "100%-125% FPL: free care",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 100.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 125.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at 100% and below 125% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_fpl_126_150",
+    "label": "126%-150% FPL: 90% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 126.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 90.0,
+    "quote": "Patients whose family income is at 126% and below 150% of the FPL are eligible to receive a 90% discount."
+   },
+   {
+    "id": "rule_fpl_151_175",
+    "label": "151%-175% FPL: 80% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 151.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 175.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "Patients whose family income is at 151% and below 175% of the FPL are eligible to receive an 80% discount."
+   },
+   {
+    "id": "rule_fpl_176_200",
+    "label": "176%-200% FPL: 70% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 176.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 70.0,
+    "quote": "Patients whose family income is at 176% and below 200% of the FPL are eligible to receive a 70% discount."
+   },
+   {
+    "id": "rule_fpl_201_300",
+    "label": "201%-300% FPL: 65% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 201.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 65.0,
+    "quote": "Patients whose family income is at 201% and below 300% of the FPL are eligible to receive a 65% discount."
+   },
+   {
+    "id": "rule_fpl_over_300_case_by_case",
+    "label": ">300% FPL: case-by-case discounted rates",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients whose family income exceeds 300% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Little Colorado Medical Center; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients."
+   },
+   {
+    "id": "rule_presumptive",
+    "label": "Presumptive eligibility",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: 1. State-funded prescription programs; 2. Homelessness or received care from a homeless clinic; 3. Participation in Women, Infants and Children programs (WIC); 4. Food stamp eligibility; 5. Subsidized school lunch program eligibility; 6. Eligibility for other state or local assistance program that are unfunded (e.g., Medicaid spend-down); 7. Low income/subsidized housing is provided as a valid address; and 8. Patient is deceased with no known estate."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy states that the Amounts Generally Billed discount of 65% has been determined by Little Colorado Medical Center, which appears to align with the 201%-300% FPL discount tier. The policy does not specify a maximum percentage of monthly income for payment plans, nor a minimum monthly payment amount in USD, nor a maximum number of months for payment plans. The policy mentions that Little Colorado Medical Center will not engage in extraordinary collection actions before making a reasonable effort to determine financial assistance eligibility, but does not specify a fixed waiting period (e.g., days after service or first statement) before such actions may begin, so eca_not_before is left empty. The policy requires patients to submit documentation including a copy of last year\u2019s tax return, last two months\u2019 income or bank statement, and account balances, but these procedural details are not modeled as requirements per instructions. The policy notes that emergency care or medically necessary care provided by physicians not employed by LCMC (e.g., INNOVA emergency room providers, WIHCC physicians) are not covered by this policy, but this limitation cannot be expressed in the given vocabulary and is noted here."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "Little Colorado Medical Center appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require Colorado residency for any assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "Little Colorado Medical Center appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require living in the hospital's service area for any assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_emergency_or_medically_necessary",
+    "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+    "quote": "Financial Assistance is defined as healthcare services provided at no charge or at a reduced charge to patients who do not have nor cannot obtain adequate financial resources or other means to pay for their care.",
+    "why": "Policy does not limit assistance to emergency or medically necessary services only."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_uninsured_or_underinsured",
+    "claim": "Every form of assistance requires: (not insured OR underinsured)",
+    "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care, based upon a determination of financial need in accordance with this Policy.",
+    "why": "Policy also considers those ineligible for government programs and unable to pay, not just uninsured/underinsured."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Accounts eligible for Charity Care are to be addressed within 240 days of first bill.",
+    "why": "240-day period is for addressing accounts, not for patient to submit application."
+   }
+  ],
+  "clauses": 11,
+  "clauses_proven": 7,
+  "unsupported": 5
+ },
+ "cost_usd": 0.00556,
+ "made": "2026-10-28"
+}

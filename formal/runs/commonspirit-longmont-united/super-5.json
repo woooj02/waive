@@ -1,0 +1,113 @@
+{
+ "model": {
+  "hospital": "CommonSpirit Longmont United Hospital",
+  "doc": "policy",
+  "source_url": "https://www.mountain.commonspirit.org/patient-tools/billing-and-financial-services/financial-assistance-hospital-discounted-care",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "will allow for at least 30 days past the payment due date before pursuing collections"
+  },
+  "notes": [
+   "Policy includes separate sections for Colorado, Kansas, and Utah with different FPL thresholds and copay structures. Emergency care is treated regardless of ability to pay or coverage status. Patients must be screened for financial assistance when possible. The policy references compliance with PPACA, Internal Revenue Code Section 501(r), and Colorado Senate Bill 14-50. Copayment minimums are noted for insured and uninsured patients in each state."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "co_hdc_insured_251_299: the clause co_resident true None OR in_service_area true None OR insured true None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_insured_300_399: the clause co_resident true None OR in_service_area true None OR insured true None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_uninsured_251_299: the clause co_resident true None OR in_service_area true None OR insured false None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "co_hdc_uninsured_300_399: the clause co_resident true None OR in_service_area true None OR insured false None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ks_fap_151_200: the clause fpl_pct >= 151.0 OR fpl_pct <= 200.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ks_fap_201_250: the clause fpl_pct >= 201.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ut_fap_251_299: the clause fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "ut_fap_300_399: the clause fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_0_250",
+    "quote": "0-250% $650 copay per visit $50 copay per visit 15% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_251_299",
+    "quote": "251-299% 10% of charges 10% of charges 25% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_insured_300_399",
+    "quote": "300-399% 20% of charges 20% of charges 35% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_0_250",
+    "quote": "0-250% $0 copay per visit $0 copay per visit 0% copay per visit"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_251_299",
+    "quote": "251-299% 10% of charges 10% of charges 25% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "co_hdc_uninsured_300_399",
+    "quote": "300-399% 20% of charges 20% of charges 35% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "ks_fap_0_150",
+    "quote": "0-150% $650 copay per visit $50 copay per visit 15% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "ks_fap_151_200",
+    "quote": "151-200% 10% of charges 10% of charges 25% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "ks_fap_201_250",
+    "quote": "201-250% 20% of charges 20% of charges 35% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "ut_fap_0_250",
+    "quote": "0-250% $650 copay per visit $50 copay per visit 15% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "ut_fap_251_299",
+    "quote": "251-299% 10% of charges 10% of charges 25% of charges"
+   },
+   {
+    "kind": "rule",
+    "id": "ut_fap_300_399",
+    "quote": "300-399% 20% of charges 20% of charges 35% of charges"
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:co_fap_0_250",
+    "claim": "A patient with (co_resident OR in_service_area OR medically_necessary OR fpl_pct <= 250) gets 100% off",
+    "quote": "The legislation requires hospitals to provide financial assistance to patients in emergent situations and whose incomes are less than 250 percent of the current year\u2019s federal poverty level.",
+    "why": "Policy restricts financial assistance to Colorado residents in emergent situations with income \u2264250% FPL, not any of the four conditions."
+   }
+  ],
+  "clauses": 13,
+  "clauses_proven": 0,
+  "unsupported": 1
+ },
+ "cost_usd": 0.00608,
+ "made": "2026-10-28"
+}

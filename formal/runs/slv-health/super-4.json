@@ -1,0 +1,142 @@
+{
+ "model": {
+  "hospital": "San Luis Valley Health",
+  "doc": "policy",
+  "source_url": "https://www.sanluisvalleyhealth.org/documents/SLVH-Financial-Assistance-Policy-04.28.25.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_co_resident",
+    "label": "Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Residents of any state other than Colorado are not eligible for financial assistance without prior approval from the facility Chief Financial Officer."
+   },
+   {
+    "id": "req_emergency_or_medically_necessary",
+    "label": "Emergency or medically necessary care",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Exception: Financial assistance under this policy is not available for services that are not medically necessary as determined by the patient\u2019s treating provider."
+   },
+   {
+    "id": "req_not_outside_us",
+    "label": "Not a resident of a country outside the United States",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Residents of countries outside the United States of America are not eligible for financial assistance without prior approval from the facility Chief Financial Officer."
+   }
+  ],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 181,
+     "quote": "Extraordinary Collection Activities ECAs will not be initiated earlier than 181 days after the first billing statement is sent to the individual."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": 36,
+   "min_monthly_usd": 50.0,
+   "quote": ">$5000 No more than 36 months\n\n3. All payment plans should be at least $50 per month."
+  },
+  "notes": [
+   "The policy references Hospital Discounted Care (HDC) but does not detail its eligibility or discount within this document; HDC is a separate state program.",
+   "The policy mentions a third-party scoring tool for FPL calculation and income documentation requirements, but these are procedural and not modeled as eligibility requirements.",
+   "The policy states that Medicaid patients who receive non-covered medically necessary services will be considered for financial assistance, but this is not modeled as a separate rule due to lack of specific discount percentages.",
+   "The policy states that insurance programs leaving a patient balance may be eligible for financial assistance if the patient meets financial screening requirements, but this is not modeled as a separate rule due to lack of specific discount percentages.",
+   "The policy mentions that the AGB percentage is specified in Addendum A and reviewed annually, but Addendum A is not provided, so AGB is not modeled.",
+   "The policy states that SLV Health will provide a refund if payments exceed the approved financial assistance rate and established copayment, but this is a post-determination adjustment, not an eligibility rule.",
+   "The policy mentions that SLV Health may utilize third-party electronic review for non-responsive patients, but this is discretionary and not a requirement.",
+   "The policy mentions that SLV Health may stop ECAs during a 60-day period for incomplete FAA forms, but this is procedural and not a timing requirement for ECAs."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_fap_200_or_less",
+    "claim": "A patient with (fpl_pct <= 200) gets 100% off",
+    "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+    "why": "Quote refers to ineligibility for other programs, not discount amount."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_fap_201_to_250",
+    "claim": "A patient with (fpl_pct >= 201) AND (fpl_pct <= 250) gets 75% off",
+    "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+    "why": "Quote refers to ineligibility for other programs, not discount amount."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_fap_251_to_300",
+    "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 300) gets 50% off",
+    "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+    "why": "Quote refers to ineligibility for other programs, not discount amount."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_fap_301_to_350",
+    "claim": "A patient with (fpl_pct >= 301) AND (fpl_pct <= 350) gets 25% off",
+    "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+    "why": "Quote refers to ineligibility for other programs, not discount amount."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_fap_351_to_400",
+    "claim": "A patient with (fpl_pct >= 351) AND (fpl_pct <= 400) gets 0% off",
+    "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+    "why": "Quote refers to ineligibility for other programs, not discount amount."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 120 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "SLV Health will allow 15 days for processing of the application and 15 days to contact the patient with the determination in writing.",
+    "why": "Quote describes hospital processing time, not patient application deadline."
+   }
+  ],
+  "clauses": 8,
+  "clauses_proven": 3,
+  "unsupported": 6
+ },
+ "cost_usd": 0.00418,
+ "made": "2026-10-28"
+}

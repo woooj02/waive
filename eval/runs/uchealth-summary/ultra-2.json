@@ -1,0 +1,154 @@
+{
+ "model": {
+  "hospital": "UCHealth",
+  "doc": "summary",
+  "source_url": "https://www.uchealth.org/uchealth-financial-assistance-policy-summary-2024/",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_insured_status",
+    "label": "Uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "If you do not have insurance or if you are under-insured, UCHealth provides financial assistance"
+   },
+   {
+    "id": "req_care_type",
+    "label": "Emergency or medically necessary care",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "UCHealth provides financial assistance for emergency and other medically necessary care"
+   },
+   {
+    "id": "req_residency",
+    "label": "Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "for Resident of the State of Colorado"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_free_care",
+    "label": "Free care up to 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Annual family income up to 250% of the FPG: free care"
+   },
+   {
+    "id": "rule_discounted_care",
+    "label": "Discounted care 251% to 400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed"
+   },
+   {
+    "id": "rule_catastrophic",
+    "label": "Catastrophic balance discount",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income_assets",
+       "op": ">",
+       "value": 50.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Lawful presence status is not counted in determining residency status.",
+   "Charges will not exceed Amount Generally Billed (AGB) for eligible patients.",
+   "Catastrophic balance considers 'certain other financial resources' beyond income (assets_usd).",
+   "Application methods: online, phone (855.843.3547), or in-person at listed hospital locations.",
+   "Documents available in English and Spanish.",
+   "Service area requirement not explicitly stated in summary; policy mentions 'Resident of the State of Colorado' only.",
+   "No application deadline, ECA timing, or payment plan terms specified in this summary.",
+   "rule_catastrophic may leave out a condition: Adds 'certain other financial resources' beyond bill_pct_income_assets > 50."
+  ]
+ },
+ "report": {
+  "model": "ultra",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_discounted_care",
+    "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
+    "why": "Policy limits discount to AGB, not just any help."
+   }
+  ],
+  "clauses": 6,
+  "clauses_proven": 6,
+  "unsupported": 1
+ },
+ "cost_usd": 0.00639,
+ "fresh_calls": 2
+}

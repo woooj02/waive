@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.277,
+ "solver_seconds": 0.996,
  "model": {
   "hospital": "Vail Health Hospital",
   "doc": "summary",
@@ -270,12 +270,17 @@
      "holds": false
     }
    ],
-   "seconds": 0.014,
+   "seconds": 0.018,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
-    "counterexample"
+    "counterexample",
+    "proved"
    ],
+   "votes": {
+    "agree": 0,
+    "of": 5
+   },
    "confidence": "disputed"
   },
   {
@@ -301,6 +306,10 @@
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -326,6 +335,10 @@
    "second_opinion": [
     "proved"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -356,6 +369,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -386,6 +403,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -411,6 +432,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -441,6 +466,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -466,6 +495,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -491,6 +524,10 @@
    "second_opinion": [
     "not_stated"
    ],
+   "votes": {
+    "agree": 5,
+    "of": 5
+   },
    "confidence": "confirmed"
   },
   {
@@ -604,13 +641,17 @@
      "holds": false
     }
    ],
-   "seconds": 0.028,
+   "seconds": 0.031,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [
     "counterexample"
    ],
-   "confidence": "confirmed"
+   "votes": {
+    "agree": 1,
+    "of": 5
+   },
+   "confidence": "disputed"
   }
  ]
 }

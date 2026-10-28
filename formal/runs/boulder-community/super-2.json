@@ -1,0 +1,212 @@
+{
+ "model": {
+  "hospital": "Boulder Community Health",
+  "doc": "policy",
+  "source_url": "https://www.bch.org/documents/Financial%20Assistance/Financial-Assistance-Policy-2026.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "qccp_base",
+    "label": "Qualified Charity Care Program base eligibility",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "emergency",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients residing in the BCH service area, receiving medically necessary nonemergent/scheduled hospital services are eligible to apply for the Qualified Charity Care Program."
+   },
+   {
+    "id": "wecare_emergency_outside_us",
+    "label": "WeCare emergency services outside US",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Applicants that received emergency services and reside outside of the United States- if determined eligible, in these instances, the service provided will be discounted to the current AGB rate."
+   },
+   {
+    "id": "wecare_emergency_outside_co",
+    "label": "WeCare emergency services outside Colorado",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Applicants that received emergency services and reside outside of Colorado."
+   },
+   {
+    "id": "wecare_outside_service_area_referral",
+    "label": "WeCare outside service area with referral or facility in zip",
+    "when": [
+     [
+      {
+       "var": "in_service_area",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "emergency",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Applicants that reside outside of the BCH service area ... are eligible to apply for WeCare discounting if they have services provided by a BCH Facility located within their zip code and/or if they have been referred by a BCH owned and operated Physician practice located within these zip codes for a service at BCH."
+   },
+   {
+    "id": "presumptive",
+    "label": "Presumptive financial assistance",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Extraordinary circumstances may result in eligibility for presumptive financial assistance on a case-by-case basis. Some examples include: -Individual is stated/verified to be homeless."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "service",
+     "days": 181,
+     "quote": "Date of service or date of discharge is within 181 days"
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": 4.0,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "Payment plans that are established to pay the bills may not exceed four (4) percent of the patient's monthly household income."
+  },
+  "notes": [
+   "AGB rate is used for certain WeCare applicants (emergency services outside US or outside service area with referral/facility in zip).",
+   "Multiple discounts are not allowed: a financial assistance discount cannot be combined with any other discount offered by the hospital.",
+   "Excluded services for Qualified Charity Care Program include experimental/non-USFDA approved treatments, nursing home care, elective non-medically necessary surgeries, chiropractic, court ordered procedures, non-urgent dental, abortions except where required by law, cosmetic surgery, mental health services as a primary diagnosis, CU Sports Medicine services.",
+   "Excluded services for WeCare include cosmetic procedures with packaged pricing, audiology supplies, lab kit draw fees, venipuncture fees, outpatient TB skin tests if not performed with other BCH lab services, procedures already discounted to prevailing market rates, all outpatient pediatric and adult rehabilitation services, all outpatient behavioral health services, CU Sports Medicine services, high-cost implantable devices and drugs, services not covered or deemed medically necessary by Qualified Charity Care Program and/or Colorado Medicaid.",
+   "For WeCare, applicants who qualify for Health First Colorado or CHP+ are ineligible.",
+   "For Hospital Discounted Care, ineligible applicants include those that reside outside of Colorado and those with FPL over 251%.",
+   "Patients with health insurance are expected to pay deductibles, estimated coinsurance, and/or copays the day services are rendered.",
+   "BCH will not delay provision of medical screening exam, stabilizing treatment, or appropriate transfer under EMTALA to inquire about payment or insurance status; financial arrangements with emergency room patients will not be discussed until patient has been assessed and treated per BCH EMTALA policy.",
+   "Approved Single Case Agreements and participants in clinical trials or grant programs are exceptions.",
+   "Patients approved/pending approval for Hospital Discounted Care are exceptions.",
+   "For WeCare payment arrangement: interest free payment tiers based on balance: $50.00-$499.99 up to 6 months; $500.00-$999.99 up to 12 months; $1,000.00-$2,499.99 up to 18 months; $2,500.00-$4,999.99 up to 24 months (automatic payments required); $5,000.00+ up to 36 months (automatic payments required).",
+   "For Qualified Charity Care Program: payment plan may not exceed four (4) percent of monthly household income; for bills from health care professionals, limit is two (2) percent; once 36 payments made, remainder forgiven and collection ceases.",
+   "For Hospital Discounted Care payment arrangement: same as Qualified Charity Care Program.",
+   "qccp_base may leave out a condition: missing requirement: applicant must be a Colorado resident",
+   "wecare_outside_service_area_referral may leave out a condition: missing requirement: applicant must meet income/asset threshold (adjusted FPL between 250% and 350%)",
+   "presumptive may leave out a condition: policy states presumptive assistance is case-by-case, not automatic for homeless"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "qccp_base: the clause emergency false None OR medically_necessary true None is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "wecare_base: the clause emergency false None OR medically_necessary true None is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "wecare_base: the clause fpl_pct >= 250.0 OR fpl_pct <= 350.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "wecare_outside_service_area_referral: the clause emergency false None OR medically_necessary true None is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "hdc_base",
+    "quote": "Eligibility: \u2022 Colorado residency. \u2022 FPL at or under 250% \u2022 Date of service or date of discharge is within 181 days"
+   },
+   {
+    "kind": "rule",
+    "id": "wecare_base",
+    "quote": "Eligibility: \u2022 Applicants who are over the income threshold for the Qualified Charity care Program whose adjusted household income is between 250% and 350% of the FPL."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 181 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The date of service (or date of discharge whichever is later) must be within 181 days from the date of applying for the Qualified Charity Care Program.",
+    "why": "policy states application must be submitted within 181 days of service, not that service must be within 181 days of application"
+   }
+  ],
+  "clauses": 7,
+  "clauses_proven": 5,
+  "unsupported": 1
+ },
+ "cost_usd": 0.01089,
+ "made": "2026-10-28"
+}

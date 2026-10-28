@@ -1,0 +1,124 @@
+{
+ "model": {
+  "hospital": "Delta Health",
+  "doc": "policy",
+  "source_url": "https://www.deltamem.org/getpage.php?name=fin_policy",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "sliding_scale_discount",
+    "label": "Sliding scale discounts based on income levels",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Financial assistance consideration is given for patients with incomes less than 200% of the Federal Poverty Guideline for their family size."
+   },
+   {
+    "id": "point_of_service_payment_discount_uninsured_underinsured",
+    "label": "Point of Service payment discounts for uninsured and underinsured",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Point of Service payment discounts for uninsured and underinsured"
+   },
+   {
+    "id": "self_pay_fee_schedule",
+    "label": "Self-pay fee schedule for uninsured patients not qualifying for program assistance",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "DMH has established a self-pay fee schedule to consistently discount uninsured patient bills. If a patient is uninsured and does not qualify for program assistance through DMH's financial assistance program, the patient will be registered as self-pay."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 240,
+     "quote": "Patients will be allowed to request financial assistance up to 240 days from the date of the patient's first statement, or any time during the collection process."
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": 45
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy mentions that verified dually eligible Medicare and Medicaid patients qualify for indigent care without completing a financial assistance application, and Medicaid beneficiaries that acquire Medicaid under SLMB, Family Planning Services, and/or have exhausted days automatically qualify for indigent care without completing a financial assistance application. However, the vocabulary does not have variables for dual eligibility or specific Medicaid categories, so this is noted here.",
+   "The policy states that patients will be required to execute a DMH Promissory Note at the time of service indicating a commitment to pay the balance of the fees after any third party payments and any discounts they are determined eligible are applied. This is a procedural requirement and not included in the formal model as per instructions.",
+   "The policy mentions that approved applications are valid for the visit(s) in which they are applying and for three months following the approved application. This is a timing aspect of the benefit duration, not the application window, so it is noted here.",
+   "The policy states that patients should allow 7 business days for the review process. This is internal processing time and not a requirement on the patient, so it is noted here.",
+   "The policy mentions that the Financial Assistance decision will be valid and useable for the accounts listed at the time of application and for three (3) months after approval. This is noted above.",
+   "The policy states that it is preferred, but not required, that a request for Financial Assistance and a determination of financial need happens before any pre-scheduled non-emergency medically necessary services. This is noted as it is not a requirement.",
+   "The policy mentions that DMH will provide a copy of the plain language summary document of the Financial Assistance Policy to all uninsured patients at the time of registration and the patient will be required to sign the document. This is a procedural step and not included in the formal model.",
+   "The policy lists reasons for denial including sufficient income, sufficient asset levels, patient uncooperativeness, requests for care with no long-term support, incomplete application, pending insurance/liability claim, withholding insurance payment/settlement funds. These are not modeled as requirements for assistance but are noted here as factors that may lead to denial.",
+   "The policy states that DMH will make reasonable efforts to ensure that patients are billed for their services accurately and timely and will attempt to work with all patients to establish suitable payment arrangements. This is noted as it describes general practice.",
+   "The policy states that the first three statements will include an overview of DMH's Financial Assistance Policy. This is noted as it is informational.",
+   "The policy states that uninsured patients will not be referred to DMH's collection agency for follow-up in less than 120 days from the date of the first statement. This is noted as it relates to collection timing."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "amount removed",
+    "id": "rule:sliding_scale_discount",
+    "claim": "A patient with (fpl_pct < 200) gets an unstated amount of help",
+    "quote": "Financial assistance consideration is given for patients with incomes less than 200% of the Federal Poverty Guideline for their family size.",
+    "why": "Policy states consideration is given but does not specify discount amount."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:point_of_service_payment_discount_uninsured_underinsured",
+    "claim": "A patient with (not insured OR underinsured) gets an unstated amount of help",
+    "quote": "Point of Service payment discounts for uninsured and underinsured",
+    "why": "Policy mentions discount but does not specify amount."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:self_pay_fee_schedule",
+    "claim": "A patient with (not insured) gets an unstated amount of help",
+    "quote": "DMH has established a self-pay fee schedule to consistently discount uninsured patient bills. If a patient is uninsured and does not qualify for program assistance through DMH's financial assistance program, the patient will be registered as self-pay.",
+    "why": "Policy states self-pay schedule discounts bills but does not specify discount amount."
+   }
+  ],
+  "clauses": 3,
+  "clauses_proven": 3,
+  "unsupported": 3
+ },
+ "cost_usd": 0.00465,
+ "made": "2026-10-28"
+}

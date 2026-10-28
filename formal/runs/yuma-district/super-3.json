@@ -1,0 +1,79 @@
+{
+ "model": {
+  "hospital": "Yuma District Hospital",
+  "doc": "policy",
+  "source_url": "https://yumahospital.org/wp-content/uploads/2025/06/Yuma_Website-Content-Doc_Batch_4_03.27.25.v1_discounted-care_english.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_1",
+    "label": "Income-based discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If your gross household income is at or below 250% of the federal poverty level:"
+   },
+   {
+    "id": "rule_2",
+    "label": "Payment plan eligibility",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "You have the right to a payment plan based on your income."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": 4.0,
+   "max_months": 36,
+   "min_monthly_usd": null,
+   "quote": "Your monthly bill cannot be more than 4% of your monthly income."
+  },
+  "notes": [
+   "Policy mentions eligibility for public health coverage programs like Health First Colorado, CHP+, Emergency Medicaid, CICP, and hospital discounts for uninsured patients.",
+   "Policy states that insured patients must request eligibility screening for discounts and public coverage programs.",
+   "Policy includes appeal rights: 30 days from decision to file an appeal.",
+   "Policy allows complaints to be filed with hospital, provider, or Department of Health Care Policy and Financing.",
+   "rule_1 may leave out a condition: policy requires being uninsured or having insurance and requesting screening",
+   "rule_2 may leave out a condition: policy requires being uninsured or having insurance and requesting screening"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The hospital must check to see if you qualify within 45 days of when you received the service or ask to be screened.",
+    "why": "deadline is for hospital to check eligibility, not for patient to submit application"
+   }
+  ],
+  "clauses": 2,
+  "clauses_proven": 2,
+  "unsupported": 1
+ },
+ "cost_usd": 0.00225,
+ "made": "2026-10-28"
+}

@@ -1,0 +1,82 @@
+{
+ "model": {
+  "hospital": "Yuma District Hospital",
+  "doc": "policy",
+  "source_url": "https://yumahospital.org/wp-content/uploads/2025/06/Yuma_Website-Content-Doc_Batch_4_03.27.25.v1_discounted-care_english.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_low_income_discount",
+    "label": "Discounted care for households at or below 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If your gross household income is at or below 250% of the federal poverty level: o You may be able to get discounts on your health services."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy does not specify asset limits for eligibility.",
+   "Policy does not define underinsured status explicitly.",
+   "Policy does not restrict eligibility based on residency, service area, emergency status, or application to public programs.",
+   "Policy allows eligibility regardless of citizenship or immigration status.",
+   "Policy requires hospitals to screen for public health coverage and discount programs.",
+   "Policy states that providers' monthly bills cannot exceed 2% of monthly income, but this is not modeled in payment_plan as it applies to provider billing, not hospital payment plans.",
+   "Policy includes appeal rights (30 days from decision) and complaint processes, but these are not modeled as they pertain to enforcement, not eligibility or assistance terms."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "rule_payment_plan_based_on_income",
+    "quote": "If your gross household income is at or below 250% of the federal poverty level: ... You have the right to a payment plan based on your income."
+   },
+   {
+    "kind": "payment plan",
+    "id": "payment_plan",
+    "quote": "Your monthly bill cannot be more than 4% of your monthly income. ... Once you make 36 payments, or ... Pay the full amount due on your payment plan."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The hospital must check to see if you qualify within 45 days of when you received the service or ask to be screened.",
+    "why": "The 45-day deadline is for the hospital to check eligibility, not for the patient to submit an application."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_low_income_discount",
+    "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
+    "quote": "If your gross household income is at or below 250% of the federal poverty level: o You may be able to get discounts on your health services.",
+    "why": "Policy states patients may be able to get discounts but does not specify the amount of help."
+   }
+  ],
+  "clauses": 2,
+  "clauses_proven": 1,
+  "unsupported": 2
+ },
+ "cost_usd": 0.00159,
+ "made": "2026-10-28"
+}

@@ -1,0 +1,98 @@
+{
+ "model": {
+  "hospital": "Middle Park Health",
+  "doc": "policy",
+  "source_url": "https://middleparkhealth.org/wp-content/uploads/2025/07/CF.13.10.9%E2%80%93-Financial-Assistance-Policy.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "hdc_uninsured_underinsured",
+    "label": "Hospital Discounted Care for uninsured or underinsured patients at or below 250% FPL",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients who are at or below 250% of the Federal Poverty Guidelines (FPG) are eligible for Hospital Discounted Care."
+   },
+   {
+    "id": "internal_charity_outpatient",
+    "label": "Internal charity care for outpatient services based on income and family size",
+    "when": [
+     [
+      {
+       "var": "inpatient",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Eligibility shall be based solely on the total gross family income adjusted for family size and is only applicable to outpatient services."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Hospital Discounted Care payment plans cannot exceed 4% of gross monthly income for hospital bills and 2% for separate provider bills, with a maximum of 36 months.",
+   "Internal charity care requires exhaustion of third-party payment sources, may require Medicaid application, and has a 45-day deadline for financial information submission.",
+   "Charity approval affects accounts within 6 months of application date, with possible discretionary review beyond 6 months.",
+   "AccessOne offers 0% interest payment plans with no fees, combining bills into a single monthly payment.",
+   "Internal payment plans are available up to 12 months with a minimum $25 monthly payment.",
+   "hdc_uninsured_underinsured may leave out a condition: adds co_resident condition not in quote; policy requires Colorado residency for HDC"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "If financial information is not provided to support a completed application for charity assistance within 45 days, it will be considered denied.",
+    "why": "policy deadline is for providing financial info, not submitting application"
+   }
+  ],
+  "clauses": 2,
+  "clauses_proven": 2,
+  "unsupported": 1
+ },
+ "cost_usd": 0.0029,
+ "made": "2026-10-28"
+}

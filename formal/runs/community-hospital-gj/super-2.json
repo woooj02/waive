@@ -1,0 +1,161 @@
+{
+ "model": {
+  "hospital": "Community Hospital",
+  "doc": "policy",
+  "source_url": "https://communityhospital-corporate-cdn.codespeed.app/files/Financial+Assistance+Policy.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_fpl_100",
+    "label": "At or below 100% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 100.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at or below 100% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_fpl_100_150",
+    "label": "Over 100% and below 150% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 100.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 50.0,
+    "quote": "Patient whose family income is over 100% and below 150% of the FPL would be eligible for up to a 50% discount."
+   },
+   {
+    "id": "rule_catastrophic",
+    "label": "Catastrophic illness or medical indigence",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 150.0
+      }
+     ],
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients whose family income exceeds 150% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Community Hospital; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 240,
+     "quote": "Accounts turned to bad debt remain eligible for financial assistance consideration as long as the complete application and documentation are submitted prior to 240 days from the date of the initial account statement;"
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "service",
+     "days": 120,
+     "quote": "ECA\u2019s will not be initiated by Community Hospital or by an outside collection agency acting on behalf of Community Hospital until at least 120 days after the initial guarantor account statement has been mailed."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Eligibility requires being uninsured or underinsured and ineligible for any government health care program.",
+   "Elective procedures and flat rate procedures including but not limited to cosmetic, bariatric lithotripsy are not eligible.",
+   "Complications due to elective procedures will be considered on a case by case basis by the CEO, CMO, CFO, Hospital PFS Director or Business Office Manager.",
+   "The hospital reserves the right to exclude or limit non-urgent services from the FAP.",
+   "Financial assistance benefits are provided as a last resort. All other payment options including but not limited to private insurance, Medicare, Medicaid, CHP, liability, Crime Victims, CICP must be explored for eligibility and secured where eligible prior to the application of financial assistance.",
+   "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: homelessness, patient is deceased with no known estate.",
+   "Benefits under this program will not exceed twelve months.",
+   "Failure to provide the requested information in the time requested may result in a program denial.",
+   "Misrepresentation or falsification of information will be cause for the financial assistance to be withdrawn retroactively and currently.",
+   "The hospital reserves the right to reevaluate the recipient\u2019s eligibility if there is a change in income during this period.",
+   "The hospital reserves the right to re-evaluate eligibility when hospital care is required in order to determine the recipient\u2019s eligibility for other aid or third party coverage.",
+   "Relatives or guardians may apply for an incapacitated or deceased individual.",
+   "Gross personal and business income will be used to determine eligibility. Calculation of gross income will be consistent with the CICP program guidelines. Income for all members of the household and legally responsible parties not in the household will be considered in the determination of income levels.",
+   "As a minimum requirement, the patient must furnish a copy of last year\u2019s tax return, last three month\u2019s income, or a bank statement for proof of income, checking and savings account balances and investment account balances.",
+   "Accounts eligible for Charity Care are to be addressed within 240 days of first bill.",
+   "Requests for charity shall be processed promptly and Community Hospital shall notify the patient or applicant in writing within 30 days of receipt of a completed application.",
+   "An applicant denied under the program has the right to appeal that decision in writing with the Business Office Manager, within 30 days of the receipt of the denial.",
+   "Community Hospital will not engage in extraordinary collection actions before it makes a reasonable effort to determine whether a patient is eligible for financial assistance under this policy.",
+   "If our collection agency identifies a patient is meeting financial assistance eligibility criteria, the patient\u2019s account may be considered for financial assistance. Collection activity will be suspended on accounts, and the financial assistance application will be reviewed. If the entire account balance is adjusted, the account will be returned. If a partial adjustment occurs, the patient fails to cooperate with the financial assistance process, or if the patient is not eligible for financial assistance, collection activity will resume."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "Community Hospital appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require Colorado residency for every form of assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "Community Hospital appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require living in the hospital's service area for every form of assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_medically_necessary",
+    "claim": "Every form of assistance requires: (medically_necessary)",
+    "quote": "Community Hospital appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require medically necessary care for every form of assistance; eligibility extends to uninsured/underinsured regardless of care type."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 120 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "ECA\u2019s will not be initiated by Community Hospital or by an outside collection agency acting on behalf of Community Hospital until at least 120 days after the initial guarantor account statement has been mailed.",
+    "why": "120-day period refers to ECA initiation, not application submission deadline."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_catastrophic",
+    "claim": "A patient with (fpl_pct > 150) AND (presumptive_program) gets an unstated amount of help",
+    "quote": "Patients whose family income exceeds 150% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Community Hospital; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients.",
+    "why": "Policy states discounted rates not greater than AGB but does not specify exact amount of help."
+   }
+  ],
+  "clauses": 6,
+  "clauses_proven": 3,
+  "unsupported": 5
+ },
+ "cost_usd": 0.00511,
+ "made": "2026-10-28"
+}

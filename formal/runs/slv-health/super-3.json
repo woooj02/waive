@@ -1,0 +1,134 @@
+{
+ "model": {
+  "hospital": "San Luis Valley Health",
+  "doc": "policy",
+  "source_url": "https://www.sanluisvalleyhealth.org/documents/SLVH-Financial-Assistance-Policy-04.28.25.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_co_resident",
+    "label": "Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Residents of any state other than Colorado are not eligible for financial assistance without prior approval from the facility Chief Financial Officer."
+   },
+   {
+    "id": "req_emergency_or_medically_necessary",
+    "label": "Emergency or medically necessary care",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Exception: Financial assistance under this policy is not available for services that are not medically necessary as determined by the patient\u2019s treating provider."
+   }
+  ],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 181,
+     "quote": "Extraordinary Collection Activities ECAs will not be initiated earlier than 181 days after the first billing statement is sent to the individual."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": 36,
+   "min_monthly_usd": 50.0,
+   "quote": ">$5000 No more than 36 months"
+  },
+  "notes": [
+   "The policy references Hospital Discounted Care (HDC) which follows the State of Colorado's application and payment plan guidelines.",
+   "The policy states that SLV Health will provide a refund if payments exceed the approved financial assistance rate and established copayment.",
+   "The policy allows 15 days for processing of the application and 15 days to contact the patient with the determination in writing.",
+   "The policy requires cooperation with SLV Health to provide information and documentation necessary to determine eligibility.",
+   "The policy states that non-medically necessary services and procedures will not qualify for SLV Health's FAP.",
+   "The policy mentions that a third-party scoring tool will be used to justify FPL calculation.",
+   "The policy states that proof of physical address (at least 2 of the following: current month\u2019s utility, water, trash, or rent/mortgage) is required.",
+   "The policy requires income documentation for the last 90 days including tax returns, W-2, paycheck stubs, bank statements, signed attestation, or a notarized letter if no income documentation is available.",
+   "The policy states that SLV Health may utilize a third-party to conduct an electronic review of patient information to assess financial need for non-responsive patients.",
+   "The policy states that the notice of ECAs must be provided to the individual at least 30 days before the deadline specified in the notice.",
+   "The policy states that if an individual submits an incomplete FAA Form, SLV Health may suspend reporting to consumer credit reporting agencies and provide written notices.",
+   "The policy states that all payment plans should be at least $50 per month, and if less than $50 or longer than outlined, approval is needed from Facility Patient Access Director or Facility CFO/Controller.",
+   "The policy states that if an individual complies with the terms of their payment plan, no collection action will be taken.",
+   "The policy states that SLV Health maintains documentation supporting the offer, application for, and provision of financial assistance for a minimum period of seven years.",
+   "The policy states that the cost of financial assistance will be reported annually in the Community Benefit Report."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "This Policy applies to all SLV Health (SLV Health) licensed hospitals and provider-based practices listed in Addendum A (SLV Health Hospitals) and to the providers and practices listed in Addendum B (Covered Providers).",
+    "why": "Policy applies to licensed hospitals and listed providers, not restricted to service area."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_applied_public_programs",
+    "claim": "Every form of assistance requires: (applied_public_programs)",
+    "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+    "why": "Policy requires ineligibility for public programs, not application for them."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_fap_0_250",
+    "claim": "A patient with (fpl_pct <= 250) gets 100% off",
+    "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+    "why": "Quote is about ineligibility for public programs, not FAP discount eligibility."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_fap_251_400",
+    "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+    "why": "Quote is about ineligibility for public programs, not FAP discount eligibility."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_hdc",
+    "claim": "A patient with (fpl_pct > 400) gets an unstated amount of help",
+    "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+    "why": "Quote is about ineligibility for public programs, not HDC eligibility."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Individuals will be given 60 days to resubmit a completed form before extraordinary collection activities (ECA\u2019s) will occur.",
+    "why": "60-day period is for resubmitting incomplete forms, not initial application deadline."
+   }
+  ],
+  "clauses": 7,
+  "clauses_proven": 2,
+  "unsupported": 6
+ },
+ "cost_usd": 0.00404,
+ "made": "2026-10-28"
+}

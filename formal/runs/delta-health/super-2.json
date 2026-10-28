@@ -1,0 +1,154 @@
+{
+ "model": {
+  "hospital": "Delta Health",
+  "doc": "policy",
+  "source_url": "https://www.deltamem.org/getpage.php?name=fin_policy",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "sliding_scale_discount",
+    "label": "Sliding scale discounts based on income levels",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Financial assistance consideration is given for patients with incomes less than 200% of the Federal Poverty Guideline for their family size."
+   },
+   {
+    "id": "point_of_service_payment_discount_uninsured_underinsured",
+    "label": "Point of Service payment discounts for uninsured and underinsured",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Point of Service payment discounts for uninsured and underinsured"
+   },
+   {
+    "id": "self_pay_fee_schedule",
+    "label": "Self-pay fee schedule for uninsured patients not qualifying for program assistance",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "DMH has established a self-pay fee schedule to consistently discount uninsured patient bills. If a patient is uninsured and does not qualify for program assistance through DMH's financial assistance program, the patient will be registered as self-pay."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 240,
+     "quote": "Patients will be allowed to request financial assistance up to 240 days from the date of the patient's first statement, or any time during the collection process."
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": 45
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy mentions that patients will be required to execute a DMH Promissory Note at the time of service indicating a commitment to pay the balance of the fees after any third party payments and any discounts they are determined eligible are applied.",
+   "Applications must be filled out completely and returned to the Business Office Manager with all required income verifications and appropriate documentation.",
+   "Financial assistance adjustments will not apply unless all requested materials have been obtained within 90 days of office visit or date of payment from third party.",
+   "Approved applications are valid for the visit(s) in which they are applying and for three months following the approved application.",
+   "Patients should allow 7 business days for the review process.",
+   "Verified dually eligible Medicare and Medicaid patients qualify for indigent care without completing a financial assistance application.",
+   "Medicaid beneficiaries that acquire Medicaid under SLMB, Family Planning Services, and/or have exhausted days automatically qualify for indigent care without completing a financial assistance application.",
+   "Delta Memorial Hospital will provide, without discrimination, care for emergency medical conditions to individuals regardless of their eligibility for financial assistance or for government assistance.",
+   "Patients requiring emergent or urgent medical care and pregnant women in active labor shall be treated without regard to their ability to pay in accordance with EMTALA regulations.",
+   "The patient will be required to sign the document to be scanned into DMH's document imaging system for each encounter. This will document that the patient was made aware of the Financial Assistance Policy.",
+   "Patients, identified as needing financial assistance shall be encouraged to complete the financial assistance application.",
+   "Any patient of DMH, Delta Health Services, or River Valley Medicine (both rural health clinics owned and operated by DMH) has the right to apply for financial assistance regardless of where they live or their income status.",
+   "Fees for services at DMH will be discounted based on family size and the family's average gross monthly income for the period the financial assistance is requested. Federal Poverty Guidelines for Arkansas per the Federal Register will be the only criteria used for the application of this policy.",
+   "Patients with third party resources recoverable by DMH (i.e., Medicare, Medicaid, private insurance, etc.) may still be eligible for financial assistance on the balance the third party does not cover. Before an application is submitted, all other possible resources must be exhausted.",
+   "Income must be reported for all members of the applicant's household.",
+   "Income verification may include: Paycheck stub showing gross income earned by all members in household for the year the sliding scale fee is being applied for. If an individual cannot produce documentation verifying income, they will be allowed to bring a letter from their employer on company letterhead and signed by the employer stating their gross annual income. Unemployment check stub. Social Security check stub. Letter of award from Social Security, welfare, or the like. Copies of the previous year tax return for all wage-earning household members.",
+   "Patients should inform Business Office Manager of any new accounts during the three month time frame after approval to ensure all accounts have the discount applied.",
+   "Financial Assistance will be available based on best available information after all efforts to contact the patient and obtain financial information have been exhausted. The decision may be made during the collections process if efforts to collect information are exhausted at that time.",
+   "It is preferred, but not required, that a request for Financial Assistance and a determination of financial need happens before any pre-scheduled non-emergency medically necessary services. The need for Financial Assistance may be re-evaluated at a later time or when more information related to the eligibility of the patient for Financial Assistance becomes known.",
+   "It is the responsibility of DMH Registration/Business Office staff to give all necessary information and paperwork for Financial Assistance to all eligible patients. The Business Office Manager is responsible to ensure all necessary criteria are met, the allowance is given and the adjustment is processed. Adjustment approval threshold levels are identified on the Financial Assistance application worksheet. All documents pertaining to Financial Assistance are maintained by the Business Office Manager within the Business Office..",
+   "If a patient cannot make a substantial payment or commit to a payment plan to resolve their approved discounted medical bill, all elective and non-urgent hospital procedures and related services may be deferred.",
+   "Falsification of information, lying, or incomplete documentation from the patient or responsible party could result in a denial of Financial Assistance.",
+   "Having said all of the above, the amounts charged for emergency and necessary medical services to patients who are eligible for Financial Assistance under this Policy will not be more than the amount generally billed to individuals with insurance covering the same care.",
+   "Reasons for Denial: DMH may deny a request for financial assistance for a variety of reasons including, but not limited to: Sufficient income. Sufficient asset levels. Patient is uncooperative or unresponsive to efforts to work together. Requests for care when there is no identifiable means of obtaining long-term support (e.g., medication or implantable devices) needed to sustain the initial successful outcomes of care Incomplete Financial Assistance application despite reasonable efforts to work with the patient. A pending insurance or liability claim that could be a source of payment. Withholding insurance payment and/or insurance settlement funds, including insurance payments sent to the patient to cover services provided by DMH, and personal injury and/or accident related claims.",
+   "Notices will be posted in key areas, including Admissions and Emergency Department advising patients that DMH provides financial assistance. Such notices will contain instructions on how to obtain a free copy of the Financial Assistance Policy and application form.",
+   "Current and complete copies of the Financial Assistance Policy and application form will be available on DMH's website along with a plain language summary of the policy.",
+   "Plain language summary copies of this policy will be distributed to the local DHS office.",
+   "Written information regarding this Financial Assistance Policy will be provided to all patients who request the information, whether at admission or any other time.",
+   "DMH will ensure that front-line staff are able to answer questions regarding this Financial Assistance Policy effectively or direct such inquiries to the appropriate department.",
+   "Typically, patients will receive their first statement within 45 days of discharge from the facility.",
+   "The first three statements will include an overview of DMH's Financial Assistance Policy that will contain information about the program, contact information for DMH's financial assistance team, where to obtain a copy of this Financial Assistance Policy free of charge.",
+   "Uninsured patients will not be referred to DMH's collection agency for follow-up in less than 120 days from the date of the first statement.",
+   "DMH contracts with Trubridge and Mid-South Adjustment Company, Inc. for its patient and/or guarantor collection processes, to include pre-collection agency follow up and bad debt collection agency placement. DMH patient accounts are subject to the following ECAs: Placement with collection agency; Credit bureau agency reporting; Placing a lien on property; Attaching or seizing a bank account or other personal property; Commencing a civil action; and/or Garnishing wages",
+   "If during the course of collections follow-up, a patient or guarantor requests financial assistance or indicates that they are uninsured and cannot pay for their care, they will be referred to DMH's financial assistance team to be screened for potential financial assistance eligibility. If it is determined a patient may be eligible for assistance, collection activity will continue until the patient returns the appropriate application. Once the application is received, regardless of completeness, all further collection activity will be stopped pending a decision from the financial assistance team on assistance eligibility."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "amount removed",
+    "id": "rule:sliding_scale_discount",
+    "claim": "A patient with (fpl_pct < 200) gets an unstated amount of help",
+    "quote": "Financial assistance consideration is given for patients with incomes less than 200% of the Federal Poverty Guideline for their family size.",
+    "why": "Policy states consideration is given but does not specify discount amount."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:point_of_service_payment_discount_uninsured_underinsured",
+    "claim": "A patient with (not insured OR underinsured) AND (not insured) gets an unstated amount of help",
+    "quote": "Point of Service payment discounts for uninsured and underinsured",
+    "why": "Policy mentions discount but does not specify amount."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:self_pay_fee_schedule",
+    "claim": "A patient with (not insured) gets an unstated amount of help",
+    "quote": "DMH has established a self-pay fee schedule to consistently discount uninsured patient bills. If a patient is uninsured and does not qualify for program assistance through DMH's financial assistance program, the patient will be registered as self-pay.",
+    "why": "Policy states self-pay fee schedule discounts uninsured bills but does not specify discount amount."
+   }
+  ],
+  "clauses": 3,
+  "clauses_proven": 3,
+  "unsupported": 3
+ },
+ "cost_usd": 0.00409,
+ "made": "2026-10-28"
+}

@@ -1,0 +1,66 @@
+{
+ "model": {
+  "hospital": "St. Vincent Health",
+  "doc": "policy",
+  "source_url": "https://www.stvincent.health/financial-assistance-policy",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "sliding_fee_discount_program",
+    "label": "Sliding Fee Discount Program",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Sliding fees are specific to all individuals and families with annual incomes at or below 200 percent of the federal poverty line."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy requires exhaustion of alternative payment resources including all third-party payment from insurance(s), Federal and State programs.",
+   "Patients must complete the Sliding Fee Discount Program application in its entirety.",
+   "Providing false information results in revocation of discounts and restoration of full balance payable immediately.",
+   "If application cannot be processed due to need for additional information, applicant has two weeks from date of notification to supply information without application date adjustment; failure to do so results in re-dating application to date information supplied; accounts turned over for collection due to delay not considered for program.",
+   "Renewal applications required every 12 months or if financial situation changes; failure to meet annual requirement may result in loss of eligibility; delinquency triggers notice with 10 business days to submit required information or be terminated.",
+   "Discounts based on income and family size only.",
+   "Income includes earnings, unemployment compensation, workers' compensation, Social Security, Supplemental Security Income, public assistance, veterans' payments, survivor benefits, pension or retirement income, interest, dividends, rents, royalties, income from estates, trusts, educational assistance, alimony, child support, assistance from outside household, and other miscellaneous sources; noncash benefits such as food stamps and housing subsidies do not count.",
+   "Applicants must provide prior year W-2, two most recent bank statements, and two most recent pay stubs; self-employed individuals must submit detail of most recent three months of income and expenses for business.",
+   "Self-declaration of income may only be used in special circumstances such as homelessness; patients unable to provide written verification must provide signed statement of income and reason; self-declared patients responsible for 100% of charges until management determines appropriate category.",
+   "Sliding fee schedule updated during first quarter of every calendar year with latest federal poverty guidelines.",
+   "Determination provided in writing including percentage of write-off or reason for denial; if approved for less than 100% discount or denied, patient must immediately establish payment arrangements.",
+   "Applicant may reapply after 12 months have expired or any time there is significant change in family income; look back period is lesser of six months or expiration of last application.",
+   "If patient verbally expresses unwillingness to pay or vacates premises without paying, patient contacted in writing regarding payment obligations; if not on sliding fee schedule, copy of application sent with notice; if no effort to pay or no response within 60 days, constitutes refusal to pay and hospital may explore options including payment plan, waiving charges, or referring for collections.",
+   "Information related to decisions maintained in shared confidential file in business office to preserve dignity.",
+   "Policy covers all providers listed who deliver emergency or medically necessary care at St. Vincent Health.",
+   "sliding_fee_discount_program may leave out a condition: policy also requires exhaustion of alternative payment sources and completion of application"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 1,
+  "clauses_proven": 1,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00123,
+ "made": "2026-10-28"
+}

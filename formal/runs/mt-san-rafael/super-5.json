@@ -1,0 +1,113 @@
+{
+ "model": {
+  "hospital": "Mt. San Rafael Hospital",
+  "doc": "policy",
+  "source_url": "https://www.msrhc.org/docs/MSRH_Charity_Care_Policy_2014_revised_2022_v2.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "r_financially_indigent",
+    "label": "Financially Indigent",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients may only be granted classification as Financially Indigent if their yearly income as set forth on the Financial Assistance Application is less than or equal to 250% of the poverty guidelines updated annually in the Federal Register by the U.S. Department of Health and Human Services."
+   },
+   {
+    "id": "r_medically_indigent_i",
+    "label": "Medically Indigent (Income \u2264500% FPL)",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 10.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 500.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "To be considered for classification as a Medically Indigent patient, the amount owed by the patient after payment by all third-party payers must exceed ten percent (10%) of the patient\u2019s income and the patient must be unable to pay the remaining bill."
+   },
+   {
+    "id": "r_medically_indigent_ii",
+    "label": "Medically Indigent (Catastrophic, Income >500% FPL)",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 50.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 500.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "The patient\u2019s remaining bill must be greater than 50% of the patient\u2019s income, and the patient\u2019s income must be greater than 500% of the Federal Poverty Guidelines."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Applications remain on file for 365 days.",
+   "For minors, household includes patient, mother, father, and their dependents.",
+   "Income verification may include public benefit program participation, written/verbal attestation, or documentation efforts for deminimus accounts (<=$500).",
+   "Expired patients may be deemed to have no income; income documentation not required.",
+   "If patient qualifies for other charity programs (CICP or Hospital Discount Care Program), this application will not be considered for additional discounts or balance adjustments.",
+   "r_medically_indigent_i may leave out a condition: also requires inability to pay remaining bill",
+   "r_medically_indigent_ii may leave out a condition: also requires inability to pay remaining bill"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 3,
+  "clauses_proven": 3,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00271,
+ "made": "2026-10-28"
+}

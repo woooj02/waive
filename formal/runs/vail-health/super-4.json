@@ -1,0 +1,238 @@
+{
+ "model": {
+  "hospital": "Vail Health Hospital",
+  "doc": "summary",
+  "source_url": "https://www.vailhealth.org/wp-content/uploads/2026/05/04.23_vh_fa-policy-summary_english_final.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_co_resident",
+    "label": "Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Financial assistance is available for emergent or medically necessary care to all individuals who reside in Colorado and have established care with Vail Health."
+   },
+   {
+    "id": "req_emergent_or_medically_necessary",
+    "label": "Emergent or medically necessary care",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Financial assistance is available for emergent or medically necessary care to all individuals who reside in Colorado and have established care with Vail Health."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_uninsured_eligibility",
+    "label": "Uninsured Eligibility",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 550.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Eligibility for all uninsured patients will be is based on meeting residency and income requirements."
+   },
+   {
+    "id": "rule_presumptive_eligibility",
+    "label": "Presumptive Eligibility",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Eligibility in state or federally funded programs. Examples include housing assistance, food stamps and the Women, Infants & Children program (WIC)."
+   },
+   {
+    "id": "rule_fap_discount_tier_1",
+    "label": "Financial Assistance Discount Tier 1 (<=250% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients eligible for financial assistance at less than 250% of Federal Poverty Level (FPL) will not be charged more than the amount collected from Vail Health\u2019s lowest commercial contracted payer."
+   },
+   {
+    "id": "rule_fap_discount_tier_2",
+    "label": "Financial Assistance Discount Tier 2 (251%-350% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 350.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "FPL    Discount\n</= 250%  100%\n251% \u2013 350%  80%\n351% \u2013 450%  60%\n451% \u2013 550%  50%"
+   },
+   {
+    "id": "rule_fap_discount_tier_3",
+    "label": "Financial Assistance Discount Tier 3 (351%-450% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 351.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 450.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "FPL    Discount\n</= 250%  100%\n251% \u2013 350%  80%\n351% \u2013 450%  60%\n451% \u2013 550%  50%"
+   },
+   {
+    "id": "rule_fap_discount_tier_4",
+    "label": "Financial Assistance Discount Tier 4 (451%-550% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 451.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 550.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "FPL    Discount\n</= 250%  100%\n251% \u2013 350%  80%\n351% \u2013 450%  60%\n451% \u2013 550%  50%"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Services conducted by a different medical provider other than Vail Health (even if performed in a Vail Health facility) fall outside of the policy scope and are not eligible for Vail Health financial assistance. Examples include Vail Valley Surgery Center, The Steadman Clinic, Vail-Summit Orthopedics & Neurosurgery, Anesthesia Partners Colorado (APC, Cardinal Pathology, Critical Care & Pulmonary Consults, Obstetrics/Pediatrics (Neonatal Nursey)-only services performed at Vail Health Hospital, excluding CMM providers. Services provided at the Vail Valley Surgery Center, Dillon Surgery Center and Steadman Philippon Surgery Center.",
+   "Patients eligible for Colorado\u2019s Hospital Discounted Care will receive letters within 14 days of the receipt of the completed application",
+   "Once a patient has been approved for financial assistance or Hospital Discounted Care, the patient will be deemed to have approval for financial assistance towards services rendered by Vail Health for 12 months subsequent to approval.",
+   "If a patient is granted financial assistance on a portion of the bill and the patient subsequently does not pay his/her remaining portion of the bill, Vail Health will not reverse the amount of financial assistance granted.",
+   "rule_uninsured_eligibility may leave out a condition: Missing residency requirement (must reside in Colorado).",
+   "rule_presumptive_eligibility may leave out a condition: Missing residency requirement (must reside in Colorado)."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "The Vail Health financial assistance program is only applicable for Vail Health medical bills. Services conducted by a different medical provider other than Vail Health (even if performed in a Vail Health facility) fall outside of the policy scope and are not eligible for Vail Health financial assistance.",
+    "why": "Policy restricts assistance to Vail Health medical bills, not service area residency."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "If a financial assistance application is received within 240 days of Vail Health\u2019s initial billing for a service and is deemed incomplete...",
+    "why": "240-day period is for receiving incomplete applications, not for submitting applications."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_fap_discount_tier_1",
+    "claim": "A patient with (fpl_pct <= 250) gets 100% off",
+    "quote": "Patients eligible for financial assistance at less than 250% of Federal Poverty Level (FPL) will not be charged more than the amount collected from Vail Health\u2019s lowest commercial contracted payer.",
+    "why": "Policy limits charges to lowest commercial payer amount, not stating 100% discount."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_fap_discount_tier_2",
+    "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 350) gets 80% off",
+    "quote": "FPL    Discount\n</= 250%  100%\n251% \u2013 350%  80%\n351% \u2013 450%  60%\n451% \u2013 550%  50%",
+    "why": "Policy states 80% discount tier but actual help is limited to lowest commercial payer amount."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_fap_discount_tier_3",
+    "claim": "A patient with (fpl_pct >= 351) AND (fpl_pct <= 450) gets 60% off",
+    "quote": "FPL    Discount\n</= 250%  100%\n251% \u2013 350%  80%\n351% \u2013 450%  60%\n451% \u2013 550%  50%",
+    "why": "Policy states 60% discount tier but actual help is limited to lowest commercial payer amount."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_fap_discount_tier_4",
+    "claim": "A patient with (fpl_pct >= 451) AND (fpl_pct <= 550) gets 50% off",
+    "quote": "FPL    Discount\n</= 250%  100%\n251% \u2013 350%  80%\n351% \u2013 450%  60%\n451% \u2013 550%  50%",
+    "why": "Policy states 50% discount tier but actual help is limited to lowest commercial payer amount."
+   }
+  ],
+  "clauses": 9,
+  "clauses_proven": 8,
+  "unsupported": 6
+ },
+ "cost_usd": 0.00305,
+ "made": "2026-10-28"
+}

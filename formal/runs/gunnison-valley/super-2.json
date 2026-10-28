@@ -1,0 +1,158 @@
+{
+ "model": {
+  "hospital": "Gunnison Valley Health",
+  "doc": "policy",
+  "source_url": "https://www.gunnisonvalleyhealth.org/documents/content/Financial-Assistance-Policy-2023[100].pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_co_resident",
+    "label": "Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "GVH and FMC provide financial assistance to Gunnison, Hinsdale and Saguache County Residents."
+   },
+   {
+    "id": "req_in_service_area",
+    "label": "In service area",
+    "cond": [
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "GVH and FMC provide financial assistance to Gunnison, Hinsdale and Saguache County Residents."
+   },
+   {
+    "id": "req_emergency_or_medically_necessary",
+    "label": "Emergency or medically necessary care",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "You may be eligible for financial assistance for emergencies or medically necessary healthcare services..."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_fap_251_400",
+    "label": "FAP 251-400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "You may be eligible for financial assistance for emergencies or medically necessary healthcare services, if your family income is at or below 400 percent of the federal poverty guidelines..."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "Reasonable Payment Plan: A payment plan that is negotiated between GVH and FMC and the guarantor for any balances owed. The payment plan shall consider the patient, or guarantor's income and assets, the amount owed and any prior payments."
+  },
+  "notes": [
+   "Presumptive eligibility includes: homelessness, deceased with no estate, Medicaid eligible but not active for date of service (90-day lookback), mental incapacitation, eligible for out-of-state Medicaid but hospital does not participate in that state's Medicaid program.",
+   "Non-covered services: cosmetic surgery, ophthalmology, integrative therapies, oncology.",
+   "Duration of eligibility: Once approved for financial assistance, eligibility is valid for 6 months from the application date. After 6 months, you must reapply for the FAP and resubmit all supporting documents.",
+   "AGB percentage: Gunnison Valley Health's AGB percentage is 71% of gross charges for inpatient and outpatient services.",
+   "Discount scale: See Exhibit A for discount percentages based on FPL and family size (ranging from 0% to 90%).",
+   "Application must be completed within 14 days of request per application instructions.",
+   "If patient refuses to cooperate in applying for public programs, may be denied financial assistance.",
+   "Financial assistance may be provided in other circumstances on a case-by-case basis as determined by the Revenue Cycle Director and CFO at their discretion.",
+   "req_in_service_area may leave out a condition: policy limits assistance to residents of three specific counties, not the entire hospital service area"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "rule_medical_hardship",
+    "quote": "Patient, or patient\u2019s guarantor, has annual family income in excess of 400% of the Federal Poverty Guidelines, but less than $200,000, and ... The out-of-pocket, patient obligations resulting from medical services provided by GVH and FMC providers exceed 20% of annual family income."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_exhaust_other_options",
+    "claim": "Every form of assistance requires: (applied_public_programs)",
+    "quote": "The FAP will provide benefits as a last resort. All other payment options, including but not limited to private insurance, Medicare, Medicaid, CHP, third party Liability, and CICP must be explored for eligibility and secured where eligible prior to the application for financial assistance.",
+    "why": "policy requires exploring and securing other options where eligible, not applying for public programs"
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_fap_0_250",
+    "claim": "A patient with (fpl_pct <= 250) gets 100% off",
+    "quote": "Gunnison Valley, Hinsdale and Saguache Residents who are at or below 250% FPL will be required to apply for The Colorado Indigent Care Program (CICP)...",
+    "why": "policy states patients at/below 250% FPL must apply for CICP, not that they get 100% off under FAP"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Eligible accounts include Gunnison Valley Hospital and Family Medicine Clinic (GVH & FMC) accounts with remaining balances. Accounts turning to bad debt will be considered as long as the complete application and supporting documentation are submitted prior to 180 days from the date of the initial account statement.",
+    "why": "deadline is from initial account statement, not first post-discharge bill"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Eligible accounts include Gunnison Valley Hospital and Family Medicine Clinic (GVH & FMC) accounts with remaining balances. Accounts turning to bad debt will be considered as long as the complete application and supporting documentation are submitted prior to 180 days from the date of the initial account statement.",
+    "why": "deadline is from initial account statement, not date of service"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_fap_251_400",
+    "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "You may be eligible for financial assistance for emergencies or medically necessary healthcare services, if your family income is at or below 400 percent of the federal poverty guidelines...",
+    "why": "policy does not specify discount amount for 251-400% FPL range"
+   }
+  ],
+  "clauses": 7,
+  "clauses_proven": 4,
+  "unsupported": 5
+ },
+ "cost_usd": 0.00802,
+ "made": "2026-10-28"
+}

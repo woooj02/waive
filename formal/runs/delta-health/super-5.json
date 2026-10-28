@@ -1,0 +1,135 @@
+{
+ "model": {
+  "hospital": "Delta Health",
+  "doc": "policy",
+  "source_url": "https://www.deltamem.org/getpage.php?name=fin_policy",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "sliding_scale_discount",
+    "label": "Sliding scale discounts based on income levels",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Financial assistance consideration is given for patients with incomes less than 200% of the Federal Poverty Guideline for their family size."
+   },
+   {
+    "id": "point_of_service_discount_uninsured_underinsured",
+    "label": "Point of Service payment discounts for uninsured and underinsured",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Point of Service payment discounts for uninsured and underinsured"
+   },
+   {
+    "id": "self_pay_fee_schedule",
+    "label": "Self-pay fee schedule for uninsured patients not qualifying for financial assistance",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "DMH has established a self-pay fee schedule to consistently discount uninsured patient bills."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 240,
+     "quote": "Patients will be allowed to request financial assistance up to 240 days from the date of the patient's first statement, or any time during the collection process."
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": 45
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Verified dually eligible Medicare and Medicaid patients qualify for indigent care without completing a financial assistance application.",
+   "Medicaid beneficiaries that acquire Medicaid under SLMB, Family Planning Services, and/or have exhausted days automatically qualify for indigent care without completing a financial assistance application.",
+   "Delta Memorial Hospital will provide, without discrimination, care for emergency medical conditions to individuals regardless of their eligibility for financial assistance or for government assistance.",
+   "Patients will be required to execute a DMH Promissory Note at the time of service indicating a commitment to pay the balance of the fees after any third party payments and any discounts they are determined eligible are applied.",
+   "Approved applications are valid for the visit(s) in which they are applying and for three months following the approved application.",
+   "Patients should allow 7 business days for the review process.",
+   "The Financial Assistance decision will be valid and useable for the accounts listed at the time of application and for three (3) months after approval.",
+   "It is preferred, but not required, that a request for Financial Assistance and a determination of financial need happens before any pre-scheduled non-emergency medically necessary services.",
+   "If a patient cannot make a substantial payment or commit to a payment plan to resolve their approved discounted medical bill, all elective and non-urgent hospital procedures and related services may be deferred.",
+   "Falsification of information, lying, or incomplete documentation from the patient or responsible party could result in a denial of Financial Assistance.",
+   "Having said all of the above, the amounts charged for emergency and necessary medical services to patients who are eligible for Financial Assistance under this Policy will not be more than the amount generally billed to individuals with insurance covering the same care.",
+   "Typically, patients will receive their first statement within 45 days of discharge from the facility.",
+   "The first three statements will include an overview of DMH's Financial Assistance Policy that will contain information about the program, contact information for DMH's financial assistance team, where to obtain a copy of this Financial Assistance Policy free of charge.",
+   "Uninsured patients will not be referred to DMH's collection agency for follow-up in less than 120 days from the date of the first statement.",
+   "DMH contracts with Trubridge and Mid-South Adjustment Company, Inc. for its patient and/or guarantor collection processes, to include pre-collection agency follow up and bad debt collection agency placement."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "amount removed",
+    "id": "rule:sliding_scale_discount",
+    "claim": "A patient with (fpl_pct < 200) gets an unstated amount of help",
+    "quote": "Financial assistance consideration is given for patients with incomes less than 200% of the Federal Poverty Guideline for their family size.",
+    "why": "Policy states consideration is given but does not specify discount amount."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:point_of_service_discount_uninsured_underinsured",
+    "claim": "A patient with (not insured OR underinsured) AND (not insured) gets an unstated amount of help",
+    "quote": "Point of Service payment discounts for uninsured and underinsured",
+    "why": "Policy mentions discount but does not specify amount."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:self_pay_fee_schedule",
+    "claim": "A patient with (not insured) gets an unstated amount of help",
+    "quote": "DMH has established a self-pay fee schedule to consistently discount uninsured patient bills.",
+    "why": "Policy establishes schedule but does not state discount amount."
+   }
+  ],
+  "clauses": 3,
+  "clauses_proven": 3,
+  "unsupported": 3
+ },
+ "cost_usd": 0.00309,
+ "made": "2026-10-28"
+}

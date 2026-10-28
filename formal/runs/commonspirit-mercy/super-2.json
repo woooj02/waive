@@ -1,0 +1,40 @@
+{
+ "model": {
+  "hospital": "CommonSpirit Mercy Hospital",
+  "doc": "policy",
+  "source_url": "https://www.mountain.commonspirit.org/location/mercy-hospital",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "After reviewing the entire provided text, no financial assistance policy details (such as eligibility criteria, discount amounts, application timing, or payment plan terms) were found. The text describes hospital services, history, leadership, volunteer information, and community programs, but contains no patient financial assistance or charity care policy."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "no rules: the model grants help to nobody"
+  ],
+  "repaired": true,
+  "lint_after": [
+   "no rules: the model grants help to nobody"
+  ],
+  "dropped": [],
+  "clauses": 0,
+  "clauses_proven": 0,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00366,
+ "made": "2026-10-28"
+}

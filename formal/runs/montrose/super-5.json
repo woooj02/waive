@@ -1,0 +1,66 @@
+{
+ "model": {
+  "hospital": "Montrose Regional Health",
+  "doc": "summary",
+  "source_url": "https://montrosehealth.com/wp-content/uploads/2021/11/Plain-Language-Summary-of-Charity-Care-and-Financial-Assistance-Policy_Final-MRH-1.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "sliding_scale_fap",
+    "label": "Sliding Scale Financial Assistance Program",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Financial assistance is generally determined by a sliding scale of total household income based on Federal Poverty Guidelines."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy mentions service exclusions not typically eligible for financial assistance, including transplants, cosmetic services and other services.",
+   "Policy states that no person eligible for financial assistance will be charged more for medically necessary care than amounts generally billed to individuals who have insurance covering such care (AGB).",
+   "Policy indicates that if an individual has sufficient insurance coverage or assets available to pay for care, they may be deemed ineligible for financial assistance.",
+   "sliding_scale_fap may leave out a condition: Policy requires Colorado residency and being in the hospital's service area for all assistance."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 1,
+  "clauses_proven": 1,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00127,
+ "made": "2026-10-28"
+}

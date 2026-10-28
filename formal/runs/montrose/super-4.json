@@ -1,0 +1,61 @@
+{
+ "model": {
+  "hospital": "Montrose Regional Health",
+  "doc": "summary",
+  "source_url": "https://montrosehealth.com/wp-content/uploads/2021/11/Plain-Language-Summary-of-Charity-Care-and-Financial-Assistance-Policy_Final-MRH-1.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "sliding_scale_fap",
+    "label": "Sliding Scale Financial Assistance Program",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "You may be able to get financial assistance if you do not have insurance, are underinsured, or if it would be a financial hardship to pay in full the expected out of pocket expenses for services at Montrose Regional Health."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy references a sliding scale based on Federal Poverty Guidelines and household size/income but does not specify exact percentages or categories in the summary text.",
+   "Policy mentions AGB (amounts generally billed) protection: no person eligible for financial assistance will be charged more for medically necessary care than AGB.",
+   "Policy lists service exclusions not typically eligible for financial assistance, including transplants, cosmetic services, and other services.",
+   "Policy states financial assistance applications must be submitted to the Business Office but does not specify a time limit for applying.",
+   "Policy does not specify any timing for application submission, ECA restrictions, or first statement timing.",
+   "sliding_scale_fap may leave out a condition: policy requires meeting sliding scale based on household income per FPL guidelines"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 1,
+  "clauses_proven": 1,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00131,
+ "made": "2026-10-28"
+}

@@ -1,0 +1,121 @@
+{
+ "model": {
+  "hospital": "San Luis Valley Health",
+  "doc": "policy",
+  "source_url": "https://www.sanluisvalleyhealth.org/documents/SLVH-Financial-Assistance-Policy-04.28.25.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_colorado_residency",
+    "label": "Colorado residency required",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Residents of any state other than Colorado are not eligible for financial assistance without prior approval from the facility Chief Financial Officer."
+   }
+  ],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 181,
+     "quote": "Extraordinary Collection Activities ECAs will not be initiated earlier than 181 days after the first billing statement is sent to the individual."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": 50.0,
+   "quote": "All payment plans should be at least $50 per month."
+  },
+  "notes": [
+   "Eligibility requires ineligibility for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+   "Medicaid patients who receive non-covered medically necessary services will be considered for financial assistance.",
+   "Insurance programs leaving a patient balance may be eligible for SLV Health financial assistance if the patient meets financial screening requirements.",
+   "Non-medically necessary services and procedures will not qualify for SLV Health's FAP.",
+   "Residents of countries outside the United States of America are not eligible for financial assistance without prior approval from the facility Chief Financial Officer.",
+   "When determining an individual\u2019s income, household size and income include all members of the immediate family and other dependents in the household as defined in the policy.",
+   "Proof of Physical address (at least 2 of the following: current month\u2019s utility, water, trash, or rent/mortgage) is required.",
+   "Income documentation for the last 90 days is required.",
+   "SLV Health may utilize a third-party to conduct an electronic review of patient information to assess financial need for non-responsive patients.",
+   "The notice of ECAs must be provided to the individual at least 30 days before the deadline specified in the notice.",
+   "If an individual submits an incomplete FAA Form, SLV Health may suspend reporting to consumer credit reporting agencies and provide notices with deadlines not earlier than the last day of the application period or 30 days after the written notice.",
+   "Payment plan duration is based on account balance: < $500 no more than 10 months; $500 - $750 no more than 12 months; $751-$1999 no more than 18 months; $2000-$4999 no more than 24 months; >$5000 no more than 36 months.",
+   "SLV Health will allow 15 days for processing of the application and 15 days to contact the patient with the determination in writing.",
+   "SLV Health will annually review and incorporate federal poverty guidelines for updates published by the United States Department of Health and Human Services.",
+   "SLV Health provides patients with options for payment arrangements.",
+   "SLV Health will provide a refund to a patient if payments have been made more than the approved financial assistance rate and established copayment.",
+   "SLV Health workforce members in Revenue Cycle and the hospital Patient Access areas understand the SLV Health FAP and can direct questions regarding the policy to the proper hospital representatives.",
+   "SLV Health will make financial assistance eligibility determinations and the process of applying for financial assistance equitable, consistent, and timely.",
+   "An individual who qualifies for HDC must cooperate with the hospital to establish a payment plan as determined by the State of Colorado on their Hospital Discounted Care application and must make good faith efforts to honor the payment plans for their discounted hospital bills.",
+   "Individual is responsible to promptly notify SLV Health of any change in financial situation so that the impact of this change may be evaluated against the FAP, their discounted hospital bills, or provisions of payment plans.",
+   "Previous patient payments will be applied to the patient\u2019s responsibility.",
+   "Each facility retains the right to require a patient to re-apply if new income level information becomes available and could change the charity status. Patients may also request to reapply if their income level reduces significantly, or their family status changes."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "req_no_ecs_before_181_days_after_first_statement: has no conditions; remove it or give its conditions"
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "rule_fap_0_to_200_fpl_free",
+    "quote": "Patients with income at or below 200% of the Federal Poverty Level (FPL) will receive free care."
+   },
+   {
+    "kind": "rule",
+    "id": "rule_fap_201_to_250_fpl_75_discount",
+    "quote": "Patients with income between 201% and 250% of the FPL will receive a 75% discount."
+   },
+   {
+    "kind": "rule",
+    "id": "rule_fap_251_to_300_fpl_50_discount",
+    "quote": "Patients with income between 251% and 300% of the FPL will receive a 50% discount."
+   },
+   {
+    "kind": "rule",
+    "id": "rule_fap_301_to_350_fpl_25_discount",
+    "quote": "Patients with income between 301% and 350% of the FPL will receive a 25% discount."
+   },
+   {
+    "kind": "rule",
+    "id": "rule_fap_351_to_400_fpl_10_discount",
+    "quote": "Patients with income between 351% and 400% of the FPL will receive a 10% discount."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_emergency_or_medically_necessary_care",
+    "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+    "quote": "SLV Health is dedicated to ensuring that emergency and other medically necessary care is accessible to all patients, regardless of ability to pay, ability to qualify for financial assistance, or the availability of third-party coverage.",
+    "why": "Policy restricts assistance to emergency or medically necessary care, but does not require it for every form of assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 60 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Individuals will be given 60 days to resubmit a completed form before extraordinary collection activities (ECA\u2019s) will occur.",
+    "why": "The 60-day deadline is for resubmitting an incomplete form, not for initial application submission."
+   }
+  ],
+  "clauses": 7,
+  "clauses_proven": 1,
+  "unsupported": 2
+ },
+ "cost_usd": 0.00693,
+ "made": "2026-10-28"
+}

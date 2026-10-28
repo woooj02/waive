@@ -1,0 +1,183 @@
+{
+ "model": {
+  "hospital": "Aspen Valley Health",
+  "doc": "policy",
+  "source_url": "https://vrh.org/wp-content/uploads/2025/08/Financial-Assistance-Guidelines-2025-published.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_100_percent",
+    "label": "100% Financial Assistance",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 225.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "To be eligible for 100% approval for the Valley Regional Hospital Financial Assistance Program, family income must be less than or equal to 225% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_75_percent",
+    "label": "75% Financial Assistance",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 226.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 75.0,
+    "quote": "To be eligible for 75% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 226%-250% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_50_percent",
+    "label": "50% Financial Assistance",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 275.0
+      }
+     ]
+    ],
+    "discount_pct": 50.0,
+    "quote": "To be eligible for 50% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 251%-275% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_25_percent",
+    "label": "25% Financial Assistance",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 276.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 25.0,
+    "quote": "To be eligible for 25% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 276%-300% of the Federal Poverty Income Guidelines."
+   },
+   {
+    "id": "rule_uninsured_discount",
+    "label": "Uninsured Discount",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "For fiscal year FY25-10/1/24-9/30/25 the discount determined as above it 45%."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Presumptive eligibility may be granted based on participation in state-funded prescription programs, homelessness, WIC, food stamp eligibility, subsidized school lunch, eligibility for other state or local assistance programs, participation in other state Medicaid programs where the hospital is not a participating provider, dates of service prior to Medicaid coverage or untimely filing due to non-disclosure, low income/subsidized housing as a valid address, or patient deceased with no known estate. Presumptive eligibility results in a 100% write-off.",
+   "Applications must be verified and applicants must cooperate; falsification or refusal to cooperate results in denial.",
+   "Financial assistance is extended past expiration date to include hospital stays that begin while covered under the program.",
+   "Patients receiving financial assistance must reapply at 6-month intervals; those on fixed incomes such as social security must reapply annually.",
+   "Appeals must be made in writing within 30 days of denial to the Director of Revenue Cycle; final decision within 30 days of receipt.",
+   "The hospital will not impose extraordinary collection actions without first making reasonable efforts to determine financial assistance eligibility.",
+   "All insurance payments and contractual adjustments are taken prior to financial assistance adjustment.",
+   "Uninsured patients, including those who qualify for financial assistance, may not be charged more than the amount generally billed to insured patients for the same care.",
+   "The uninsured discount is applied based on the 'Look Back' method under Section 501(r) regulations, prior to billing and prior to financial assistance adjustments, and does not apply to copayments, coinsurance, deductibles, pre-payment, package services, or non-covered services.",
+   "Refunds are provided if a patient pays an outstanding balance and subsequently submits an approved financial assistance application.",
+   "Information about the policy is made available via the website, posted in patient care areas, other public spaces, on the back of patient statements, and in primary languages spoken by the population served.",
+   "Referrals for financial assistance may be made by any VRH staff member or agent, or by the patient or family member, close friend, or associate, subject to privacy laws.",
+   "Exhibit A lists excluded services: elective cosmetic procedures, hearing aids and repairs, DOT examinations, sports physicals, gait analysis, dry needling.",
+   "Exhibit B defines the Credit and Collections Policy, including extraordinary collection actions and reasonable efforts to determine eligibility.",
+   "Exhibit C lists providers accepting VRH financial assistance: all employed providers of VRH and VRH-owned physician clinics, Dartmouth Hitchcock (upon request), Medstream Anesthesia LLC, BlueWater Emergency Partners. Independent provider groups not listed do not accept VRH financial assistance.",
+   "The hospital will share an applicant's application and supporting documentation with any hospital the applicant requests upon request."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "Patient must be a resident of New Hampshire or Vermont, except instances where presumptive charity guidelines are used.",
+    "why": "Residency requirement is limited to NH/VT, not Colorado."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_emergency_or_medically_necessary",
+    "claim": "Every form of assistance requires: (medically_necessary)",
+    "quote": "This policy outlines the following with respect to all emergency or other medically necessary care provided by Valley Regional Hospital and Valley Regional owned physician clinics:",
+    "why": "Policy applies to emergency/medically necessary care but does not require it for all assistance (e.g., preventative care eligible)."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_uninsured_or_underinsured",
+    "claim": "Every form of assistance requires: (not insured OR underinsured)",
+    "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care benefit program, and who are unable to pay for their care, based upon a determination of financial need in accordance with this Policy.",
+    "why": "Eligibility considers uninsured/underinsured but does not require it for all assistance (presumptive eligibility may apply regardless)."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 10 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The applicant must return applications to Valley Regional Hospital within ten -(10) days of receipt.",
+    "why": "10-day deadline is for returning application after receipt, not from date of service."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_uninsured_discount",
+    "claim": "A patient with (not insured) gets 45% off",
+    "quote": "For fiscal year FY25-10/1/24-9/30/25 the discount determined as above it 45%.",
+    "why": "45% discount applies to uninsured patients prior to financial assistance adjustment, not as standalone financial assistance."
+   }
+  ],
+  "clauses": 8,
+  "clauses_proven": 5,
+  "unsupported": 5
+ },
+ "cost_usd": 0.00447,
+ "made": "2026-10-28"
+}

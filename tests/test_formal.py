@@ -190,3 +190,19 @@ def test_confirmation_is_per_finding():
     covering = ref.model_copy(deep=True)
     covering.rules.append(Rule(id="all", label="everyone", when=[[Atom(var="fpl_pct", op=">=", value=0)]]))
     assert replay(f, covering) is False    # a model that covers this household doesn't confirm it
+
+
+def test_confirmation_needs_most_super_models(monkeypatch):
+    """One Super run is noisy: a counterexample is confirmed only when most of the Super models fail the same case."""
+    import app.auditing as au
+    ref = load("uchealth")
+    covering = ref.model_copy(deep=True)
+    covering.rules.append(Rule(id="all", label="everyone", when=[[Atom(var="fpl_pct", op=">=", value=0)]]))
+    monkeypatch.setattr(au, "dropped_rules", lambda pid: 0)
+    monkeypatch.setattr(au, "REVIEWS", [])
+    for agree, want in ((2, "disputed"), (3, "confirmed")):
+        others = [ref] * agree + [covering] * (5 - agree)
+        monkeypatch.setattr(au, "second_models", lambda pid, o=others: o)
+        f = next(x for x in au.audit_document("uchealth", ref, "nemotron")
+                 if x["check"] == "co_hdc_coverage" and x["status"] == "counterexample")
+        assert f["votes"] == {"agree": agree, "of": 5} and f["confidence"] == want

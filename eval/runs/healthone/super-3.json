@@ -1,0 +1,128 @@
+{
+ "model": {
+  "hospital": "HCA HealthONE",
+  "doc": "policy",
+  "source_url": "https://www.healthonecares.com/patient-resources/patient-financial-resources/financial-assistance",
+  "nonprofit": false,
+  "requires": [],
+  "rules": [
+   {
+    "id": "r1",
+    "label": "Full charity discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed."
+   },
+   {
+    "id": "r2",
+    "label": "Expanded financial assistance",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe."
+   },
+   {
+    "id": "r3",
+    "label": "Uninsured discount",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures , will receive discount similar to managed care, referred to as an \"uninsured discount\"."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": 36,
+   "min_monthly_usd": null,
+   "quote": "You do not owe any more money after: You make 36 monthly payments, or You pay the full discounted amount in your payment plan."
+  },
+  "notes": [
+   "The policy mentions that some locations may have identified additional criteria for charity eligibility besides the Federal Poverty Levels (i.e., high medical costs, more lenient income levels, etc.).",
+   "Medicare accounts and all non-Medicare inpatient accounts require supporting income verification documentation.",
+   "For Medicare beneficiaries, preferred income documentation is the most current year's Federal Tax Return; alternatives include State Income Tax Return, recent pay stubs, written documentation from income sources, bank statements for the last three months, or current credit report.",
+   "The Uninsured Discount is limited to patients who have no third party payer source of payment or do not qualify for Medicaid, Charity or any other discount program the facility offers.",
+   "Amount of the uninsured discount may vary by location based on state requirements, patient income levels, and local rates.",
+   "At the time of service, patients will be asked to make payment in full or establish monthly payment arrangements on the patient liability amount.",
+   "Patients confirmed to be uninsured will be presented with an Uninsured Patient Information document outlining the Uninsured Discount Policy and other available discounts and payment options.",
+   "If a patient is determined to be eligible for assistance, they have the option to enter into an appropriate payment plan and may request to renegotiate such plan, including opportunity for a new financial assessment.",
+   "Appeals: After application, hospital must tell patient if they qualify within 21 days; appeal must be filed within 30 days of the date the hospital gave their determination.",
+   "If a patient refuses to let the hospital see if they qualify for public health coverage and discount programs, they cannot sue the hospital for not giving discounts or not checking for helpful programs.",
+   "If patient has health insurance, they must ask the hospital to see if they can get help with bills; hospital has 45 days to respond after being asked.",
+   "No charity discount can be applied to any account with any outstanding payer liability.",
+   "Validation must be completed by the hospital to ensure that if any portion of the patient's medical services can be paid by any federal, state governmental health care program, private insurance, or other private non-governmental third-party payor, that payment has been received and posted to the account.",
+   "Elective cosmetic procedures and facility designated self-pay flat rate procedures are excluded from the uninsured discount.",
+   "r1 may leave out a condition: Requires non-elective care and no qualification for state/federal assistance.",
+   "r3 may leave out a condition: Applies only to self-pay patients excluding elective cosmetic and flat-rate procedures."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "r2: the clause fpl_pct >= 251.0 OR fpl_pct <= 400.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The hospital must check to see if you qualify within 45 days of when you got care.",
+    "why": "45-day period is for hospital to check eligibility, not for patient to submit application."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Tell you in writing 30 days before they send you to collections.",
+    "why": "30-day period is for notice before collections, not for patient to submit application."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:r2",
+    "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe.",
+    "why": "Policy states help may reduce amount owed but does not specify discount percentage."
+   }
+  ],
+  "clauses": 3,
+  "clauses_proven": 3,
+  "unsupported": 3
+ },
+ "cost_usd": 0.00299,
+ "fresh_calls": 3
+}

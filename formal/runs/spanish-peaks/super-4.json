@@ -1,0 +1,127 @@
+{
+ "model": {
+  "hospital": "Spanish Peaks Regional Health Center",
+  "doc": "policy",
+  "source_url": "https://www.sprhc.org/files/be3a9926d/PFS.038-Financial-Assistance.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_medically_necessary_non_emergency",
+    "label": "Medically necessary care for non-emergency services",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Services and items (other than emergency care) must be medically necessary as determined by the patient\u2019s physician to be eligible for financial assistance."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_fap_250",
+    "label": "Financial Assistance Program up to 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients will be considered as eligible for financial assistance up to 250% of the federal poverty level (FPL)."
+   },
+   {
+    "id": "rule_agb_cap",
+    "label": "AGB cap for emergency and medically necessary care",
+    "when": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "In no event shall the reduced rate charged to patients eligible for financial assistance for emergency care or medically necessary services be greater than the AGB for such services."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Eligibility also includes specific situations: applicant became CICP, CHP, or Medicaid-eligible and has balances prior to the effective date; applicant is eligible for CICP, CHP, or Medicaid but incurs a non-covered service; applicant is eligible for out-of-state Medicaid and SPRHC does not participate in that state\u2019s Medicaid program; applicant has a mental incapacity and is unable to complete the Application; or patient is deceased and left no estate.",
+   "Determination must be completed within 14 days of receipt of all required documentation (HDC \u00a75.05).",
+   "The discount is based on the amounts generally billed (AGB). AGB is determined annually and is based on the Look-back method as described in Section 501(r) of the Code and the regulations thereunder. A revised AGB percentage will be calculated annually and applied by the 45th day after the first day of the start of the fiscal year used to determine the calculations.",
+   "HCHD will not bill patient balances to those who qualify for CICP or HDC. Patient balances will be adjusted to the hospital\u2019s internal financial assistance program.",
+   "Applicants will not be denied financial assistance based on their failure to provide information or documentation that this Policy or the Application does not explicitly require (HDC \u00a71.01).",
+   "Once a patient is determined to be eligible for financial assistance, that patient shall not receive any future bills for the previously provided services based on undiscounted gross charges.",
+   "With respect to medical care provided other than emergency care and medically necessary services, patients eligible for financial assistance shall not be charged more than gross charges for such care.",
+   "HCHD shall make reasonable efforts to determine whether an individual is eligible for financial assistance before engaging in any 'extraordinary collection actions' as such term is defined in Section 50 I (r)(6) of the Code.",
+   "If it is determined after complete evaluation of the application that a patient does not qualify for Health First Colorado, CHP+, Medicare, Emergency Medicaid, CICP or HDC financial assistance under this policy, and the patient does not have insurance, the Self-Pay Discount policy will apply.",
+   "req_medically_necessary_non_emergency may leave out a condition: Medically necessary required only for non-emergency care; emergency care eligible without this condition."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "Scope: Huerfano County Hospital District",
+    "why": "Policy scope limited to Huerfano County Hospital District does not establish Colorado residency requirement for assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "This policy is applicable to all service areas/divisions of HCHD.",
+    "why": "Applicable to all service areas/divisions does not require patient to live in hospital's service area."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Patients who complete the screening process and appear eligible for H DC or the CICP and want to apply, or patients who appear ineligible but who still wish to complete the application to find out for sure have 45 days from the date of the screening to submit all required documentation to Patient Financial Services (Appendix A).",
+    "why": "45-day deadline is from date of screening, not date of service."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_fap_250",
+    "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
+    "quote": "Patients will be considered as eligible for financial assistance up to 250% of the federal poverty level (FPL).",
+    "why": "Eligibility up to 250% FPL stated, but discount amount not specified (based on AGB)."
+   }
+  ],
+  "clauses": 5,
+  "clauses_proven": 3,
+  "unsupported": 4
+ },
+ "cost_usd": 0.00306,
+ "made": "2026-10-28"
+}

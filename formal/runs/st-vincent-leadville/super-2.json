@@ -1,0 +1,51 @@
+{
+ "model": {
+  "hospital": "St. Vincent Health",
+  "doc": "policy",
+  "source_url": "https://www.stvincent.health/financial-assistance-policy",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "sliding_fee_discount_program",
+    "label": "Sliding Fee Discount Program",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Sliding fees are specific to all individuals and families with annual incomes at or below 200 percent of the federal poverty line."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "sliding_fee_discount_program may leave out a condition: policy also requires exhaustion of alternative payment resources and completed application"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 1,
+  "clauses_proven": 1,
+  "unsupported": 0
+ },
+ "cost_usd": 0.0027,
+ "made": "2026-10-28"
+}

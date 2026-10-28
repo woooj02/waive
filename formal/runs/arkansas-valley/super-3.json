@@ -1,0 +1,126 @@
+{
+ "model": {
+  "hospital": "Arkansas Valley Regional Medical Center",
+  "doc": "policy",
+  "source_url": "https://www.avrmc.org/docs/Financial_Assistance_policy.pdf?sub=For%20Patients",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req3",
+    "label": "Income not more than 250% FPL",
+    "cond": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "(III)The patient\u2019s annual family income is NOT more than two hundred fifty percent (250%) of the federal poverty guidelines."
+   },
+   {
+    "id": "req4",
+    "label": "Medically necessary service",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "(V)The service was considered \u201cMedically Necessary\u201d (not elective)"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule2",
+    "label": "Self-pay discount for non-qualifying uninsured patients",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "a.All uninsured patients receive a 40% Self-Pay discount on their account balance at the time of billing."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "service",
+     "days": 182,
+     "quote": "(IV)The patient complies in supplying the necessary information to AVRMC within 182 days of requested date."
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": 46
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy references Colorado Indigent Care Program (CICP) and Colorado Hospital Discounted Care Act (HDC) but does not specify exact discount percentages for those programs in the text provided.",
+   "Screening must occur within 45 days of date of service or discharge per Section 3, but this is a hospital procedural timing, not a patient application deadline.",
+   "Patients denied financial assistance receive a letter with reason for denial.",
+   "If third-party coverage is discovered later, financial assistance write-off is reversed and third-party insurance is billed.",
+   "Opt-out forms must be signed; verbal decline is not valid for opting out.",
+   "Hospital will contact patient monthly for six months after discharge if they do not opt out or decline screening verbally.",
+   "If patient requests cessation of contact, hospital must document and record the request.",
+   "If no response after 182 days of contact attempts, lack of cooperation is considered an informed decision to decline screening.",
+   "Policy effective for dates of service on or subsequent to September 1, 2022.",
+   "Policy applies to all entities of the hospital with the same federal identification number.",
+   "0 may leave out a condition: Deadline is 182 days from requested date, which may differ from date of service."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "req2: the clause insured false None OR insured true None is true for every household. Did you mean AND? Put each condition in its own clause.",
+   "rule1: the clause insured false None OR insured true None is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [
+   "the requirements together exclude every household",
+   "rule rule1 can never apply to anyone (its clauses contradict each other or the requirements)",
+   "rule rule2 can never apply to anyone (its clauses contradict each other or the requirements)"
+  ],
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "rule1",
+    "quote": "Patients that are screened for financial aid per the above guidelines and are approved (household income is proven to be less than 250% of the federal poverty level) shall have all outstanding amounts owed by the patient for the specific episode of care ... adjusted off as \u201cCharity\u201d"
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req1",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "(I)The patient received a service at AVRMC or an AVRMC physician clinic.",
+    "why": "Policy does not require residence in service area for every form of assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req2",
+    "claim": "Every form of assistance requires: (not insured) AND (insured)",
+    "quote": "(II)The patient is uninsured (or an insured patient that has specifically requested screening)",
+    "why": "Policy does not require both uninsured and insured status simultaneously; it allows either."
+   }
+  ],
+  "clauses": 6,
+  "clauses_proven": 3,
+  "unsupported": 2
+ },
+ "cost_usd": 0.00392,
+ "made": "2026-10-28"
+}

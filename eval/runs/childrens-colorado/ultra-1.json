@@ -1,0 +1,263 @@
+{
+ "model": {
+  "hospital": "Children's Hospital Colorado",
+  "doc": "policy",
+  "source_url": "https://www.childrenscolorado.org/globalassets/your-visit/financial-assistance-policy-english.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req-residency",
+    "label": "Colorado residency required for HDC and CICP",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "HDC and CICP applicants must be residents of Colorado."
+   },
+   {
+    "id": "req-care-type",
+    "label": "Emergency or medically necessary care required for HDC",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "HDC is available only to Qualified Patients residing in Colorado and only for Emergency and Medically Necessary care."
+   },
+   {
+    "id": "req-uninsured-underinsured",
+    "label": "Uninsured or underinsured required for HDC and CICP",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "CICP and CHCO's HDC programs are not insurance coverage, but rather discounted care programs for patients who are Uninsured or Underinsured and have demonstrated financial need."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule-hdc-0-250",
+    "label": "HDC free care for income at or below 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less), with the level of discount for which an individual is eligible for, determined on a sliding fee scale, based upon the individual's rating, or family Income as a percentage of FPL."
+   },
+   {
+    "id": "rule-hdc-251-400-inpatient",
+    "label": "HDC limited financial assistance for inpatient services 251% to 400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ],
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "inpatient",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "CHCO provides additional limited financial assistance for Inpatient Services only for individuals 251% to 400% FPG."
+   },
+   {
+    "id": "rule-self-pay",
+    "label": "Self-pay 35% discount for patients without insurance or financial assistance",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 35.0,
+    "quote": "At the time of billing, if the patient does not have HDC, a standard 35% discount will be applied to all self-pay balances."
+   },
+   {
+    "id": "rule-emergency-international",
+    "label": "Limited financial assistance for emergency services to all patients including International Individuals",
+    "when": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "CHCO does offer some limited financial assistance for Emergency medical services to all patients, including International Individuals."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "service",
+     "days": 365,
+     "quote": "The application must be completed within 365 days from the date of services or date of discharge."
+    },
+    {
+     "anchor": "service",
+     "days": 181,
+     "quote": "CICP may be backdated up to 181 days."
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 120,
+     "quote": "CHCO will not initiate ECAs for at least 120 days from the date CHCO provides the first post-discharge billing statement for the care."
+    }
+   ],
+   "first_statement_from_day": 46
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": 4.0,
+   "max_months": 36,
+   "min_monthly_usd": null,
+   "quote": "Monthly installments for hospital charges will not exceed 4% of their monthly household Income (2% for professional fees). After a cumulative 36 months of payments, CHCO will treat the Qualified Patient's bill as paid in full and will cease collection activities on any balance that remains unpaid."
+  },
+  "notes": [
+   "HDC discounts are the lower of the Colorado State Discount Rate (published on HCPF website) or AGB; discount schedule is in Appendix A (not modeled).",
+   "Assets are not considered in eligibility determination: 'CHCO follows the Income counting methodology ... and does not consider liquid or illiquid assets or resources in determining eligibility.'",
+   "Services not covered: non-emergent/non-medically-necessary care, elective/cosmetic surgery, transplant procedures, self-pay packages, single case agreements, grants & research, services with third-party legal obligation to pay, housing, food, transportation, community services, durable medical equipment, home care.",
+   "Some providers at CHCO facilities have their own financial assistance policies: University of Colorado School of Medicine (CU Medicine), TCH Radiology Professionals, Radiology & Imaging Consultants, University of Colorado Medicine Pathology Lab, Poudre Valley Medical Group (UC Health Medical Group).",
+   "Screening offered within 45 days of service/discharge; patient can request HDC screening up to 365 days post-service, CICP up to 181 days.",
+   "Determination notice within 14 days of completed application; appeal within 30 days of determination letter.",
+   "Billing statements may begin 46 days after date of service.",
+   "Three monthly billing notices before ECAs; 30-day notice before ECA for payment plan patients who miss 3 consecutive payments.",
+   "Bad Debt: account aged at least 120 days from first post-discharge billing statement; credit bureau reporting 60 days after placement with Bad Debt agency.",
+   "Family size definition: non-spouse/non-civil-union adults 18-64 must demonstrate financial support; minors and 65+ counted without documentation.",
+   "Insured patients may request screening within 45 days of service or first billing statement after insurance adjustment.",
+   "If patient believed insured but later determined uninsured, CHCO contacts within 45 days of notification to offer screening.",
+   "Patient contact best efforts: monthly contacts for 6 months after service if not screened at discharge.",
+   "ECAs suspended upon receipt of completed application until determination; reversed if eligible.",
+   "Non-discrimination policy covers race, color, ethnic/national origin, ancestry, age, sex, gender, sexual orientation, gender identity/expression, religion, creed, political beliefs, immigrant status, disability.",
+   "CHCO will not deny discounted care based on failure to apply for public benefits.",
+   "CHCO will not deny admission/treatment because patient may qualify for HDC.",
+   "req-residency may leave out a condition: applies only to HDC/CICP, not all assistance (self-pay discount)",
+   "req-care-type may leave out a condition: restriction applies only to HDC, not all assistance (self-pay discount)",
+   "req-uninsured-underinsured may leave out a condition: describes target population, not a requirement for all assistance (self-pay discount applies regardless)",
+   "1 may leave out a condition: applies only to CICP, not all assistance"
+  ]
+ },
+ "report": {
+  "model": "ultra",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "rule-cicp",
+    "quote": "Colorado Indigent Care Program (CICP) ... allows participating providers, like CHCO, to render discounted services to patients who are Colorado residents with limited financial resources who are uninsured or underinsured and not eligible for benefits under the Medicaid Program or the Children's Basic Health Plan."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule-hdc-0-250",
+    "claim": "A patient with (fpl_pct <= 250) AND (not insured OR underinsured) AND (co_resident) AND (medically_necessary) gets 100% off",
+    "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less), with the level of discount for which an individual is eligible for, determined on a sliding fee scale, based upon the individual's rating, or family Income as a percentage of FPL.",
+    "why": "policy states discount is on sliding scale, not necessarily 100% off"
+   }
+  ],
+  "clauses": 8,
+  "clauses_proven": 7,
+  "unsupported": 1
+ },
+ "cost_usd": 0.0,
+ "fresh_calls": 0
+}

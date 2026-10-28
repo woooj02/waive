@@ -1,0 +1,149 @@
+{
+ "model": {
+  "hospital": "Banner Health",
+  "doc": "summary",
+  "source_url": "https://www.bannerhealth.com/-/media/Files/Project/BH/Patients-Visitors/Billing/Financial-Assistance/2025-documents/9999-0061-BH-Summary-Of-Financial-Assistance-Programs-And-Application.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "financial_assistance_uninsured_low_income_no_assets",
+    "label": "Financial Assistance for Uninsured patients with income \u2264400% FPL and insufficient assets",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ],
+     [
+      {
+       "var": "assets_usd",
+       "op": "<",
+       "value": 1.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Uninsured patient, you will qualify for BH Financial Assistance (1) if you have an annual household income and household size that is equal to or less than 400% of the Federal Poverty Level and lack other assets to pay the Hospital\u2019s full charges"
+   },
+   {
+    "id": "financial_assistance_uninsured_medicaid_cooperation",
+    "label": "Financial Assistance for Uninsured patients who apply for Medicaid and cooperate or are unable to complete application",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "(2) if requested to do so by the Hospital, you apply for Medicaid/AHCCCS, fully cooperate in the application and determination process, or are unable to reasonably complete the application process, and are denied Medicaid/AHCCCS coverage."
+   },
+   {
+    "id": "financial_assistance_underinsured_balance_fpl",
+    "label": "Financial Assistance for Underinsured patients meeting bill balance and FPL guidelines",
+    "when": [
+     [
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">=",
+       "value": 0.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Underinsured patient, you may qualify for BH Financial Assistance for Underinsured/Balance After Insurance discount. You will need to apply for consideration and meet both Hospital bill balance requirements stated in the Financial Assistance Policy and Federal Poverty Level guidelines."
+   },
+   {
+    "id": "discounted_care_uninsured_not_fpl_qualified",
+    "label": "Discounted care for Uninsured patients not qualifying for FPL-based assistance",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Uninsured patient, you may qualify for a discounted rate if you do not meet the qualifications for the Financial Assistance Program based on Federal Poverty Level guidelines."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy mentions that for non-emergent services, a substantial advance deposit or payment arrangement may be required based on an estimate of Amounts Generally Billed, but this is not a requirement for receiving assistance.",
+   "The policy states that patients receiving financial assistance will in no case be charged more than Amounts Generally Billed for emergency or medically necessary services, but AGB is not a fixed percentage and cannot be expressed as discount_pct.",
+   "The policy references cooperation with Medicaid application and determination process, and applying for Medicaid/AHCCCS if requested, but these are procedural steps not captured in the requires or rules structure.",
+   "The policy includes a lien and recovery provision under Arizona law (ARS Sec. 33-931, et seq.) for third-party funding received after assistance, but this is not a condition for eligibility.",
+   "The policy applies to Banner hospitals and certain other BH entities, and includes a disclaimer about NHSC locations where the policy does not apply, but this is not modeled in the requires or rules.",
+   "The policy defines Medically Indigent Patient based on medical expenses exceeding 50% of household income, but this definition is not used in any eligibility rule and is noted for context.",
+   "The policy states that Uninsured patients are initially charged the Self-Pay Rate for Covered Services, but this is a billing practice, not an eligibility condition.",
+   "financial_assistance_uninsured_low_income_no_assets may leave out a condition: Policy requires applying for Medicaid/cooperating if requested, which the claim omits.",
+   "financial_assistance_uninsured_medicaid_cooperation may leave out a condition: Policy additionally requires being denied Medicaid/AHCCCS coverage, which the claim omits via incorrect logic.",
+   "financial_assistance_underinsured_balance_fpl may leave out a condition: Policy requires meeting both Hospital bill balance requirements AND FPL guidelines; claim only includes FPL via bill_pct_income >= 0 (always true).",
+   "discounted_care_uninsured_not_fpl_qualified may leave out a condition: Policy specifies discounted care is 1.25 x AGB, not just any help, and applies only if not qualifying for FPL-based assistance."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "rule financial_assistance_uninsured_medicaid_cooperation can never apply to anyone (its clauses contradict each other or the requirements)"
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [],
+  "clauses": 4,
+  "clauses_proven": 4,
+  "unsupported": 0
+ },
+ "cost_usd": 0.0039,
+ "made": "2026-10-28"
+}

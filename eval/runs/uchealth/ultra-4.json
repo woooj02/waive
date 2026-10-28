@@ -1,0 +1,193 @@
+{
+ "model": {
+  "hospital": "UCHealth",
+  "doc": "policy",
+  "source_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/2026/09/29153210/UCHealth-Financial-Assistance-Policy-English-09_28_26.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_residency",
+    "label": "Patient must be a Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": true,
+    "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance"
+   },
+   {
+    "id": "req_uninsured_or_underinsured",
+    "label": "Patient must be uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "The Patient is Uninsured or Under-insured"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_income_250",
+    "label": "Income-based assistance at or below 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges for care covered by this policy"
+   },
+   {
+    "id": "rule_income_251_400",
+    "label": "Income-based assistance between 251% and 400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A"
+   },
+   {
+    "id": "rule_presumptive",
+    "label": "Presumptive Eligibility for Financial Assistance",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy"
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 365,
+     "quote": "365 days from the date of the first post-discharge Billing Statement"
+    },
+    {
+     "anchor": "first_statement",
+     "days": 30,
+     "quote": "30 days after notice of the initiation of one or more Extraordinary Collection Actions has been provided"
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 365,
+     "quote": "UCHealth will refrain from initiating ECAs for at least 365 days from the date the Hospital mails the first post-discharge Billing Statement"
+    },
+    {
+     "anchor": "first_statement",
+     "days": 30,
+     "quote": "at least 30 days in advance of initiating ECAs"
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Residency exception: For unscheduled emergency services, UCHealth may, at its sole discretion, make an exception to the residency requirement.",
+   "UCHealth employees residing outside Colorado but receiving services at a UCHealth facility do not have to meet residency requirements.",
+   "Services not covered: elective or cosmetic surgery; transplant procedures; self-pay packages; single case agreements; grants & research; services with legal obligation for third-party payment.",
+   "Provider coverage varies by facility; a separate Provider List is maintained and updated quarterly.",
+   "AGB (Amount Generally Billed) caps charges for FAP-eligible patients; self-pay discount applies if greater than AGB.",
+   "Presumptive eligibility only applies to current services and past accounts, not future services.",
+   "For patients non-responsive to screening, UCHealth may use a third-party predictive model to assess financial need when estimated household FPL is 250% or less.",
+   "UCHealth does not report patient debt to credit agencies nor place liens on patient property.",
+   "Family definition: group of two or more related by birth, marriage, or adoption residing together; family members not responsible for services to patients 18+.",
+   "Financial Resources: cash, bank deposits, or assets easily withdrawn without penalty (checking, savings, trusts, CDs).",
+   "Income verification documents required: paycheck stubs, bank statements, tax returns, W-2, unemployment letter, Social Security letter, grant letter, spousal maintenance documentation.",
+   "Residency documentation required: Colorado ID, pay stub with CO address, rental/mortgage statement, bank statement or utility bill mailed to CO address, other official document with name and CO address, or written attestation.",
+   "Application processing: completed applications processed within 14 days; written determination notice provided.",
+   "Eligibility validity: 365 days for income at or below 250% FPL; 180 days for income between 251-400% FPL.",
+   "Incomplete applications: denied with written notice; no ECAs initiated; 30 days to complete after notice.",
+   "Approved applications reverse ECAs and refund excess payments (except $1 or less).",
+   "Billing statements: at least 4 monthly statements mailed every 30 days; itemized statements provided within 10 business days of request, 30 days after discharge for inpatients, or 30 days after service for outpatients (whichever is later).",
+   "Collections referral: insured balances unpaid 120+ days; uninsured balances unpaid 182+ days; no action for 365 days from first statement may lead to ECAs.",
+   "All collection agencies must follow this policy.",
+   "Financial Counseling department has final authority on reasonable efforts determination for ECA initiation.",
+   "req_residency may leave out a condition: policy allows discretionary exception for emergency services",
+   "req_uninsured_or_underinsured may leave out a condition: only applies to income-based assistance, not catastrophic or presumptive",
+   "1 may leave out a condition: policy requires 30 days notice before ECA, not 30 days after bill"
+  ]
+ },
+ "report": {
+  "model": "ultra",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "requirement",
+    "id": "req_medically_necessary",
+    "quote": "Health care services that are not emergent or Medically Necessary, including elective or cosmetic surgery"
+   },
+   {
+    "kind": "rule",
+    "id": "rule_catastrophic",
+    "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts is greater than 50% of the Patient's total annual Family Income and Financial Resources combined"
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_self_pay_discount",
+    "claim": "A patient with (not insured) gets an unstated amount of help",
+    "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
+    "why": "self-pay discount is separate policy, not financial assistance"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_income_251_400",
+    "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A",
+    "why": "policy specifies discount via Appendix A table, not unstated amount"
+   }
+  ],
+  "clauses": 8,
+  "clauses_proven": 5,
+  "unsupported": 2
+ },
+ "cost_usd": 0.01436,
+ "fresh_calls": 2
+}

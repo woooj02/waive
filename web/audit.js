@@ -18,16 +18,16 @@
     const secs = ps.reduce((a, p) => a + p.solver_seconds, 0);
     const hand = ps.some((p) => p.model_source !== "nemotron");
     const nHosp = new Set(ps.filter((p) => !p.not_formalised).flatMap((p) => (p.hospitals && p.hospitals.length ? p.hospitals : [p.hospital]))).size;
-    let ev = null;
-    try { ev = (await (await fetch("/api/formal-eval")).json()).summary; } catch (e) { ev = null; }
-    const two = ev && ev.two_models;
+    let st = null;
+    try { st = (await (await fetch("/api/formal-eval")).json()).stability; } catch (e) { st = null; }
+    const maj = st && st.findings.super_majority, one = st && st.findings.one_super_run;
     $("#a-stats").innerHTML = `
       <div><b>${ps.filter((p) => !p.not_formalised).length}</b><span>policies audited · ${nHosp} hospitals</span></div>
       <div class="f-ok"><b>${tot("proved")}</b><span>requirements proved</span></div>
-      <div class="f-bad"><b>${hand ? tot("counterexamples") : tot("confirmed_counterexamples")}</b><span>${hand ? "counterexamples found" : "counterexamples confirmed by two models and reviewed"}</span></div>
+      <div class="f-bad"><b>${hand ? tot("counterexamples") : tot("confirmed_counterexamples")}</b><span>${hand ? "counterexamples found" : "counterexamples confirmed by a second model and reviewed"}</span></div>
       <div><b>${(secs * 1000).toFixed(0)} ms</b><span>total Z3 time</span></div>
       ${hand ? `<p class="src-note">Formal models: <b>hand-written references</b> (every quote checked against the policy).</p>`
-        : `<p class="src-note">Each policy was written as logic by <b>Nemotron 3 Ultra</b>. A counterexample is <b>confirmed</b> when the exact same household or day also breaks the requirement in <b>Nemotron 3 Super</b>'s independent model, and every confirmed one was read against the policy text. On our 5 hand-written reference documents, where both models reach the same verdict on a check (${two ? two.confirmed_share_pct : "–"}% of checks) it matches our reference ${two ? two.confirmed_match_pct : "–"}% of the time.</p>`}`;
+        : `<p class="src-note">Each policy was written as logic by <b>Nemotron 3 Ultra</b>. A counterexample is <b>confirmed</b> when the exact same household or day also breaks the requirement in most of five independent <b>Nemotron 3 Super</b> models, and every confirmed one was read against the policy text. ${maj ? `On our ${st.docs} hand-written reference documents, counterexamples confirmed this way also failed in our reference ${maj.confirmed.real} of ${maj.confirmed.n} times (with a single Super run: ${one.confirmed.real_pct}%). A small sample: see How it works.` : ""}</p>`}`;
     if (index.featured) {
       const fdoc = await (await fetch(`/api/audit/${encodeURIComponent(index.featured.id)}`)).json();
       const ff = fdoc.findings[index.featured.finding];
@@ -49,7 +49,7 @@
       <tbody>${ps.filter((p) => !p.not_formalised).map((p) => `<tr><th scope="row"><button class="linkish" data-open="${esc(p.id)}">${esc(p.hospital)}</button></th>${cols.map((c) => {
         const [t, k, l] = sym[p.checks?.[c]] || ["", "", "not checked"];
         const disp = p.confidence?.[c] === "disputed";
-        return `<td class="${k}${disp ? " disp" : ""}" title="${esc(l)}${disp ? " (disputed: the two models disagree)" : ""}"><span aria-label="${esc(l)}${disp ? ", disputed" : ""}">${t}${disp ? "<sup>?</sup>" : ""}</span></td>`; }).join("")}</tr>`).join("")}</tbody>`;
+        return `<td class="${k}${disp ? " disp" : ""}" title="${esc(l)}${disp ? " (disputed: most of Super's models disagree)" : ""}"><span aria-label="${esc(l)}${disp ? ", disputed" : ""}">${t}${disp ? "<sup>?</sup>" : ""}</span></td>`; }).join("")}</tr>`).join("")}</tbody>`;
     $$("[data-open]").forEach((b) => b.addEventListener("click", () => { open(b.dataset.open); $("#a-detail").scrollIntoView({ behavior: "smooth" }); }));
     $("#a-list").innerHTML = ps.map((p) => p.not_formalised ? `
       <div class="a-item off"><b>${esc(p.hospital)}</b><small>Not formalised: ${esc(p.reason)}</small></div>` : `
@@ -123,12 +123,16 @@
   function conf(f) {
     if (f.status === "not_stated" || f.status === "n/a") return "";
     const ce = ["counterexample", "inconclusive", "refuted"].includes(f.status);
+    const v = f.votes, of = v ? ` ${v.agree} of ${v.of}` : "";
+    const many = v && v.of > 1 ? " Super models" : " Super's model";
+    const one = !v || v.agree === 1 || v.of === 1;  // "1 of 5 fails", "3 of 5 fail"
+    const fail = one ? "fails" : "fail", agree = one ? "agrees" : "agree";
     if (f.confidence === "confirmed") return ce
-      ? `<span class="cf ok" title="This exact case was replayed against Nemotron 3 Super's independent model">✓ Super's model fails for this same case</span>`
-      : `<span class="cf ok" title="Nemotron 3 Super's independent model reaches the same verdict on this check">✓ both models agree</span>`;
+      ? `<span class="cf ok" title="This exact case was replayed against Nemotron 3 Super's independent models">✓${of}${many} ${fail} for this same case</span>`
+      : `<span class="cf ok" title="Nemotron 3 Super's independent models reach the same verdict on this check">✓${of}${many} ${agree}</span>`;
     if (f.confidence === "disputed") return ce
-      ? `<span class="cf disp">disputed: Super's model doesn't fail for this case. Needs a person to check</span>`
-      : `<span class="cf disp">disputed: Super's model says ${esc((f.second_opinion || []).join(", ").replace("_", " ") || "nothing")}</span>`;
+      ? `<span class="cf disp">disputed: only${of}${many} ${fail} for this case. Needs a person to check</span>`
+      : `<span class="cf disp">disputed: only${of}${many} ${agree} (they say ${esc((f.second_opinion || []).join(", ").replace("_", " ") || "nothing")})</span>`;
     if (f.confidence === "unconfirmed") return `<span class="cf disp">single-model comparison: needs a person to check</span>`;
     return "";
   }

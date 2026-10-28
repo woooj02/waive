@@ -1,0 +1,162 @@
+{
+ "model": {
+  "hospital": "Community Hospital",
+  "doc": "policy",
+  "source_url": "https://communityhospital-corporate-cdn.codespeed.app/files/Financial+Assistance+Policy.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_free_care",
+    "label": "Free care (<=100% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 100.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at or below 100% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_discount_50",
+    "label": "Up to 50% discount (100-150% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 100.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 50.0,
+    "quote": "Patient whose family income is over 100% and below 150% of the FPL would be eligible for up to a 50% discount."
+   },
+   {
+    "id": "rule_case_by_case",
+    "label": "Case-by-case discount (>150% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients whose family income exceeds 150% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Community Hospital; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [
+    {
+     "anchor": "service",
+     "days": 120,
+     "quote": "ECA\u2019s will not be initiated by Community Hospital or by an outside collection agency acting on behalf of Community Hospital until at least 120 days after the initial guarantor account statement has been mailed."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Eligibility requires being uninsured or underinsured and ineligible for any government health care program.",
+   "Elective procedures and flat rate procedures including but not limited to cosmetic, bariatric lithotripsy are not eligible.",
+   "Complications due to elective procedures will be considered on a case by case basis by the CEO, CMO, CFO, Hospital PFS Director or Business Office Manager.",
+   "Benefits under this program will not exceed twelve months.",
+   "The hospital reserves the right to reevaluate the recipient\u2019s eligibility if there is a change in income during this period.",
+   "The hospital reserves the right to re-evaluate eligibility when hospital care is required in order to determine the recipient\u2019s eligibility for other aid or third party coverage.",
+   "Relatives or guardians may apply for an incapacitated or deceased individual.",
+   "Gross personal and business income will be used to determine eligibility. Calculation of gross income will be consistent with the CICP program guidelines. Income for all members of the household and legally responsible parties not in the household will be considered in the determination of income levels.",
+   "As a minimum requirement, the patient must furnish a copy of last year\u2019s tax return, last three month\u2019s income, or a bank statement for proof of income, checking and savings account balances and investment account balances.",
+   "Requests for charity shall be processed promptly and Community Hospital shall notify the patient or applicant in writing within 30 days of receipt of a completed application.",
+   "An applicant denied under the program has the right to appeal that decision in writing with the Business Office Manager, within 30 days of the receipt of the denial.",
+   "Failure to Cooperate: The applicant is responsible for providing all the required information within 14 days of the application date. Failure to provide the requested information in the time requested may result in a program denial. The patient may, if denied for lack of documentation, appeal or reapply with complete documentation. Misrepresentation or falsification of information will be cause for the financial assistance to be withdrawn retroactively and currently.",
+   "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: \u2022 Homelessness \u2022 Patient is deceased with no known estate",
+   "Community Hospital is a not-for-profit hospital that conforms with the final IRC 501(r) rules.",
+   "Community Hospital will provide an itemized statement to the patient showing the charges and the discount amount applied to the patients account. The discount will be applied once the patient has submitted a complete application for financial assistance.",
+   "The determination may be done at any point in the collection cycle. The need for financial assistance shall be re-evaluated at each subsequent time of services if the last financial evaluation was completed more than a year prior, or at any time additional information relevant to the eligibility of the patient for charity becomes known.",
+   "It is the responsibility of the patient or the patient\u2019s representative to notify the hospital of any additional relevant information.",
+   "Financial need will be determined in accordance with procedures that involve an individual assessment of financial need; and may: \u2022 Include an application process in which the patient or the patient\u2019s guarantor are required to cooperate and supply personal, financial, and other information and documentation relevant to making a determination of financial need; \u2022 Include the use of external publically available data sources that provide information on a patient\u2019s or a patient\u2019s guarantor\u2019s ability to pay (such as credit scoring); \u2022 Include reasonable efforts by Community Hospital to explore appropriate alternative sources of payment and coverage from public and private payment programs, and to assist patients to apply for such programs; \u2022 Take into account the patient\u2019s available assets, and all other financial resources available to the patient; and, \u2022 Include a review of the patient\u2019s outstanding accounts receivable for prior services rendered and the patient\u2019s payment history.",
+   "Accounts eligible for Charity Care are to be addressed within 240 days of first bill.",
+   "Community Hospital\u2019s values of human dignity and stewardship shall be reflected in the application process, financial need determination, and granting of charity.",
+   "For patients who qualify for charity and who are cooperating in good faith to resolve their discounted hospital bills, Community Hospital may offer extended payment plans, will not send unpaid bills to outside collection agencies, and will cease all collection efforts",
+   "Community Hospital will not impose extraordinary collections actions such as wage garnishments; liens on primary residences, or other legal actions for any patient without first making reasonable efforts to determine whether that patient is eligible for charity care under this financial assistance policy.",
+   "Reasonable efforts shall include: \u2022 Validating that the patient owes the unpaid bills and that all sources of third-party payment have been identified and billed by the hospital. \u2022 Documentation that Community Hospital has or has attempted to offer the patient the opportunity to apply for charity care pursuant to this policy and that the patient has not complied with the hospital\u2019s application requirements. \u2022 Documentation that the patient has been offered a payment plan but has not honored the terms of that plan.",
+   "Extraordinary collections actions may include actions such as: \u2022 Wage garnishments \u2022 Liens on primary residences, or \u2022 Other legal actions",
+   "If our collection agency identifies a patient is meeting financial assistance eligibility criteria, the patient\u2019s account may be considered for financial assistance. Collection activity will be suspended on accounts, and the financial assistance application will be reviewed. If the entire account balance is adjusted, the account will be returned. If a partial adjustment occurs, the patient fails to cooperate with the financial assistance process, or if the patient is not eligible for financial assistance, collection activity will resume.",
+   "In implementing this Policy, Community Hospital\u2019s management shall comply with all other federal, state, and local laws, rules, and regulations that may apply to activities conducted pursuant to this Policy."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "Community Hospital appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require Colorado residency for any assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "Community Hospital appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require living in the hospital's service area for any assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_medically_necessary",
+    "claim": "Every form of assistance requires: (medically_necessary)",
+    "quote": "Community Hospital appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+    "why": "Policy does not require medically necessary care for all assistance; emergency and non-elective services are also eligible."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Accounts turned to bad debt remain eligible for financial assistance consideration as long as the complete application and documentation are submitted prior to 240 days from the date of the initial account statement;",
+    "why": "240-day deadline is from initial account statement, not first post-discharge bill."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Accounts turned to bad debt remain eligible for financial assistance consideration as long as the complete application and documentation are submitted prior to 240 days from the date of the initial account statement;",
+    "why": "240-day deadline is from initial account statement, not date of service."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_case_by_case",
+    "claim": "A patient with (fpl_pct > 150) gets an unstated amount of help",
+    "quote": "Patients whose family income exceeds 150% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Community Hospital; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients.",
+    "why": "Policy states discounted rates shall not exceed AGB, but does not specify the exact amount of help."
+   }
+  ],
+  "clauses": 6,
+  "clauses_proven": 3,
+  "unsupported": 6
+ },
+ "cost_usd": 0.00418,
+ "made": "2026-10-28"
+}

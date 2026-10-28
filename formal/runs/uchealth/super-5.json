@@ -1,0 +1,287 @@
+{
+ "model": {
+  "hospital": "UCHealth",
+  "doc": "policy",
+  "source_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/2026/09/29153210/UCHealth-Financial-Assistance-Policy-English-09_28_26.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_co_resident",
+    "label": "Colorado residency required",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance."
+   },
+   {
+    "id": "req_emergency_or_medically_necessary",
+    "label": "Care must be emergency or medically necessary",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services."
+   },
+   {
+    "id": "req_uninsured_or_underinsured",
+    "label": "Patient must be uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "This policy serves to establish and ensure a fair and consistent method for Uninsured and Under-insured Patients to apply and be considered for Financial Assistance."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_fap_income_tier_100",
+    "label": "Financial Assistance Based on Family Income - 100% discount",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines."
+   },
+   {
+    "id": "rule_fap_income_tier_discount",
+    "label": "Financial Assistance Based on Family Income - discounted",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines."
+   },
+   {
+    "id": "rule_catastrophic",
+    "label": "Catastrophic Balance Financial Assistance",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income_assets",
+       "op": ">",
+       "value": 50.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined."
+   },
+   {
+    "id": "rule_presumptive",
+    "label": "Presumptive Eligibility for Financial Assistance",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Presumptive eligibility for Financial Assistance may be granted for circumstances outlined in the Presumptive Eligibility section of this policy."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 365,
+     "quote": "Applicants have the later of (a) 365 days from the date of the first post-discharge Billing Statement, or (b) 30 days after notice of the initiation of one or more Extraordinary Collection Actions (\"ECA\") has been provided, to submit an application or to request a reconsideration of an incomplete and denied application"
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 365,
+     "quote": "UCHealth does not initiate ECAs prior to (a) 365 days from the date UCHealth provides the first post-discharge Billing Statement to the Patient; and (b) reasonable efforts have been made to determine whether a Guarantor is approved for Financial Assistance under this policy, as described in this section."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "For patients being screened for HDC, UCHealth does not deny discounted care on the basis the patient has not applied for any public benefits program or deny an admission or treatment because the patient may qualify for discounted care.",
+   "UCHealth employees residing outside the State of Colorado, but who receive services at a UCHealth facility do not have to meet residency requirements for financial assistance applications they may request.",
+   "For unscheduled emergency services, UCHealth may, at its sole discretion, make an exception to the residency requirement.",
+   "UCHealth will not participate in or support any activities (including facilitating media access) related to fundraising efforts intended to pay for a specific patient's care.",
+   "UCHealth's Financial Assistance Program is not responsible for providing housing, food, transportation, immigration status, or continuity of care to any individual.",
+   "UCHealth is available to help identify community-based resources, facilitate services, and provide appropriate referral assistance.",
+   "UCHealth acts in accordance with the Federal Consolidated Appropriations Act of 2021 No Surprises Act under title I and Transparency under title II as well as the Code of Federal Regulations Internal Revenue Service Exempt Organizations rules 26 CFR 1.501(r)-0 through 26 CFR 1.501(r)-7.",
+   "Services provided at UCHealth clinics both inside and outside of Colorado are eligible for UCHealth Financial Assistance.",
+   "Patients with UCHealth debt are not denied services for non-emergency care and are not excluded from financial assistance.",
+   "Some services provided by physicians at UCHealth facilities may or may not be covered by the UCHealth Financial Assistance Policy (FAP).",
+   "UCHealth maintains a document separate from the FAP that lists the physicians working at each facility who are and who are not covered by UCHealth's FAP. The Provider List is updated quarterly and is available online at: https://www.uchealth.org/billing-and-pricing/financial-assistance.",
+   "This list of providers is available free of charge in paper format in all UCHealth Emergency Departments and admissions areas, and upon request by calling UCHealth's Financial Counseling Team at 855.843.3547.",
+   "Care and expenses not covered by the FAP: Health care services that are not emergent or Medically Necessary (\"Medically Necessary\"), including elective or cosmetic surgery; and Health care services related to a transplant procedure, self-pay package, single case agreement, grants & research, or when there is a legal obligation for a third party (i.e. certain individuals, entities, insurers or programs) to pay a claim.",
+   "Each Hospital will notify and inform the Hospital's Patients about the Financial Assistance policy by: Offering a paper copy of the FAP Plain Language Summary to Patients as part of the intake or discharge process; and Including a conspicuous written notice on Billing Statements (\"Billing Statement\") that notifies recipients about the availability of Financial Assistance under this policy, and includes the direct web address for accessing the policy, FAP Plain Language Summary and Application, and includes the telephone number of the Financial Counseling department, which can provide information about this policy, Financial Assistance available and the application process.",
+   "Setting up conspicuous public displays that notify and inform patients about the availability of Financial Assistance under this policy in public locations in the hospital facility, including, at a minimum, the emergency room and admissions areas.",
+   "To expedite processing of the application, individuals must submit a complete application form with all required attachments, including the Family Income verification documents and Residency documentation outlined below. Failure to do so may result in a delayed determination or denied application.",
+   "UCHealth requires an applicant to submit at least one of the following acceptable forms of Family Income verification: Most recent month's paycheck stubs, wage record, or letter from their employer stating their salary or hourly wage and usual number of hours worked per pay period. Most recent bank statement from all banking or credit union institutions The previous year's tax return Current W-2 form Unemployment benefit letter Social Security letter or self-attested amount Educational assistance (grant letter) Official documentation of spousal maintenance",
+   "Income documentation must be provided for each Family (\"Family\") member listed on the application.",
+   "Any applicant seeking to qualify for Catastrophic Balance Financial Assistance must also supply evidence of Financial Resources as requested in the application.",
+   "Monthly expenses (e.g. mortgage, utility, etc.) are not considered in the Financial Assistance Application. The application has a section that requires expense disclosure, which is intended for governmental program eligibility screening only.",
+   "UCHealth requires applicants to submit at least one of the following acceptable forms of residency documentation: Colorado ID Pay stub with Colorado home address listed Rental agreement or mortgage statement for a Colorado address listing the applicant(s) Bank statement or utility bill mailed to a Colorado address for the applicant(s) Any other official current document that displays the applicants name and a Colorado address Written attestation may be accepted if the applicant(s) is a resident and does not have access to any of the listed forms of residency documentation above.",
+   "Applicants for Financial Assistance can contact the UCHealth Financial Counseling Department at 855.843.3547 or visit financial counseling offices located at the following UCHealth Hospital locations to receive assistance with the application or to receive more information about this Policy: Greeley Hospital; Highlands Ranch Hospital; Longs Peak Hospital; Medical Center of the Rockies Hospital; Memorial Central Hospital; Memorial North Hospital; Parkview Hospital; Poudre Valley Hospital; University of Colorado Hospital; and Yampa Valley Hospital.",
+   "Applicants may request a copy of this policy, the Financial Assistance Application, and the FAP Plain Language Summary free of charge, by using one of the methods outlined in the above Section titled Financial Assistance Policy and Application Availability.",
+   "Patients and Guarantors must submit a complete application along with all required income documentation attachments, as described in the above Section titled Documentation Requirements. Completed applications shall be submitted to the UCHealth Financial Counseling Department in person, online or by mail at the locations described in this Section.",
+   "If Family Income is at or below 250% of FPL, Financial Assistance is valid for 365 days from the date of the last signed and dated Financial Assistance Application. Patients must re-submit an application for Financial Assistance if more than 365 days has passed from the last signed and dated Financial Assistance Application.",
+   "If Family Income is between 251-400% of FPL, eligibility for Financial Assistance is valid for 180 days from the date of the last signed and dated Financial Assistance Application. Patients must re-submit an application for Financial Assistance if more than 180 days has passed from the last signed and dated Financial Assistance Application.",
+   "If an applicant submits an incomplete application within the application period, UCHealth will deny the application and notify the applicant in writing. In such case, UCHealth will not initiate extraordinary collection actions (ECAs) and will ensure that no further action is taken on previously initiated ECAs until UCHealth has provided the applicant with a written notice that describes the missing information required under the FAP, how the individual can obtain assistance in completing the application, and a reasonable opportunity to submit the required information. If the applicant subsequently completes the application during the application period or within 30 days of receiving the above notice, UCHealth will process the application as outlined in this policy.",
+   "If UCHealth determines that an individual is approved for Financial Assistance following UCHealth's review of a complete application, UCHealth will reverse ECAs (if any) and will refund amounts previously paid for care covered by this policy in excess of the amount owed, except overpayments that are $1 or less. If the Guarantor still owes any amount, UCHealth will provide an updated Billing Statement showing how the adjusted amount was determined.",
+   "Presumptive eligibility for Financial Assistance may be determined for patients who are unable to complete or who do not respond to the screening and application process if the hospital has proof or verification of the following: A patient is deceased with no estate on file; A patient is documented as homeless; or At the time of screening, a patient qualifies for public health programs including, but not limited to: Social Security Unemployment benefits Food stamps Special Supplemental Nutrition Program for Women, Infants, and Children (WIC) Other means-tested social services programs",
+   "For patients who are non-responsive to the screening and/or application process, UCHealth may utilize a third-party financial screening tool to assess the financial need of a patient or Guarantor and determine whether they would otherwise qualify for Financial Assistance. This assessment is completed using a health care industry-recognized predictive model that is based on public record databases. The model incorporates public record data to calculate an estimated household FPL.",
+   "Information from the predictive model may be used to determine presumptive eligibility for Financial Assistance when the estimated household FPL is reported to be 250% or less.",
+   "Presumptive eligibility for Financial Assistance will only apply to current services and past accounts. Presumptive eligibility does not extend to future services.",
+   "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges for care covered by this policy.",
+   "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy.",
+   "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A. If, following the application of such discount, the patient qualifies for Catastrophic Financial Balance Assistance, the Catastrophic Financial Balance Assistance discount will be applied.",
+   "Patients approved for Catastrophic Balance Financial Assistance will receive a discount on gross charges as outlined in Appendix A or 50% of their total annual Family Income, whichever results in the lesser outstanding balance due.",
+   "UCHealth will not charge Patients approved for Financial Assistance more than the amount generally billed (AGB) by UCHealth to insured Patients for emergency or Medically Necessary care covered by this policy. As used in this policy, AGB has the meaning set forth at 26 CFR \u00a7 1.501(r)-1 and any other guidance issued by the United States Department of Treasury or the Internal Revenue Service. See Appendix A for a detailed explanation of how AGB is calculated.",
+   "If the self-pay discount for a hospital facility is greater than AGB, a discount equal to the self-pay discount will be applied to gross charges to a Patient approved for Financial Assistance.",
+   "UCHealth will seek payment on accounts with balances in self-pay (i.e., Patient liability). UCHealth initiates ECAs only when permissible, including legal action and wage garnishment.",
+   "UCHealth will provide any itemized statement requested by a Guarantor, in compliance with Colorado law, either within: 10 business days of the request; 30 days after discharge for inpatients; or 30 days after the service is rendered for outpatients, whichever is later.",
+   "UCHealth will make reasonable efforts to determine whether an individual is FAP-eligible for care provided by UCHealth by: Making a reasonable effort to provide oral notification to individuals, at least 30 days prior to initiating an ECA, about the FAP and how to obtain assistance with the application process; Providing a written notice to Patients at least 30 days prior to initiating an ECA indicating that Financial Assistance is available to eligible Patients, identifying the ECAs that UCHealth intends to initiate, and stating a deadline after which ECAs may be initiated that is no sooner than 30 days after the date the written notice is provided; and Including a FAP Plain Language Summary with the notice described above in the above Section titled Financial Assistance Policy and Application Availability.",
+   "UCHealth will send at least four (4) monthly Billing Statements, mailed every thirty (30) days, to the Guarantor of an account informing of a balance due with an address in the United States, Canada or Mexico. Billing Statements will include information about UCHealth's FAP and how a Patient or Guarantor can obtain an application and assistance in completing the application. During this timeline, the Guarantor may either pay the account in full, set up a payment plan, seek financial counseling, provide additional insurance information, or submit a completed Financial Assistance application. UCHealth will make reasonable efforts to obtain a valid address for all patients. If a valid address cannot be obtained, four (4) billing statements may not be mailed, and the account may be referred to collections after 45 days from date of discharge.",
+   "After UCHealth has sent four (4) Billing Statements and received no payment and no application within thirty days of the final Billing Statement, UCHealth may refer the account to collections. UCHealth will refer accounts to collections when insured Patient balances have not been paid for 120 days or more. UCHealth will refer accounts to collections when uninsured Patient balances have not been paid for 182 days or more. If no action is taken by the Guarantor to resolve the balance 365 days from the first post-discharge Billing Statement to the Patient, either by making a payment, submitting additional information or a completed application, or setting up a payment plan, the collections agency may initiate ECAs, such as initiating legal action and wage garnishment.",
+   "UCHealth will refrain from initiating ECAs for at least 365 days from the date the Hospital mails the first post-discharge Billing Statement to the Guarantor for the care, and will make reasonable efforts as described above and as required by law, at least 30 days in advance of initiating ECAs, to determine if the Patient is eligible for Financial Assistance.",
+   "All parties engaged in collection actions on behalf of UCHealth will be required to follow this policy, including contracted collection agencies.",
+   "Patient debt with UCHealth is not reported to credit agencies nor are liens placed on the patient's property.",
+   "The UCHealth Financial Counseling department will have final authority to decide whether UCHealth has made reasonable efforts to determine whether a Patient is eligible for Financial Assistance under this policy, and therefore whether UCHealth may engage in ECAs against the Guarantor.",
+   "As described by UCHealth's Emergency Medical Treatment and Labor Act (EMTALA) policy, the Hospital will not delay examination or treatment of individuals to inquire about the method of payment or insurance status. Hospital will provide a medical screening exam (MSE) and, when appropriate, stabilizing treatment without regard to age, race, color, sex, gender identity, economic status, ability to pay, or insurance status. The Hospital will not seek, or direct a patient to seek, authorization from an individual's insurance company for screening and stabilization services until after the MSE and treatment and exams necessary to stabilize the emergency medical condition have been completed.",
+   "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing. When a Patient's application for Financial Assistance is approved, the self-pay discount will be reversed and the Patients will receive a discount on gross charges as outlined in the above Section titled Discounts and Appendix A of this policy. On a Billing Statement, Guarantors will see the gross (full) charges, less the applicable discount, and the remaining balance owed.",
+   "UCHealth staff will uphold the confidentiality and individual dignity of each Patient.",
+   "UCHealth will comply with the Health Insurance Portability and Accountability Act (HIPAA) and all relevant state and federal laws in its treatment of protected health information (PHI) in relation to determining eligibility for Financial Assistance.",
+   "req_co_resident may leave out a condition: Residency required except for UCHealth employees living out-of-state who receive services at a UCHealth facility.",
+   "req_emergency_or_medically_necessary may leave out a condition: Financial Assistance also offered for Medically Necessary services beyond emergency care.",
+   "req_uninsured_or_underinsured may leave out a condition: Catastrophic Balance Financial Assistance does not require being uninsured or underinsured."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "rule_fap_income_tier_discount: the clause fpl_pct >= 251.0 OR fpl_pct <= 400.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Applicants have the later of (a) 365 days from the date of the first post-discharge Billing Statement, or (b) 30 days after notice of the initiation of one or more Extraordinary Collection Actions (\"ECA\") has been provided, to submit an application or to request a reconsideration of an incomplete and denied application",
+    "why": "Policy does not mention 30 days after date of service as a deadline option."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_fap_income_tier_100",
+    "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets 100% off",
+    "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines.",
+    "why": "Quote limits income to \u2264400% FPL, but rule claims 100% discount for \u2264250% FPL."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_fap_income_tier_discount",
+    "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines.",
+    "why": "Policy specifies exact discount percentages via Appendix A, not unstated help."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_catastrophic",
+    "claim": "A patient with (bill_pct_income_assets > 50) gets an unstated amount of help",
+    "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined.",
+    "why": "Policy specifies discount as lesser of Appendix A or 50% of income, not unstated help."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_presumptive",
+    "claim": "A patient with (presumptive_program) gets 100% off",
+    "quote": "Presumptive eligibility for Financial Assistance may be granted for circumstances outlined in the Presumptive Eligibility section of this policy.",
+    "why": "Policy limits presumptive eligibility to cases where estimated household FPL \u2264250%, not all presumptive_program cases."
+   }
+  ],
+  "clauses": 7,
+  "clauses_proven": 7,
+  "unsupported": 5
+ },
+ "cost_usd": 0.01396,
+ "made": "2026-10-28"
+}

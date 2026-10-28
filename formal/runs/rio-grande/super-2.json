@@ -1,0 +1,162 @@
+{
+ "model": {
+  "hospital": "Rio Grande Hospital",
+  "doc": "policy",
+  "source_url": "https://riograndehospital.org/wp-content/uploads/2026/02/02272026-FAP-Revised-with-DSH-Corrections-v2.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_free_care",
+    "label": "Free care (100% discount)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 100.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at or below 100% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_80pct_discount",
+    "label": "Up to 80% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 100.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 125.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "Patients whose family income is over 100% and below 125% of the FPL would be eligible for up to an 80% discount."
+   },
+   {
+    "id": "rule_60pct_discount",
+    "label": "Up to 60% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 125.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 60.0,
+    "quote": "Patients whose family income is over 125% and below 150% of the FPL would be eligible for up to a 60% discount."
+   },
+   {
+    "id": "rule_40pct_discount",
+    "label": "Up to 40% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 150.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "Patients whose family income is over 150% and below 200% of the FPL would be eligible for up to a 40% discount."
+   },
+   {
+    "id": "rule_20pct_discount",
+    "label": "Up to 20% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 200.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 20.0,
+    "quote": "Patients whose family income is over 200% and below 250% of the FPL would be eligible for up to a 20% discount."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 182,
+     "quote": "No extraordinary collection action will be taken before 182 days from the first bill."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy states that patients with income exceeding 250% FPL may be considered for financial assistance on a case-by-case basis for catastrophic illness or medical indigence at the discretion of RGH.",
+   "The policy excludes physician fees or other charges from non-employee providers.",
+   "The policy applies to hospital, clinics and all employed providers including inpatient, emergency room, family practice clinic providers, and specific physicians listed; does not apply to radiologists from Colorado Imaging Associates, specialists from San Luis Valley Health, Health One cardiology, vascular institute of the Rockies, and certain surgeons.",
+   "The policy states that financial assistance is not considered a substitute for personal responsibility and patients are expected to cooperate and contribute based on ability to pay.",
+   "The policy states that the determination of financial need may be done at any point in the collection cycle and re-evaluated every 12 months or if financial situation changes.",
+   "The policy states that accounts may be considered for financial assistance up to six months prior to the determination date and up to one year after the determination date.",
+   "The policy states that RGH will notify the patient or applicant in writing within 30 days of receipt of a completed application.",
+   "The policy states that RGH will refrain from initiating Extraordinary Collection Actions (ECA) for Emergency Care provided by RGH, including emergency and inpatient care and attached ancillary services.",
+   "The policy states that any account engaged in ECA that is determined qualified under financial assistance, RGH will take all reasonably available measures to reverse any ECA.",
+   "The policy states that RGH will follow all Colorado DSH and Colorado Hospital Discount Care rules for patients qualifying under financial assistance."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Accounts eligible for Financial Assistance are to be addressed within 240 days of first bill.",
+    "why": "The 240-day period addresses accounts, not the patient's application submission deadline."
+   }
+  ],
+  "clauses": 5,
+  "clauses_proven": 5,
+  "unsupported": 1
+ },
+ "cost_usd": 0.00742,
+ "made": "2026-10-28"
+}

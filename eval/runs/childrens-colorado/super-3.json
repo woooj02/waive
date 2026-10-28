@@ -1,0 +1,212 @@
+{
+ "model": {
+  "hospital": "Childrens Hospital Colorado",
+  "doc": "policy",
+  "source_url": "https://www.childrenscolorado.org/globalassets/your-visit/financial-assistance-policy-english.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_co_resident",
+    "label": "Must be Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "HDC and CICP applicants must be residents of Colorado."
+   },
+   {
+    "id": "req_in_service_area",
+    "label": "Must reside in hospital\\'s service area",
+    "cond": [
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "who received a health care service at a hospital -based CHCO location."
+   },
+   {
+    "id": "req_emergency_or_medically_necessary",
+    "label": "Care must be emergency or medically necessary",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_hdc",
+    "label": "Hospital Discounted Care (HDC)",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less)"
+   },
+   {
+    "id": "rule_limited_inpatient",
+    "label": "Limited financial assistance for Inpatient Services",
+    "when": [
+     [
+      {
+       "var": "inpatient",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "CHCO provides additional limited financial assistance for Inpatient Services only for individuals 251% to 400% FPG."
+   },
+   {
+    "id": "rule_self_pay_discount",
+    "label": "Self-Pay discount",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 35.0,
+    "quote": "At the time of billing, if the patient does not have HDC, a standard 35% discount will be applied to all self-pay balances."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 365,
+     "quote": "If Financial Assistance will be used to cover past dates of service, the patient/family must indicate the request for such assistance on the application. The application must be completed within 365 days from the date of services or date of discharge."
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 120,
+     "quote": "CHCO will not initiate ECAs for at least 120 days from the date CHCO provides the first post -discharge billing statement for the care"
+    }
+   ],
+   "first_statement_from_day": 46
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": 4.0,
+   "max_months": 36,
+   "min_monthly_usd": null,
+   "quote": "Monthly installments for hospital charges will not exceed 4% of their monthly household Income (2% for professional fees). After a cumulative 36 months of payments, CHCO will treat the Qualified Patient\\'s bill as paid in full and will cease collection activities on any balance that remains unpaid."
+  },
+  "notes": [
+   "Assets are not considered in determining eligibility: \"does not consider liquid or illiquid assets or resources in determining eligibility.\"",
+   "Screening windows: Uninsured patients can request screening for HDC up to 365 days past date of service/discharge and for CICP up to 181 days after date of service.",
+   "Insured patients may request screening within 45 days of date of service or first billing statement after insurance adjustment.",
+   "Billing statements may be sent beginning 46 days after the date of service.",
+   "International Individuals: CHCO offers some limited financial assistance for Emergency medical services to all patients, including International Individuals.",
+   "Services not covered by FAP: health care services that are not Emergent or Medically Necessary, including elective or cosmetic surgery, transplant procedures, self-pay package, single case agreement, grants & research, or when there is a legal obligation for a third party to pay a claim.",
+   "Financial Assistance does not extend to costs associated with housing, food, transportation, community services, or services/supplies related to continuity of care (e.g., durable medical equipment, home care).",
+   "req_emergency_or_medically_necessary may leave out a condition: applies only to HDC, not necessarily all forms of assistance (e.g., self-pay discount)"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "req_no_discount_for_public_benefits: has no conditions; remove it or give its conditions"
+  ],
+  "repaired": true,
+  "lint_after": [],
+  "dropped": [
+   {
+    "kind": "rule",
+    "id": "rule_cicp",
+    "quote": "CICP ... allows participating providers, like CHCO, to render discounted services to patients who are Colorado residents with limited financial resources who are uninsured or underinsured and not eligible for benefits under the Medicaid Program or the Children\\'s Basic Health Plan"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "The patient/guardian will be asked to complete the Colorado State Uniform Application, and submit all required documentation, within 45 days.",
+    "why": "45-day deadline is for submitting documentation after self-attestation indicates eligibility, not initial application submission"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_hdc",
+    "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets an unstated amount of help",
+    "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less)",
+    "why": "policy does not state the amount of help, only eligibility"
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:rule_limited_inpatient",
+    "claim": "A patient with (inpatient) AND (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "CHCO provides additional limited financial assistance for Inpatient Services only for individuals 251% to 400% FPG.",
+    "why": "policy does not state the amount of help, only eligibility"
+   }
+  ],
+  "clauses": 7,
+  "clauses_proven": 6,
+  "unsupported": 3
+ },
+ "cost_usd": 0.01101,
+ "fresh_calls": 3
+}

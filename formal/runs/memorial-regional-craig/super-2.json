@@ -1,0 +1,217 @@
+{
+ "model": {
+  "hospital": "Memorial Regional Health",
+  "doc": "policy",
+  "source_url": "https://memorialregionalhealth.com/wp-content/uploads/Financial-Assistance-Policy-2025.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "sliding_scale_base",
+    "label": "Sliding Fee Schedule Base (<=200% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "See attached sliding fee schedule for additional clarification."
+   },
+   {
+    "id": "sliding_scale_200_240",
+    "label": "Sliding Fee Schedule (200%-240% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 200.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 240.0
+      }
+     ]
+    ],
+    "discount_pct": 60.0,
+    "quote": "See attached sliding fee schedule for additional clarification."
+   },
+   {
+    "id": "sliding_scale_240_280",
+    "label": "Sliding Fee Schedule (240%-280% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 240.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 280.0
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "See attached sliding fee schedule for additional clarification."
+   },
+   {
+    "id": "sliding_scale_280_300",
+    "label": "Sliding Fee Schedule (280%-300% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 280.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 20.0,
+    "quote": "See attached sliding fee schedule for additional clarification."
+   },
+   {
+    "id": "medical_indigent_threshold_1",
+    "label": "Medical Indigent Threshold #1 (301%-500% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 301.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 25.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "A patient whose family income is between 301% and 500% of the Federal Poverty Level (FPL)."
+   },
+   {
+    "id": "medical_indigent_threshold_2",
+    "label": "Medical Indigent Threshold #2 (>500% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 25.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "A patient whose family income is greater than 500% of the FPL."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "service",
+     "days": 45,
+     "quote": "the form should be filled out completely, required supporting documents should be gathered and attached, and all documents should be submitted in and of the following manners within 45 days of applicable service"
+    },
+    {
+     "anchor": "first_statement",
+     "days": 45,
+     "quote": "within 45 days of applicable service, 45 days from the date of primary insurance payment, or 45 days from Medicaid denial"
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": 24,
+   "min_monthly_usd": 25.0,
+   "quote": "Accounts must be paid in full within 24 months from date of service\n2. Payments plans must be a minimum of $25.00 per month"
+  },
+  "notes": [
+   "Eligible services include emergency medical services, services for conditions that would lead to adverse health status change if untreated, non-elective services for life-threatening circumstances in non-emergency room settings, elective services excluding cosmetic procedures, and primary care services.",
+   "Assets considered in review: bank account balances, cash reserves, retirement/IRA balances showing withdrawals, other easily accessible financial resources. Assets not considered: marketable assets currently listed for sale, real estate property listed for sale, tangible assets (vehicles, household goods), non-liquid, non-convertible resources.",
+   "To obtain a Financial Assistance Application: speak with a financial counselor, request at time of service, download from website under Resources tab, or request by mail to Memorial Regional Health, ATTN: Financial Counselor, 750 Hospital Loop, Craig CO 81625.",
+   "If assistance is approved, patient accounts will be adjusted based on a sliding scale. If denied, appeals considered by providing additional information for specific denial reason. Assistance retroactively covers six months from date of approval and remains valid for one year from first date of service applied to. Patients may reapply if six months passed since denial, significant financial changes occurred, or approved assistance is set to expire.",
+   "AGB calculated using look-back method: data based on claims allowed by Medicaid combined with Medicare fee-for-service and private health insurers over prior 12 months. AGB percentage multiplied by gross charges for emergency and medically necessary care to determine AGB. Discount applies to amount patient is personally responsible for after deductions, discounts, and insurance reimbursements.",
+   "No account forwarded to collections for 45 days after financial assistance application requested. Minimum one contact attempt before forwarding account to collections.",
+   "sliding_scale_base may leave out a condition: Policy references sliding fee schedule but does not specify 80% off for fpl_pct <= 200 in text.",
+   "sliding_scale_200_240 may leave out a condition: Policy references sliding fee schedule but does not specify 60% off for fpl_pct between 200 and 240 in text.",
+   "sliding_scale_240_280 may leave out a condition: Policy references sliding fee schedule but does not specify 40% off for fpl_pct between 240 and 280 in text.",
+   "sliding_scale_280_300 may leave out a condition: Policy references sliding fee schedule but does not specify 20% off for fpl_pct between 280 and 300 in text."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "rule:presumptive",
+    "claim": "A patient with (presumptive_program) gets 100% off",
+    "quote": "Some examples of sources MRH may use to determine presumptive financial assistance include: 1. Homelessness 2. Food Stamp Eligibility 3. Low Income/Subsidized housing is provided as a valid address 4. Patient is deceased with no known estate 5. Patients that are Medicaid eligible whose claim is denied by Medicaid due to exhausted benefits",
+    "why": "Presumptive eligibility leads to financial assistance determination but does not guarantee 100% off."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:hardship",
+    "claim": "A patient with (medically_necessary) gets an unstated amount of help",
+    "quote": "MRH reserves the right to consider a Hardship application on a case-by-case basis for Medically Indigent patients who MRH determines to be eligible on the basis of an unusual financial situation that creates a demonstrably catastrophic, unusual, or extraordinary situation.",
+    "why": "Hardship applies to Medically Indigent patients with catastrophic situations, not all medically_necessary patients."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:medical_indigent_threshold_1",
+    "claim": "A patient with (fpl_pct >= 301) AND (fpl_pct <= 500) AND (bill_pct_income > 25) gets an unstated amount of help",
+    "quote": "A patient whose family income is between 301% and 500% of the Federal Poverty Level (FPL).",
+    "why": "Policy states patient will be billed lesser of 5% of income or 50% of AGB, not just 'unstated amount of help'."
+   },
+   {
+    "kind": "amount removed",
+    "id": "rule:medical_indigent_threshold_2",
+    "claim": "A patient with (fpl_pct > 500) AND (bill_pct_income > 25) gets an unstated amount of help",
+    "quote": "A patient whose family income is greater than 500% of the FPL.",
+    "why": "Policy states patient will be billed lesser of 10% of income or 50% of AGB, not just 'unstated amount of help'."
+   }
+  ],
+  "clauses": 8,
+  "clauses_proven": 6,
+  "unsupported": 4
+ },
+ "cost_usd": 0.00554,
+ "made": "2026-10-28"
+}

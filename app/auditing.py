@@ -5,8 +5,9 @@ the published audit says: per-finding confirmation by the second model, inconclu
 and the reviewers' verdicts.
 
 Confirmation is per finding, not per check: the exact household (or first-bill day) Z3 found in Nemotron 3 Ultra's
-model is replayed against Nemotron 3 Super's model, and the finding is "confirmed" only if Super's model fails the
-same requirement for that same case.
+model is replayed against Nemotron 3 Super's independent models (one per run, up to five: formal/runs/), and the
+finding is "confirmed" only if most of them fail the same requirement for that same case. One Super run is noisy
+(the same check got the same verdict in only 76% of cases across five runs, stability-eval.json); a majority isn't.
 """
 
 from __future__ import annotations
@@ -19,6 +20,7 @@ from .law import audit, equivalent
 
 ROOT = Path(__file__).resolve().parent.parent
 NEMO, HAND = ROOT / "formal", ROOT / "eval" / "formal"
+RUNS = NEMO / "runs"
 _REVIEWS = ROOT / "eval" / "reviews.json"
 REVIEWS = json.loads(_REVIEWS.read_text())["reviews"] if _REVIEWS.exists() else []
 
@@ -26,19 +28,21 @@ TIMING = {"co_eca_182": "eca", "fed_eca_120": "eca", "co_window_181": "applicati
           "co_window_insured": "application", "fed_window_240": "application"}
 
 
-def second_model(pid: str) -> PolicyModel | None:
+def second_models(pid: str) -> list[PolicyModel]:
+    """Nemotron 3 Super's independent models of this policy: the pipeline's own run, then any extra runs."""
     p = NEMO / f"{pid}.json"
-    if p.exists():
-        sm = json.loads(p.read_text())["report"].get("secondary_model")
-        return PolicyModel(**sm) if sm else None
-    return None
+    sm = json.loads(p.read_text())["report"].get("secondary_model") if p.exists() else None
+    extra = sorted((RUNS / pid).glob("super-*.json"), key=lambda q: int(q.stem.split("-")[1]))
+    return ([PolicyModel(**sm)] if sm else []) + [PolicyModel(**json.loads(q.read_text())["model"]) for q in extra]
 
 
 def dropped_rules(pid: str) -> int:
     p = NEMO / f"{pid}.json"
-    if not p.exists():
-        return 0
-    rep = json.loads(p.read_text())["report"]["primary"]
+    return lost_rules(json.loads(p.read_text())["report"]["primary"]) if p.exists() else 0
+
+
+def lost_rules(rep: dict) -> int:
+    """Rules one formalisation lost to the quote and meaning checks."""
     return sum(1 for d in rep.get("dropped", []) if d["kind"] in ("rule", "unsupported")
                and (d["kind"] == "rule" or str(d.get("id", "")).startswith("rule")))
 
@@ -92,18 +96,22 @@ def audit_document(pid: str, pm: PolicyModel, source: str, summary: PolicyModel 
     """Every finding for one policy, with confidence, inconclusive marking and reviews applied."""
     primary = audit(pm)
     findings = [f.as_dict() for f in primary]
-    other = second_model(pid) if source == "nemotron" else None
-    if other:
-        theirs: dict = {}
-        for g in audit(other):
-            theirs.setdefault(g.check, set()).add(g.status)
+    others = second_models(pid) if source == "nemotron" else []
+    if others:
+        theirs: list[dict] = []
+        for o in others:
+            v: dict = {}
+            for g in audit(o):
+                v.setdefault(g.check, set()).add(g.status)
+            theirs.append(v)
         for f in findings:
-            f["second_opinion"] = sorted(theirs.get(f["check"], []))
-            if f["status"] == "counterexample":
-                same = replay(f, other)
-                f["confidence"] = "confirmed" if same else "disputed"
-            else:  # a proof or "not stated" is about the whole check: compare the two models' verdicts on it
-                f["confidence"] = "confirmed" if theirs.get(f["check"]) == {f["status"]} else "disputed"
+            f["second_opinion"] = sorted(set().union(*(v.get(f["check"], set()) for v in theirs)))
+            if f["status"] == "counterexample":  # the same case, replayed in each Super model
+                agree = sum(bool(replay(f, o)) for o in others)
+            else:  # a proof or "not stated" is about the whole check: compare verdicts on it
+                agree = sum(v.get(f["check"]) == {f["status"]} for v in theirs)
+            f["votes"] = {"agree": agree, "of": len(others)}
+            f["confidence"] = "confirmed" if agree * 2 > len(others) else "disputed"
     if summary is not None:
         single = source == "nemotron"  # one Ultra model per document: not cross-checked like the audit verdicts
         findings += [dict(f.as_dict(), check="summary_matches_policy",

@@ -1,0 +1,174 @@
+{
+ "model": {
+  "hospital": "Gunnison Valley Health",
+  "doc": "policy",
+  "source_url": "https://www.gunnisonvalleyhealth.org/documents/content/Financial-Assistance-Policy-2023[100].pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_co_resident",
+    "label": "Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "GVH and FMC provide financial assistance to Gunnison, Hinsdale and Saguache County Residents."
+   },
+   {
+    "id": "req_in_service_area",
+    "label": "In service area",
+    "cond": [
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "GVH and FMC provide financial assistance to Gunnison, Hinsdale and Saguache County Residents."
+   },
+   {
+    "id": "req_emergency_or_medically_necessary",
+    "label": "Emergency or medically necessary care",
+    "cond": [
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "You may be eligible for financial assistance for emergencies or medically necessary healthcare services..."
+   },
+   {
+    "id": "req_exhaust_other_options",
+    "label": "Exhaust other payment options",
+    "cond": [
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "The FAP will provide benefits as a last resort. All other payment options, including but not limited to private insurance, Medicare, Medicaid, CHP, third party Liability, and CICP must be explored for eligibility and secured where eligible prior to the application for financial assistance."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_medical_hardship",
+    "label": "Medical hardship",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 400.0
+      }
+     ],
+     [
+      {
+       "var": "income_usd",
+       "op": "<",
+       "value": 200000.0
+      }
+     ],
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 20.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patient, or patient\u2019s guarantor, has annual family income in excess of 400% of the Federal Poverty Guidelines, but less than $200,000, and ... Patient, or patient\u2019s guarantor, has exhausted all other payment options including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties; and ... The out-of-pocket, patient obligations resulting from medical services provided by GVH and FMC providers exceed 20% of annual family income."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 180,
+     "quote": "Eligible accounts include Gunnison Valley Hospital and Family Medicine Clinic (GVH & FMC) accounts with remaining balances. Accounts turning to bad debt will be considered as long as the complete application and supporting documentation are submitted prior to 180 days from the date of the initial account statement."
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "Reasonable Payment Plan: A payment plan that is negotiated between GVH and FMC and the guarantor for any balances owed. The payment plan shall consider the patient, or guarantor's income and assets, the amount owed and any prior payments."
+  },
+  "notes": [
+   "Eligibility for financial assistance is valid for 6 months from the application date. After 6 months, you must reapply for the FAP and resubmit all supporting documents.",
+   "If GVH and FMC contacts the patient, or guarantor to request missing information, the patient, or guarantor will have a period of 30 days to respond. Failure to respond within that 30-day period will result in the Application being denied.",
+   "Financial assistance discounts will be posted after the Customer Service Supervisor approves the Financial Assistance Application. Payment is expected in full within 30 days of the new statement date after the FAP discount has been posted.",
+   "During the Notification Period (120 Days), the Hospital will provide each patient with at least three Billing Statements, a Seriously Past Due notice, and a final notice that provides the individual with the amount owed. The hospital may initiate External Collection Activity (ECA), but only after the Final notice letter has been provided and a period of at least 30 days have elapsed.",
+   "Gunnison Valley Health's AGB percentage is 71% of gross charges for inpatient and outpatient services.",
+   "Financial Counselor is approved to post FAP discounts ranging from $1.00-$5,000.99. The Customer Service Supervisor is approved to post FAP discounts ranging from $1001-$5,000.99. The Revenue Cycle Director is approved to post FAP discounts ranging from $5,001.00- $10,000. The Chief Financial Officer must approve any adjustment greater than $10,000.00.",
+   "Non-Covered Services: Gunnison Valley Hospital and Family Medicine Clinic reserves the right to exclude or limit non-emergency hospital services from the FAP. Services not included are cosmetic surgery, ophthalmology, integrative therapies, and oncology.",
+   "Presumptive Eligibility: There are instances when a patient may qualify for financial assistance; however, a full application is not on file. Certain circumstances provide sufficient information to qualify the patient for financial assistance without the fully completed application and are deemed presumptively eligible. \u2022 Homelessness \u2022 Deceased with no estate. \u2022 Medicaid eligible, but not active for a date of service. 90 days look back period. \u2022 Mental incapacitation: No one to act on patient\u2019s behalf. \u2022 Patients are eligible for out-of-state Medicaid and GVH and FMC do not participate in the States Medicaid Program.",
+   "req_in_service_area may leave out a condition: policy limits assistance to residents of three specific counties, not just the hospital's service area"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_fap_0_250",
+    "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets 100% off",
+    "quote": "Gunnison Valley, Hinsdale and Saguache Residents who are at or below 250% FPL will be required to apply for The Colorado Indigent Care Program (CICP), as administered by Gunnison Valley Hospital and Family Medicine Clinic.",
+    "why": "policy requires CICP application for \u2264250% FPL, does not state FAP provides 100% off"
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_fap_251_400",
+    "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+    "quote": "You may be eligible for financial assistance for emergencies or medically necessary healthcare services, if your family income is at or below 400 percent of the federal poverty guidelines, as published annually.",
+    "why": "policy does not restrict FAP to uninsured/underinsured; discount amount not specified in quote"
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the date of service (alone, or as one of several 'the later of' options)",
+    "quote": "Eligible accounts include Gunnison Valley Hospital and Family Medicine Clinic (GVH & FMC) accounts with remaining balances. Accounts turning to bad debt will be considered as long as the complete application and supporting documentation are submitted prior to 180 days from the date of the initial account statement.",
+    "why": "policy uses initial account statement date, not date of service"
+   }
+  ],
+  "clauses": 7,
+  "clauses_proven": 5,
+  "unsupported": 3
+ },
+ "cost_usd": 0.00846,
+ "made": "2026-10-28"
+}

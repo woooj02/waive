@@ -1,0 +1,140 @@
+{
+ "model": {
+  "hospital": "Banner Health",
+  "doc": "summary",
+  "source_url": "https://www.bannerhealth.com/-/media/Files/Project/BH/Patients-Visitors/Billing/Financial-Assistance/2025-documents/9999-0061-BH-Summary-Of-Financial-Assistance-Programs-And-Application.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "uninsured_fap",
+    "label": "Financial Assistance for Uninsured Patients",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ],
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Uninsured patient, you will qualify for BH Financial Assistance (1) if you have an annual household income and household size that is equal to or less than 400% of the Federal Poverty Level and lack other assets to pay the Hospital\u2019s full charges and, (2) if requested to do so by the Hospital, you apply for Medicaid/AHCCCS, fully cooperate in the application and determination process, or are unable to reasonably complete the application process, and are denied Medicaid/AHCCCS coverage."
+   },
+   {
+    "id": "underinsured_fap",
+    "label": "Financial Assistance for Underinsured Patients",
+    "when": [
+     [
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Underinsured patient, you may qualify for BH Financial Assistance for Underinsured/Balance After Insurance discount. You will need to apply for consideration and meet both Hospital bill balance requirements stated in the Financial Assistance Policy and Federal Poverty Level guidelines."
+   },
+   {
+    "id": "uninsured_discounted_care",
+    "label": "Discounted Care for Uninsured Patients Not Qualifying for FAP",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Uninsured patient, you may qualify for a discounted rate if you do not meet the qualifications for the Financial Assistance Program based on Federal Poverty Level guidelines. Qualification for the discounted care means, you will be charged 1.25 x AGB (Amounts Generally Billed,)"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy requires patients to lack other assets to pay the hospital's full charges for uninsured FAP qualification, but this is not modeled due to vocabulary limitations regarding asset assessment beyond income.",
+   "The policy states that patients qualifying for financial assistance will in no case be charged more than Amounts Generally Billed for emergency or medically necessary services, but AGB is not modeled as it requires facility-specific data not in the vocabulary.",
+   "The policy mentions that for non-emergent services, patients may be required to make a substantial advance deposit based on an estimate of AGB, but this is procedural and not modeled per instructions.",
+   "The policy includes a lien recovery provision under Arizona law (ARS Sec. 33-931 et seq.) for third-party funding received after assistance, but this is post-determination and not an eligibility requirement.",
+   "The policy applies to Banner hospitals and certain other BH entities, but the model assumes all owned and operated facilities as per the summary's scope.",
+   "The policy includes a statement that patients will never be required to make advance payment or other payment arrangements to receive emergency services, but this is covered under the AGB cap and not modeled separately.",
+   "The policy does not specify timing for application submission, ECA restrictions, or first statement issuance, so these fields are left empty.",
+   "The policy does not specify payment plan terms such as maximum percentage of monthly income, maximum months, or minimum monthly payment, so these are left null.",
+   "uninsured_fap may leave out a condition: Policy requires asset test ('lack other assets') and Medicaid denial beyond just applying.",
+   "underinsured_fap may leave out a condition: Policy requires meeting 'Hospital bill balance requirements' in addition to FPL <= 400%."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "rule:medically_indigent",
+    "claim": "A patient with (bill_pct_income > 50) gets an unstated amount of help",
+    "quote": "A Medically Indigent Patient means a household with medical expenses incurred during the previous 12 months, where the portion for which the household is responsible exceeds 50% of the household\u2019s total income for that year.",
+    "why": "Policy defines term but does not state it confers financial assistance."
+   }
+  ],
+  "clauses": 4,
+  "clauses_proven": 3,
+  "unsupported": 1
+ },
+ "cost_usd": 0.00247,
+ "made": "2026-10-28"
+}

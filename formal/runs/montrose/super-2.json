@@ -1,0 +1,42 @@
+{
+ "model": {
+  "hospital": "Montrose Regional Health",
+  "doc": "summary",
+  "source_url": "https://montrosehealth.com/wp-content/uploads/2021/11/Plain-Language-Summary-of-Charity-Care-and-Financial-Assistance-Policy_Final-MRH-1.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy mentions service exclusions not typically eligible for financial assistance, including transplants, cosmetic services and other services.",
+   "Policy states that no person eligible for financial assistance will be charged more for medically necessary care than amounts generally billed to individuals who have insurance covering such care (AGB).",
+   "Policy indicates that individuals with sufficient insurance coverage or assets available to pay for care may be deemed ineligible for financial assistance."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "sliding_scale_fap: has no conditions; remove it or give its conditions"
+  ],
+  "repaired": true,
+  "lint_after": [
+   "no rules: the model grants help to nobody"
+  ],
+  "dropped": [],
+  "clauses": 0,
+  "clauses_proven": 0,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00156,
+ "made": "2026-10-28"
+}

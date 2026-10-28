@@ -1,0 +1,160 @@
+{
+ "model": {
+  "hospital": "San Luis Valley Health",
+  "doc": "policy",
+  "source_url": "https://www.sanluisvalleyhealth.org/documents/SLVH-Financial-Assistance-Policy-04.28.25.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_colorado_residency",
+    "label": "Colorado residency required",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Residents of any state other than Colorado are not eligible for financial assistance without prior approval from the facility Chief Financial Officer."
+   },
+   {
+    "id": "req_no_outside_us_residents_without_approval",
+    "label": "Non-US residents require CFO approval",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": true,
+    "quote": "Residents of countries outside the United States of America are not eligible for financial assistance without prior approval from the facility Chief Financial Officer."
+   }
+  ],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 181,
+     "quote": "Extraordinary Collection Activities ECAs will not be initiated earlier than 181 days after the first billing statement is sent to the individual."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": 36,
+   "min_monthly_usd": 50.0,
+   "quote": ">$5000 No more than 36 months\n\n3. All payment plans should be at least $50 per month."
+  },
+  "notes": [
+   "The policy references Addendum A for AGB percentages per hospital, which are not detailed in the text.",
+   "The policy mentions a third-party scoring tool for FPL calculation and income documentation requirements for the last 90 days, but these are procedural and not modeled as requirements or rules.",
+   "The policy allows SLV Health to utilize other sources of information for non-responsive patients to assess financial need, but this is discretionary and not a requirement for assistance.",
+   "The policy states that SLV Health will annually review and incorporate federal poverty guidelines updates, but this is a maintenance activity, not an eligibility condition.",
+   "The policy includes provisions for refunds if payments exceed the approved financial assistance rate and established copayment, but this is not modeled as a rule for granting assistance.",
+   "The policy specifies approval levels and record-keeping requirements, but these are administrative and not eligibility criteria.",
+   "The policy allows facilities to require re-application if new income level information becomes available, but this is not a condition for initial assistance."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [
+   "req_no_outside_us_residents_without_approval: has no conditions; remove it or give its conditions",
+   "req_non_medically_necessary_excluded: has no conditions; remove it or give its conditions",
+   "req_eca_timing: has no conditions; remove it or give its conditions"
+  ],
+  "repaired": true,
+  "lint_after": [
+   "req_eca_timing: unknown variable 'first_statement_from_day' (use only the listed facts)"
+  ],
+  "dropped": [
+   {
+    "kind": "requirement",
+    "id": "req_eca_timing",
+    "quote": "Extraordinary Collection Activities ECAs will not be initiated earlier than 181 days after the first billing statement is sent to the individual.",
+    "reason": "invalid logic"
+   },
+   {
+    "kind": "rule",
+    "id": "rule_agb_cap",
+    "quote": "The amounts billed for emergency and other medically necessary medical services will not be more than the AGB to individuals with insurance covering such care."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_emergency_or_medically_necessary_care",
+    "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+    "quote": "SLV Health is dedicated to ensuring that emergency and other medically necessary care is accessible to all patients, regardless of ability to pay, ability to qualify for financial assistance, or the availability of third-party coverage.",
+    "why": "Policy ensures access to emergency/medically necessary care but does not require it for all assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_cooperate_for_discount",
+    "claim": "Every form of assistance requires: (applied_public_programs)",
+    "quote": "To be considered for a discount under the FAP, the individual must cooperate with SLV Health to provide the information and documentation necessary to determine eligibility and to apply for any financial assistance that may be available to pay for healthcare such as Medicare, Medicaid, third-party liability, etc.",
+    "why": "Cooperation is required for consideration, but not specifically for applying to public programs."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_hdc_payment_plan_cooperation",
+    "claim": "Every form of assistance requires: (applied_public_programs)",
+    "quote": "An individual who qualifies for HDC must cooperate with the hospital to establish a payment plan as determined by the State of Colorado on their Hospital Discounted Care application and must make good faith efforts to honor the payment plans for their discounted hospital bills.",
+    "why": "Requirement applies only to HDC-qualified individuals, not every form of assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_non_medically_necessary_excluded",
+    "claim": "Every form of assistance requires: (not medically_necessary)",
+    "quote": "Exception: Financial assistance under this policy is not available for services that are not medically necessary as determined by the patient\u2019s treating provider.",
+    "why": "Policy excludes non-medically necessary services; claiming assistance requires not medically_necessary inverts the logic."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_fap_general_eligibility",
+    "claim": "A patient with (not applied_public_programs) gets an unstated amount of help",
+    "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+    "why": "Ineligibility for public programs is a requirement, not a rule granting assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_medicaid_noncovered_services",
+    "claim": "A patient with (applied_public_programs) gets an unstated amount of help",
+    "quote": "Medicaid patients who receive non-covered medically necessary services will be considered for financial assistance.",
+    "why": "Being considered for assistance does not guarantee an unstated amount of help."
+   },
+   {
+    "kind": "unsupported",
+    "id": "rule:rule_insurance_balance_eligibility",
+    "claim": "A patient with (insured) gets an unstated amount of help",
+    "quote": "Insurance programs leaving a patient balance may be eligible for SLV Health financial assistance if the patient meets financial screening requirements.",
+    "why": "Meeting financial screening requirements is required; insurance balance alone does not grant assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Individuals will be given 60 days to resubmit a completed form before extraordinary collection activities (ECA\u2019s) will occur.",
+    "why": "60-day period is for resubmitting incomplete forms, not initial application submission."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:1",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 60 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Individuals will be given 60 days to resubmit a completed form before extraordinary collection activities (ECA\u2019s) will occur.",
+    "why": "60-day period is for resubmitting incomplete forms, not initial application submission."
+   }
+  ],
+  "clauses": 10,
+  "clauses_proven": 2,
+  "unsupported": 9
+ },
+ "cost_usd": 0.00835,
+ "made": "2026-10-28"
+}

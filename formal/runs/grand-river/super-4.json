@@ -1,0 +1,67 @@
+{
+ "model": {
+  "hospital": "Grand River Health",
+  "doc": "policy",
+  "source_url": "https://grandriverhealth.org/patients-visitors/commitment-to-charity-care/",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_homeless_charity_care",
+    "label": "Homeless or transient patients receive 100% charity care",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients who are homeless or transient are generally considered automatically eligible for 100% charity care."
+   },
+   {
+    "id": "rule_sliding_scale_up_to_400_fpl",
+    "label": "Sliding scale financial assistance up to 400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Grand River Health\u2019s Sliding Scale is based on 400% of the Federal Poverty Level Guidelines."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "If you are having trouble paying your bill, payment plans are available."
+  },
+  "notes": [
+   "The policy mentions exploring other means of payment prior to offering financial assistance, including Hospital Discount Care Program, Medicaid, and CHP+. It requires applicants to apply for State Medicaid if applicable and be denied before sliding scale consideration, and to provide evidence of income and dependents. The policy includes a one-time charity care program for unemployed patients determined at registration or pre-registration. It states that financial assistance may be revoked if the applicant knowingly misrepresented financial needs. The policy allows extension or denial of financial assistance for administrative or legal reasons, but prohibits denial or extension based on race, color, creed, age, religion, or national origin. The CFO exercises final discretion. No specific timing for application, ECA, or first statement is provided. Payment plan details (maximum percentage of monthly income, maximum months, minimum monthly USD) are not specified.",
+   "rule_sliding_scale_up_to_400_fpl may leave out a condition: policy requires application and screening before sliding scale applies"
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 2,
+  "clauses_proven": 2,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00085,
+ "made": "2026-10-28"
+}

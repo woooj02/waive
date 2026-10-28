@@ -1,0 +1,148 @@
+{
+ "model": {
+  "hospital": "Banner Health",
+  "doc": "summary",
+  "source_url": "https://www.bannerhealth.com/-/media/Files/Project/BH/Patients-Visitors/Billing/Financial-Assistance/2025-documents/9999-0061-BH-Summary-Of-Financial-Assistance-Programs-And-Application.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "financial_assistance_uninsured_low_income_no_assets",
+    "label": "Financial Assistance for Uninsured patients with income \u2264400% FPL and insufficient assets",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ],
+     [
+      {
+       "var": "assets_usd",
+       "op": "<",
+       "value": 1.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Uninsured patient, you will qualify for BH Financial Assistance (1) if you have an annual household income and household size that is equal to or less than 400% of the Federal Poverty Level and lack other assets to pay the Hospital\u2019s full charges"
+   },
+   {
+    "id": "financial_assistance_uninsured_medicaid_cooperation",
+    "label": "Financial Assistance for Uninsured patients who apply for Medicaid and are denied",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "presumptive_program",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "(2) if requested to do so by the Hospital, you apply for Medicaid/AHCCCS, fully cooperate in the application and determination process, or are unable to reasonably complete the application process, and are denied Medicaid/AHCCCS coverage."
+   },
+   {
+    "id": "financial_assistance_underinsured_balance_fpl",
+    "label": "Financial Assistance for Underinsured patients meeting bill balance and FPL guidelines",
+    "when": [
+     [
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 0.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Underinsured patient, you may qualify for BH Financial Assistance for Underinsured/Balance After Insurance discount. You will need to apply for consideration and meet both Hospital bill balance requirements stated in the Financial Assistance Policy and Federal Poverty Level guidelines."
+   },
+   {
+    "id": "discounted_care_uninsured_not_fpl",
+    "label": "Discounted care for Uninsured patients not qualifying for FPL-based assistance",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Uninsured patient, you may qualify for a discounted rate if you do not meet the qualifications for the Financial Assistance Program based on Federal Poverty Level guidelines. Qualification for the discounted care means, you will be charged 1.25 x AGB (Amounts Generally Billed)"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy requires cooperation with Medicaid application process if requested by the hospital. The policy states that patients receiving financial assistance will not be charged more than AGB for emergency or medically necessary services. The policy mentions that advance payment or payment arrangements may be required for non-emergent services. The policy includes a lien recovery clause referencing Arizona state law (ARS Sec. 33-931, et seq.). The policy specifies that the discounted rate for uninsured patients not qualifying for FPL-based assistance is 1.25 x AGB. The policy applies to Banner hospitals and certain other BH entities. The policy defines Medically Indigent as households where medical expenses exceed 50% of annual income, but this definition is not used as a criterion for assistance in the quoted rules. The policy does not specify timing for application submission, ECA restrictions, or first statement timing. The policy does not specify payment plan details such as maximum percentage of monthly income, maximum months, or minimum monthly payment.",
+   "financial_assistance_uninsured_low_income_no_assets may leave out a condition: Policy requires applying for Medicaid/cooperating or being denied; claim omits this.",
+   "financial_assistance_uninsured_medicaid_cooperation may leave out a condition: Policy requires income \u2264400% FPL and lacking assets; claim omits these.",
+   "financial_assistance_underinsured_balance_fpl may leave out a condition: Policy requires meeting hospital bill balance requirements; claim uses vague bill_pct_income>0."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [],
+  "clauses": 4,
+  "clauses_proven": 4,
+  "unsupported": 0
+ },
+ "cost_usd": 0.00242,
+ "made": "2026-10-28"
+}

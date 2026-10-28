@@ -370,11 +370,27 @@ function formalEvalHtml(ev) {
   return `<p>We wrote ${ev.references.length} reference models by hand (UCHealth's policy and its summary, Intermountain, Children's, HealthONE), checking every quote.
     Each model formalised the same documents; Z3 compared the audit verdicts it led to with the verdicts from our references.</p>
     <table class="plain"><thead><tr><th>Model</th><th>Audit verdicts that match ours</th><th>Logically equivalent to ours</th><th>Cost / document</th><th>Time</th></tr></thead><tbody>${rows}</tbody></table>
-    ${t ? `<p><b>Two models as a confidence signal.</b> On these ${ev.references.length} documents, Nemotron 3 Ultra's and Nemotron 3 Super's models reach the same verdict on ${t.confirmed_share_pct}% of checks; on those, the verdict matches our reference ${t.confirmed_match_pct}% of the time, against ${t.disputed_match_pct}% where they disagree. That is verdict agreement on a small set, not an accuracy rate. In the audit itself, confirmation is stricter: a counterexample counts as confirmed only if the exact same case also fails in Super's model. Cost for both: $${t.cost_per_doc.toFixed(3)} per document.</p>` : ""}
+    ${t ? `<p><b>Two models as a confidence signal.</b> On these ${ev.references.length} documents, Nemotron 3 Ultra's and Nemotron 3 Super's models reach the same verdict on ${t.confirmed_share_pct}% of checks; on those, the verdict matches our reference ${t.confirmed_match_pct}% of the time, against ${t.disputed_match_pct}% where they disagree. That is verdict agreement on a small set, not an accuracy rate. Cost for both: $${t.cost_per_doc.toFixed(3)} per document.</p>` : ""}
+    ${stabilityHtml(ev.stability)}
     <p>What we learned: no model is logically equivalent to our references on any document; they differ on details like which program a condition belongs to.
     Letting Ultra rewrite its model from the disagreement households (row "repair") made results worse and cost 4× more, so it is off.
     ${ev.adjudication ? `We also tried letting Ultra settle each disputed finding by reading the policy for that one case: it agreed with our references on ${ev.adjudication.agree_with_reference} of ${ev.adjudication.decided} decided cases, so legal verdicts stay with Z3.` : ""}
     Nemotron also surfaced three clauses our own reference for Children's had missed; we corrected the reference and say so.</p>`;
+}
+
+function stabilityHtml(st) {
+  if (!st) return "";
+  const u = st.ultra, sp = st.super, f = st.findings, one = f.one_super_run, maj = f.super_majority;
+  return `<p><b>Repeated runs.</b> We ran each model ${st.runs} times on the same ${st.docs} documents, with fresh calls.
+    Nemotron 3 Ultra's wording changed between runs, but ${u.same_verdict_every_run_pct === 100 ? "every check got the same verdict in every run" : `${u.same_verdict_every_run_pct}% of checks got the same verdict in every run`} (${u.lowest_run_pct === u.highest_run_pct ? `${u.lowest_run_pct}% match with our references each time` : `${u.lowest_run_pct}–${u.highest_run_pct}% match`}).
+    Nemotron 3 Super was less steady: the same verdict in every run on ${sp.same_verdict_every_run_pct}% of checks (${sp.lowest_run_pct}–${sp.highest_run_pct}% match).</p>
+    <p>So the audit replays each counterexample against <b>${st.runs} independent Super models</b> and calls it confirmed only when most of them fail for the same household or day.
+    On the reference documents, each distinct counterexample Ultra found (${f.distinct_counterexamples}) was replayed against our reference model:</p>
+    <table class="plain"><thead><tr><th>Confirmation rule</th><th>Confirmed: reference also fails</th><th>Disputed: reference also fails</th></tr></thead><tbody>
+      <tr><td>One Super run</td><td>${one.confirmed.real} of ${one.confirmed.n} (${one.confirmed.real_pct}%)</td><td>${one.disputed.real} of ${one.disputed.n} (${one.disputed.real_pct}%)</td></tr>
+      <tr><td>Most of ${st.runs} Super runs (used)</td><td>${maj.confirmed.real} of ${maj.confirmed.n} (${maj.confirmed.real_pct}%)</td><td>${maj.disputed.real} of ${maj.disputed.n} (${maj.disputed.real_pct}%)</td></tr>
+    </tbody></table>
+    <p>A small sample (${st.docs} documents, our own references), so read it as direction, not a rate. It is also why disputed findings stay on the page, marked for a person: most of them are real too.</p>`;
 }
 
 /* ---------- boot ---------- */

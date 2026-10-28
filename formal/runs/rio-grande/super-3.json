@@ -1,0 +1,192 @@
+{
+ "model": {
+  "hospital": "Rio Grande Hospital",
+  "doc": "policy",
+  "source_url": "https://riograndehospital.org/wp-content/uploads/2026/02/02272026-FAP-Revised-with-DSH-Corrections-v2.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_fpl_0_100",
+    "label": "FPL 0-100%",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 100.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at or below 100% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_fpl_100_125",
+    "label": "FPL 100-125%",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 100.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 125.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "Patients whose family income is over 100% and below 125% of the FPL would be eligible for up to an 80% discount."
+   },
+   {
+    "id": "rule_fpl_125_150",
+    "label": "FPL 125-150%",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 125.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 60.0,
+    "quote": "Patients whose family income is over 125% and below 150% of the FPL would be eligible for up to a 60% discount."
+   },
+   {
+    "id": "rule_fpl_150_200",
+    "label": "FPL 150-200%",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 150.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "Patients whose family income is over 150% and below 200% of the FPL would be eligible for up to a 40% discount."
+   },
+   {
+    "id": "rule_fpl_200_250",
+    "label": "FPL 200-250%",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 200.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 20.0,
+    "quote": "Patients whose family income is over 200% and below 250% of the FPL would be eligible for up to a 20% discount."
+   },
+   {
+    "id": "rule_case_by_case",
+    "label": "Case-by-case over 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients whose family income exceeds 250% of the FPL will generally not be deemed eligible for financial assistance; but, may be considered for financial assistance on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of RGH."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The policy excludes non-employed providers such as Rocky Mountain Radiology, Aurora Denver Cardiology, Urology Associates, North Colorado Springs Foot Clinic, San Luis Valley Health, and Dr. Matthew K. Chang from financial assistance.",
+   "Extraordinary Collection Actions (ECA) are not initiated for emergency care provided by RGH, including emergency and inpatient care and attached ancillary services.",
+   "The hospital will take measures to reverse any ECA if the account is later determined to qualify for financial assistance.",
+   "Applications may be processed at any point in the collection cycle, and need is re-evaluated every 12 months or upon financial situation change.",
+   "Presumptive eligibility may be based on circumstances such as homelessness, WIC participation, food stamp eligibility, subsidized school lunch, other unfunded state/local assistance programs, low-income/subsidized housing, or deceased patient with no known estate.",
+   "Discounted rates shall not exceed amounts generally billed to commercially insured patients.",
+   "Financial assistance is not a substitute for personal responsibility; patients are expected to cooperate and contribute based on ability to pay.",
+   "The hospital will not send unpaid bills to outside collections for patients who qualify for financial assistance and are cooperating in good faith.",
+   "If a collection agency identifies an account as meeting financial assistance eligibility, the account may be considered for assistance.",
+   "The hospital complies with Colorado DSH and Hospital Discount Care rules."
+  ]
+ },
+ "report": {
+  "model": "super",
+  "lint": [],
+  "repaired": false,
+  "dropped": [
+   {
+    "kind": "unsupported",
+    "id": "req:req_co_resident",
+    "claim": "Every form of assistance requires: (co_resident)",
+    "quote": "write us at Rio Grande Hospital 310 CR 14, Del Norte Colorado, 81132",
+    "why": "Policy provides Colorado address for contact but does not require Colorado residency for assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_in_service_area",
+    "claim": "Every form of assistance requires: (in_service_area)",
+    "quote": "Rio Grande Hospital and Clinics (RGH) are dedicated to providing medically necessary healthcare services.",
+    "why": "Policy dedication statement does not impose service area residency as a requirement for assistance."
+   },
+   {
+    "kind": "unsupported",
+    "id": "req:req_medically_necessary",
+    "claim": "Every form of assistance requires: (medically_necessary)",
+    "quote": "Medically necessary services, evaluated on a case-by-case basis at RGH\u2019s discretion.",
+    "why": "Policy states medically necessary services are evaluated case-by-case at discretion, not that every form of assistance requires medically necessary care."
+   },
+   {
+    "kind": "unsupported",
+    "id": "app:0",
+    "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+    "quote": "Accounts eligible for Financial Assistance are to be addressed within 240 days of first bill.",
+    "why": "Policy states accounts to be addressed within 240 days of first bill, not that patients have 240 days to submit an application."
+   }
+  ],
+  "clauses": 9,
+  "clauses_proven": 6,
+  "unsupported": 4
+ },
+ "cost_usd": 0.00553,
+ "made": "2026-10-28"
+}
