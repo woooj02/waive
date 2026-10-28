@@ -144,3 +144,18 @@ def test_lint_catches_or_instead_of_and():
     pm = PolicyModel(hospital="X", rules=[Rule(id="band", label="", when=[
         [Atom(var="fpl_pct", op=">=", value=251), Atom(var="fpl_pct", op="<=", value=400)]])])
     assert any("Did you mean AND" in p for p in lint(pm))
+
+
+def test_bill_check_uses_the_audited_model_and_z3():
+    from app import prover_check
+    from app.schema import Bill, Household as HH
+    got = prover_check.find("UCHealth University of Colorado Hospital")
+    if not got:
+        pytest.skip("no audit built")
+    _, pm, _ = got
+    bill = Bill(hospital="x", balance_usd=8412, statement_date="2026-10-15")
+    v, proof = prover_check.decide(pm, HH(size=4, income_usd=70000, state="CO", insured=False), bill)
+    assert v.status == "free" and proof["always"]
+    v, proof = prover_check.decide(pm, HH(size=4, income_usd=70000, state="CO", insured=True), bill)
+    assert not proof["always"] and proof["sometimes"] and any("under-insured" in d for d in proof["depends_on"])
+    assert prover_check.find("Memorial Regional Health") is not None  # every word generic: still matched

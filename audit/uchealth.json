@@ -1,13 +1,13 @@
 {
  "id": "uchealth",
  "hospital": "UCHealth",
- "dropped_rules": 0,
+ "dropped_rules": 1,
  "tax_status": "",
  "source_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/2026/09/29153210/UCHealth-Financial-Assistance-Policy-English-09_28_26.pdf",
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": "nemotron",
- "solver_seconds": 0.232,
+ "solver_seconds": 0.225,
  "model": {
   "hospital": "UCHealth",
   "doc": "policy",
@@ -117,21 +117,6 @@
     ],
     "discount_pct": 100.0,
     "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy"
-   },
-   {
-    "id": "rule-self-pay-discount",
-    "label": "Self-pay / uninsured discount at billing",
-    "when": [
-     [
-      {
-       "var": "insured",
-       "op": "false",
-       "value": null
-      }
-     ]
-    ],
-    "discount_pct": null,
-    "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing"
    }
   ],
   "timing": {
@@ -176,14 +161,18 @@
    "Family definition: 2+ people related by birth/marriage/adoption residing together; members not responsible for patients 18+ (Definitions).",
    "Financial Resources: cash, bank deposits, easily withdrawable assets (checking, savings, trusts, CDs) (Definitions).",
    "Income includes wages, unemployment, workers comp, SSI, public assistance, veterans payments, survivor benefits, pension, interest, dividends, rents, royalties, estates, trusts, educational assistance, alimony, child support, outside assistance; excludes non-cash benefits (Definitions).",
-   "Provider coverage list maintained separately and updated quarterly (C.1)."
+   "Provider coverage list maintained separately and updated quarterly (C.1).",
+   "rule-income-0-250 may leave out a condition: missing requirement of Colorado residency",
+   "rule-income-251-400 may leave out a condition: missing requirement of Colorado residency",
+   "rule-catastrophic may leave out a condition: missing requirement of Colorado residency",
+   "rule-presumptive may leave out a condition: missing requirement of Colorado residency"
   ]
  },
  "findings": [
   {
    "check": "co_hdc_coverage",
    "title": "Covers everyone Colorado's Hospital Discounted Care protects",
-   "status": "counterexample",
+   "status": "inconclusive",
    "law": [
     {
      "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
@@ -196,7 +185,7 @@
      "quote": "IF REQUESTED BY THE PATIENT, A HEALTH-CARE FACILITY SHALL SCREEN AN INSURED PATIENT FOR DISCOUNTED CARE"
     }
    ],
-   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care.",
+   "summary": "Inconclusive: 1 of the model's rules were dropped by the quote and meaning checks, so a missing rule may be our error. Z3's case: A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care.",
    "severity": "gap",
    "household": {
     "size": 3,
@@ -252,14 +241,6 @@
      "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy",
      "discount_pct": 100.0,
      "holds": false
-    },
-    {
-     "kind": "rule",
-     "id": "rule-self-pay-discount",
-     "label": "Self-pay / uninsured discount at billing",
-     "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
-     "discount_pct": null,
-     "holds": false
     }
    ],
    "seconds": 0.003,
@@ -268,11 +249,7 @@
    "confidence": "confirmed",
    "second_opinion": [
     "counterexample"
-   ],
-   "review": {
-    "verdict": "upheld",
-    "note": "Income-based assistance requires the patient to be uninsured or under-insured (out-of-pocket costs exceed ability to pay)."
-   }
+   ]
   },
   {
    "check": "co_hdc_assets",
@@ -363,16 +340,21 @@
      "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
      "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
      "quote": "Patients may complete a screening at any time within at least 181 days after their date of service or discharge, whichever is later"
+    },
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "begin sending bills beginning 46 days after the patient's date of service or date of discharge"
     }
    ],
-   "summary": "Proved: the application window never closes before day 181 after care.",
+   "summary": "Proved: whatever day the first bill goes out (Colorado allows bills from day 46), the application window never closes before day 181 after care.",
    "severity": "",
    "household": null,
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
    "seconds": 0.001,
-   "domain": "every first-bill day from day 0 to day 400",
+   "domain": "every first-bill day from day 46 to day 400",
    "basis": "",
    "confidence": "confirmed",
    "second_opinion": [
@@ -487,9 +469,9 @@
   {
    "check": "monotone",
    "title": "Earning less never means getting less help",
-   "status": "counterexample",
+   "status": "inconclusive",
    "law": [],
-   "summary": "A household of 3 earning $68,573 a year (251.0% of the poverty line), living in Colorado, under-insured, owing $10,000 gets no help; the same household earning more, at 251.36% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "summary": "Inconclusive: 1 of the model's rules were dropped by the quote and meaning checks, so a missing rule may be our error. Z3's case: A household of 3 earning $68,573 a year (251.0% of the poverty line), living in Colorado, uninsured, owing $10,000 gets no help; the same household earning more, at 251.36% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
    "severity": "ambiguity",
    "household": {
     "size": 3,
@@ -498,8 +480,8 @@
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
-    "insured": true,
-    "underinsured": true,
+    "insured": false,
+    "underinsured": false,
     "co_resident": true,
     "in_service_area": true,
     "emergency": true,
@@ -515,94 +497,6 @@
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
-    "insured": true,
-    "underinsured": true,
-    "co_resident": true,
-    "in_service_area": true,
-    "emergency": true,
-    "medically_necessary": true,
-    "inpatient": false,
-    "applied_public_programs": true,
-    "presumptive_program": false
-   },
-   "policy_outcome": {
-    "a": {
-     "covered": false,
-     "best_stated_discount_pct": 0.0
-    },
-    "b": {
-     "covered": true,
-     "best_stated_discount_pct": 0.0
-    }
-   },
-   "clauses": [
-    {
-     "kind": "rule",
-     "id": "rule-income-0-250",
-     "label": "Income-based assistance: 0-250% FPL",
-     "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges for care covered by this policy",
-     "discount_pct": 100.0,
-     "holds": false
-    },
-    {
-     "kind": "rule",
-     "id": "rule-income-251-400",
-     "label": "Income-based assistance: 251-400% FPL",
-     "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A",
-     "discount_pct": null,
-     "holds": false
-    },
-    {
-     "kind": "rule",
-     "id": "rule-catastrophic",
-     "label": "Catastrophic Balance Financial Assistance",
-     "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined",
-     "discount_pct": null,
-     "holds": false
-    },
-    {
-     "kind": "rule",
-     "id": "rule-presumptive",
-     "label": "Presumptive Eligibility",
-     "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy",
-     "discount_pct": 100.0,
-     "holds": false
-    },
-    {
-     "kind": "rule",
-     "id": "rule-self-pay-discount",
-     "label": "Self-pay / uninsured discount at billing",
-     "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
-     "discount_pct": null,
-     "holds": false
-    }
-   ],
-   "seconds": 0.005,
-   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
-   "basis": "absence",
-   "confidence": "confirmed",
-   "second_opinion": [
-    "counterexample"
-   ],
-   "review": {
-    "verdict": "qualified",
-    "note": "A band gap: 100% at 250% or less, discounts 'between 251% and 400%'. Likely a rounding convention."
-   }
-  },
-  {
-   "check": "summary_matches_policy",
-   "title": "The policy and the summary treat every household the same",
-   "status": "counterexample",
-   "law": [],
-   "summary": "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, owing $10,000: the policy gives help (amount not stated), the summary gives no help.",
-   "severity": "gap",
-   "household": {
-    "size": 1,
-    "income_usd": 68000.0,
-    "fpl_pct": 426.06,
-    "assets_usd": 0.0,
-    "bill_usd": 10000.0,
-    "first_statement_day": 46,
     "insured": false,
     "underinsured": false,
     "co_resident": true,
@@ -613,14 +507,13 @@
     "applied_public_programs": true,
     "presumptive_program": false
    },
-   "household_b": null,
    "policy_outcome": {
     "a": {
-     "covered": true,
+     "covered": false,
      "best_stated_discount_pct": 0.0
     },
     "b": {
-     "covered": false,
+     "covered": true,
      "best_stated_discount_pct": 0.0
     }
    },
@@ -631,8 +524,7 @@
      "label": "Income-based assistance: 0-250% FPL",
      "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges for care covered by this policy",
      "discount_pct": 100.0,
-     "holds": false,
-     "model": "policy"
+     "holds": false
     },
     {
      "kind": "rule",
@@ -640,8 +532,7 @@
      "label": "Income-based assistance: 251-400% FPL",
      "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A",
      "discount_pct": null,
-     "holds": false,
-     "model": "policy"
+     "holds": false
     },
     {
      "kind": "rule",
@@ -649,8 +540,7 @@
      "label": "Catastrophic Balance Financial Assistance",
      "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined",
      "discount_pct": null,
-     "holds": false,
-     "model": "policy"
+     "holds": false
     },
     {
      "kind": "rule",
@@ -658,93 +548,32 @@
      "label": "Presumptive Eligibility",
      "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy",
      "discount_pct": 100.0,
-     "holds": false,
-     "model": "policy"
-    },
-    {
-     "kind": "rule",
-     "id": "rule-self-pay-discount",
-     "label": "Self-pay / uninsured discount at billing",
-     "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
-     "discount_pct": null,
-     "holds": true,
-     "model": "policy"
-    },
-    {
-     "kind": "requires",
-     "id": "req_insured_status",
-     "label": "Uninsured or underinsured",
-     "quote": "If you do not have insurance or if you are under-insured",
-     "discretionary": false,
-     "holds": true,
-     "model": "summary"
-    },
-    {
-     "kind": "requires",
-     "id": "req_care_type",
-     "label": "Emergency or medically necessary care",
-     "quote": "UCHealth provides financial assistance for emergency and other medically necessary care",
-     "discretionary": false,
-     "holds": true,
-     "model": "summary"
-    },
-    {
-     "kind": "requires",
-     "id": "req_residency",
-     "label": "Colorado resident",
-     "quote": "for Resident of the State of Colorado",
-     "discretionary": false,
-     "holds": true,
-     "model": "summary"
-    },
-    {
-     "kind": "rule",
-     "id": "rule_free_care",
-     "label": "Free care up to 250% FPL",
-     "quote": "Annual family income up to 250% of the FPG: free care",
-     "discount_pct": 100.0,
-     "holds": false,
-     "model": "summary"
-    },
-    {
-     "kind": "rule",
-     "id": "rule_discounted_care",
-     "label": "Discounted care 251% to 400% FPL",
-     "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
-     "discount_pct": null,
-     "holds": false,
-     "model": "summary"
-    },
-    {
-     "kind": "rule",
-     "id": "rule_catastrophic",
-     "label": "Catastrophic balance discount",
-     "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill",
-     "discount_pct": null,
-     "holds": false,
-     "model": "summary"
+     "holds": false
     }
    ],
-   "seconds": 0.004,
-   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
-   "basis": "",
-   "confidence": "unconfirmed"
+   "seconds": 0.005,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "absence",
+   "confidence": "disputed",
+   "second_opinion": [
+    "proved"
+   ]
   },
   {
    "check": "summary_matches_policy",
    "title": "The policy and the summary treat every household the same",
    "status": "counterexample",
    "law": [],
-   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the policy gives 100% off, the summary gives no help.",
+   "summary": "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the policy gives 100% off, the summary gives help (amount not stated).",
    "severity": "gap",
    "household": {
     "size": 3,
-    "income_usd": 27000.0,
-    "fpl_pct": 98.82,
+    "income_usd": 69000.0,
+    "fpl_pct": 252.56,
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
-    "insured": true,
+    "insured": false,
     "underinsured": false,
     "co_resident": true,
     "in_service_area": true,
@@ -761,7 +590,7 @@
      "best_stated_discount_pct": 100.0
     },
     "b": {
-     "covered": false,
+     "covered": true,
      "best_stated_discount_pct": 0.0
     }
    },
@@ -781,7 +610,7 @@
      "label": "Income-based assistance: 251-400% FPL",
      "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A",
      "discount_pct": null,
-     "holds": false,
+     "holds": true,
      "model": "policy"
     },
     {
@@ -803,21 +632,12 @@
      "model": "policy"
     },
     {
-     "kind": "rule",
-     "id": "rule-self-pay-discount",
-     "label": "Self-pay / uninsured discount at billing",
-     "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
-     "discount_pct": null,
-     "holds": false,
-     "model": "policy"
-    },
-    {
      "kind": "requires",
      "id": "req_insured_status",
      "label": "Uninsured or underinsured",
      "quote": "If you do not have insurance or if you are under-insured",
      "discretionary": false,
-     "holds": false,
+     "holds": true,
      "model": "summary"
     },
     {
@@ -844,7 +664,7 @@
      "label": "Free care up to 250% FPL",
      "quote": "Annual family income up to 250% of the FPG: free care",
      "discount_pct": 100.0,
-     "holds": true,
+     "holds": false,
      "model": "summary"
     },
     {
@@ -853,7 +673,7 @@
      "label": "Discounted care 251% to 400% FPL",
      "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
      "discount_pct": null,
-     "holds": false,
+     "holds": true,
      "model": "summary"
     },
     {
@@ -866,7 +686,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.004,
+   "seconds": 0.005,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -876,7 +696,7 @@
    "title": "The policy and the summary treat every household the same",
    "status": "counterexample",
    "law": [],
-   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living outside Colorado, under-insured, owing $10,000: the policy gives 100% off, the summary gives no help.",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living outside Colorado, uninsured, owing $10,000: the policy gives 100% off, the summary gives no help.",
    "severity": "gap",
    "household": {
     "size": 3,
@@ -885,8 +705,8 @@
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
-    "insured": true,
-    "underinsured": true,
+    "insured": false,
+    "underinsured": false,
     "co_resident": false,
     "in_service_area": false,
     "emergency": true,
@@ -944,15 +764,6 @@
      "model": "policy"
     },
     {
-     "kind": "rule",
-     "id": "rule-self-pay-discount",
-     "label": "Self-pay / uninsured discount at billing",
-     "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
-     "discount_pct": null,
-     "holds": false,
-     "model": "policy"
-    },
-    {
      "kind": "requires",
      "id": "req_insured_status",
      "label": "Uninsured or underinsured",
@@ -1007,7 +818,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.005,
+   "seconds": 0.006,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -1017,7 +828,7 @@
    "title": "The policy and the summary treat every household the same",
    "status": "counterexample",
    "law": [],
-   "summary": "A household of 3 earning $69,000 a year (252.6% of the poverty line), living outside Colorado, under-insured, owing $10,000: the policy gives help (amount not stated), the summary gives no help.",
+   "summary": "A household of 3 earning $69,000 a year (252.6% of the poverty line), living outside Colorado, uninsured, owing $10,000: the policy gives help (amount not stated), the summary gives no help.",
    "severity": "gap",
    "household": {
     "size": 3,
@@ -1026,8 +837,8 @@
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
-    "insured": true,
-    "underinsured": true,
+    "insured": false,
+    "underinsured": false,
     "co_resident": false,
     "in_service_area": false,
     "emergency": true,
@@ -1085,15 +896,6 @@
      "model": "policy"
     },
     {
-     "kind": "rule",
-     "id": "rule-self-pay-discount",
-     "label": "Self-pay / uninsured discount at billing",
-     "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
-     "discount_pct": null,
-     "holds": false,
-     "model": "policy"
-    },
-    {
      "kind": "requires",
      "id": "req_insured_status",
      "label": "Uninsured or underinsured",
@@ -1148,7 +950,139 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.005,
+   "seconds": 0.006,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
+   "basis": "",
+   "confidence": "unconfirmed"
+  },
+  {
+   "check": "summary_matches_policy",
+   "title": "The policy and the summary treat every household the same",
+   "status": "counterexample",
+   "law": [],
+   "summary": "One person earning $68,000 a year (426.1% of the poverty line), living outside Colorado, uninsured, owing $34,200: the policy gives help (amount not stated), the summary gives no help.",
+   "severity": "gap",
+   "household": {
+    "size": 1,
+    "income_usd": 68000.0,
+    "fpl_pct": 426.06,
+    "assets_usd": 0.0,
+    "bill_usd": 34200.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": false,
+    "in_service_area": false,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": null,
+   "policy_outcome": {
+    "a": {
+     "covered": true,
+     "best_stated_discount_pct": 0.0
+    },
+    "b": {
+     "covered": false,
+     "best_stated_discount_pct": 0.0
+    }
+   },
+   "clauses": [
+    {
+     "kind": "rule",
+     "id": "rule-income-0-250",
+     "label": "Income-based assistance: 0-250% FPL",
+     "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges for care covered by this policy",
+     "discount_pct": 100.0,
+     "holds": false,
+     "model": "policy"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-income-251-400",
+     "label": "Income-based assistance: 251-400% FPL",
+     "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A",
+     "discount_pct": null,
+     "holds": false,
+     "model": "policy"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-catastrophic",
+     "label": "Catastrophic Balance Financial Assistance",
+     "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined",
+     "discount_pct": null,
+     "holds": true,
+     "model": "policy"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-presumptive",
+     "label": "Presumptive Eligibility",
+     "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy",
+     "discount_pct": 100.0,
+     "holds": false,
+     "model": "policy"
+    },
+    {
+     "kind": "requires",
+     "id": "req_insured_status",
+     "label": "Uninsured or underinsured",
+     "quote": "If you do not have insurance or if you are under-insured",
+     "discretionary": false,
+     "holds": true,
+     "model": "summary"
+    },
+    {
+     "kind": "requires",
+     "id": "req_care_type",
+     "label": "Emergency or medically necessary care",
+     "quote": "UCHealth provides financial assistance for emergency and other medically necessary care",
+     "discretionary": false,
+     "holds": true,
+     "model": "summary"
+    },
+    {
+     "kind": "requires",
+     "id": "req_residency",
+     "label": "Colorado resident",
+     "quote": "for Resident of the State of Colorado",
+     "discretionary": false,
+     "holds": false,
+     "model": "summary"
+    },
+    {
+     "kind": "rule",
+     "id": "rule_free_care",
+     "label": "Free care up to 250% FPL",
+     "quote": "Annual family income up to 250% of the FPG: free care",
+     "discount_pct": 100.0,
+     "holds": false,
+     "model": "summary"
+    },
+    {
+     "kind": "rule",
+     "id": "rule_discounted_care",
+     "label": "Discounted care 251% to 400% FPL",
+     "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
+     "discount_pct": null,
+     "holds": false,
+     "model": "summary"
+    },
+    {
+     "kind": "rule",
+     "id": "rule_catastrophic",
+     "label": "Catastrophic balance discount",
+     "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill",
+     "discount_pct": null,
+     "holds": true,
+     "model": "summary"
+    }
+   ],
+   "seconds": 0.008,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"

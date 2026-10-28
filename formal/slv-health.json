@@ -168,39 +168,39 @@
      "id": "req:req_in_service_area",
      "claim": "Every form of assistance requires: (in_service_area)",
      "quote": "This Policy applies to all SLV Health (SLV Health) licensed hospitals and provider-based practices listed in Addendum A (SLV Health Hospitals) and to the providers and practices listed in Addendum B (Covered Providers).",
-     "why": "Quote defines scope of covered providers, not a patient service-area requirement."
+     "why": "Policy applies to SLV Health facilities, not requiring patient residence in service area."
     },
     {
      "kind": "unsupported",
-     "id": "rule:rule_hdc",
-     "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
-     "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
-     "why": "Quote describes Medicaid ineligibility requirement, not a rule granting help based on FPL \u2264 250%."
-    },
-    {
-     "kind": "unsupported",
-     "id": "rule:rule_medicaid_spenddown",
-     "claim": "A patient with (applied_public_programs) gets an unstated amount of help",
-     "quote": "Medicaid patients who receive non-covered medically necessary services will be considered for financial assistance.",
-     "why": "Quote allows consideration for financial assistance but does not guarantee help."
-    },
-    {
-     "kind": "unsupported",
-     "id": "rule:rule_underinsured",
-     "claim": "A patient with (insured OR underinsured) gets an unstated amount of help",
-     "quote": "Insurance programs leaving a patient balance may be eligible for SLV Health financial assistance if the patient meets financial screening requirements.",
-     "why": "Quote allows consideration for insured patients with a balance but does not guarantee help."
+     "id": "req:req_not_outside_us",
+     "claim": "Every form of assistance requires: (not presumptive_program)",
+     "quote": "Residents of countries outside the United States of America are not eligible for financial assistance without prior approval from the facility Chief Financial Officer.",
+     "why": "Quote concerns non-US residents, not presumptive_program."
     },
     {
      "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 60 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
      "quote": "Individuals will be given 60 days to resubmit a completed form before extraordinary collection activities (ECA\u2019s) will occur.",
-     "why": "Quote refers to resubmitting incomplete forms, not initial application deadline."
+     "why": "60 days is to resubmit incomplete form, not initial application deadline."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_medicaid_spenddown",
+     "claim": "A patient with (applied_public_programs) gets an unstated amount of help",
+     "quote": "Medicaid patients who receive non-covered medically necessary services will be considered for financial assistance.",
+     "why": "Policy considers Medicaid patients for assistance but does not specify amount."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_underinsured",
+     "claim": "A patient with (insured OR underinsured) gets an unstated amount of help",
+     "quote": "Insurance programs leaving a patient balance may be eligible for SLV Health financial assistance if the patient meets financial screening requirements.",
+     "why": "Policy allows insured/underinsured patients to be eligible but does not specify amount of help."
     }
    ],
    "clauses": 7,
-   "clauses_proven": 3,
+   "clauses_proven": 5,
    "unsupported": 5
   },
   "secondary_model": {
@@ -243,24 +243,60 @@
      ],
      "discretionary": false,
      "quote": "Exception: Financial assistance under this policy is not available for services that are not medically necessary as determined by the patient\u2019s treating provider."
-    },
+    }
+   ],
+   "rules": [
     {
-     "id": "req_not_outside_us",
-     "label": "Not resident outside USA",
-     "cond": [
+     "id": "rule_hdc",
+     "label": "Hospital Discounted Care (HDC)",
+     "when": [
       [
        {
-        "var": "presumptive_program",
-        "op": "false",
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs."
+    },
+    {
+     "id": "rule_medicaid_spenddown",
+     "label": "Medicaid spenddown",
+     "when": [
+      [
+       {
+        "var": "applied_public_programs",
+        "op": "true",
         "value": null
        }
       ]
      ],
-     "discretionary": false,
-     "quote": "Residents of countries outside the United States of America are not eligible for financial assistance without prior approval from the facility Chief Financial Officer."
+     "discount_pct": null,
+     "quote": "Medicaid patients who receive non-covered medically necessary services will be considered for financial assistance."
+    },
+    {
+     "id": "rule_underinsured",
+     "label": "Underinsured assistance",
+     "when": [
+      [
+       {
+        "var": "insured",
+        "op": "true",
+        "value": null
+       },
+       {
+        "var": "underinsured",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Insurance programs leaving a patient balance may be eligible for SLV Health financial assistance if the patient meets financial screening requirements."
     }
    ],
-   "rules": [],
    "timing": {
     "application": [],
     "eca_not_before": [
@@ -285,12 +321,21 @@
     "SLV Health will make financial assistance eligibility determinations and the process of applying for financial assistance equitable, consistent, and timely. SLV Health will allow 15 days for processing of the application and 15 days to contact the patient with the determination in writing.",
     "The policy does not specify income thresholds for free or discounted care beyond HDC (<=250% FPL); other assistance is based on financial screening requirements.",
     "The policy does not state a specific discount percentage for financial assistance; amounts are based on patient liability after insurance, not original charges.",
-    "The policy does not explicitly define 'underinsured' but uses the term in context of insurance leaving a patient balance."
+    "The policy does not explicitly define 'underinsured' but uses the term in context of insurance leaving a patient balance.",
+    "rule_hdc may leave out a condition: Rule requires ineligibility for Medicaid/CHP+/CICP, not just FPL <= 250."
    ]
   },
-  "disagreements_before": [],
-  "disagreements_after": [],
-  "equivalent": true
+  "disagreements_before": [
+   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, who hasn't applied for Medicaid: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, who hasn't applied for Medicaid: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "equivalent": false
  },
  "calls": [
   {
@@ -311,15 +356,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.81,
-   "tokens_in": 6717,
+   "seconds": 1.74,
+   "tokens_in": 6755,
    "tokens_cached": 0,
-   "tokens_out": 193,
-   "cost_usd": 0.002189,
+   "tokens_out": 100,
+   "cost_usd": 0.002116,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.002189,
-   "orig_seconds": 1.81
+   "orig_cost_usd": 0.002116,
+   "orig_seconds": 1.74
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -339,18 +384,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 2.55,
-   "tokens_in": 7035,
+   "seconds": 3.53,
+   "tokens_in": 7073,
    "tokens_cached": 0,
-   "tokens_out": 375,
-   "cost_usd": 0.002448,
+   "tokens_out": 331,
+   "cost_usd": 0.00242,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.002448,
-   "orig_seconds": 2.55
+   "orig_cost_usd": 0.00242,
+   "orig_seconds": 3.53
   }
  ],
- "cost_usd": 0.02233,
- "seconds": 4.4,
- "made": "2026-10-27"
+ "cost_usd": 0.02223,
+ "seconds": 5.4,
+ "made": "2026-10-28"
 }

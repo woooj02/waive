@@ -5,7 +5,75 @@
   "source_url": "https://www.bannerhealth.com/-/media/Files/Project/BH/Patients-Visitors/Billing/Financial-Assistance/2025-documents/9999-0061-BH-Summary-Of-Financial-Assistance-Programs-And-Application.pdf",
   "nonprofit": true,
   "requires": [],
-  "rules": [],
+  "rules": [
+   {
+    "id": "rule_uninsured_selfpay",
+    "label": "Uninsured self-pay rate (1.25 x AGB)",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Uninsured Patients are initially charged the Self-Pay Rate for Covered Services"
+   },
+   {
+    "id": "rule_uninsured_financial_assistance",
+    "label": "Uninsured Financial Assistance (charged no more than AGB)",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "you will qualify for BH Financial Assistance (1) if you have an annual household income and household size that is equal to or less than 400% of the Federal Poverty Level and lack other assets to pay the Hospital's full charges"
+   },
+   {
+    "id": "rule_underinsured_financial_assistance",
+    "label": "Underinsured Financial Assistance (Balance After Insurance discount)",
+    "when": [
+     [
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you are an Underinsured patient, you may qualify for BH Financial Assistance for Underinsured/Balance After Insurance discount"
+   },
+   {
+    "id": "rule_medically_indigent",
+    "label": "Medically Indigent (household medical expenses > 50% of income)",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 50.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "A Medically Indigent Patient means a household with medical expenses incurred during the previous 12 months, where the portion for which the household is responsible exceeds 50% of the household's total income for that year"
+   }
+  ],
   "timing": {
    "application": [],
    "eca_not_before": [],
@@ -27,7 +95,9 @@
    "Application requires proof of income (payroll stubs, tax forms, SSA 1099, unemployment letter, self-declaration), Medicaid/AHCCCS determination if requested, and non-Banner medical bills if requested.",
    "Arizona health care lien statute (ARS Sec. 33-931 et seq.) allows Banner Health to recover third-party funding received by patient to offset financial assistance discount.",
    "Spanish translation available on website and in admitting area; copies by mail via Banner Patient Financial Services (888) 264-2127.",
-   "No application deadline, ECA timing, first statement timing, or payment plan terms specified in summary."
+   "No application deadline, ECA timing, first statement timing, or payment plan terms specified in summary.",
+   "rule_uninsured_financial_assistance may leave out a condition: policy adds condition: lack other assets to pay full charges and apply/cooperate for Medicaid/AHCCCS.",
+   "rule_underinsured_financial_assistance may leave out a condition: policy adds condition: must meet hospital bill balance requirements and FPL guidelines."
   ]
  },
  "report": {
@@ -41,64 +111,35 @@
      "id": "req:req_medically_necessary",
      "claim": "Every form of assistance requires: (medically_necessary)",
      "quote": "you will in no case be charged more than Amounts Generally Billed for emergency services or other medically necessary services",
-     "why": "The policy does not require medically_necessary for every form of assistance; it only limits charges for those who qualify."
+     "why": "policy does not require medically_necessary for every form of assistance; it only limits charges for those who qualify."
     },
     {
-     "kind": "unsupported",
+     "kind": "amount removed",
      "id": "rule:rule_uninsured_selfpay",
      "claim": "A patient with (not insured) gets an unstated amount of help",
      "quote": "Uninsured Patients are initially charged the Self-Pay Rate for Covered Services",
-     "why": "Being charged the self-pay rate is not financial assistance; it is the default charge before any assistance is applied."
+     "why": "policy states uninsured patients are charged self-pay rate, not that they receive financial assistance."
     },
     {
-     "kind": "unsupported",
-     "id": "rule:rule_uninsured_financial_assistance",
-     "claim": "A patient with (not insured) AND (fpl_pct <= 400) gets an unstated amount of help",
-     "quote": "you will qualify for BH Financial Assistance (1) if you have an annual household income and household size that is equal to or less than 400% of the Federal Poverty Level and lack other assets to pay the Hospital's full charges",
-     "why": "The policy adds asset and Medicaid application requirements beyond just income <= 400% FPL for uninsured patients to qualify for financial assistance."
-    },
-    {
-     "kind": "unsupported",
-     "id": "rule:rule_underinsured_financial_assistance",
-     "claim": "A patient with (underinsured) gets an unstated amount of help",
-     "quote": "If you are an Underinsured patient, you may qualify for BH Financial Assistance for Underinsured/Balance After Insurance discount",
-     "why": "Underinsured patients must meet both hospital bill balance requirements and FPL guidelines, not just being underinsured."
-    },
-    {
-     "kind": "unsupported",
+     "kind": "amount removed",
      "id": "rule:rule_medically_indigent",
      "claim": "A patient with (bill_pct_income > 50) gets an unstated amount of help",
      "quote": "A Medically Indigent Patient means a household with medical expenses incurred during the previous 12 months, where the portion for which the household is responsible exceeds 50% of the household's total income for that year",
-     "why": "The policy defines Medically Indigent but does not state that this definition alone qualifies a patient for financial assistance."
+     "why": "policy defines medically indigent but does not state any amount of help for this group."
     }
    ],
    "clauses": 5,
-   "clauses_proven": 0,
-   "unsupported": 5
+   "clauses_proven": 4,
+   "unsupported": 3
   },
   "secondary": {
    "model": "super",
    "lint": [],
    "repaired": false,
-   "dropped": [
-    {
-     "kind": "unsupported",
-     "id": "rule:uninsured_fap",
-     "claim": "A patient with (not insured) AND (fpl_pct <= 400) AND (applied_public_programs) gets an unstated amount of help",
-     "quote": "If you are an Uninsured patient, you will qualify for BH Financial Assistance (1) if you have an annual household income and household size that is equal to or less than 400% of the Federal Poverty Level and lack other assets to pay the Hospital\u2019s full charges and, (2) if requested to do so by the Hospital, you apply for Medicaid/AHCCCS, fully cooperate in the application and determination process, or are unable to reasonably complete the application process, and are denied Medicaid/AHCCCS coverage.",
-     "why": "Policy requires asset test and Medicaid denial, not just applied_public_programs."
-    },
-    {
-     "kind": "unsupported",
-     "id": "rule:underinsured_discount",
-     "claim": "A patient with (insured OR underinsured) AND (fpl_pct <= 400) gets an unstated amount of help",
-     "quote": "If you are an Underinsured patient, you may qualify for BH Financial Assistance for Underinsured/Balance After Insurance discount. You will need to apply for consideration and meet both Hospital bill balance requirements stated in the Financial Assistance Policy and Federal Poverty Level guidelines.",
-     "why": "Policy limits underinsured assistance to underinsured patients only, not insured OR underinsured."
-    }
-   ],
+   "dropped": [],
    "clauses": 2,
-   "clauses_proven": 0,
-   "unsupported": 2
+   "clauses_proven": 2,
+   "unsupported": 0
   },
   "secondary_model": {
    "hospital": "Banner Health",
@@ -106,7 +147,64 @@
    "source_url": "https://www.bannerhealth.com/-/media/Files/Project/BH/Patients-Visitors/Billing/Financial-Assistance/2025-documents/9999-0061-BH-Summary-Of-Financial-Assistance-Programs-And-Application.pdf",
    "nonprofit": true,
    "requires": [],
-   "rules": [],
+   "rules": [
+    {
+     "id": "uninsured_fap",
+     "label": "Financial Assistance for Uninsured Patients",
+     "when": [
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 400.0
+       }
+      ],
+      [
+       {
+        "var": "applied_public_programs",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "If you are an Uninsured patient, you will qualify for BH Financial Assistance (1) if you have an annual household income and household size that is equal to or less than 400% of the Federal Poverty Level and lack other assets to pay the Hospital\u2019s full charges and, (2) if requested to do so by the Hospital, you apply for Medicaid/AHCCCS, fully cooperate in the application and determination process, or are unable to reasonably complete the application process, and are denied Medicaid/AHCCCS coverage."
+    },
+    {
+     "id": "underinsured_discount",
+     "label": "Balance After Insurance Discount for Underinsured Patients",
+     "when": [
+      [
+       {
+        "var": "insured",
+        "op": "true",
+        "value": null
+       },
+       {
+        "var": "underinsured",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 400.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "If you are an Underinsured patient, you may qualify for BH Financial Assistance for Underinsured/Balance After Insurance discount. You will need to apply for consideration and meet both Hospital bill balance requirements stated in the Financial Assistance Policy and Federal Poverty Level guidelines."
+    }
+   ],
    "timing": {
     "application": [],
     "eca_not_before": [],
@@ -123,12 +221,24 @@
     "Financial Assistance recipients will not be charged more than AGB for emergency or medically necessary services.",
     "No advance payment required for emergency services.",
     "Advance deposit or payment arrangement may be required for non-emergent services.",
-    "Policy includes a lien recovery provision per Arizona statute ARS Sec. 33-931 et seq."
+    "Policy includes a lien recovery provision per Arizona statute ARS Sec. 33-931 et seq.",
+    "uninsured_fap may leave out a condition: missing asset test and denial of Medicaid/AHCCCS coverage",
+    "underinsured_discount may leave out a condition: missing hospital bill balance requirements"
    ]
   },
-  "disagreements_before": [],
-  "disagreements_after": [],
-  "equivalent": true
+  "disagreements_before": [
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $55,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, under-insured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "disagreements_after": [
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $55,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, under-insured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "equivalent": false
  },
  "calls": [
   {
@@ -149,15 +259,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 4.48,
-   "tokens_in": 3719,
+   "seconds": 3.57,
+   "tokens_in": 3757,
    "tokens_cached": 0,
-   "tokens_out": 270,
-   "cost_usd": 0.001359,
+   "tokens_out": 251,
+   "cost_usd": 0.001353,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001359,
-   "orig_seconds": 4.48
+   "orig_cost_usd": 0.001353,
+   "orig_seconds": 3.57
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -177,18 +287,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.38,
-   "tokens_in": 3639,
+   "seconds": 1.45,
+   "tokens_in": 3677,
    "tokens_cached": 0,
-   "tokens_out": 94,
-   "cost_usd": 0.001176,
+   "tokens_out": 75,
+   "cost_usd": 0.001171,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001176,
-   "orig_seconds": 1.38
+   "orig_cost_usd": 0.001171,
+   "orig_seconds": 1.45
   }
  ],
- "cost_usd": 0.01141,
- "seconds": 5.9,
- "made": "2026-10-27"
+ "cost_usd": 0.0114,
+ "seconds": 5.1,
+ "made": "2026-10-28"
 }

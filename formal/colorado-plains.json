@@ -4,7 +4,58 @@
   "doc": "policy",
   "source_url": "https://lcmcwmh.com/wp-content/uploads/2025/06/PFS-F-02-Financial-Assistance-Policy.pdf",
   "nonprofit": null,
-  "requires": [],
+  "requires": [
+   {
+    "id": "req_uninsured_or_underinsured",
+    "label": "Patient must be uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care"
+   },
+   {
+    "id": "req_ineligible_govt_programs",
+    "label": "Patient must be ineligible for government health care programs",
+    "cond": [
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care"
+   },
+   {
+    "id": "req_unable_to_pay",
+    "label": "Patient must be unable to pay for care",
+    "cond": [
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 0.0
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care"
+   }
+  ],
   "rules": [
    {
     "id": "rule_fpl_100_125",
@@ -177,7 +228,10 @@
    "Itemized statement provided to patient showing charges and discount amount applied.",
    "Discount applied once patient submits complete application for financial assistance.",
    "Hospital may use outside agencies to estimate income for charity eligibility determination when no evidence supports eligibility.",
-   "Policy does not consider race, creed, gender, national origin, disability, age, social immigrant status, or sexual orientation in granting financial assistance."
+   "Policy does not consider race, creed, gender, national origin, disability, age, social immigrant status, or sexual orientation in granting financial assistance.",
+   "req_uninsured_or_underinsured may leave out a condition: Also requires inability to pay and ineligibility for government programs.",
+   "req_ineligible_govt_programs may leave out a condition: Also requires being uninsured/underinsured and unable to pay.",
+   "req_unable_to_pay may leave out a condition: Also requires being uninsured/underinsured and ineligible for government programs."
   ]
  },
  "report": {
@@ -195,64 +249,36 @@
     },
     {
      "kind": "unsupported",
-     "id": "req:req_uninsured_or_underinsured",
-     "claim": "Every form of assistance requires: (not insured OR underinsured)",
-     "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care",
-     "why": "Policy explicitly requires uninsured or underinsured for charity eligibility."
-    },
-    {
-     "kind": "unsupported",
-     "id": "req:req_ineligible_govt_programs",
-     "claim": "Every form of assistance requires: (not applied_public_programs)",
-     "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care",
-     "why": "Policy requires ineligibility for any government health care program."
-    },
-    {
-     "kind": "unsupported",
-     "id": "req:req_unable_to_pay",
-     "claim": "Every form of assistance requires: (bill_pct_income > 0)",
-     "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care",
-     "why": "Policy requires inability to pay for care as part of eligibility."
-    },
-    {
-     "kind": "unsupported",
      "id": "rule:rule_agb_discount",
      "claim": "A patient with (not insured OR underinsured) AND (medically_necessary) gets 65% off",
      "quote": "The Amounts General Billed discount of 65% has been determined by Little Colorado Medical Center.",
-     "why": "Quote about AGB discount does not tie it to uninsured/underinsured and medically necessary patients."
+     "why": "AGB discount applies regardless of insurance status per policy."
     },
     {
      "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
      "quote": "Accounts eligible for Charity Care are to be addressed within 240 days of first bill.",
-     "why": "240-day period is for addressing accounts, not for patient to submit application."
+     "why": "240-day period is for addressing accounts, not submitting applications."
     },
     {
      "kind": "unsupported",
      "id": "eca:0",
      "claim": "The policy promises no extraordinary collection action before 0 days after the date of service",
      "quote": "Little Colorado Medical Center will not engage in extraordinary collection actions before it makes a reasonable effort to determine whether a patient is eligible for financial assistance under this policy.",
-     "why": "Policy requires reasonable effort before ECA, but does not set a 0-day waiting period."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule_fpl_above_300",
-     "claim": "A patient with (fpl_pct > 300) gets an unstated amount of help",
-     "quote": "Patients whose family income exceeds 300% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Little Colorado Medical Center",
-     "why": "Policy allows case-by-case discounted rates not exceeding AGB, but does not guarantee or specify amount."
+     "why": "Policy prohibits ECA before reasonable effort to determine eligibility, not zero days."
     },
     {
      "kind": "amount removed",
      "id": "rule:rule_presumptive_eligibility",
      "claim": "A patient with (presumptive_program) gets an unstated amount of help",
      "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: State-funded prescription programs; Homelessness or received care from a homeless clinic; Participation in Women, Infants and Children programs (WIC); Food stamp eligibility; Subsidized school lunch program eligibility; Eligibility for other state or local assistance program that are unfunded (e.g., Medicaid spend-down); Low income/subsidized housing is provided as a valid address; and Patient is deceased with no known estate.",
-     "why": "Policy lists circumstances for presumptive eligibility but does not specify amount of help."
+     "why": "Policy does not specify discount amount for presumptive eligibility."
     }
    ],
    "clauses": 12,
-   "clauses_proven": 7,
-   "unsupported": 9
+   "clauses_proven": 10,
+   "unsupported": 5
   },
   "secondary": {
    "model": "super",
@@ -271,7 +297,7 @@
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "Accounts eligible for Charity Care are to be addressed within 240 days of first bill.",
-     "why": "Quote addresses internal processing, not patient application deadline."
+     "why": "The 240-day period addresses accounts, not the patient's application submission deadline."
     }
    ],
    "clauses": 6,
@@ -427,10 +453,16 @@
    ]
   },
   "disagreements_before": [
-   "A household of 5 earning $34,000 a year (87.9% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 3 earning $82,000 a year (300.1% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $34,000 a year (124.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 2 earning $41,000 a year (189.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 70% off.",
+   "One person earning $41,000 a year (256.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 65% off."
   ],
   "disagreements_after": [
-   "A household of 5 earning $34,000 a year (87.9% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 3 earning $82,000 a year (300.1% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $34,000 a year (124.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 2 earning $41,000 a year (189.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 70% off.",
+   "One person earning $41,000 a year (256.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 65% off."
   ],
   "equivalent": false
  },
@@ -453,15 +485,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 3.98,
-   "tokens_in": 6174,
+   "seconds": 3.96,
+   "tokens_in": 6212,
    "tokens_cached": 0,
-   "tokens_out": 659,
-   "cost_usd": 0.002445,
+   "tokens_out": 510,
+   "cost_usd": 0.002323,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.002445,
-   "orig_seconds": 3.98
+   "orig_cost_usd": 0.002323,
+   "orig_seconds": 3.96
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -495,18 +527,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.63,
-   "tokens_in": 5624,
+   "seconds": 2.37,
+   "tokens_in": 5662,
    "tokens_cached": 0,
-   "tokens_out": 228,
-   "cost_usd": 0.001892,
+   "tokens_out": 206,
+   "cost_usd": 0.001884,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001892,
-   "orig_seconds": 1.63
+   "orig_cost_usd": 0.001884,
+   "orig_seconds": 2.37
   }
  ],
- "cost_usd": 0.02253,
- "seconds": 5.7,
- "made": "2026-10-27"
+ "cost_usd": 0.02241,
+ "seconds": 6.5,
+ "made": "2026-10-28"
 }

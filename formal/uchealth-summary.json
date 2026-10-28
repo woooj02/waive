@@ -127,7 +127,8 @@
    "Catastrophic balance considers 'certain other financial resources' beyond income (assets_usd).",
    "Application methods: online, phone (855.843.3547), or in-person at listed hospital locations.",
    "Documents available in English and Spanish.",
-   "Policy updated July 2024."
+   "Policy updated July 2024.",
+   "rule_catastrophic may leave out a condition: Policy also requires certain other financial resources beyond bill_pct_income_assets > 50."
   ]
  },
  "report": {
@@ -138,10 +139,10 @@
    "dropped": [
     {
      "kind": "amount removed",
-     "id": "rule:rule_catastrophic",
-     "claim": "A patient with (bill_pct_income_assets > 50) gets an unstated amount of help",
-     "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill",
-     "why": "Policy mentions possible discount for catastrophic balance but does not specify the amount of help."
+     "id": "rule:rule_discounted_care",
+     "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+     "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
+     "why": "Policy limits discount to AGB but claim does not specify amount."
     }
    ],
    "clauses": 6,
@@ -154,30 +155,16 @@
    "repaired": false,
    "dropped": [
     {
-     "kind": "unsupported",
-     "id": "req:req_co_resident",
-     "claim": "Every form of assistance requires: (co_resident)",
-     "quote": "if your family income is at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado.",
-     "why": "The policy limits financial assistance to Colorado residents, so residency is required."
-    },
-    {
      "kind": "amount removed",
      "id": "rule:rule_discounted_care",
      "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
      "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
-     "why": "Discounted care is capped at AGB, but the exact discount percentage is not specified."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule_catastrophic_balance",
-     "claim": "A patient with (bill_pct_income > 50) gets an unstated amount of help",
-     "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill.",
-     "why": "Eligibility is based on bill > 50% of income, but the discount amount is not stated."
+     "why": "Policy limits discount to AGB but claim does not specify amount."
     }
    ],
    "clauses": 6,
-   "clauses_proven": 5,
-   "unsupported": 3
+   "clauses_proven": 6,
+   "unsupported": 1
   },
   "secondary_model": {
    "hospital": "UCHealth",
@@ -185,6 +172,21 @@
    "source_url": "https://www.uchealth.org/uchealth-financial-assistance-policy-summary-2024/",
    "nonprofit": true,
    "requires": [
+    {
+     "id": "req_co_resident",
+     "label": "Colorado resident",
+     "cond": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "if your family income is at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado."
+    },
     {
      "id": "req_emergency_or_medically_necessary",
      "label": "Emergency or medically necessary care",
@@ -290,18 +292,15 @@
     "Lawful presence status is not counted in determining residency status.",
     "Charges Will Not Exceed Amount Generally Billed: If you are eligible to receive financial assistance under UCHealth\u2019s FAP, UCHealth will not charge you more for emergency or other medically necessary care than the amount UCHealth generally bills patients with commercial insurance, Medicare, and Medicaid coverage (\u2018Amount Generally Billed,\u2019 or \u2018AGB\u2019).",
     "The policy mentions that additional measures may be applied for catastrophic encounters but does not specify details.",
-    "The policy does not specify a time limit for applying for financial assistance or when extraordinary collection actions may begin."
+    "The policy does not specify a time limit for applying for financial assistance or when extraordinary collection actions may begin.",
+    "rule_catastrophic_balance may leave out a condition: Policy also requires certain other financial resources beyond income."
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living outside Colorado, uninsured, owing $34,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living outside Colorado, uninsured, owing $34,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
-   "One person earning $68,000 a year (426.1% of the poverty line), living outside Colorado, uninsured, owing $34,200: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, with $1,000 in savings, owing $55,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
   ],
   "disagreements_after": [
-   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living outside Colorado, uninsured, owing $34,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living outside Colorado, uninsured, owing $34,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
-   "One person earning $68,000 a year (426.1% of the poverty line), living outside Colorado, uninsured, owing $34,200: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, with $1,000 in savings, owing $55,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
   ],
   "equivalent": false
  },
@@ -324,15 +323,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.63,
-   "tokens_in": 2654,
+   "seconds": 1.93,
+   "tokens_in": 2692,
    "tokens_cached": 0,
-   "tokens_out": 258,
-   "cost_usd": 0.001028,
+   "tokens_out": 186,
+   "cost_usd": 0.000975,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001028,
-   "orig_seconds": 1.63
+   "orig_cost_usd": 0.000975,
+   "orig_seconds": 1.93
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -352,18 +351,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 5.08,
-   "tokens_in": 2696,
+   "seconds": 1.92,
+   "tokens_in": 2734,
    "tokens_cached": 0,
-   "tokens_out": 276,
-   "cost_usd": 0.001057,
+   "tokens_out": 188,
+   "cost_usd": 0.000989,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001057,
-   "orig_seconds": 5.08
+   "orig_cost_usd": 0.000989,
+   "orig_seconds": 1.92
   }
  ],
- "cost_usd": 0.00898,
- "seconds": 6.8,
- "made": "2026-10-27"
+ "cost_usd": 0.00886,
+ "seconds": 3.9,
+ "made": "2026-10-28"
 }

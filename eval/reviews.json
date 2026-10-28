@@ -1,22 +1,250 @@
 {
  "_about": "Build review of every finding confirmed by both models, done by reading the policy text during development (2026-10-28). verdict: upheld (the policy as written says this), qualified (true as written, with a caveat a reader needs), rejected (the policy says otherwise; both models missed it). 'match' picks the finding by a phrase from its summary.",
  "reviews": [
-  {"id": "aspen-valley", "check": "co_hdc_coverage", "match": "not under-insured", "verdict": "upheld", "note": "Charity is limited to uninsured or underinsured patients; Colorado HDC must screen an insured patient who asks."},
-  {"id": "boulder-community", "check": "co_window_insured", "match": "", "verdict": "upheld", "note": "The policy requires the date of service to be within 181 days of applying, with no extra window after an insurance adjustment."},
-  {"id": "boulder-community", "check": "fed_window_240", "match": "", "verdict": "upheld", "note": "181 days from service can end before 240 days after the first bill when insurance delays the bill."},
-  {"id": "childrens-colorado", "check": "co_eca_182", "match": "", "verdict": "upheld", "note": "ECAs no sooner than 120 days after the first statement; statements may start on day 46."},
-  {"id": "community-hospital-gj", "check": "co_eca_182", "match": "", "verdict": "upheld", "note": "ECAs not until at least 120 days after the first post-discharge statement; no 182-day floor stated."},
-  {"id": "delta-health", "check": "co_hdc_coverage", "match": "not under-insured", "verdict": "upheld", "note": "Assistance is for people who are uninsured or underinsured."},
-  {"id": "heart-of-the-rockies", "check": "co_hdc_coverage", "match": "not under-insured", "verdict": "upheld", "note": "Charity care is for qualified patients who are uninsured or underinsured."},
-  {"id": "heart-of-the-rockies", "check": "co_hdc_coverage", "match": "225.", "verdict": "qualified", "note": "A band gap: the policy's bands end at 225% and restart at 226%. Likely a rounding convention, not an intended exclusion."},
-  {"id": "intermountain", "check": "co_hdc_coverage", "match": "service area", "verdict": "upheld", "note": "Residency within an Intermountain service area is required for non-emergent services."},
-  {"id": "intermountain", "check": "co_hdc_coverage", "match": "not under-insured", "verdict": "upheld", "note": "Eligibility is considered for uninsured or underinsured individuals."},
-  {"id": "memorial-regional-craig", "check": "co_window_181", "match": "", "verdict": "upheld", "note": "Applications are due within 45 days of service (or 45 days after an insurance payment or Medicaid denial); Colorado allows at least 181 days."},
-  {"id": "memorial-regional-craig", "check": "co_window_insured", "match": "", "verdict": "rejected", "note": "The policy also allows 45 days from the date of primary insurance payment, which meets Colorado's insured-patient window. Both models missed that option."},
-  {"id": "memorial-regional-craig", "check": "co_plan_4pct", "match": "", "verdict": "upheld", "note": "Payment plans must be at least $25 a month; for very low incomes that exceeds 4% of monthly income. Accounts must also be paid within 24 months."},
-  {"id": "montrose", "check": "co_hdc_coverage", "match": "not under-insured", "verdict": "qualified", "note": "This is a plain-language summary; it also offers help 'if it would be a financial hardship to pay', which may cover insured patients."},
-  {"id": "st-vincent-leadville", "check": "co_hdc_coverage", "match": "", "verdict": "qualified", "note": "The sliding scale stops at 200%, but the policy says discounts 'could include the HDC program' without describing it."},
-  {"id": "uchealth", "check": "co_hdc_coverage", "match": "not under-insured", "verdict": "upheld", "note": "Income-based assistance requires the patient to be uninsured or under-insured (out-of-pocket costs exceed ability to pay)."},
-  {"id": "uchealth", "check": "monotone", "match": "", "verdict": "qualified", "note": "A band gap: 100% at 250% or less, discounts 'between 251% and 400%'. Likely a rounding convention."}
+  {
+   "id": "aspen-valley",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "upheld",
+   "note": "Charity is limited to uninsured or underinsured patients; Colorado HDC must screen an insured patient who asks."
+  },
+  {
+   "id": "boulder-community",
+   "check": "co_window_insured",
+   "match": "",
+   "verdict": "upheld",
+   "note": "The policy requires the date of service to be within 181 days of applying, with no extra window after an insurance adjustment."
+  },
+  {
+   "id": "boulder-community",
+   "check": "fed_window_240",
+   "match": "",
+   "verdict": "upheld",
+   "note": "181 days from service can end before 240 days after the first bill when insurance delays the bill."
+  },
+  {
+   "id": "childrens-colorado",
+   "check": "co_eca_182",
+   "match": "",
+   "verdict": "upheld",
+   "note": "ECAs no sooner than 120 days after the first statement; statements may start on day 46."
+  },
+  {
+   "id": "community-hospital-gj",
+   "check": "co_eca_182",
+   "match": "",
+   "verdict": "upheld",
+   "note": "ECAs not until at least 120 days after the first post-discharge statement; no 182-day floor stated."
+  },
+  {
+   "id": "delta-health",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "upheld",
+   "note": "Assistance is for people who are uninsured or underinsured."
+  },
+  {
+   "id": "heart-of-the-rockies",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "upheld",
+   "note": "Charity care is for qualified patients who are uninsured or underinsured."
+  },
+  {
+   "id": "heart-of-the-rockies",
+   "check": "co_hdc_coverage",
+   "match": "225.",
+   "verdict": "qualified",
+   "note": "A band gap: the policy's bands end at 225% and restart at 226%. Likely a rounding convention, not an intended exclusion."
+  },
+  {
+   "id": "intermountain",
+   "check": "co_hdc_coverage",
+   "match": "service area",
+   "verdict": "upheld",
+   "note": "Residency within an Intermountain service area is required for non-emergent services."
+  },
+  {
+   "id": "intermountain",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "upheld",
+   "note": "Eligibility is considered for uninsured or underinsured individuals."
+  },
+  {
+   "id": "memorial-regional-craig",
+   "check": "co_window_181",
+   "match": "",
+   "verdict": "upheld",
+   "note": "Applications are due within 45 days of service (or 45 days after an insurance payment or Medicaid denial); Colorado allows at least 181 days."
+  },
+  {
+   "id": "memorial-regional-craig",
+   "check": "co_window_insured",
+   "match": "",
+   "verdict": "rejected",
+   "note": "The policy also allows 45 days from the date of primary insurance payment, which meets Colorado's insured-patient window. Both models missed that option."
+  },
+  {
+   "id": "memorial-regional-craig",
+   "check": "co_plan_4pct",
+   "match": "",
+   "verdict": "upheld",
+   "note": "Payment plans must be at least $25 a month; for very low incomes that exceeds 4% of monthly income. Accounts must also be paid within 24 months."
+  },
+  {
+   "id": "montrose",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "qualified",
+   "note": "This is a plain-language summary; it also offers help 'if it would be a financial hardship to pay', which may cover insured patients."
+  },
+  {
+   "id": "st-vincent-leadville",
+   "check": "co_hdc_coverage",
+   "match": "",
+   "verdict": "qualified",
+   "note": "The sliding scale stops at 200%, but the policy says discounts 'could include the HDC program' without describing it."
+  },
+  {
+   "id": "uchealth",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "upheld",
+   "note": "Income-based assistance requires the patient to be uninsured or under-insured (out-of-pocket costs exceed ability to pay)."
+  },
+  {
+   "id": "uchealth",
+   "check": "monotone",
+   "match": "",
+   "verdict": "qualified",
+   "note": "A band gap: 100% at 250% or less, discounts 'between 251% and 400%'. Likely a rounding convention."
+  },
+  {
+   "id": "arkansas-valley",
+   "check": "co_hdc_coverage",
+   "match": "outside the hospital's service area",
+   "verdict": "rejected",
+   "note": "The clause is 'The patient received a service at AVRMC or an AVRMC physician clinic', which is about where care happened, not where the patient lives. Both models encoded it as a service-area residency rule."
+  },
+  {
+   "id": "arkansas-valley",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "rejected",
+   "note": "The policy covers 'an insured patient that has specifically requested screening', as Colorado law requires. Both models dropped that part."
+  },
+  {
+   "id": "banner",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "qualified",
+   "note": "Banner's document is a summary of its programs: uninsured up to 400%, underinsured, and medically indigent (medical bills over a share of income). An insured patient with a smaller bill fits none of them as written; the full policy may say more."
+  },
+  {
+   "id": "colorado-plains",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "upheld",
+   "note": "Charity is considered for individuals who are uninsured, underinsured and ineligible for government programs; HDC must screen an insured patient who asks."
+  },
+  {
+   "id": "colorado-plains",
+   "check": "co_hdc_coverage",
+   "match": "\"Patient must be ineligible",
+   "verdict": "rejected",
+   "note": "'Ineligible for any government health care program' was encoded as 'has not applied for Medicaid', which the policy doesn't say."
+  },
+  {
+   "id": "community-hospital-gj",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "upheld",
+   "note": "Same wording: charity for individuals who are uninsured, underinsured and ineligible for government programs."
+  },
+  {
+   "id": "community-hospital-gj",
+   "check": "co_hdc_coverage",
+   "match": "\"Patient must be ineligible",
+   "verdict": "rejected",
+   "note": "'Ineligible for any government health care program' was encoded as 'has not applied for Medicaid', which the policy doesn't say."
+  },
+  {
+   "id": "gunnison-valley",
+   "check": "fed_window_240",
+   "match": "",
+   "verdict": "upheld",
+   "note": "Applications must be in 'prior to 180 days from the date of the initial account statement'; 501(r) requires accepting them for 240 days."
+  },
+  {
+   "id": "rio-grande",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "upheld",
+   "note": "Assistance is considered for individuals who are uninsured or underinsured and unable to pay."
+  },
+  {
+   "id": "rio-grande",
+   "check": "co_hdc_coverage",
+   "match": "meets every requirement",
+   "verdict": "qualified",
+   "note": "A band gap: the sliding scale's bands end at 200% and restart at 201%. Likely a rounding convention."
+  },
+  {
+   "id": "rio-grande",
+   "check": "monotone",
+   "match": "",
+   "verdict": "qualified",
+   "note": "A band gap: bands end at 100% and restart at 101%. Likely a rounding convention."
+  },
+  {
+   "id": "childrens-colorado",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "upheld",
+   "note": "HDC and CICP are described as 'discounted care programs for patients who are Uninsured or Underinsured'; Colorado law has the hospital screen an insured patient who asks."
+  },
+  {
+   "id": "colorado-plains",
+   "check": "co_hdc_coverage",
+   "match": "unable to pay",
+   "verdict": "rejected",
+   "note": "'Unable to pay for their care' isn't a fact the audit can express; the model forced it onto another variable, so this case is an artifact."
+  },
+  {
+   "id": "community-hospital-gj",
+   "check": "co_hdc_coverage",
+   "match": "unable to pay",
+   "verdict": "rejected",
+   "note": "'Unable to pay for their care' isn't a fact the audit can express; the model forced it onto another variable, so this case is an artifact."
+  },
+  {
+   "id": "heart-of-the-rockies",
+   "check": "co_hdc_coverage",
+   "match": "Unable to pay",
+   "verdict": "rejected",
+   "note": "'Unable to pay for those services' isn't a fact the audit can express; the model forced it onto another variable, so this case is an artifact."
+  },
+  {
+   "id": "heart-of-the-rockies",
+   "check": "co_hdc_coverage",
+   "match": "200.9",
+   "verdict": "qualified",
+   "note": "A band gap: the bands end at 200% and restart at 201%. Likely a rounding convention."
+  },
+  {
+   "id": "intermountain",
+   "check": "co_hdc_coverage",
+   "match": "hasn't applied for Medicaid",
+   "verdict": "qualified",
+   "note": "The policy requires other payment options, including public programs, to be exhausted 'unless prohibited by local, state, or federal laws'. Colorado prohibits denying discounted care because a patient hasn't applied for public benefits, so the policy's own exception should cover this; it just doesn't say so."
+  },
+  {
+   "id": "middle-park",
+   "check": "co_hdc_coverage",
+   "match": "not under-insured",
+   "verdict": "upheld",
+   "note": "The policy describes assistance for patients who are uninsured or underinsured; HDC must screen an insured patient who asks."
+  }
  ]
 }

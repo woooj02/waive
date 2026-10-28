@@ -245,14 +245,16 @@ Not errors: a requirement the hospital may waive at its discretion is still a re
 one of several "the later of" options is supported if the policy lists it as one of them.
 CLAIMS:
 {claims}
-For each claim answer "supported", "amount_unsupported" (who qualifies is right, but the policy doesn't state
-that amount of help) or "unsupported".
+For each claim answer "supported", "incomplete" (right, but the policy adds a further condition the claim leaves
+out: name it in "why"), "amount_unsupported" (who qualifies is right, but the policy doesn't state that amount of
+help) or "unsupported" (the policy contradicts it or doesn't say it).
 Return JSON {{"verdicts": [{{"id": ..., "verdict": ..., "why": "one short sentence"}}]}}."""
 
 SUPPORT_SCHEMA = {"type": "object", "properties": {"verdicts": {"type": "array", "items": {
     "type": "object", "properties": {"id": {"type": "string"},
                                      "verdict": {"type": "string",
-                                                 "enum": ["supported", "amount_unsupported", "unsupported"]},
+                                                 "enum": ["supported", "incomplete", "amount_unsupported",
+                                                          "unsupported"]},
                                      "why": {"type": "string"}}, "required": ["id", "verdict", "why"]}}},
     "required": ["verdicts"]}
 
@@ -300,6 +302,9 @@ def check_support(pm: PolicyModel, text: str, meter: llm.Meter, judge: str = "su
     for r in out.rules:  # right people, unproven amount: keep the rule, drop the number
         if f"rule:{r.id}" in vague:
             r.discount_pct = None
+    partial = {v["id"]: v.get("why", "") for v in verdicts if v.get("verdict") == "incomplete"}
+    for k, why in partial.items():  # keep it: dropping a real rule would make the model claim nobody qualifies
+        out.notes.append(f"{k.split(':', 1)[-1]} may leave out a condition: {why}")
     out.requires = [r for r in out.requires if f"req:{r.id}" not in bad]
     out.rules = [r for r in out.rules if f"rule:{r.id}" not in bad]
     out.timing.application = [d for i, d in enumerate(out.timing.application) if f"app:{i}" not in bad]

@@ -140,21 +140,21 @@
      "id": "req:req-medically-necessary",
      "claim": "Every form of assistance requires: (medically_necessary)",
      "quote": "The referring/attending physician must determine when patient services are medically necessary.",
-     "why": "Medically necessary determination is required only for certain steps, not every form of assistance."
+     "why": "Policy does not require medically necessary care for every form of assistance; it is only referenced in context of evaluation."
     },
     {
      "kind": "amount removed",
      "id": "rule:rule-sliding-scale-200",
      "claim": "A patient with (fpl_pct <= 200) gets an unstated amount of help",
      "quote": "Financial assistance consideration is given for patients with incomes less than 200% of the Federal Poverty Guideline for their family size.",
-     "why": "Policy states consideration for <200% FPL but does not specify discount amount."
+     "why": "Policy gives consideration for patients with incomes less than 200% FPL but does not specify the amount of help."
     },
     {
      "kind": "amount removed",
      "id": "rule:rule-self-pay-uninsured",
      "claim": "A patient with (not insured) gets an unstated amount of help",
      "quote": "DMH has established a self-pay fee schedule to consistently discount uninsured patient bills. If a patient is uninsured and does not qualify for program assistance through DMH's financial assistance program, the patient will be registered as self-pay.",
-     "why": "Policy establishes self-pay schedule for uninsured but does not state discount amount."
+     "why": "Policy establishes a self-pay fee schedule for uninsured patients not qualifying for assistance but does not state the discount amount."
     }
    ],
    "clauses": 6,
@@ -324,15 +324,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.97,
-   "tokens_in": 6050,
+   "seconds": 3.52,
+   "tokens_in": 6088,
    "tokens_cached": 0,
-   "tokens_out": 388,
-   "cost_usd": 0.002164,
+   "tokens_out": 432,
+   "cost_usd": 0.002215,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.002164,
-   "orig_seconds": 1.97
+   "orig_cost_usd": 0.002215,
+   "orig_seconds": 3.52
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -352,18 +352,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.55,
-   "tokens_in": 5793,
+   "seconds": 2.26,
+   "tokens_in": 5831,
    "tokens_cached": 0,
    "tokens_out": 168,
-   "cost_usd": 0.001889,
+   "cost_usd": 0.001901,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001889,
-   "orig_seconds": 1.55
+   "orig_cost_usd": 0.001901,
+   "orig_seconds": 2.26
   }
  ],
- "cost_usd": 0.01728,
- "seconds": 3.6,
- "made": "2026-10-27"
+ "cost_usd": 0.01734,
+ "seconds": 5.8,
+ "made": "2026-10-28"
 }

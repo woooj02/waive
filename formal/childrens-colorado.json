@@ -4,8 +4,100 @@
   "doc": "policy",
   "source_url": "https://www.childrenscolorado.org/globalassets/your-visit/financial-assistance-policy-english.pdf",
   "nonprofit": true,
-  "requires": [],
+  "requires": [
+   {
+    "id": "req-residency",
+    "label": "Colorado residency required for HDC and CICP",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "HDC and CICP applicants must be residents of Colorado."
+   },
+   {
+    "id": "req-care-type",
+    "label": "Emergency or medically necessary care required for HDC",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "HDC is available only to Qualified Patients residing in Colorado and only for Emergency and Medically Necessary care."
+   },
+   {
+    "id": "req-uninsured-underinsured",
+    "label": "Uninsured or underinsured required for HDC and CICP",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "CICP and CHCO's HDC programs are not insurance coverage, but rather discounted care programs for patients who are Uninsured or Underinsured and have demonstrated financial need."
+   }
+  ],
   "rules": [
+   {
+    "id": "rule-hdc-0-250",
+    "label": "HDC free care for income at or below 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less), with the level of discount for which an individual is eligible for, determined on a sliding fee scale, based upon the individual's rating, or family Income as a percentage of FPL."
+   },
    {
     "id": "rule-hdc-251-400-inpatient",
     "label": "HDC limited financial assistance for inpatient services 251% to 400% FPL",
@@ -98,6 +190,11 @@
      "anchor": "service",
      "days": 365,
      "quote": "The application must be completed within 365 days from the date of services or date of discharge."
+    },
+    {
+     "anchor": "service",
+     "days": 181,
+     "quote": "CICP may be backdated up to 181 days."
     }
    ],
    "eca_not_before": [
@@ -132,7 +229,11 @@
    "ECAs suspended upon receipt of completed application until determination; reversed if eligible.",
    "Non-discrimination policy covers race, color, ethnic/national origin, ancestry, age, sex, gender, sexual orientation, gender identity/expression, religion, creed, political beliefs, immigrant status, disability.",
    "CHCO will not deny discounted care based on failure to apply for public benefits.",
-   "CHCO will not deny admission/treatment because patient may qualify for HDC."
+   "CHCO will not deny admission/treatment because patient may qualify for HDC.",
+   "req-residency may leave out a condition: applies only to HDC/CICP, not all assistance (self-pay discount)",
+   "req-care-type may leave out a condition: restriction applies only to HDC, not all assistance (self-pay discount)",
+   "req-uninsured-underinsured may leave out a condition: describes target population, not a requirement for all assistance (self-pay discount applies regardless)",
+   "1 may leave out a condition: applies only to CICP, not all assistance"
   ]
  },
  "report": {
@@ -147,58 +248,16 @@
      "quote": "Colorado Indigent Care Program (CICP) ... allows participating providers, like CHCO, to render discounted services to patients who are Colorado residents with limited financial resources who are uninsured or underinsured and not eligible for benefits under the Medicaid Program or the Children's Basic Health Plan."
     },
     {
-     "kind": "unsupported",
-     "id": "req:req-residency",
-     "claim": "Every form of assistance requires: (co_resident)",
-     "quote": "HDC and CICP applicants must be residents of Colorado.",
-     "why": "Residency is required only for HDC and CICP, not for every form of assistance (e.g., emergency assistance to international individuals)."
-    },
-    {
-     "kind": "unsupported",
-     "id": "req:req-care-type",
-     "claim": "Every form of assistance requires: (medically_necessary)",
-     "quote": "HDC is available only to Qualified Patients residing in Colorado and only for Emergency and Medically Necessary care.",
-     "why": "Emergency and medically necessary care is required only for HDC, not for every form of assistance (e.g., self-pay discount applies regardless of care type)."
-    },
-    {
-     "kind": "unsupported",
-     "id": "req:req-uninsured-underinsured",
-     "claim": "Every form of assistance requires: (not insured OR underinsured)",
-     "quote": "CICP and CHCO's HDC programs are not insurance coverage, but rather discounted care programs for patients who are Uninsured or Underinsured and have demonstrated financial need.",
-     "why": "Being uninsured or underinsured applies to HDC and CICP, but not to every form of assistance (e.g., emergency assistance to international individuals may not require this)."
-    },
-    {
-     "kind": "unsupported",
+     "kind": "amount removed",
      "id": "rule:rule-hdc-0-250",
      "claim": "A patient with (fpl_pct <= 250) AND (not insured OR underinsured) AND (co_resident) AND (medically_necessary) gets 100% off",
      "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less), with the level of discount for which an individual is eligible for, determined on a sliding fee scale, based upon the individual's rating, or family Income as a percentage of FPL.",
-     "why": "The policy states HDC discount is determined on a sliding fee scale based on income as % of FPL, not that 100% off is guaranteed for all at or below 250% FPL."
-    },
-    {
-     "kind": "unsupported",
-     "id": "app:1",
-     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 181 days after the date of service (alone, or as one of several 'the later of' options)",
-     "quote": "CICP may be backdated up to 181 days.",
-     "why": "The 181-day period applies to backdating CICP eligibility, not to the deadline for submitting a financial-assistance application."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-hdc-251-400-inpatient",
-     "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) AND (not insured OR underinsured) AND (co_resident) AND (inpatient) AND (medically_necessary) gets an unstated amount of help",
-     "quote": "CHCO provides additional limited financial assistance for Inpatient Services only for individuals 251% to 400% FPG.",
-     "why": "The policy states limited financial assistance for inpatient services for 251%-400% FPL, but does not specify the amount, so who qualifies is right but amount is not stated."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-emergency-international",
-     "claim": "A patient with (emergency) gets an unstated amount of help",
-     "quote": "CHCO does offer some limited financial assistance for Emergency medical services to all patients, including International Individuals.",
-     "why": "The policy states CHCO offers limited financial assistance for emergency medical services to all patients, including international individuals, but does not specify the amount."
+     "why": "policy states discount is on sliding scale, not necessarily 100% off"
     }
    ],
    "clauses": 8,
-   "clauses_proven": 3,
-   "unsupported": 7
+   "clauses_proven": 7,
+   "unsupported": 1
   },
   "secondary": {
    "model": "super",
@@ -210,35 +269,35 @@
    "dropped": [
     {
      "kind": "unsupported",
+     "id": "rule:rule_self_pay_discount",
+     "claim": "A patient with (not insured OR not underinsured) gets 35% off",
+     "quote": "At the time of billing, if the patient does not have HDC, a standard 35% discount will be applied to all self-pay balances.",
+     "why": "policy applies 35% discount to self-pay patients without HDC, not based on insurance status alone"
+    },
+    {
+     "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "The patient/guardian will be asked to complete the Colorado State Uniform Application, and submit all required documentation, within 45 days.",
-     "why": "Quote refers to 45-day deadline to submit application after request, not 365 days from service."
+     "why": "policy states 45-day deadline to submit application after receiving it, not 365 days after service"
     },
     {
      "kind": "unsupported",
      "id": "app:1",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
      "quote": "The patient/guardian will be asked to complete the Colorado State Uniform Application, and submit all required documentation, within 45 days.",
-     "why": "Quote refers to 45-day deadline to submit application after request, not 365 days from first bill."
+     "why": "policy states 45-day deadline to submit application after receiving it, not 365 days after first bill"
     },
     {
      "kind": "amount removed",
      "id": "rule:rule_hdc_free_to_250_fpl",
      "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets 100% off",
      "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less)",
-     "why": "Policy states sliding scale discount, not necessarily 100% off for all <=250% FPL."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule_cicp",
-     "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets an unstated amount of help",
-     "quote": "CICP and CHCO\u2019s HDC programs are not insurance coverage, but rather discounted care programs for patients who are Uninsured or Underinsured and have demonstrated financial need.",
-     "why": "Policy describes CICP as discounted care for uninsured/underinsured with financial need but does not specify amount."
+     "why": "policy does not guarantee 100% off; discount is on sliding scale"
     }
    ],
    "clauses": 8,
-   "clauses_proven": 8,
+   "clauses_proven": 7,
    "unsupported": 4
   },
   "secondary_model": {
@@ -395,26 +454,6 @@
      "quote": "CHCO provides additional limited financial assistance for Inpatient Services only for individuals 251% to 400% FPG."
     },
     {
-     "id": "rule_self_pay_discount",
-     "label": "Self-pay discount",
-     "when": [
-      [
-       {
-        "var": "insured",
-        "op": "false",
-        "value": null
-       },
-       {
-        "var": "underinsured",
-        "op": "false",
-        "value": null
-       }
-      ]
-     ],
-     "discount_pct": 35.0,
-     "quote": "At the time of billing, if the patient does not have HDC, a standard 35% discount will be applied to all self-pay balances."
-    },
-    {
      "id": "rule_cicp",
      "label": "CICP: Colorado Indigent Care Program",
      "when": [
@@ -470,20 +509,23 @@
     "ECA after bad debt: If account in Bad Debt aged >60 days without contact or guarantor refuses to resolve, ECAs may be taken.",
     "Covered services: Applies to CHCO\u2019s hospital services and hospital/facility charges; professional fees may have different discount schedule.",
     "Excluded services: Elective/cosmetic surgery, transplant procedures, self-pay package, single case agreement, grants & research, or when third party legally obligated to pay claim.",
-    "Excluded costs: Housing, food, transportation, community services, or services/supplies related to continuity of care (e.g., DME, home care)."
+    "Excluded costs: Housing, food, transportation, community services, or services/supplies related to continuity of care (e.g., DME, home care).",
+    "rule_hdc_sliding_scale_250_fpl may leave out a condition: missing requirement: must be Qualified Patient (Colorado resident, received care at CHCO)",
+    "rule_hdc_limited_inpatient_251_to_400_fpl may leave out a condition: missing requirement: must be Qualified Patient (Colorado resident, received care at CHCO)",
+    "rule_cicp may leave out a condition: missing requirement: must be Colorado resident and not eligible for Medicaid/CHP+"
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 35% off, the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives 35% off.",
-   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, under-insured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, under-insured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 35% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, under-insured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, outside the hospital's service area, under-insured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, outside the hospital's service area, under-insured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "disagreements_after": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 35% off, the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives 35% off.",
-   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, under-insured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, under-insured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 35% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, under-insured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, outside the hospital's service area, under-insured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, outside the hospital's service area, under-insured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "equivalent": false
  },
@@ -506,15 +548,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 3.32,
-   "tokens_in": 8949,
+   "seconds": 3.58,
+   "tokens_in": 8987,
    "tokens_cached": 0,
-   "tokens_out": 598,
-   "cost_usd": 0.003223,
+   "tokens_out": 339,
+   "cost_usd": 0.003001,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.003223,
-   "orig_seconds": 3.32
+   "orig_cost_usd": 0.003001,
+   "orig_seconds": 3.58
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -548,18 +590,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 2.65,
-   "tokens_in": 9019,
+   "seconds": 3.14,
+   "tokens_in": 9057,
    "tokens_cached": 0,
-   "tokens_out": 537,
-   "cost_usd": 0.003189,
+   "tokens_out": 436,
+   "cost_usd": 0.003109,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.003189,
-   "orig_seconds": 2.65
+   "orig_cost_usd": 0.003109,
+   "orig_seconds": 3.14
   }
  ],
- "cost_usd": 0.02787,
- "seconds": 6.1,
- "made": "2026-10-27"
+ "cost_usd": 0.02757,
+ "seconds": 6.9,
+ "made": "2026-10-28"
 }

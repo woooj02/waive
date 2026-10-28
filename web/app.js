@@ -152,7 +152,7 @@ function chips(ev) {
   const names = [...new Set((ev.calls || []).map((c) => c.label))];
   if (!names.length && ev.model) names.push(ev.model);
   const out = names.map((n) => `<span class="chip ${n.startsWith("plain code") ? "code" : ""}">${esc(n)}</span>`);
-  if (ev.from_cache) out.push(`<span class="chip cache">from Atlas cache</span>`);
+  if (ev.from_cache) out.push(`<span class="chip cache">prepared in advance</span>`);
   return out.join("");
 }
 
@@ -234,6 +234,7 @@ function renderResult(ev) {
       <div class="actions">
         ${good ? `<button class="btn" id="dl">Download my application packet (PDF)</button>` : ""}
         ${src.url ? `<a class="btn ghost" href="${esc(src.url)}" target="_blank" rel="noopener">Read the hospital's policy</a>` : ""}
+        ${src.audit_id ? `<a class="btn ghost" href="/?h=${encodeURIComponent(src.audit_id)}">See this policy's Z3 audit${src.audit_counterexamples ? ` (${src.audit_counterexamples} findings)` : ""}</a>` : ""}
       </div>
       <ol class="todo">${todo.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>
     </div>

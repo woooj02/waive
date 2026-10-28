@@ -4,7 +4,28 @@
   "doc": "policy",
   "source_url": "https://riograndehospital.org/wp-content/uploads/2026/02/02272026-FAP-Revised-with-DSH-Corrections-v2.pdf",
   "nonprofit": null,
-  "requires": [],
+  "requires": [
+   {
+    "id": "req_uninsured_or_underinsured",
+    "label": "Patient must be uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Eligibility for financial assistance will be considered for those individuals who are uninsured, underinsured, and who are unable to pay for their care, based upon a determination of financial need in accordance with this Policy."
+   }
+  ],
   "rules": [
    {
     "id": "rule_fpl_0_100",
@@ -123,6 +144,21 @@
     ],
     "discount_pct": null,
     "quote": "Patients whose family income exceeds 250% of the FPL will generally not be deemed eligible for financial assistance; but, may be considered for financial assistance on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of RGH."
+   },
+   {
+    "id": "rule_presumptive_eligibility",
+    "label": "Presumptive eligibility based on life circumstances",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: State-funded prescription programs; Homeless or received care from a homeless clinic; Participation in Women, Infants and Children programs (WIC); Food stamp eligibility; Subsidized school lunch program eligibility; Eligibility for other state or local assistance programs that are unfunded (e.g., Medicaid spend-down); Low income/subsidized housing is provided as a valid address, and; Patient is deceased with no known estate."
    }
   ],
   "timing": {
@@ -146,7 +182,7 @@
    "max_pct_monthly_income": null,
    "max_months": null,
    "min_monthly_usd": null,
-   "quote": ""
+   "quote": "RGH will not engage in or impose extraordinary collection actions such as wage garnishments, liens on primary residences, or other legal actions for any patient without first making reasonable efforts to determine whether that patient is eligible for financial assistance under this financial assistance policy. Reasonable efforts shall include: Validating that the patient owes the unpaid bills and that all sources of third-party payment have been identified and billed by the hospital. Documentation that RGH has, or has attempted to offer the patient the opportunity to apply for financial assistance pursuant to this policy and that the patient has not complied with the hospital's application requirements. Documentation that the patient has been offered a payment plan but has not honored the terms of that plan."
   },
   "notes": [
    "Policy applies to hospital, clinics, and employed providers (inpatient, ER, family practice, orthopedics by Dr. Hunter, surgery by Thompson, anesthesia by Monarch). Excludes non-employee providers: Colorado Imaging Associates radiologists, San Luis Valley Health specialists, Health One cardiology, Vascular Institute of the Rockies, surgeries by Chang and Marshall-Rodriguez.",
@@ -170,23 +206,11 @@
    "repaired": false,
    "dropped": [
     {
-     "kind": "payment plan",
-     "id": "payment_plan",
-     "quote": "RGH will not engage in or impose extraordinary collection actions such as wage garnishments, liens on primary residences, or other legal actions for any patient without first making reasonable efforts to determine whether that patient is eligible for financial assistance under this financial assistance policy. Reasonable efforts shall include: Validating that the patient owes the unpaid bills and that all sources of third-party payment have been identified and billed by the hospital. Documentation that RGH has, or has attempted to offer the patient the opportunity to apply for financial assistance pursuant to this policy and that the patient has not complied with the hospital's application requirements. Documentation that the patient has been offered a payment plan but has not honored the terms of that plan."
-    },
-    {
      "kind": "unsupported",
      "id": "req:req_medically_necessary",
      "claim": "Every form of assistance requires: (medically_necessary)",
      "quote": "Services eligible under this Policy will be made available to the patient on a sliding fee scale, in accordance with financial need, as determined in reference to Federal Poverty Levels (FPL) in effect at the time of the determination.",
-     "why": "Policy limits assistance to emergency and medically necessary services, not all forms."
-    },
-    {
-     "kind": "unsupported",
-     "id": "req:req_uninsured_or_underinsured",
-     "claim": "Every form of assistance requires: (not insured OR underinsured)",
-     "quote": "Eligibility for financial assistance will be considered for those individuals who are uninsured, underinsured, and who are unable to pay for their care, based upon a determination of financial need in accordance with this Policy.",
-     "why": "Policy adds \"unable to pay\" as a third condition beyond just uninsured/underinsured."
+     "why": "Policy excludes certain provider types (radiologists, specialists) so not all assistance requires medically necessary care."
     },
     {
      "kind": "unsupported",
@@ -194,25 +218,11 @@
      "claim": "Every form of assistance requires: (applied_public_programs) (the hospital MAY deny otherwise)",
      "quote": "It is preferred, but not required, that a request for financial assistance and a determination of financial need occur prior to rendering of non-emergent, medically necessary services.",
      "why": "Quote concerns timing preference, not a requirement to apply for public programs."
-    },
-    {
-     "kind": "unsupported",
-     "id": "rule:rule_presumptive_eligibility",
-     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
-     "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: State-funded prescription programs; Homeless or received care from a homeless clinic; Participation in Women, Infants and Children programs (WIC); Food stamp eligibility; Subsidized school lunch program eligibility; Eligibility for other state or local assistance programs that are unfunded (e.g., Medicaid spend-down); Low income/subsidized housing is provided as a valid address, and; Patient is deceased with no known estate.",
-     "why": "Policy mentions presumptive eligibility for income estimation, not automatic assistance."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule_fpl_above_250_catastrophic",
-     "claim": "A patient with (fpl_pct > 250) gets an unstated amount of help",
-     "quote": "Patients whose family income exceeds 250% of the FPL will generally not be deemed eligible for financial assistance; but, may be considered for financial assistance on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of RGH.",
-     "why": "Policy allows case-by-case consideration but does not specify any discount amount."
     }
    ],
    "clauses": 10,
-   "clauses_proven": 6,
-   "unsupported": 5
+   "clauses_proven": 8,
+   "unsupported": 2
   },
   "secondary": {
    "model": "super",
@@ -230,7 +240,7 @@
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
      "quote": "Accounts eligible for Financial Assistance are to be addressed within 240 days of first bill.",
-     "why": "Quote addresses account resolution timing, not patient application submission deadline."
+     "why": "Policy addresses accounts within 240 days of first bill, not patient submission deadline."
     }
    ],
    "clauses": 5,
@@ -378,16 +388,16 @@
    ]
   },
   "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
    "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $54,900 a year (200.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 20% off.",
-   "A household of 3 earning $27,590 a year (101.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 80% off.",
-   "A household of 3 earning $41,000 a year (150.1% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 40% off."
+   "One person earning $27,000 a year (169.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 40% off.",
+   "A household of 3 earning $28,000 a year (102.5% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 80% off."
   ],
   "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
    "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $54,900 a year (200.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 20% off.",
-   "A household of 3 earning $27,590 a year (101.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 80% off.",
-   "A household of 3 earning $41,000 a year (150.1% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 40% off."
+   "One person earning $27,000 a year (169.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 40% off.",
+   "A household of 3 earning $28,000 a year (102.5% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 80% off."
   ],
   "equivalent": false
  },
@@ -410,15 +420,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 3.26,
-   "tokens_in": 10853,
+   "seconds": 3.76,
+   "tokens_in": 10891,
    "tokens_cached": 0,
-   "tokens_out": 559,
-   "cost_usd": 0.003759,
+   "tokens_out": 370,
+   "cost_usd": 0.0036,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.003759,
-   "orig_seconds": 3.26
+   "orig_cost_usd": 0.0036,
+   "orig_seconds": 3.76
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -452,18 +462,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 2.48,
-   "tokens_in": 10369,
+   "seconds": 2.29,
+   "tokens_in": 10407,
    "tokens_cached": 0,
-   "tokens_out": 327,
-   "cost_usd": 0.003405,
+   "tokens_out": 198,
+   "cost_usd": 0.0033,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.003405,
-   "orig_seconds": 2.48
+   "orig_cost_usd": 0.0033,
+   "orig_seconds": 2.29
   }
  ],
- "cost_usd": 0.0291,
- "seconds": 5.9,
- "made": "2026-10-27"
+ "cost_usd": 0.02883,
+ "seconds": 6.2,
+ "made": "2026-10-28"
 }

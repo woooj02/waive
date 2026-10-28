@@ -104,43 +104,42 @@
      "id": "req:req-care-type",
      "claim": "Every form of assistance requires: (medically_necessary)",
      "quote": "identify patients admitted to the hospital, visit the RHC or have outpatient visits including through the emergency room that may qualify for charity care",
-     "why": "The policy does not require medically_necessary care for every form of assistance; it only identifies patients who may qualify."
+     "why": "policy identifies eligible patients but does not require emergency/medically necessary care for all assistance"
     },
     {
      "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "Approved applications will remain on file for 365 days.",
-     "why": "The 365-day period refers to how long approved applications remain on file, not the deadline to submit an application."
+     "why": "365 days refers to retention of approved applications, not deadline to submit application"
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-financially-indigent",
+     "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets an unstated amount of help",
+     "quote": "Patients may only be granted classification as Financially Indigent if their yearly income as set forth on the Financial Assistance Application is less than or equal to 250% of the poverty guidelines",
+     "why": "policy does not specify amount of help for financially indigent classification"
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-medically-indigent-catastrophic",
+     "claim": "A patient with (bill_pct_income > 50) AND (fpl_pct > 500) gets an unstated amount of help",
+     "quote": "The patient's remaining bill must be greater than 50% of the patient's income, and the patient's income must be greater than 500% of the Federal Poverty Guidelines.",
+     "why": "policy does not specify amount of help for catastrophic medically indigent"
     }
    ],
    "clauses": 5,
    "clauses_proven": 2,
-   "unsupported": 2
+   "unsupported": 4
   },
   "secondary": {
    "model": "super",
    "lint": [],
    "repaired": false,
-   "dropped": [
-    {
-     "kind": "unsupported",
-     "id": "rule:r_medically_indigent_i",
-     "claim": "A patient with (bill_pct_income > 10) AND (fpl_pct <= 500) gets an unstated amount of help",
-     "quote": "To be considered for classification as a Medically Indigent patient, the amount owed by the patient after payment by all third-party payers must exceed ten percent (10%) of the patient\u2019s income and the patient must be unable to pay the remaining bill.",
-     "why": "Missing 'unable to pay remaining bill' requirement from policy."
-    },
-    {
-     "kind": "unsupported",
-     "id": "rule:r_medically_indigent_ii",
-     "claim": "A patient with (bill_pct_income > 50) AND (fpl_pct > 500) gets an unstated amount of help",
-     "quote": "The patient\u2019s remaining bill must be greater than 50% of the patient\u2019s income, and the patient\u2019s income must be greater than 500% of the Federal Poverty Guidelines.",
-     "why": "Requires fpl_pct>500 but policy specifies \u2265500% FPL for catastrophic medically indigent."
-    }
-   ],
+   "dropped": [],
    "clauses": 3,
-   "clauses_proven": 1,
-   "unsupported": 2
+   "clauses_proven": 3,
+   "unsupported": 0
   },
   "secondary_model": {
    "hospital": "Mt. San Rafael Hospital",
@@ -175,6 +174,50 @@
      ],
      "discount_pct": null,
      "quote": "Patients may only be granted classification as Financially Indigent if their yearly income as set forth on the Financial Assistance Application is less than or equal to 250% of the poverty guidelines updated annually in the Federal Register by the U.S. Department of Health and Human Services (\"Federal Poverty Guidelines\")."
+    },
+    {
+     "id": "r_medically_indigent_i",
+     "label": "Medically Indigent (Income \u2264500% FPL)",
+     "when": [
+      [
+       {
+        "var": "bill_pct_income",
+        "op": ">",
+        "value": 10.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 500.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "To be considered for classification as a Medically Indigent patient, the amount owed by the patient after payment by all third-party payers must exceed ten percent (10%) of the patient\u2019s income and the patient must be unable to pay the remaining bill."
+    },
+    {
+     "id": "r_medically_indigent_ii",
+     "label": "Medically Indigent (Catastrophic)",
+     "when": [
+      [
+       {
+        "var": "bill_pct_income",
+        "op": ">",
+        "value": 50.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">",
+        "value": 500.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "The patient\u2019s remaining bill must be greater than 50% of the patient\u2019s income, and the patient\u2019s income must be greater than 500% of the Federal Poverty Guidelines."
     }
    ],
    "timing": {
@@ -195,14 +238,16 @@
     "Expired patients may be deemed to have no income; income documentation not required.",
     "If patient has ability to pay, reassessment possible upon additional documentation.",
     "Falsification may result in denial or revocation of charity care.",
-    "If qualified for other charity programs (CICP or Hospital Discount Care Program), this application will not be considered for additional discounts or balance adjustments."
+    "If qualified for other charity programs (CICP or Hospital Discount Care Program), this application will not be considered for additional discounts or balance adjustments.",
+    "r_medically_indigent_i may leave out a condition: policy additionally requires inability to pay remaining bill",
+    "r_medically_indigent_ii may leave out a condition: policy additionally requires inability to pay remaining bill"
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $68,500: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
   ],
   "disagreements_after": [
-   "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $68,500: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
   ],
   "equivalent": false
  },
@@ -225,15 +270,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 3.08,
-   "tokens_in": 5593,
+   "seconds": 2.07,
+   "tokens_in": 5631,
    "tokens_cached": 0,
-   "tokens_out": 238,
-   "cost_usd": 0.001892,
+   "tokens_out": 170,
+   "cost_usd": 0.001842,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001892,
-   "orig_seconds": 3.08
+   "orig_cost_usd": 0.001842,
+   "orig_seconds": 2.07
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -253,18 +298,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.72,
-   "tokens_in": 5598,
+   "seconds": 1.98,
+   "tokens_in": 5636,
    "tokens_cached": 0,
-   "tokens_out": 148,
-   "cost_usd": 0.001813,
+   "tokens_out": 105,
+   "cost_usd": 0.001785,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001813,
-   "orig_seconds": 1.72
+   "orig_cost_usd": 0.001785,
+   "orig_seconds": 1.98
   }
  ],
- "cost_usd": 0.01567,
- "seconds": 4.9,
- "made": "2026-10-27"
+ "cost_usd": 0.01559,
+ "seconds": 4.1,
+ "made": "2026-10-28"
 }

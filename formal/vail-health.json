@@ -161,7 +161,8 @@
    "If patient granted financial assistance on portion of bill and does not pay remaining portion, Vail Health will not reverse the amount of financial assistance granted.",
    "Patients eligible at less than 250% FPL will not be charged more than amount collected from Vail Health's lowest commercial contracted payer.",
    "Vail Health shall not discriminate based on race, color, national origin, sex, age or disability.",
-   "Full FAP and application form available at VailHealth.org/FinancialAssistance."
+   "Full FAP and application form available at VailHealth.org/FinancialAssistance.",
+   "rule_presumptive may leave out a condition: Policy links presumptive eligibility to government-sponsored programs but does not specify benefit amount."
   ]
  },
  "report": {
@@ -180,7 +181,7 @@
      "id": "req:req_established_care",
      "claim": "Every form of assistance requires: (in_service_area)",
      "quote": "Financial assistance is available for emergent or medically necessary care to all individuals who reside in Colorado and have established care with Vail Health",
-     "why": "Established care with Vail Health is mentioned but not tied to every form of assistance as a requirement."
+     "why": "Established care is not defined as in_service_area in the policy."
     },
     {
      "kind": "unsupported",
@@ -188,18 +189,11 @@
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
      "quote": "If a financial assistance application is received within 240 days of Vail Health's initial billing for a service",
      "why": "240-day period is from initial billing, not first post-discharge bill."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule_presumptive",
-     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
-     "quote": "Presumptive Eligibility: Eligibility in state or federally funded programs. Examples include housing assistance, food stamps and the Women, Infants & Children program (WIC).",
-     "why": "Presumptive eligibility is mentioned but no discount amount is specified in the policy."
     }
    ],
    "clauses": 8,
    "clauses_proven": 6,
-   "unsupported": 3
+   "unsupported": 2
   },
   "secondary": {
    "model": "super",
@@ -208,29 +202,15 @@
    "dropped": [
     {
      "kind": "unsupported",
-     "id": "rule:rule_uninsured_eligibility",
-     "claim": "A patient with (not insured) AND (fpl_pct <= 550) gets an unstated amount of help",
-     "quote": "Eligibility for all uninsured patients will be is based on meeting residency and income requirements.",
-     "why": "Quote mentions residency and income requirements but does not specify that uninsured patients with FPL \u2264550% get help; no amount or further detail given."
-    },
-    {
-     "kind": "unsupported",
-     "id": "rule:rule_presumptive_eligibility",
-     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
-     "quote": "Eligibility in state or federally funded programs. Examples include housing assistance, food stamps and the Women, Infants & Children program (WIC).",
-     "why": "Quote describes presumptive eligibility in government programs but does not state that such patients automatically get financial assistance under Vail's policy."
-    },
-    {
-     "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "If a financial assistance application is received within 240 days of Vail Health\u2019s initial billing for a service and is deemed incomplete...",
-     "why": "The 240-day period refers to when an incomplete application triggers a notice, not the deadline to submit an application."
+     "why": "policy describes hospital action on incomplete applications, not patient submission deadline"
     }
    ],
    "clauses": 9,
-   "clauses_proven": 7,
-   "unsupported": 3
+   "clauses_proven": 9,
+   "unsupported": 1
   },
   "secondary_model": {
    "hospital": "Vail Health",
@@ -285,6 +265,43 @@
     }
    ],
    "rules": [
+    {
+     "id": "rule_uninsured_eligibility",
+     "label": "Uninsured Eligibility",
+     "when": [
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 550.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Eligibility for all uninsured patients will be is based on meeting residency and income requirements."
+    },
+    {
+     "id": "rule_presumptive_eligibility",
+     "label": "Presumptive Eligibility",
+     "when": [
+      [
+       {
+        "var": "presumptive_program",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Eligibility in state or federally funded programs. Examples include housing assistance, food stamps and the Women, Infants & Children program (WIC)."
+    },
     {
      "id": "rule_fpl_band_1",
      "label": "FPL <= 250%",
@@ -383,20 +400,22 @@
     "After submitting a completed application with requested supporting documentation, the patient will receive an eligibility letter from the Vail Health financial assistance department within 60 days. Patients eligible for Colorado\u2019s Hospital Discounted Care will receive letters within 14 days of the receipt of the completed application",
     "If a patient is granted financial assistance on a portion of the bill and the patient subsequently does not pay his/her remaining portion of the bill, Vail Health will not reverse the amount of financial assistance granted.",
     "Once a patient has been approved for financial assistance or Hospital Discounted Care, the patient will be deemed to have approval for financial assistance towards services rendered by Vail Health for 12 months subsequent to approval.",
-    "Denials of financial assistance may be appealed. Appeals must include an appeal letter from the patient or party with financial responsibility requesting re-evaluation. The appeal must also include any supporting documents which were not part of the initial consideration that may prove inability to pay. Appeals will be referred to and reviewed by the financial counselors within 30 days of being received."
+    "Denials of financial assistance may be appealed. Appeals must include an appeal letter from the patient or party with financial responsibility requesting re-evaluation. The appeal must also include any supporting documents which were not part of the initial consideration that may prove inability to pay. Appeals will be referred to and reviewed by the financial counselors within 30 days of being received.",
+    "rule_uninsured_eligibility may leave out a condition: missing residency requirement",
+    "rule_presumptive_eligibility may leave out a condition: missing residency requirement"
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
-   "A household of 4 earning $123,000 a year (372.7% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 60% off.",
+   "A household of 3 earning $123,000 a year (450.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
    "A household of 5 earning $123,000 a year (318.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 80% off.",
-   "A household of 3 earning $123,000 a year (450.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 7 earning $123,000 a year (245.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 60% off."
   ],
   "disagreements_after": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
-   "A household of 4 earning $123,000 a year (372.7% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 60% off.",
+   "A household of 3 earning $123,000 a year (450.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
    "A household of 5 earning $123,000 a year (318.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 80% off.",
-   "A household of 3 earning $123,000 a year (450.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 7 earning $123,000 a year (245.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 60% off."
   ],
   "equivalent": false
  },
@@ -419,15 +438,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 6.02,
-   "tokens_in": 3377,
+   "seconds": 2.96,
+   "tokens_in": 3415,
    "tokens_cached": 0,
-   "tokens_out": 390,
-   "cost_usd": 0.001364,
+   "tokens_out": 267,
+   "cost_usd": 0.001265,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001364,
-   "orig_seconds": 6.02
+   "orig_cost_usd": 0.001265,
+   "orig_seconds": 2.96
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -447,18 +466,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 8.07,
-   "tokens_in": 3483,
+   "seconds": 2.91,
+   "tokens_in": 3521,
    "tokens_cached": 0,
-   "tokens_out": 480,
-   "cost_usd": 0.001477,
+   "tokens_out": 290,
+   "cost_usd": 0.001317,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001477,
-   "orig_seconds": 8.07
+   "orig_cost_usd": 0.001317,
+   "orig_seconds": 2.91
   }
  ],
- "cost_usd": 0.01284,
- "seconds": 14.2,
- "made": "2026-10-27"
+ "cost_usd": 0.01258,
+ "seconds": 6.0,
+ "made": "2026-10-28"
 }

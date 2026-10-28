@@ -4,7 +4,58 @@
   "doc": "policy",
   "source_url": "https://www.avrmc.org/docs/Financial_Assistance_policy.pdf?sub=For%20Patients",
   "nonprofit": true,
-  "requires": [],
+  "requires": [
+   {
+    "id": "req_service_at_avrmc",
+    "label": "Service received at AVRMC or AVRMC physician clinic",
+    "cond": [
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "The patient received a service at AVRMC or an AVRMC physician clinic."
+   },
+   {
+    "id": "req_uninsured_or_requested",
+    "label": "Patient is uninsured or insured patient requested screening",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "The patient is uninsured (or an insured patient that has specifically requested screening)"
+   },
+   {
+    "id": "req_medically_necessary",
+    "label": "Service was medically necessary",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "The service was considered \"Medically Necessary\" (not elective)"
+   }
+  ],
   "rules": [
    {
     "id": "rule_self_pay_discount",
@@ -87,36 +138,15 @@
     },
     {
      "kind": "unsupported",
-     "id": "req:req_service_at_avrmc",
-     "claim": "Every form of assistance requires: (in_service_area)",
-     "quote": "The patient received a service at AVRMC or an AVRMC physician clinic.",
-     "why": "Service location is a qualification criterion, not a universal requirement for all assistance forms (e.g., self-pay discount applies regardless)."
-    },
-    {
-     "kind": "unsupported",
-     "id": "req:req_uninsured_or_requested",
-     "claim": "Every form of assistance requires: (not insured OR underinsured)",
-     "quote": "The patient is uninsured (or an insured patient that has specifically requested screening)",
-     "why": "Screening trigger, not a requirement for assistance; insured patients not requesting screening can still receive self-pay discount."
-    },
-    {
-     "kind": "unsupported",
-     "id": "req:req_medically_necessary",
-     "claim": "Every form of assistance requires: (medically_necessary)",
-     "quote": "The service was considered \"Medically Necessary\" (not elective)",
-     "why": "Medically necessary is a qualification for financial assistance, not required for self-pay discount which applies to all uninsured patients."
-    },
-    {
-     "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 182 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "The patient complies in supplying the necessary information to AVRMC within 182 days of requested date.",
-     "why": "182-day deadline is for supplying information after screening request, not for submitting the initial financial assistance application."
+     "why": "The 182-day period is for supplying information after being asked, not for submitting the initial application."
     }
    ],
    "clauses": 6,
-   "clauses_proven": 2,
-   "unsupported": 4
+   "clauses_proven": 5,
+   "unsupported": 1
   },
   "secondary": {
    "model": "super",
@@ -131,28 +161,28 @@
      "id": "req:req_co_resident",
      "claim": "Every form of assistance requires: (co_resident)",
      "quote": "Arkansas Valley Regional Medical Center (AVRMC) is a 501(c) (3), not-for-profit hospital and will not discriminate in providing medically necessary services to those in need regardless of their ability to pay.",
-     "why": "Policy does not require Colorado residency for any assistance."
+     "why": "Policy does not require Colorado residency for every form of assistance."
     },
     {
      "kind": "unsupported",
      "id": "req:req_in_service_area",
      "claim": "Every form of assistance requires: (in_service_area)",
      "quote": "This policy will be effective for dates of service on or subsequent to September 1, 2022 and applies to all entities of the hospital with the same federal identification number.",
-     "why": "Policy applies to hospital entities but does not require patient to live in service area for assistance."
+     "why": "Policy does not require living in the hospital's service area for every form of assistance."
     },
     {
      "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 182 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "(IV)The patient complies in supplying the necessary information to AVRMC within 182 days of requested date.",
-     "why": "182-day deadline is for supplying information after request, not for submitting application."
+     "why": "Deadline is for supplying necessary information, not for submitting the application itself."
     },
     {
      "kind": "unsupported",
      "id": "app:1",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 182 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
      "quote": "(IV)The patient complies in supplying the necessary information to AVRMC within 182 days of requested date.",
-     "why": "No deadline tied to first post-discharge bill exists in policy."
+     "why": "Deadline is tied to requested date, not first post-discharge bill."
     }
    ],
    "clauses": 5,
@@ -255,18 +285,19 @@
     "Policy states that nothing in this section limits or affects a hospital\u2019s right to pursue the collection of personal injury, bodily injury, liability, uninsured, underinsured, medical payment rehabilitation, disability, homeowner\u2019s, business owner\u2019s, workers\u2019 compensation, or fault-based insurance.",
     "Policy states that billing patients who do not apply for or qualify for Financial Assistance: patients who do not apply for financial assistance or is determined to be ineligible for financial assistance, the 40% discount is the only discount that will be applied to the account balance.",
     "Policy states that patients in this category will be subject to guidelines set forth in Section 5 below.",
-    "Policy states that AVRMC will not collect up-front payments from uninsured patients unless they have opted out of screening (signed the form). If an uninsured patient has opted out of screening for financial aid (signed the form) then the patient would be subject to AVRMC\u2019s Co-Insurance and Payment Arrangement policy. Uninsured patients should still be given \u2018good faith estimates\u2019 of their cost for services received, but no request for payment should be made until the patient opts out (signs the form) or is not approved for assistance in another way (application rejection, request to not be contacted or lapse of notifications, 182 days)."
+    "Policy states that AVRMC will not collect up-front payments from uninsured patients unless they have opted out of screening (signed the form). If an uninsured patient has opted out of screening for financial aid (signed the form) then the patient would be subject to AVRMC\u2019s Co-Insurance and Payment Arrangement policy. Uninsured patients should still be given \u2018good faith estimates\u2019 of their cost for services received, but no request for payment should be made until the patient opts out (signs the form) or is not approved for assistance in another way (application rejection, request to not be contacted or lapse of notifications, 182 days).",
+    "rule_fap_charity_care may leave out a condition: Missing requirement that patient must comply in supplying necessary information within 182 days."
    ]
   },
   "disagreements_before": [
    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 40% off, the Nemotron 3 Super model gives 100% off.",
-   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
-   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives 40% off, the Nemotron 3 Super model gives no help."
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 40% off.",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, under-insured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help."
   ],
   "disagreements_after": [
    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 40% off, the Nemotron 3 Super model gives 100% off.",
-   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
-   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives 40% off, the Nemotron 3 Super model gives no help."
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 40% off.",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, under-insured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help."
   ],
   "equivalent": false
  },
@@ -289,15 +320,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 4.35,
-   "tokens_in": 4120,
+   "seconds": 4.32,
+   "tokens_in": 4158,
    "tokens_cached": 0,
-   "tokens_out": 351,
-   "cost_usd": 0.001552,
+   "tokens_out": 201,
+   "cost_usd": 0.001428,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001552,
-   "orig_seconds": 4.35
+   "orig_cost_usd": 0.001428,
+   "orig_seconds": 4.32
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -331,18 +362,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 2.09,
-   "tokens_in": 4197,
+   "seconds": 2.77,
+   "tokens_in": 4235,
    "tokens_cached": 0,
-   "tokens_out": 304,
-   "cost_usd": 0.001533,
+   "tokens_out": 252,
+   "cost_usd": 0.001497,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001533,
-   "orig_seconds": 2.09
+   "orig_cost_usd": 0.001497,
+   "orig_seconds": 2.77
   }
  ],
- "cost_usd": 0.01612,
- "seconds": 6.5,
- "made": "2026-10-27"
+ "cost_usd": 0.01596,
+ "seconds": 7.2,
+ "made": "2026-10-28"
 }

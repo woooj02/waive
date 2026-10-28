@@ -4,158 +4,8 @@
   "doc": "policy",
   "source_url": "https://vrh.org/wp-content/uploads/2025/08/Financial-Assistance-Guidelines-2025-published.pdf",
   "nonprofit": null,
-  "requires": [
-   {
-    "id": "req-uninsured-underinsured",
-    "label": "Patient must be uninsured or underinsured",
-    "cond": [
-     [
-      {
-       "var": "insured",
-       "op": "false",
-       "value": null
-      },
-      {
-       "var": "underinsured",
-       "op": "true",
-       "value": null
-      }
-     ]
-    ],
-    "discretionary": false,
-    "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care benefit program"
-   }
-  ],
+  "requires": [],
   "rules": [
-   {
-    "id": "rule-100-pct",
-    "label": "100% charity care (free care) for income <= 225% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 225.0
-      }
-     ],
-     [
-      {
-       "var": "insured",
-       "op": "false",
-       "value": null
-      },
-      {
-       "var": "underinsured",
-       "op": "true",
-       "value": null
-      }
-     ]
-    ],
-    "discount_pct": 100.0,
-    "quote": "To be eligible for 100% approval for the Valley Regional Hospital Financial Assistance Program, family income must be less than or equal to 225% of the Federal Poverty Income Guidelines"
-   },
-   {
-    "id": "rule-75-pct",
-    "label": "75% charity care for income 226%-250% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": ">=",
-       "value": 226.0
-      }
-     ],
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 250.0
-      }
-     ],
-     [
-      {
-       "var": "insured",
-       "op": "false",
-       "value": null
-      },
-      {
-       "var": "underinsured",
-       "op": "true",
-       "value": null
-      }
-     ]
-    ],
-    "discount_pct": 75.0,
-    "quote": "To be eligible for 75% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 226%-250% of the Federal Poverty Income Guidelines"
-   },
-   {
-    "id": "rule-50-pct",
-    "label": "50% charity care for income 251%-275% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": ">=",
-       "value": 251.0
-      }
-     ],
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 275.0
-      }
-     ],
-     [
-      {
-       "var": "insured",
-       "op": "false",
-       "value": null
-      },
-      {
-       "var": "underinsured",
-       "op": "true",
-       "value": null
-      }
-     ]
-    ],
-    "discount_pct": 50.0,
-    "quote": "To be eligible for 50% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 251%-275% of the Federal Poverty Income Guidelines"
-   },
-   {
-    "id": "rule-25-pct",
-    "label": "25% charity care for income 276%-300% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": ">=",
-       "value": 276.0
-      }
-     ],
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 300.0
-      }
-     ],
-     [
-      {
-       "var": "insured",
-       "op": "false",
-       "value": null
-      },
-      {
-       "var": "underinsured",
-       "op": "true",
-       "value": null
-      }
-     ]
-    ],
-    "discount_pct": 25.0,
-    "quote": "To be eligible for 25% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 276%-300% of the Federal Poverty Income Guidelines"
-   },
    {
     "id": "rule-presumptive",
     "label": "Presumptive eligibility - 100% write-off based on life circumstances",
@@ -168,7 +18,7 @@
       }
      ]
     ],
-    "discount_pct": 100.0,
+    "discount_pct": null,
     "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: State-funded prescription programs; Homeless or received care from a homeless clinic; Participation in Women, Infants and Children programs (WIC); Food stamp eligibility; Subsidized school lunch program eligibility"
    }
   ],
@@ -245,61 +95,103 @@
      "id": "req:req-care-type",
      "claim": "Every form of assistance requires: (medically_necessary)",
      "quote": "This policy outlines the following with respect to all emergency or other medically necessary care provided by Valley Regional Hospital",
-     "why": "Preventative care and some elective services are explicitly listed as eligible, so medically_necessary is not required for every form."
+     "why": "Preventative care and some elective services are explicitly eligible."
     },
     {
      "kind": "unsupported",
      "id": "req:req-residency",
      "claim": "Every form of assistance requires: (not co_resident) (the hospital MAY deny otherwise)",
      "quote": "Patient must be a resident of New Hampshire or Vermont, except instances where presumptive charity guidelines are used",
-     "why": "Residency in NH or VT is required, not its negation; the quote supports residency, not non-residency."
+     "why": "Residency is not required for all assistance; presumptive charity is an exception."
     },
     {
      "kind": "unsupported",
      "id": "req:req-service-area",
      "claim": "Every form of assistance requires: (in_service_area)",
      "quote": "Valley Regional Hospital's Financial Assistance Program is a program that assists uninsured and under-insured patients who meet specific income, geographical and Valley Regional Hospital Guidelines",
-     "why": "Geographical guidelines are mentioned but not defined as the hospital's service area; no quote ties assistance to in_service_area."
+     "why": "Geographical guideline exists but service area residency is not required for all assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req-uninsured-underinsured",
+     "claim": "Every form of assistance requires: (not insured OR underinsured)",
+     "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care benefit program",
+     "why": "Ineligible for government programs is also required, and some assistance may consider insured patients."
     },
     {
      "kind": "unsupported",
      "id": "req:req-ineligible-govt",
      "claim": "Every form of assistance requires: (not applied_public_programs) (the hospital MAY deny otherwise)",
      "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care benefit program",
-     "why": "Ineligibility for government programs is required, not its negation; the quote supports requiring ineligibility, not allowing denial otherwise."
+     "why": "Ineligibility for government programs is required, but not all assistance requires it (e.g., presumptive)."
     },
     {
      "kind": "unsupported",
      "id": "req:req-financial-need",
      "claim": "Every form of assistance requires: (bill_pct_income > 0)",
      "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care benefit program, and who are unable to pay for their care, based upon a determination of financial need",
-     "why": "Financial need is required but not defined as bill_pct_income > 0; the policy uses FPL percentages and assets, not this ratio."
+     "why": "Financial need is required but not defined as bill_pct_income > 0; policy uses FPL and asset tests."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule-100-pct",
+     "claim": "A patient with (fpl_pct <= 225) AND (not insured OR underinsured) gets 100% off",
+     "quote": "To be eligible for 100% approval for the Valley Regional Hospital Financial Assistance Program, family income must be less than or equal to 225% of the Federal Poverty Income Guidelines",
+     "why": "Rule missing requirement of residency in NH/VT unless presumptive applies."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule-75-pct",
+     "claim": "A patient with (fpl_pct >= 226) AND (fpl_pct <= 250) AND (not insured OR underinsured) gets 75% off",
+     "quote": "To be eligible for 75% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 226%-250% of the Federal Poverty Income Guidelines",
+     "why": "Rule missing requirement of residency in NH/VT unless presumptive applies."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule-50-pct",
+     "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 275) AND (not insured OR underinsured) gets 50% off",
+     "quote": "To be eligible for 50% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 251%-275% of the Federal Poverty Income Guidelines",
+     "why": "Rule missing requirement of residency in NH/VT unless presumptive applies."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule-25-pct",
+     "claim": "A patient with (fpl_pct >= 276) AND (fpl_pct <= 300) AND (not insured OR underinsured) gets 25% off",
+     "quote": "To be eligible for 25% approval for the Valley Regional Hospital Financial Assistance Program, family income must be between 276%-300% of the Federal Poverty Income Guidelines",
+     "why": "Rule missing requirement of residency in NH/VT unless presumptive applies."
     },
     {
      "kind": "unsupported",
      "id": "rule:rule-ed-quick",
      "claim": "A patient with (not in_service_area) AND (emergency) gets an unstated amount of help",
      "quote": "ED Quick Application: A one-time approval for patients who complete the pre-qualification application and are determined to meet the financial criteria as stated in this policy. Patients who reside outside of Valley Regional's catchment area (more than 30 miles away)",
-     "why": "ED Quick Application applies to patients outside the catchment area but does not specify emergency care as a condition; emergency is not mentioned in the quote or rule description."
+     "why": "ED Quick Application requires meeting financial criteria, not just geography and emergency."
     },
     {
      "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "Patient's receiving financial assistance must reapply at 6-month intervals",
-     "why": "The 6-month reapplication interval is for recipients after approval, not a deadline to submit an initial application."
+     "why": "6-month reapplication interval is for recipients, not initial application deadline."
     },
     {
      "kind": "unsupported",
      "id": "eca:0",
      "claim": "The policy promises no extraordinary collection action before 120 days after the date of service",
      "quote": "Presumptive screening is used, without respect to outstanding balance, on eligible accounts greater than 120 days after statements, after notices to collect the debt and prior to referral of the account to an outside collection agency",
-     "why": "The 120-day period refers to when presumptive screening occurs, not a prohibition on extraordinary collection actions."
+     "why": "120-day period refers to presumptive screening timing, not ECA prohibition."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-presumptive",
+     "claim": "A patient with (presumptive_program) gets 100% off",
+     "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: State-funded prescription programs; Homeless or received care from a homeless clinic; Participation in Women, Infants and Children programs (WIC); Food stamp eligibility; Subsidized school lunch program eligibility",
+     "why": "Presumptive eligibility leads to 100% write-off only, not just any help."
     }
    ],
    "clauses": 13,
-   "clauses_proven": 6,
-   "unsupported": 8
+   "clauses_proven": 1,
+   "unsupported": 14
   },
   "secondary": {
    "model": "super",
@@ -316,28 +208,28 @@
      "id": "req:req_co_resident",
      "claim": "Every form of assistance requires: (co_resident)",
      "quote": "Patient must be a resident of New Hampshire or Vermont, except instances where presumptive charity guidelines are used.",
-     "why": "Residency requirement is limited to standard application; presumptive charity guidelines allow exceptions."
+     "why": "Residency requirement is for standard application only; presumptive charity exempts residents."
     },
     {
      "kind": "unsupported",
      "id": "req:req_emergency_or_medically_necessary",
      "claim": "Every form of assistance requires: (medically_necessary)",
      "quote": "This policy outlines the following with respect to all emergency or other medically necessary care provided by Valley Regional Hospital and Valley Regional owned physician clinics:",
-     "why": "Policy applies to emergency or medically necessary care, but does not require it for every form of assistance (e.g., preventative care, some elective services)."
+     "why": "Policy applies to emergency or medically necessary care, but does not require it for every form of assistance (e.g., preventative care)."
     },
     {
      "kind": "unsupported",
      "id": "req:req_uninsured_or_underinsured",
      "claim": "Every form of assistance requires: (not insured OR underinsured)",
      "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care benefit program, and who are unable to pay for their care, based upon a determination of financial need in accordance with this Policy.",
-     "why": "Eligibility consideration is for uninsured, underinsured, etc., but not a requirement for every form of assistance (e.g., presumptive eligibility may apply regardless)."
+     "why": "Eligibility considers uninsured/underinsured, but does not require it for every form of assistance (e.g., presumptive eligibility may apply regardless)."
     },
     {
      "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 10 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "The applicant must return applications to Valley Regional Hospital within ten -(10) days of receipt.",
-     "why": "Deadline is 10 days after receipt of application, not after date of service."
+     "why": "Deadline is 10 days after receipt of application, not date of service."
     }
    ],
    "clauses": 8,
@@ -449,16 +341,16 @@
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $75,000 a year (274.5% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 50% off.",
-   "A household of 4 earning $75,000 a year (227.3% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 75% off.",
-   "A household of 5 earning $82,000 a year (212.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
-   "A household of 2 earning $75,000 a year (346.6% of the poverty line), living in Colorado, under-insured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help."
+   "A household of 3 earning $75,000 a year (274.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 50% off.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 75% off.",
+   "A household of 2 earning $75,000 a year (346.6% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "disagreements_after": [
-   "A household of 3 earning $75,000 a year (274.5% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 50% off.",
-   "A household of 4 earning $75,000 a year (227.3% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 75% off.",
-   "A household of 5 earning $82,000 a year (212.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
-   "A household of 2 earning $75,000 a year (346.6% of the poverty line), living in Colorado, under-insured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help."
+   "A household of 3 earning $75,000 a year (274.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 50% off.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 75% off.",
+   "A household of 2 earning $75,000 a year (346.6% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "equivalent": false
  },
@@ -495,15 +387,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 5.78,
-   "tokens_in": 7997,
+   "seconds": 5.5,
+   "tokens_in": 8035,
    "tokens_cached": 0,
-   "tokens_out": 779,
-   "cost_usd": 0.0031,
+   "tokens_out": 587,
+   "cost_usd": 0.002939,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.0031,
-   "orig_seconds": 5.78
+   "orig_cost_usd": 0.002939,
+   "orig_seconds": 5.5
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -523,18 +415,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 3.16,
-   "tokens_in": 7533,
+   "seconds": 2.75,
+   "tokens_in": 7571,
    "tokens_cached": 0,
-   "tokens_out": 406,
-   "cost_usd": 0.002625,
+   "tokens_out": 305,
+   "cost_usd": 0.002546,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.002625,
-   "orig_seconds": 3.16
+   "orig_cost_usd": 0.002546,
+   "orig_seconds": 2.75
   }
  ],
- "cost_usd": 0.04265,
- "seconds": 9.2,
- "made": "2026-10-27"
+ "cost_usd": 0.04241,
+ "seconds": 8.5,
+ "made": "2026-10-28"
 }

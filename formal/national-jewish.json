@@ -6,6 +6,21 @@
   "nonprofit": true,
   "requires": [
    {
+    "id": "req-medically-necessary",
+    "label": "Care must be medically required",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "We offer financial assistance for services that are medically required."
+   },
+   {
     "id": "req-service-location",
     "label": "Services must be received at a National Jewish Health location",
     "cond": [
@@ -63,18 +78,10 @@
    "lint_after": [
     "no rules: the model grants help to nobody"
    ],
-   "dropped": [
-    {
-     "kind": "unsupported",
-     "id": "req:req-medically-necessary",
-     "claim": "Every form of assistance requires: (medically_necessary)",
-     "quote": "We offer financial assistance for services that are medically required.",
-     "why": "Policy limits assistance to medically required services but does not state this is required for every form of assistance."
-    }
-   ],
+   "dropped": [],
    "clauses": 2,
-   "clauses_proven": 1,
-   "unsupported": 1
+   "clauses_proven": 2,
+   "unsupported": 0
   },
   "secondary": {
    "model": "super",
@@ -199,15 +206,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.17,
-   "tokens_in": 2593,
+   "seconds": 1.29,
+   "tokens_in": 2631,
    "tokens_cached": 0,
-   "tokens_out": 144,
-   "cost_usd": 0.000907,
+   "tokens_out": 76,
+   "cost_usd": 0.000858,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.000907,
-   "orig_seconds": 1.17
+   "orig_cost_usd": 0.000858,
+   "orig_seconds": 1.29
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -241,18 +248,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.22,
-   "tokens_in": 2600,
+   "seconds": 1.23,
+   "tokens_in": 2638,
    "tokens_cached": 0,
-   "tokens_out": 119,
-   "cost_usd": 0.000887,
+   "tokens_out": 75,
+   "cost_usd": 0.000859,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.000887,
-   "orig_seconds": 1.22
+   "orig_cost_usd": 0.000859,
+   "orig_seconds": 1.23
   }
  ],
- "cost_usd": 0.01457,
- "seconds": 2.5,
- "made": "2026-10-27"
+ "cost_usd": 0.01449,
+ "seconds": 2.6,
+ "made": "2026-10-28"
 }

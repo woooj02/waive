@@ -76,7 +76,9 @@
    "Services accessible regardless of age, gender, geographic location, cultural background, physical mobility, or ability to pay",
    "No denial or extension of financial assistance based on race, color, creed, age, religion, or national origin",
    "Uninsured/Self Pay defined as without coverage by a commercial third-party payer",
-   "Emergent/Urgent Medical Care defined as unexpected, sudden onset health condition that could result in serious body dysfunction/failure putting person in serious jeopardy"
+   "Emergent/Urgent Medical Care defined as unexpected, sudden onset health condition that could result in serious body dysfunction/failure putting person in serious jeopardy",
+   "rule-sliding-scale may leave out a condition: Sliding scale requires application and denial of HDC before sliding scale consideration.",
+   "rule-catastrophic-hardship may leave out a condition: Catastrophic hardship extension requires hospital administrative approval."
   ]
  },
  "report": {
@@ -90,57 +92,35 @@
      "id": "req:req-medically-necessary",
      "claim": "Every form of assistance requires: (medically_necessary)",
      "quote": "Grand River Health is dedicated to providing medically necessary health care services",
-     "why": "Policy states dedication to providing medically necessary care but does not require it for every form of assistance."
+     "why": "Policy provides assistance regardless of ability to pay, not limited to medically necessary care."
     },
     {
      "kind": "unsupported",
      "id": "req:req-explore-other-means",
      "claim": "Every form of assistance requires: (applied_public_programs)",
      "quote": "Grand River Health will explore other means of payment prior to offering Financial Assistance",
-     "why": "Exploring other means is a procedural step before offering assistance, not a patient requirement for receiving assistance."
+     "why": "Exploring other means is a hospital procedure, not a patient requirement for assistance."
     },
     {
      "kind": "unsupported",
      "id": "rule:rule-one-time-charity-unemployed",
      "claim": "A patient with (inpatient OR not insured) gets an unstated amount of help",
      "quote": "Grand River Health also offers a one-time charity care program for services the patient may require",
-     "why": "One-time charity care program targets unemployed patients at registration, not broadly inpatient or uninsured patients."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-sliding-scale",
-     "claim": "A patient with (fpl_pct <= 400) gets an unstated amount of help",
-     "quote": "Grand River Health's Sliding Scale is based on 400% of the Federal Poverty Level Guidelines",
-     "why": "Sliding scale based on 400% FPL defines eligibility but policy does not specify the amount of help."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-catastrophic-hardship",
-     "claim": "A patient with (medically_necessary) gets an unstated amount of help",
-     "quote": "If circumstances are such that an illness makes it impossible to meet financial obligations; charity care may be extended with hospital administrative approval",
-     "why": "Policy allows extension of charity care with administrative approval for financial hardship but does not specify amount of help."
+     "why": "One-time charity care requires unemployment determination at registration/pre-registration."
     }
    ],
    "clauses": 6,
    "clauses_proven": 3,
-   "unsupported": 5
+   "unsupported": 3
   },
   "secondary": {
    "model": "super",
    "lint": [],
    "repaired": false,
-   "dropped": [
-    {
-     "kind": "amount removed",
-     "id": "rule:rule_sliding_scale_up_to_400_fpl",
-     "claim": "A patient with (fpl_pct <= 400) gets an unstated amount of help",
-     "quote": "Grand River Health\u2019s Sliding Scale is based on 400% of the Federal Poverty Level Guidelines.",
-     "why": "Policy sets sliding scale limit at 400% FPL but does not specify the amount of help provided."
-    }
-   ],
+   "dropped": [],
    "clauses": 2,
    "clauses_proven": 2,
-   "unsupported": 1
+   "unsupported": 0
   },
   "secondary_model": {
    "hospital": "Grand River Health",
@@ -192,7 +172,8 @@
     "quote": "If you are having trouble paying your bill, payment plans are available."
    },
    "notes": [
-    "The policy mentions exploring other means of payment prior to offering financial assistance, including Hospital Discount Care Program, Medicaid, and CHP+. It requires applicants to apply for State Medicaid if applicable, must apply for HDC prior to Sliding Scale and be denied, and provide secure evidence of income and dependents' information for verification. The policy also states that financial assistance may be revoked if the applicant knowingly misrepresented financial needs, and that the hospital reserves the right to extend or deny assistance for administrative or legal reasons, but not based on race, color, creed, age, religion, or national origin. The CFO exercises final discretion. The policy includes a one-time charity care program for unemployed patients at registration/pre-registration using Federal Poverty Guidelines. It also states that charity care may be extended with hospital administrative approval if illness makes it impossible to meet financial obligations. The policy reserves the right to pursue claims against a decedent's estate for unpaid services. No specific timing for application, ECA, or first statement is provided. Payment plan details (max percentage of monthly income, max months, minimum monthly amount) are not specified."
+    "The policy mentions exploring other means of payment prior to offering financial assistance, including Hospital Discount Care Program, Medicaid, and CHP+. It requires applicants to apply for State Medicaid if applicable, must apply for HDC prior to Sliding Scale and be denied, and provide secure evidence of income and dependents' information for verification. The policy also states that financial assistance may be revoked if the applicant knowingly misrepresented financial needs, and that the hospital reserves the right to extend or deny assistance for administrative or legal reasons, but not based on race, color, creed, age, religion, or national origin. The CFO exercises final discretion. The policy includes a one-time charity care program for unemployed patients at registration/pre-registration using Federal Poverty Guidelines. It also states that charity care may be extended with hospital administrative approval if illness makes it impossible to meet financial obligations. The policy reserves the right to pursue claims against a decedent's estate for unpaid services. No specific timing for application, ECA, or first statement is provided. Payment plan details (max percentage of monthly income, max months, minimum monthly amount) are not specified.",
+    "rule_sliding_scale_up_to_400_fpl may leave out a condition: policy requires sliding scale applicants to have first applied for and been denied HDC"
    ]
   },
   "disagreements_before": [
@@ -222,15 +203,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.99,
-   "tokens_in": 2826,
+   "seconds": 2.54,
+   "tokens_in": 2864,
    "tokens_cached": 0,
-   "tokens_out": 297,
-   "cost_usd": 0.001115,
+   "tokens_out": 257,
+   "cost_usd": 0.001091,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001115,
-   "orig_seconds": 1.99
+   "orig_cost_usd": 0.001091,
+   "orig_seconds": 2.54
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -251,17 +232,17 @@
    "model": "super",
    "label": "Nemotron 3 Super",
    "seconds": 1.39,
-   "tokens_in": 2638,
+   "tokens_in": 2676,
    "tokens_cached": 0,
-   "tokens_out": 113,
-   "cost_usd": 0.000893,
+   "tokens_out": 83,
+   "cost_usd": 0.000878,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.000893,
+   "orig_cost_usd": 0.000878,
    "orig_seconds": 1.39
   }
  ],
- "cost_usd": 0.00939,
- "seconds": 3.4,
- "made": "2026-10-27"
+ "cost_usd": 0.00935,
+ "seconds": 4.0,
+ "made": "2026-10-28"
 }

@@ -7,6 +7,100 @@
   "requires": [],
   "rules": [
    {
+    "id": "rule-qccp-income",
+    "label": "Qualified Charity Care Program - income at or below 250% FPL",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Discounts are available to patients whose adjusted income is at or below 250% of the FPL"
+   },
+   {
+    "id": "rule-qccp-emergency",
+    "label": "Qualified Charity Care Program - emergency services for Colorado residents",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Applicants that receive emergency services and reside in Colorado"
+   },
+   {
+    "id": "rule-hdc",
+    "label": "Hospital Discounted Care (HB21-1198) - FPL at or under 250%",
+    "when": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "FPL at or under 250%"
+   },
+   {
     "id": "rule-wecare-tier1",
     "label": "WeCare - income between 250% and 350% FPL, service area resident",
     "when": [
@@ -94,58 +188,6 @@
     "quote": "Applicants that reside outside of the BCH service area (see Addendum B) are eligible to apply for WeCare discounting if they have services provided by a BCH Facility located within their zip code and/or if they have been referred by a BCH owned and operated Physician practice located within these zip codes for a service at BCH. If determined eligible, in these instances, the service provided will be discounted to the current AGB rate"
    },
    {
-    "id": "rule-wecare-presumptive",
-    "label": "WeCare - presumptive eligibility for extraordinary circumstances",
-    "when": [
-     [
-      {
-       "var": "presumptive_program",
-       "op": "true",
-       "value": null
-      }
-     ],
-     [
-      {
-       "var": "medically_necessary",
-       "op": "true",
-       "value": null
-      }
-     ]
-    ],
-    "discount_pct": null,
-    "quote": "Extraordinary circumstances may result in eligibility for presumptive financial assistance on a case-by-case basis. Some examples include: Individual is stated/verified to be homeless. Individual is deceased and has no known estate able to pay the hospital debt. Individual is incarcerated. Individual is currently eligible for Medicaid, but was not eligible at the date of service. Individual is eligible by the State to receive assistance under the Violent Crimes Victims Compensation Act or the Sexual Assault Victims Compensation Act. Medically urgent or emergent services that are verified with current eligibility in a Medicaid or other public assistance program in a state other than Colorado, of which BCH is not an enrolled provider"
-   },
-   {
-    "id": "rule-self-pay-discount",
-    "label": "Self-pay 20% discount on professional services for uninsured patients",
-    "when": [
-     [
-      {
-       "var": "insured",
-       "op": "false",
-       "value": null
-      }
-     ]
-    ],
-    "discount_pct": 20.0,
-    "quote": "For uninsured patients a 20% discount is applicable to all professional services: E&M/Office Visits, OMT, surgical procedures, injection and vaccine administration charges, and most diagnostic testing"
-   },
-   {
-    "id": "rule-self-pay-facility-50",
-    "label": "Self-pay 50% discount on facility charges for uninsured patients",
-    "when": [
-     [
-      {
-       "var": "insured",
-       "op": "false",
-       "value": null
-      }
-     ]
-    ],
-    "discount_pct": 50.0,
-    "quote": "An account that does not have insurance and is marked as self-pay, will automatically have the 50% self-pay rate applied"
-   },
-   {
     "id": "rule-insured-balance-assistance",
     "label": "Financial assistance on balance after insurance pays for Medicare/commercial patients",
     "when": [
@@ -159,21 +201,6 @@
     ],
     "discount_pct": null,
     "quote": "Patients with Medicare and commercial insurance may apply for financial assistance on any balance remaining after insurance pays as long as all guidelines of the health plan are followed"
-   },
-   {
-    "id": "rule-mdsave",
-    "label": "MDSave voucher program for specified services",
-    "when": [
-     [
-      {
-       "var": "medically_necessary",
-       "op": "true",
-       "value": null
-      }
-     ]
-    ],
-    "discount_pct": null,
-    "quote": "MDSave allows patients to purchase vouchers that help cover expenses for specified hospital services"
    }
   ],
   "timing": {
@@ -230,7 +257,11 @@
    "Exceptions: Approved Single Case Agreements, clinical trial/grant participants, patients approved/pending HDC approval.",
    "Family definition: for 18+, spouse/domestic partner and dependent children under 21; for under 18, parent/caretaker relative and other children under 21 of that relative.",
    "Students claimed as dependents on parents' taxes screened on parents' income with patient in family size; proof of tax return required if student NOT claimed on parents' taxes.",
-   "For Social Security recipients, WeCare uses amount deposited into checking/savings or Direct Express debit card (after deductions)."
+   "For Social Security recipients, WeCare uses amount deposited into checking/savings or Direct Express debit card (after deductions).",
+   "rule-qccp-income may leave out a condition: missing requirement: applicant must be Colorado resident",
+   "rule-qccp-emergency may leave out a condition: missing requirements: Colorado resident and medically_necessary (though implied by emergency services context)",
+   "rule-hdc may leave out a condition: missing requirement: date of service or discharge within 181 days",
+   "rule-wecare-tier1 may leave out a condition: missing requirement: patient must receive medically necessary nonemergent/scheduled hospital services"
   ]
  },
  "report": {
@@ -259,82 +290,61 @@
      "id": "req:req-medically-necessary",
      "claim": "Every form of assistance requires: (medically_necessary)",
      "quote": "ensuring that emergency and other medically necessary care is accessible to all patients",
-     "why": "The quote expresses purpose, not a requirement for all assistance; some programs like emergency care under EMTALA do not require medically_necessary."
+     "why": "policy ensures accessibility but does not require medically_necessary for all assistance"
     },
     {
      "kind": "unsupported",
-     "id": "rule:rule-qccp-income",
-     "claim": "A patient with (co_resident) AND (in_service_area) AND (fpl_pct <= 250) AND (medically_necessary) gets 100% off",
-     "quote": "Discounts are available to patients whose adjusted income is at or below 250% of the FPL",
-     "why": "The quote only addresses income discount eligibility, not that patients get 100% off; the policy does not state discount amount for QCCP based on income."
+     "id": "rule:rule-wecare-presumptive",
+     "claim": "A patient with (presumptive_program) AND (medically_necessary) gets 100% off",
+     "quote": "Extraordinary circumstances may result in eligibility for presumptive financial assistance on a case-by-case basis. Some examples include: Individual is stated/verified to be homeless. Individual is deceased and has no known estate able to pay the hospital debt. Individual is incarcerated. Individual is currently eligible for Medicaid, but was not eligible at the date of service. Individual is eligible by the State to receive assistance under the Violent Crimes Victims Compensation Act or the Sexual Assault Victims Compensation Act. Medically urgent or emergent services that are verified with current eligibility in a Medicaid or other public assistance program in a state other than Colorado, of which BCH is not an enrolled provider",
+     "why": "policy mentions presumptive assistance but does not tie it to presumptive_program or guarantee 100% off"
     },
     {
      "kind": "unsupported",
-     "id": "rule:rule-qccp-emergency",
-     "claim": "A patient with (co_resident) AND (emergency) AND (medically_necessary) gets 100% off",
-     "quote": "Applicants that receive emergency services and reside in Colorado",
-     "why": "The quote only states eligibility for emergency services residents, not that they get 100% off; no discount amount is specified in the policy for this condition."
+     "id": "rule:rule-self-pay-discount",
+     "claim": "A patient with (not insured) gets 20% off",
+     "quote": "For uninsured patients a 20% discount is applicable to all professional services: E&M/Office Visits, OMT, surgical procedures, injection and vaccine administration charges, and most diagnostic testing",
+     "why": "20% discount applies only to professional services, not all care"
     },
     {
      "kind": "unsupported",
-     "id": "rule:rule-hdc",
-     "claim": "A patient with (co_resident) AND (fpl_pct <= 250) AND (medically_necessary) gets 100% off",
-     "quote": "FPL at or under 250%",
-     "why": "The quote only states FPL eligibility for Hospital Discounted Care, not that patients get 100% off; the policy does not specify discount amount based on FPL."
+     "id": "rule:rule-self-pay-facility-50",
+     "claim": "A patient with (not insured) gets 50% off",
+     "quote": "An account that does not have insurance and is marked as self-pay, will automatically have the 50% self-pay rate applied",
+     "why": "50% self-pay rate is reversed if patient qualifies for financial assistance; not a guaranteed discount"
     },
     {
      "kind": "unsupported",
      "id": "rule:rule-medicaid",
      "claim": "A patient with (insured) gets an unstated amount of help",
      "quote": "Deductible and co-pays are required in accordance with laws and regulations governing the programs. When allowed, deductibles and co-pays are due at the time of service",
-     "why": "The quote discusses deductible and co-pay requirements under Medicaid, not that insured patients get financial assistance; it does not state assistance is provided."
+     "why": "quote is about deductibles and co-pays, not financial assistance"
     },
     {
-     "kind": "amount removed",
-     "id": "rule:rule-wecare-tier1",
-     "claim": "A patient with (in_service_area) AND (fpl_pct >= 250) AND (fpl_pct <= 350) AND (medically_necessary) gets an unstated amount of help",
-     "quote": "Applicants who are over the income threshold for the Qualified Charity care Program whose adjusted household income is between 250% and 350% of the FPL",
-     "why": "The quote correctly describes eligibility for WeCare tier 1, but the policy does not state the amount of help for this group."
+     "kind": "unsupported",
+     "id": "rule:rule-mdsave",
+     "claim": "A patient with (medically_necessary) gets an unstated amount of help",
+     "quote": "MDSave allows patients to purchase vouchers that help cover expenses for specified hospital services",
+     "why": "MDSave is a voucher program, not financial assistance under FAP"
     },
     {
      "kind": "amount removed",
      "id": "rule:rule-wecare-emergency-outside-us",
      "claim": "A patient with (emergency) AND (not co_resident) AND (medically_necessary) gets an unstated amount of help",
      "quote": "Applicants that received emergency services and reside outside of the United States- if determined eligible, in these instances, the service provided will be discounted to the current AGB rate",
-     "why": "The quote correctly describes eligibility for emergency services outside the US, but the policy does not state the amount of help (only mentions discount to AGB rate, which is unstated in the model)."
+     "why": "policy states discount to AGB rate, not unspecified help"
     },
     {
      "kind": "amount removed",
      "id": "rule:rule-wecare-outside-service-area-referred",
      "claim": "A patient with (not in_service_area) AND (medically_necessary) gets an unstated amount of help",
      "quote": "Applicants that reside outside of the BCH service area (see Addendum B) are eligible to apply for WeCare discounting if they have services provided by a BCH Facility located within their zip code and/or if they have been referred by a BCH owned and operated Physician practice located within these zip codes for a service at BCH. If determined eligible, in these instances, the service provided will be discounted to the current AGB rate",
-     "why": "The quote correctly describes eligibility for WeCare outside service area with referral, but the policy does not state the amount of help (only mentions discount to AGB rate, which is unstated in the model)."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-wecare-presumptive",
-     "claim": "A patient with (presumptive_program) AND (medically_necessary) gets 100% off",
-     "quote": "Extraordinary circumstances may result in eligibility for presumptive financial assistance on a case-by-case basis. Some examples include: Individual is stated/verified to be homeless. Individual is deceased and has no known estate able to pay the hospital debt. Individual is incarcerated. Individual is currently eligible for Medicaid, but was not eligible at the date of service. Individual is eligible by the State to receive assistance under the Violent Crimes Victims Compensation Act or the Sexual Assault Victims Compensation Act. Medically urgent or emergent services that are verified with current eligibility in a Medicaid or other public assistance program in a state other than Colorado, of which BCH is not an enrolled provider",
-     "why": "The quote describes presumptive eligibility examples, but the policy does not state that these patients get 100% off; no discount amount is specified."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-insured-balance-assistance",
-     "claim": "A patient with (insured) gets an unstated amount of help",
-     "quote": "Patients with Medicare and commercial insurance may apply for financial assistance on any balance remaining after insurance pays as long as all guidelines of the health plan are followed",
-     "why": "The quote correctly states that insured patients may apply for assistance on balances after insurance, but the policy does not state the amount of help."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-mdsave",
-     "claim": "A patient with (medically_necessary) gets an unstated amount of help",
-     "quote": "MDSave allows patients to purchase vouchers that help cover expenses for specified hospital services",
-     "why": "The quote describes MDSave allowing voucher purchases for services, but does not state that patients get financial assistance or an unstated amount of help via MDSave."
+     "why": "policy states discount to AGB rate, not unspecified help"
     }
    ],
    "clauses": 13,
-   "clauses_proven": 8,
-   "unsupported": 11
+   "clauses_proven": 7,
+   "unsupported": 8
   },
   "secondary": {
    "model": "super",
@@ -358,14 +368,14 @@
      "id": "rule:self_pay_facility",
      "claim": "A patient with (not insured) gets 50% off",
      "quote": "An account that does not have insurance and is marked as self-pay, will automatically have the 50% self-pay rate applied",
-     "why": "Quote confirms 50% self-pay rate for uninsured facility charges, but policy states this applies only if patient qualifies for financial assistance."
+     "why": "policy states 50% self-pay rate applies only if patient qualifies for financial assistance"
     },
     {
      "kind": "amount removed",
      "id": "rule:self_pay_physician_clinic",
      "claim": "A patient with (not insured) gets 20% off",
      "quote": "For uninsured patients a 20% discount is applicable to all professional services: E&M/Office Visits, OMT, surgical procedures, injection and vaccine administration charges, and most diagnostic testing.",
-     "why": "Quote confirms 20% discount for uninsured patients on professional services, but policy states this applies only if patient qualifies for financial assistance."
+     "why": "policy states 20% discount applies only to uninsured patients for professional services"
     }
    ],
    "clauses": 8,
@@ -602,16 +612,23 @@
     "Patients who do not submit all required documentation within 30 calendar days may need to submit updated documentation to complete the application for WeCare.",
     "Once 36 payments have been made under a payment plan, the remainder of the bill is forgiven and collection activities cease on any remaining unpaid balance.",
     "For bills from health care professionals, the payment plan limit is two (2) percent of the monthly household income.",
-    "Multiple discounts are not allowed; a financial assistance discount cannot be combined with any other discount offered by the hospital."
+    "Multiple discounts are not allowed; a financial assistance discount cannot be combined with any other discount offered by the hospital.",
+    "qccp_base may leave out a condition: adds missing condition: applicant must be Colorado resident",
+    "wecare_base may leave out a condition: adds missing condition: applicants must be over QCCP income threshold (>250% FPL)",
+    "wecare_outside_service_area_referral may leave out a condition: adds missing condition: must receive service at BCH facility in zip code or referral from BCH-owned practice"
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 50% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, uninsured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
   ],
   "disagreements_after": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 50% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, uninsured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
   ],
   "equivalent": false
  },
@@ -648,15 +665,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 7.43,
-   "tokens_in": 11164,
+   "seconds": 6.26,
+   "tokens_in": 11202,
    "tokens_cached": 0,
-   "tokens_out": 876,
-   "cost_usd": 0.004138,
+   "tokens_out": 571,
+   "cost_usd": 0.003874,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.004138,
-   "orig_seconds": 7.43
+   "orig_cost_usd": 0.003874,
+   "orig_seconds": 6.26
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -690,18 +707,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 3.06,
-   "tokens_in": 10685,
+   "seconds": 3.09,
+   "tokens_in": 10723,
    "tokens_cached": 0,
-   "tokens_out": 468,
-   "cost_usd": 0.003627,
+   "tokens_out": 324,
+   "cost_usd": 0.003508,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.003627,
-   "orig_seconds": 3.06
+   "orig_cost_usd": 0.003508,
+   "orig_seconds": 3.09
   }
  ],
- "cost_usd": 0.05351,
- "seconds": 10.6,
- "made": "2026-10-27"
+ "cost_usd": 0.05313,
+ "seconds": 9.5,
+ "made": "2026-10-28"
 }

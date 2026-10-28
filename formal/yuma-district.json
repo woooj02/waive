@@ -45,7 +45,8 @@
    "Maximum bill rates for services are set by the Department of Health Care Policy and Financing.",
    "Immigration status and citizenship do not affect eligibility.",
    "Patient may refuse screening but may lose right to legal action for failure to screen or discount.",
-   "Complaints can be filed with hospital, provider, or Department of Health Care Policy and Financing."
+   "Complaints can be filed with hospital, provider, or Department of Health Care Policy and Financing.",
+   "rule_income_250_fpl may leave out a condition: Eligibility also requires being a Colorado resident and receiving care in the hospital's service area."
   ]
  },
  "report": {
@@ -64,19 +65,12 @@
      "id": "req:req_medically_necessary",
      "claim": "Every form of assistance requires: (medically_necessary)",
      "quote": "If you need help paying a hospital bill, you can see if you qualify for discounted care.",
-     "why": "Policy does not require medical necessity for all forms of assistance."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule_income_250_fpl",
-     "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
-     "quote": "If your gross household income is at or below 250% of the federal poverty level: You may be able to get discounts on your health services.",
-     "why": "Policy states possible discounts but does not specify amount of help."
+     "why": "Policy does not require medical necessity for discounted care."
     }
    ],
    "clauses": 2,
    "clauses_proven": 1,
-   "unsupported": 2
+   "unsupported": 1
   },
   "secondary": {
    "model": "super",
@@ -88,26 +82,19 @@
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "The hospital must check to see if you qualify within 45 days of when you received the service or ask to be screened.",
-     "why": "45-day deadline is for hospital to check eligibility, not for patient to submit application."
+     "why": "Deadline is for hospital to screen, not for patient to submit application."
     },
     {
      "kind": "amount removed",
      "id": "rule:rule_low_income_discount",
      "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
      "quote": "If your gross household income is at or below 250% of the federal poverty level:",
-     "why": "Policy states eligibility for discounts but does not specify amount of help."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule_payment_plan_offered",
-     "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
-     "quote": "You have the right to a payment plan based on your income.",
-     "why": "Policy guarantees payment plan based on income but does not state amount of help."
+     "why": "Policy mentions possible discounts but does not specify amount."
     }
    ],
    "clauses": 2,
    "clauses_proven": 2,
-   "unsupported": 3
+   "unsupported": 2
   },
   "secondary_model": {
    "hospital": "Colorado Hospital Discounted Care Program",
@@ -194,15 +181,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 3.6,
-   "tokens_in": 2714,
+   "seconds": 1.22,
+   "tokens_in": 2752,
    "tokens_cached": 0,
-   "tokens_out": 90,
-   "cost_usd": 0.000895,
+   "tokens_out": 93,
+   "cost_usd": 0.000909,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.000895,
-   "orig_seconds": 3.6
+   "orig_cost_usd": 0.000909,
+   "orig_seconds": 1.22
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -222,18 +209,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 3.03,
-   "tokens_in": 2776,
+   "seconds": 1.32,
+   "tokens_in": 2814,
    "tokens_cached": 0,
-   "tokens_out": 131,
-   "cost_usd": 0.000951,
+   "tokens_out": 107,
+   "cost_usd": 0.00094,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.000951,
-   "orig_seconds": 3.03
+   "orig_cost_usd": 0.00094,
+   "orig_seconds": 1.32
   }
  ],
- "cost_usd": 0.0084,
- "seconds": 6.7,
- "made": "2026-10-27"
+ "cost_usd": 0.00841,
+ "seconds": 2.6,
+ "made": "2026-10-28"
 }

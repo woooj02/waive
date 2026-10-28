@@ -108,21 +108,6 @@
     ],
     "discount_pct": 100.0,
     "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy"
-   },
-   {
-    "id": "rule-self-pay-discount",
-    "label": "Self-pay / uninsured discount at billing",
-    "when": [
-     [
-      {
-       "var": "insured",
-       "op": "false",
-       "value": null
-      }
-     ]
-    ],
-    "discount_pct": null,
-    "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing"
    }
   ],
   "timing": {
@@ -167,7 +152,11 @@
    "Family definition: 2+ people related by birth/marriage/adoption residing together; members not responsible for patients 18+ (Definitions).",
    "Financial Resources: cash, bank deposits, easily withdrawable assets (checking, savings, trusts, CDs) (Definitions).",
    "Income includes wages, unemployment, workers comp, SSI, public assistance, veterans payments, survivor benefits, pension, interest, dividends, rents, royalties, estates, trusts, educational assistance, alimony, child support, outside assistance; excludes non-cash benefits (Definitions).",
-   "Provider coverage list maintained separately and updated quarterly (C.1)."
+   "Provider coverage list maintained separately and updated quarterly (C.1).",
+   "rule-income-0-250 may leave out a condition: missing requirement of Colorado residency",
+   "rule-income-251-400 may leave out a condition: missing requirement of Colorado residency",
+   "rule-catastrophic may leave out a condition: missing requirement of Colorado residency",
+   "rule-presumptive may leave out a condition: missing requirement of Colorado residency"
   ]
  },
  "report": {
@@ -177,41 +166,36 @@
    "repaired": false,
    "dropped": [
     {
-     "kind": "collection timing",
-     "id": "collection timing",
-     "quote": "at least 30 days in advance of initiating ECAs, to determine if the Patient is eligible for Financial Assistance"
-    },
-    {
      "kind": "unsupported",
      "id": "req:req-care-type",
      "claim": "Every form of assistance requires: (medically_necessary)",
      "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services",
-     "why": "The policy limits assistance to emergency and medically necessary care, but does not state this as a requirement for every form of assistance offered."
+     "why": "policy limits assistance to emergency and medically necessary care, but does not require it for all forms of assistance (e.g., presumptive eligibility may apply to non-emergency)"
     },
     {
      "kind": "unsupported",
      "id": "req:req-uninsured-underinsured",
      "claim": "Every form of assistance requires: (not insured OR underinsured)",
      "quote": "for Uninsured and Under-insured Patients to apply and be considered for Financial Assistance",
-     "why": "The policy targets uninsured and underinsured patients but does not require this status for every form of assistance (e.g., catastrophic assistance may apply regardless)."
+     "why": "catastrophic balance assistance does not require uninsured or underinsured status"
     },
     {
-     "kind": "amount removed",
-     "id": "rule:rule-income-251-400",
-     "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
-     "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A",
-     "why": "The policy specifies a discount based on Appendix A for this income band, not an unspecified amount."
-    },
-    {
-     "kind": "amount removed",
+     "kind": "unsupported",
      "id": "rule:rule-self-pay-discount",
      "claim": "A patient with (not insured) gets an unstated amount of help",
      "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
-     "why": "The quote confirms uninsured patients get a self-pay discount, but the policy does not specify the amount in this clause."
+     "why": "self-pay discount is automatic and not contingent on applying for financial assistance"
+    },
+    {
+     "kind": "unsupported",
+     "id": "eca:1",
+     "claim": "The policy promises no extraordinary collection action before 30 days after the first post-discharge bill",
+     "quote": "at least 30 days in advance of initiating ECAs, to determine if the Patient is eligible for Financial Assistance",
+     "why": "policy requires 30 days notice before ECA initiation, not a 30-day ban on ECAs after first bill"
     }
    ],
    "clauses": 7,
-   "clauses_proven": 5,
+   "clauses_proven": 4,
    "unsupported": 4
   },
   "secondary": {
@@ -221,71 +205,80 @@
    "dropped": [
     {
      "kind": "unsupported",
-     "id": "req:req_co_resident",
-     "claim": "Every form of assistance requires: (co_resident)",
-     "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance.",
-     "why": "Residency is not required for emergency services due to discretionary exception."
-    },
-    {
-     "kind": "unsupported",
      "id": "req:req_emergency_or_medically_necessary",
      "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
      "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services.",
-     "why": "Intro language limits scope; not a universal requirement for all assistance."
+     "why": "Policy offers assistance for emergency and medically necessary care but does not require it for every form of assistance (e.g., catastrophic balance assistance based on balance)"
     },
     {
      "kind": "unsupported",
      "id": "req:req_uninsured_or_underinsured_for_fap",
      "claim": "Every form of assistance requires: (not insured OR underinsured)",
      "quote": "This policy serves to establish and ensure a fair and consistent method for Uninsured and Under-insured Patients to apply and be considered for Financial Assistance.",
-     "why": "Describes policy purpose, not a requirement for all assistance (catastrophic/presumptive may not require)."
-    },
-    {
-     "kind": "unsupported",
-     "id": "rule:rule_presumptive_eligibility",
-     "claim": "A patient with (presumptive_program) gets 100% off",
-     "quote": "Presumptive eligibility for Financial Assistance may be granted for circumstances outlined in the Presumptive Eligibility section of this policy.",
-     "why": "Quote only references section; does not state that presumptive_program triggers eligibility."
+     "why": "Policy establishes method for uninsured and under-insured patients but does not require this status for every form of assistance (catastrophic balance assistance does not require it)"
     },
     {
      "kind": "unsupported",
      "id": "rule:rule_fap_up_to_250_fpl",
      "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets 100% off",
      "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines.",
-     "why": "Quote uses 400% FPL, not 250%; incorrect threshold."
+     "why": "Quote refers to income not more than 400% FPL, not 250% FPL as claimed"
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_fap_251_to_400_fpl",
+     "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+     "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines.",
+     "why": "Quote refers to income not more than 400% FPL, not between 251% and 400% FPL as claimed"
     },
     {
      "kind": "unsupported",
      "id": "app:1",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "Applicants have the later of (a) 365 days from the date of the first post-discharge Billing Statement, or (b) 30 days after notice of the initiation of one or more Extraordinary Collection Actions (\"ECA\") has been provided, to submit an application or to request a reconsideration of an incomplete and denied application",
-     "why": "Policy does not mention 30 days after date of service as an option for application deadline."
+     "why": "Policy does not mention 30 days after date of service as a deadline for submitting application"
     },
     {
      "kind": "amount removed",
      "id": "rule:rule_catastrophic_balance",
      "claim": "A patient with (bill_pct_income_assets > 50) gets an unstated amount of help",
      "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined.",
-     "why": "Quote correctly identifies condition but policy does not specify discount amount."
+     "why": "Policy states discount is outlined in Appendix A or 50% of total annual Family Income, whichever results in lesser outstanding balance due"
     },
     {
      "kind": "amount removed",
-     "id": "rule:rule_fap_251_to_400_fpl",
-     "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
-     "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines.",
-     "why": "Quote uses 400% FPL cap but omits 251% floor; policy does not specify discount amount."
+     "id": "rule:rule_presumptive_eligibility",
+     "claim": "A patient with (presumptive_program) gets 100% off",
+     "quote": "Presumptive eligibility for Financial Assistance may be granted for circumstances outlined in the Presumptive Eligibility section of this policy.",
+     "why": "Policy states presumptive eligibility patients receive 100% discount on gross charges for care covered by this policy"
     }
    ],
    "clauses": 7,
-   "clauses_proven": 2,
-   "unsupported": 8
+   "clauses_proven": 3,
+   "unsupported": 7
   },
   "secondary_model": {
    "hospital": "UCHealth",
    "doc": "policy",
    "source_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/2026/09/29153210/UCHealth-Financial-Assistance-Policy-English-09_28_26.pdf",
    "nonprofit": true,
-   "requires": [],
+   "requires": [
+    {
+     "id": "req_co_resident",
+     "label": "Colorado residency required",
+     "cond": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance."
+    }
+   ],
    "rules": [
     {
      "id": "rule_catastrophic_balance",
@@ -303,38 +296,19 @@
      "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined."
     },
     {
-     "id": "rule_fap_251_to_400_fpl",
-     "label": "Financial Assistance Based on Family Income (251-400% FPL)",
+     "id": "rule_presumptive_eligibility",
+     "label": "Presumptive Eligibility for Financial Assistance",
      "when": [
       [
        {
-        "var": "insured",
-        "op": "false",
-        "value": null
-       },
-       {
-        "var": "underinsured",
+        "var": "presumptive_program",
         "op": "true",
         "value": null
-       }
-      ],
-      [
-       {
-        "var": "fpl_pct",
-        "op": ">=",
-        "value": 251.0
-       }
-      ],
-      [
-       {
-        "var": "fpl_pct",
-        "op": "<=",
-        "value": 400.0
        }
       ]
      ],
      "discount_pct": null,
-     "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines."
+     "quote": "Presumptive eligibility for Financial Assistance may be granted for circumstances outlined in the Presumptive Eligibility section of this policy."
     }
    ],
    "timing": {
@@ -371,20 +345,21 @@
     "Non-covered services: Health care services that are not emergent or Medically Necessary, including elective or cosmetic surgery; and Health care services related to a transplant procedure, self-pay package, single case agreement, grants & research, or when there is a legal obligation for a third party to pay a claim.",
     "UCHealth employees exemption: UCHealth employees residing outside the State of Colorado, but who receive services at a UCHealth facility do not have to meet residency requirements for financial assistance applications they may request.",
     "No denial for lack of public benefits: UCHealth does not deny discounted care on the basis the patient has not applied for any public benefits program or deny an admission or treatment because the patient may qualify for discounted care.",
-    "Service area note: Services provided at UCHealth clinics both inside and outside of Colorado are eligible for UCHealth Financial Assistance."
+    "Service area note: Services provided at UCHealth clinics both inside and outside of Colorado are eligible for UCHealth Financial Assistance.",
+    "req_co_resident may leave out a condition: Residency required except for unscheduled emergency services where exception may be made at sole discretion"
    ]
   },
   "disagreements_before": [
    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
-   "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $20,000 a year (73.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
-   "One person earning $16,000 a year (100.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $14,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
   ],
   "disagreements_after": [
    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
-   "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $20,000 a year (73.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
-   "One person earning $16,000 a year (100.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $14,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
   ],
   "equivalent": false
  },
@@ -407,15 +382,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 9.81,
-   "tokens_in": 9855,
+   "seconds": 3.49,
+   "tokens_in": 9947,
    "tokens_cached": 0,
-   "tokens_out": 495,
-   "cost_usd": 0.003402,
+   "tokens_out": 384,
+   "cost_usd": 0.00333,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.003402,
-   "orig_seconds": 9.81
+   "orig_cost_usd": 0.00333,
+   "orig_seconds": 3.49
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -435,18 +410,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 9.95,
-   "tokens_in": 10025,
+   "seconds": 4.46,
+   "tokens_in": 10063,
    "tokens_cached": 0,
-   "tokens_out": 465,
-   "cost_usd": 0.003426,
+   "tokens_out": 484,
+   "cost_usd": 0.003455,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.003426,
-   "orig_seconds": 9.95
+   "orig_cost_usd": 0.003455,
+   "orig_seconds": 4.46
   }
  ],
- "cost_usd": 0.02239,
- "seconds": 19.9,
- "made": "2026-10-27"
+ "cost_usd": 0.02235,
+ "seconds": 8.1,
+ "made": "2026-10-28"
 }

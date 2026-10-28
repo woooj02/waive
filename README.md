@@ -44,6 +44,10 @@ Tavily search ─► Nemotron 3 Nano picks the hospital's own document ─► fe
   non-interference by self-composition (two households that differ only in savings, or only in whether they
   applied for Medicaid, must be treated the same); collection timing and application windows over every
   first-bill day; payment-plan cap; 501(r) windows; gaps between income bands; summary vs policy equivalence.
+- **Check my bill**: a patient's household is checked against the same formal model. Known facts are fixed,
+  unknown ones (service area, emergency, under-insured) stay symbolic, and Z3 answers "yes for sure", "yes if …"
+  (naming the fact), or "no" (`app/prover_check.py`). A "no" from a model that lost rules in checking becomes
+  "we can't be sure".
 - **Readable counterexamples**: MaxSMT (soft constraints) picks the most ordinary household that still fails,
   then money is pinned to round numbers when the failure survives.
 - **Law quotes** are verbatim from HB21-1198 (C.R.S. 25.5-3-501 ff., 6-20-203), HCPF's Hospital Discounted Care
@@ -64,13 +68,13 @@ documents, checking every quote, and scored each model by the audit verdicts its
 
 | Model | Audit verdicts matching our references | Cost per document |
 |---|---|---|
-| Nemotron 3 Nano | 70% | $0.004 |
-| Nemotron 3 Super | 86% | $0.007 |
-| Nemotron 3 Ultra | 86% | $0.015 |
+| Nemotron 3 Nano | 72% | $0.003 |
+| Nemotron 3 Super | 84% | $0.007 |
+| Nemotron 3 Ultra | 90% | $0.015 |
 | Ultra + Super + counterexample repair (earlier meaning check) | 76% | $0.063 |
-| **Ultra + Super, verdicts both agree on** (86% of verdicts) | **93%** (disputed ones: 43%) | $0.022 |
+| **Ultra + Super, verdicts both agree on** (84% of verdicts) | **95%** (disputed ones: 62%) | $0.022 |
 
-What we learned: Ultra and Super read about equally well alone; together, their agreement is the useful signal.
+What we learned: Ultra is the best single reader; the agreement of two models is the most useful signal.
 A second model works best as a confidence check, not as an editor. Letting Ultra rewrite its model from the households where the two models disagree
 cost four times as much and scored lower, so it's off. Most errors are a real quote used for the wrong claim (a
 "reapply every six months" rule read as the application window), which is why the meaning check exists and why
@@ -83,19 +87,20 @@ set: treat these as directions, not precise rates.
 
 ## The Colorado audit (October 2026)
 
-28 policy documents found for 38 Colorado hospital systems (five sites blocked downloads); 23 formalised and
-audited, covering 49 hospitals; 5 documents lost every rule in the checks and are listed as not formalised.
-Z3 proved 89 requirements and found 31 counterexamples. 17 were confirmed by both models,
-and we read each against the policy text (`eval/reviews.json`): 12 upheld, 4 qualified, 1 dismissed because both
-models missed a clause. 18 more are inconclusive. Tax status for 501(r) comes from IRS data (ProPublica Nonprofit Explorer); hospitals with no
-501(c)(3) record (mostly public districts) skip the federal checks. All Z3 work for the state takes about 3.0 s.
+28 policy documents found for 38 Colorado hospital systems (five sites blocked downloads); 25 formalised and
+audited, covering 64 hospitals; 3 documents lost every rule in the checks and are listed as not formalised.
+Z3 proved 90 requirements and found 42 counterexamples. Every counterexample confirmed by both models
+was read against the policy text (`eval/reviews.json`, shown on each finding): 15 upheld, 7 qualified, 8 dismissed
+as translation errors both models shared. 17 more are inconclusive and the rest are disputed. Tax status for
+501(r) comes from IRS data (ProPublica Nonprofit Explorer); hospitals with no 501(c)(3) record (mostly public
+districts) skip the federal checks. All Z3 work for the state takes about 3.5 s.
 
 ## Where Nebius Token Factory helped
 
 - One OpenAI-compatible endpoint for four Nemotron sizes, so the eval could compare them with one code path.
 - Structured output (`response_format` JSON schema) for the formal models.
 - Prefix caching: the policy text opens every prompt, so the meaning check reuses the cached policy tokens.
-- Low prices: the whole build, including every eval run and every policy, cost $1.80.
+- Low prices: the whole build, including every eval run and every policy, cost about $2.30.
 
 ## Run it
 

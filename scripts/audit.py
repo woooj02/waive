@@ -37,7 +37,8 @@ def apply_reviews(pid: str, findings: list[dict]) -> None:
         if r["id"] != pid:
             continue
         for f in findings:
-            if f["check"] == r["check"] and r["match"] in f["summary"] and f["status"] == "counterexample":
+            if f["check"] == r["check"] and r["match"] in f["summary"] and f["status"] == "counterexample" \
+                    and not f.get("review"):
                 f["review"] = {"verdict": r["verdict"], "note": r["note"]}
                 if r["verdict"] == "rejected":
                     f["status"] = "refuted"

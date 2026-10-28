@@ -23,171 +23,6 @@
   ],
   "rules": [
    {
-    "id": "rule-fpl-100",
-    "label": "100% discount for income at or below 100% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 100.0
-      }
-     ]
-    ],
-    "discount_pct": 100.0,
-    "quote": "100% Discount"
-   },
-   {
-    "id": "rule-fpl-110",
-    "label": "90% discount for income at or below 110% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 110.0
-      }
-     ]
-    ],
-    "discount_pct": 90.0,
-    "quote": "90% Discount"
-   },
-   {
-    "id": "rule-fpl-120",
-    "label": "80% discount for income at or below 120% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 120.0
-      }
-     ]
-    ],
-    "discount_pct": 80.0,
-    "quote": "80% Discount"
-   },
-   {
-    "id": "rule-fpl-130",
-    "label": "70% discount for income at or below 130% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 130.0
-      }
-     ]
-    ],
-    "discount_pct": 70.0,
-    "quote": "70% Discount"
-   },
-   {
-    "id": "rule-fpl-140",
-    "label": "60% discount for income at or below 140% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 140.0
-      }
-     ]
-    ],
-    "discount_pct": 60.0,
-    "quote": "60% Discount"
-   },
-   {
-    "id": "rule-fpl-150",
-    "label": "50% discount for income at or below 150% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 150.0
-      }
-     ]
-    ],
-    "discount_pct": 50.0,
-    "quote": "50% Discount"
-   },
-   {
-    "id": "rule-fpl-160",
-    "label": "40% discount for income at or below 160% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 160.0
-      }
-     ]
-    ],
-    "discount_pct": 40.0,
-    "quote": "40% Discount"
-   },
-   {
-    "id": "rule-fpl-170",
-    "label": "30% discount for income at or below 170% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 170.0
-      }
-     ]
-    ],
-    "discount_pct": 30.0,
-    "quote": "30% Discount"
-   },
-   {
-    "id": "rule-fpl-180",
-    "label": "20% discount for income at or below 180% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 180.0
-      }
-     ]
-    ],
-    "discount_pct": 20.0,
-    "quote": "20% Discount"
-   },
-   {
-    "id": "rule-fpl-190",
-    "label": "15% discount for income at or below 190% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 190.0
-      }
-     ]
-    ],
-    "discount_pct": 15.0,
-    "quote": "15% Discount"
-   },
-   {
-    "id": "rule-fpl-200",
-    "label": "10% discount for income at or below 200% FPL",
-    "when": [
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 200.0
-      }
-     ]
-    ],
-    "discount_pct": 10.0,
-    "quote": "10% Discount"
-   },
-   {
     "id": "rule-medical-hardship",
     "label": "Medical hardship discount for income above 400% FPL but below $200,000 with out-of-pocket obligations exceeding 20% of income",
     "when": [
@@ -308,13 +143,7 @@
    }
   ],
   "timing": {
-   "application": [
-    {
-     "anchor": "first_statement",
-     "days": 180,
-     "quote": "Financial assistance will be considered as long as the complete application and supporting documentation are submitted prior to 180 days from the date of the initial account statement"
-    }
-   ],
+   "application": [],
    "eca_not_before": [],
    "first_statement_from_day": null
   },
@@ -340,7 +169,8 @@
    "Confidentiality maintained for all financial assistance applicants.",
    "Application must be completed within 14 days per application form instructions; if information requested, patient/guarantor has 30 days to respond or application denied.",
    "Eligibility determination made within 15 business days after completed application submission.",
-   "Policy prohibits discrimination based on race, color, creed, religion, gender, sexual orientation, citizenship, age, disability, or national origin."
+   "Policy prohibits discrimination based on race, color, creed, religion, gender, sexual orientation, citizenship, age, disability, or national origin.",
+   "rule-medical-hardship may leave out a condition: missing exhaustion of other payment options"
   ]
  },
  "report": {
@@ -362,69 +192,89 @@
     },
     {
      "kind": "rule",
+     "id": "rule-fpl-100",
+     "quote": "100% Discount"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-fpl-110",
+     "quote": "90% Discount"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-fpl-120",
+     "quote": "80% Discount"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-fpl-130",
+     "quote": "70% Discount"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-fpl-140",
+     "quote": "60% Discount"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-fpl-150",
+     "quote": "50% Discount"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-fpl-160",
+     "quote": "40% Discount"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-fpl-170",
+     "quote": "30% Discount"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-fpl-180",
+     "quote": "20% Discount"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-fpl-190",
+     "quote": "15% Discount"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-fpl-200",
+     "quote": "10% Discount"
+    },
+    {
+     "kind": "rule",
      "id": "rule-fpl-above-200",
      "quote": "0% Discount"
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+     "quote": "Financial assistance will be considered as long as the complete application and supporting documentation are submitted prior to 180 days from the date of the initial account statement",
+     "why": "deadline is from initial account statement, not first post-discharge bill"
     },
     {
      "kind": "unsupported",
      "id": "eca:0",
      "claim": "The policy promises no extraordinary collection action before 150 days after the first post-discharge bill",
      "quote": "During the Notification Period (120 Days), the Hospital will provide each patient with at least three Billing Statements, a Seriously Past Due notice, and a final notice that provides the individual with the amount owed. The hospital may initiate External Collection Activity (ECA), but only after the Final notice letter has been provided and a period of at least 30 days have elapsed",
-     "why": "The policy states ECA may begin after the final notice and at least 30 days have elapsed, but does not specify a fixed 150-day period from the first post-discharge bill."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-medical-hardship",
-     "claim": "A patient with (fpl_pct > 400) AND (income_usd < 200000) AND (bill_pct_income > 20) gets an unstated amount of help",
-     "quote": "Patient, or patient's guarantor, has annual family income in excess of 400% of the Federal Poverty Guidelines, but less than $200,000, and Patient, or patient's guarantor, has exhausted all other payment options including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties; and The out-of-pocket, patient obligations resulting from medical services provided by GVH and FMC providers exceed 20% of annual family income",
-     "why": "The policy describes medical hardship criteria but does not specify the discount amount or percentage of assistance provided."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-presumptive-homeless",
-     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
-     "quote": "Homelessness",
-     "why": "Homelessness is listed as a presumptive eligibility criterion, but the policy does not specify the discount amount for such cases."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-presumptive-deceased",
-     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
-     "quote": "Deceased with no estate",
-     "why": "Deceased with no estate is listed as a presumptive eligibility criterion, but the policy does not specify the discount amount for such cases."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-presumptive-medicaid-eligible",
-     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
-     "quote": "Medicaid eligible, but not active for a date of service. 90 days look back period",
-     "why": "Medicaid eligible but not active is listed as a presumptive eligibility criterion, but the policy does not specify the discount amount for such cases."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-presumptive-mental-incapacitation",
-     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
-     "quote": "Mental incapacitation: No one to act on patient's behalf",
-     "why": "Mental incapacitation is listed as a presumptive eligibility criterion, but the policy does not specify the discount amount for such cases."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-presumptive-out-of-state-medicaid",
-     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
-     "quote": "Patients are eligible for out-of-state Medicaid and GVH and FMC do not participate in the States Medicaid Program",
-     "why": "Out-of-state Medicaid eligibility is listed as a presumptive eligibility criterion, but the policy does not specify the discount amount for such cases."
+     "why": "policy states ECA after final notice + 30 days, not 150 days from first statement"
     },
     {
      "kind": "amount removed",
      "id": "rule:rule-agb-cap",
      "claim": "A patient with (fpl_pct <= 400) gets an unstated amount of help",
      "quote": "If a patient qualifies for financial assistance under this policy, the patient's billed charges will be no more than the same amounts generally billed (AGB) for emergency or other medically necessary health care services as patients who have insurance coverage",
-     "why": "The AGB cap limits charges but does not specify the discount percentage or amount of financial assistance provided."
+     "why": "policy does not specify amount of help"
     }
    ],
    "clauses": 21,
-   "clauses_proven": 19,
-   "unsupported": 8
+   "clauses_proven": 8,
+   "unsupported": 3
   },
   "secondary": {
    "model": "super",
@@ -441,33 +291,40 @@
      "id": "req:req_exhaust_other_options",
      "claim": "Every form of assistance requires: (applied_public_programs)",
      "quote": "The FAP will provide benefits as a last resort. All other payment options, including but not limited to private insurance, Medicare, Medicaid, CHP, third party Liability, and CICP must be explored for eligibility and secured where eligible prior to the application for financial assistance.",
-     "why": "The policy requires exploring other payment options prior to application, but does not require applicants to have already applied for public programs as a condition of assistance."
+     "why": "policy encourages exploring other options but does not require it for every form of assistance."
     },
     {
      "kind": "unsupported",
      "id": "rule:rule_cicp_requirement",
      "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
      "quote": "Gunnison Valley, Hinsdale and Saguache Residents who are at or below 250% FPL will be required to apply for The Colorado Indigent Care Program (CICP), as administered by Gunnison Valley Hospital and Family Medicine Clinic.",
-     "why": "The policy requires patients at or below 250% FPL to apply for CICP, but does not state they receive financial assistance under this policy; it is a prerequisite, not a benefit."
+     "why": "policy requires CICP application, not financial assistance."
     },
     {
      "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
      "quote": "Eligible accounts include Gunnison Valley Hospital and Family Medicine Clinic (GVH & FMC) accounts with remaining balances. Accounts turning to bad debt will be considered as long as the complete application and supporting documentation are submitted prior to 180 days from the date of the initial account statement.",
-     "why": "The 180-day deadline is measured from the initial account statement, not the first post-discharge bill; the policy does not equate these events."
+     "why": "deadline is from initial account statement, not first post-discharge bill."
     },
     {
      "kind": "unsupported",
      "id": "app:1",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "Eligible accounts include Gunnison Valley Hospital and Family Medicine Clinic (GVH & FMC) accounts with remaining balances. Accounts turning to bad debt will be considered as long as the complete application and supporting documentation are submitted prior to 180 days from the date of the initial account statement.",
-     "why": "The 180-day deadline is measured from the initial account statement, not the date of service; the policy does not equate these events."
+     "why": "deadline is from initial account statement, not date of service."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_fap_standard",
+     "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 400) gets an unstated amount of help",
+     "quote": "You may be eligible for financial assistance for emergencies or medically necessary healthcare services, if your family income is at or below 400 percent of the federal poverty guidelines, as published annually.",
+     "why": "policy specifies discount scale based on FPL, not unstated help."
     }
    ],
    "clauses": 6,
    "clauses_proven": 3,
-   "unsupported": 4
+   "unsupported": 5
   },
   "secondary_model": {
    "hospital": "Gunnison Valley Hospital and Family Medicine Clinic",
@@ -561,16 +418,14 @@
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "One person earning $27,000 a year (169.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 30% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 2 earning $46,000 a year (212.6% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
-   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $22,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $22,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $200,000 a year (732.1% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "disagreements_after": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "One person earning $27,000 a year (169.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 30% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 2 earning $46,000 a year (212.6% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
-   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $22,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $22,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $200,000 a year (732.1% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "equivalent": false
  },
@@ -579,12 +434,12 @@
    "step": "formalise (Nemotron 3 Ultra)",
    "model": "ultra",
    "label": "Nemotron 3 Ultra",
-   "seconds": 8.38,
+   "seconds": 0.0,
    "tokens_in": 10835,
    "tokens_cached": 0,
    "tokens_out": 3186,
-   "cost_usd": 0.020393,
-   "cached_result": false,
+   "cost_usd": 0.0,
+   "cached_result": true,
    "error": "",
    "orig_cost_usd": 0.020393,
    "orig_seconds": 8.38
@@ -593,12 +448,12 @@
    "step": "repair (Nemotron 3 Ultra)",
    "model": "ultra",
    "label": "Nemotron 3 Ultra",
-   "seconds": 6.74,
+   "seconds": 0.0,
    "tokens_in": 13846,
    "tokens_cached": 4352,
    "tokens_out": 2689,
-   "cost_usd": 0.018083,
-   "cached_result": false,
+   "cost_usd": 0.0,
+   "cached_result": true,
    "error": "",
    "orig_cost_usd": 0.018083,
    "orig_seconds": 6.74
@@ -607,26 +462,26 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 5.78,
-   "tokens_in": 11488,
+   "seconds": 3.2,
+   "tokens_in": 11062,
    "tokens_cached": 0,
-   "tokens_out": 1135,
-   "cost_usd": 0.004468,
+   "tokens_out": 311,
+   "cost_usd": 0.003599,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.004468,
-   "orig_seconds": 5.78
+   "orig_cost_usd": 0.003599,
+   "orig_seconds": 3.2
   },
   {
    "step": "formalise (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 5.96,
+   "seconds": 0.0,
    "tokens_in": 10835,
    "tokens_cached": 0,
    "tokens_out": 1202,
-   "cost_usd": 0.004332,
-   "cached_result": false,
+   "cost_usd": 0.0,
+   "cached_result": true,
    "error": "",
    "orig_cost_usd": 0.004332,
    "orig_seconds": 5.96
@@ -635,18 +490,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 2.25,
-   "tokens_in": 10868,
+   "seconds": 3.59,
+   "tokens_in": 10906,
    "tokens_cached": 0,
-   "tokens_out": 398,
-   "cost_usd": 0.003619,
+   "tokens_out": 250,
+   "cost_usd": 0.003497,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.003619,
-   "orig_seconds": 2.25
+   "orig_cost_usd": 0.003497,
+   "orig_seconds": 3.59
   }
  ],
- "cost_usd": 0.05089,
- "seconds": 29.6,
+ "cost_usd": 0.0499,
+ "seconds": 6.9,
  "made": "2026-10-28"
 }

@@ -93,7 +93,9 @@
    "DHSFDP and HDC are discount programs and not considered health insurance.",
    "Health First Colorado (Medicaid) applications accepted anytime throughout the year; CHP+ and Connect for Health Colorado have open enrollment periods.",
    "Service exclusions (cosmetic, transplant, research) not specified in this text.",
-   "Application deadlines, extraordinary collection action timing, first statement timing, and payment plan terms not specified in this text."
+   "Application deadlines, extraordinary collection action timing, first statement timing, and payment plan terms not specified in this text.",
+   "rule_dhsfdp_nonemergency may leave out a condition: Requires also being insured or underinsured per DHSFDP context.",
+   "rule_dhsfdp_emergency may leave out a condition: Non-residents get emergency care, but DHSFDP does not apply to emergency care per policy."
   ]
  },
  "report": {
@@ -119,7 +121,7 @@
      "id": "rule:rule_hdc",
      "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets an unstated amount of help",
      "quote": "Patients who are at or below 250% of the Federal Poverty Guidelines (FPG) are eligible for Hospital Discounted Care",
-     "why": "Eligibility for HDC is correctly identified, but the policy does not specify the amount of help provided."
+     "why": "Eligibility matches, but policy does not specify amount of help."
     }
    ],
    "clauses": 4,
@@ -193,7 +195,8 @@
     "Policy provides multiple application methods: online, phone, in-person at various locations, and drop boxes.",
     "Policy references Connect for Health Colorado as the state's health insurance marketplace.",
     "Policy includes information about Health First Colorado (Medicaid) and CHP+ enrollment and renewal.",
-    "Policy states that DHSFDP and HDC are discount programs and not considered health insurance."
+    "Policy states that DHSFDP and HDC are discount programs and not considered health insurance.",
+    "dhsfdp may leave out a condition: policy additionally requires non-emergent care"
    ]
   },
   "disagreements_before": [
@@ -239,15 +242,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.38,
-   "tokens_in": 3926,
+   "seconds": 2.04,
+   "tokens_in": 3964,
    "tokens_cached": 0,
-   "tokens_out": 191,
-   "cost_usd": 0.00135,
+   "tokens_out": 185,
+   "cost_usd": 0.001356,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.00135,
-   "orig_seconds": 1.38
+   "orig_cost_usd": 0.001356,
+   "orig_seconds": 2.04
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -267,18 +270,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.34,
-   "tokens_in": 3795,
+   "seconds": 1.28,
+   "tokens_in": 3833,
    "tokens_cached": 0,
-   "tokens_out": 92,
-   "cost_usd": 0.001221,
+   "tokens_out": 60,
+   "cost_usd": 0.001204,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001221,
-   "orig_seconds": 1.34
+   "orig_cost_usd": 0.001204,
+   "orig_seconds": 1.28
   }
  ],
- "cost_usd": 0.01883,
- "seconds": 2.8,
- "made": "2026-10-27"
+ "cost_usd": 0.01881,
+ "seconds": 3.4,
+ "made": "2026-10-28"
 }

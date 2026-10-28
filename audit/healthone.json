@@ -27,7 +27,7 @@
       }
      ]
     ],
-    "discount_pct": 100.0,
+    "discount_pct": null,
     "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed"
    },
    {
@@ -116,7 +116,8 @@
    "Hospital must bill insurance before making a payment plan; must explain all services and fees in patient's preferred language before collections.",
    "Determination within 21 days after application completion; appeal must be filed in writing within 30 days of decision date.",
    "Patients can refuse hospital screening for public programs; if they refuse, they cannot sue for lack of discounts or screening.",
-   "Pricing information on website is strictly an estimate; final bill may differ substantially due to unforeseen complications, additional tests/procedures, non-hospital charges."
+   "Pricing information on website is strictly an estimate; final bill may differ substantially due to unforeseen complications, additional tests/procedures, non-hospital charges.",
+   "rule_hdc_250_fpl may leave out a condition: Policy requires Hospital Discounted Care for \u2264250% FPL Colorado residents; missing co_resident in quote context."
   ]
  },
  "findings": [
@@ -235,7 +236,7 @@
      "holds": true
     }
    ],
-   "seconds": 0.003,
+   "seconds": 0.004,
    "domain": "every first-bill day from day 46 to day 400",
    "basis": "",
    "confidence": "disputed",
@@ -252,6 +253,11 @@
      "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
      "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
      "quote": "Patients may complete a screening at any time within at least 181 days after their date of service or discharge, whichever is later"
+    },
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "begin sending bills beginning 46 days after the patient's date of service or date of discharge"
     }
    ],
    "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
@@ -261,7 +267,7 @@
    "policy_outcome": null,
    "clauses": [],
    "seconds": 0.0,
-   "domain": "every first-bill day from day 0 to day 400",
+   "domain": "every first-bill day from day 46 to day 400",
    "basis": "",
    "confidence": "confirmed",
    "second_opinion": [
@@ -378,12 +384,12 @@
    "title": "Earning less never means getting less help",
    "status": "counterexample",
    "law": [],
-   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "summary": "A household of 3 earning $68,573 a year (251.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 gets no help; the same household earning more, at 251.36% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
    "severity": "ambiguity",
    "household": {
     "size": 3,
-    "income_usd": 68473.2,
-    "fpl_pct": 250.63,
+    "income_usd": 68573.19,
+    "fpl_pct": 250.99,
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
@@ -399,8 +405,8 @@
    },
    "household_b": {
     "size": 3,
-    "income_usd": 68573.2,
-    "fpl_pct": 251.0,
+    "income_usd": 68673.19,
+    "fpl_pct": 251.36,
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
@@ -430,7 +436,7 @@
      "id": "rule_full_charity",
      "label": "Full charity discount (100%) for income 0-250% FPL",
      "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed",
-     "discount_pct": 100.0,
+     "discount_pct": null,
      "holds": false
     },
     {
@@ -458,7 +464,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.006,
+   "seconds": 0.005,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "confidence": "disputed",

@@ -4,7 +4,28 @@
   "doc": "policy",
   "source_url": "https://middleparkhealth.org/wp-content/uploads/2025/07/CF.13.10.9%E2%80%93-Financial-Assistance-Policy.pdf",
   "nonprofit": null,
-  "requires": [],
+  "requires": [
+   {
+    "id": "req-uninsured-or-underinsured",
+    "label": "Patient must be uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Patients who are uninsured or underinsured are ineligible for any government health care benefit program and unable to pay for their health care services may be eligible for financial assistance."
+   }
+  ],
   "rules": [
    {
     "id": "rule-internal-charity",
@@ -56,7 +77,9 @@
    "Hospital prohibits actions discouraging emergency care; complies with EMTALA.",
    "Decisions never consider age, gender, race, color, national origin, marital status, social or immigrant status, sexual orientation, or religious affiliation.",
    "Exclusions of services (cosmetic, transplant, research) not addressed in policy text.",
-   "Provider payment plans under HDC limited to 2% of gross monthly household income per provider, max 36 months."
+   "Provider payment plans under HDC limited to 2% of gross monthly household income per provider, max 36 months.",
+   "req-uninsured-or-underinsured may leave out a condition: policy also requires inability to pay and ineligibility for government programs",
+   "rule-internal-charity may leave out a condition: policy also requires exhaustion of third-party payment sources and settlement of insurance payers"
   ]
  },
  "report": {
@@ -82,43 +105,29 @@
     },
     {
      "kind": "unsupported",
-     "id": "req:req-uninsured-or-underinsured",
-     "claim": "Every form of assistance requires: (not insured OR underinsured)",
-     "quote": "Patients who are uninsured or underinsured are ineligible for any government health care benefit program and unable to pay for their health care services may be eligible for financial assistance.",
-     "why": "The policy states uninsured or underinsured patients \"may be eligible\" for financial assistance, not that every form of assistance requires this condition."
-    },
-    {
-     "kind": "unsupported",
      "id": "rule:rule-accessone",
      "claim": "A patient with (not insured OR underinsured) gets an unstated amount of help",
      "quote": "AccessOne is offered by Middle Park Health to provide patients with an additional payment option. AccessOne payment plans are designed to take financial fear out of healthcare, helping patients get the medical care they need when they need it.",
-     "why": "AccessOne is described as a payment option, not financial assistance, and the policy does not tie eligibility to uninsured or underinsured status."
+     "why": "policy does not restrict AccessOne to uninsured or underinsured patients"
     },
     {
      "kind": "unsupported",
      "id": "rule:rule-internal-payment-plan",
      "claim": "A patient with (not insured OR underinsured) gets an unstated amount of help",
      "quote": "Middle Park Health also offers internal payment plans for those that qualify up to 12 months with a minimum payment of $25 a month.",
-     "why": "Internal payment plans are offered without stating eligibility is limited to uninsured or underinsured patients."
+     "why": "policy does not restrict internal payment plans to uninsured or underinsured patients"
     },
     {
      "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "If a patient does not respond within the 45-day period after their date of service or date of discharge, Middle Park Health will deny the financial assistance application.",
-     "why": "The 45-day period applies to responding to incomplete applications, not to submitting a financial-assistance application."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule-internal-charity",
-     "claim": "A patient with (not insured OR underinsured) AND (not inpatient) gets an unstated amount of help",
-     "quote": "Eligibility shall be based solely on the total gross family income adjusted for family size and is only applicable to outpatient services. Assets shall not be considered and will be based on Middle Park Health's internal sliding scale.",
-     "why": "The policy specifies internal charity applies only to outpatient services and uses an internal sliding scale, but does not state the amount of help."
+     "why": "45-day period is for responding to incomplete applications, not for submitting an application"
     }
    ],
    "clauses": 6,
-   "clauses_proven": 1,
-   "unsupported": 5
+   "clauses_proven": 2,
+   "unsupported": 3
   },
   "secondary": {
    "model": "super",
@@ -127,22 +136,15 @@
    "dropped": [
     {
      "kind": "unsupported",
-     "id": "rule:hdc_uninsured_underinsured",
-     "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) AND (co_resident) gets an unstated amount of help",
-     "quote": "Patients who are at or below 250% of the Federal Poverty Guidelines (FPG) are eligible for Hospital Discounted Care.",
-     "why": "The policy requires Colorado residency for Hospital Discounted Care, but the claim omits this requirement."
-    },
-    {
-     "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "If financial information is not provided to support a completed application for charity assistance within 45 days, it will be considered denied.",
-     "why": "The 45-day deadline applies to providing financial information to support a completed application, not to submitting the application itself."
+     "why": "45-day deadline is for providing financial information, not submitting the application"
     }
    ],
    "clauses": 2,
-   "clauses_proven": 1,
-   "unsupported": 2
+   "clauses_proven": 2,
+   "unsupported": 1
   },
   "secondary_model": {
    "hospital": "Middle Park Health",
@@ -151,6 +153,40 @@
    "nonprofit": null,
    "requires": [],
    "rules": [
+    {
+     "id": "hdc_uninsured_underinsured",
+     "label": "Hospital Discounted Care for uninsured or underinsured patients",
+     "when": [
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       },
+       {
+        "var": "underinsured",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ],
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Patients who are at or below 250% of the Federal Poverty Guidelines (FPG) are eligible for Hospital Discounted Care."
+    },
     {
      "id": "internal_charity_outpatient",
      "label": "Internal Charity Care for outpatient services",
@@ -182,13 +218,16 @@
     "Hospital Discounted Care payment plans cannot exceed 4% of gross monthly income for hospital bills and 2% for separate provider bills, with a maximum of 36 months.",
     "Internal Charity Care requires exhaustion of third-party payment sources, may require Medicaid application, and has a 45-day deadline for financial documentation.",
     "Charity approval affects accounts within 6 months of application date, with possible discretionary review beyond 6 months.",
-    "AccessOne and internal payment plans are offered but do not specify discount percentages in the policy text."
+    "AccessOne and internal payment plans are offered but do not specify discount percentages in the policy text.",
+    "hdc_uninsured_underinsured may leave out a condition: adds co_resident without quoting it; policy requires Colorado residence per qualification guideline"
    ]
   },
   "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
   ],
   "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
   ],
   "equivalent": false
@@ -212,15 +251,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.8,
-   "tokens_in": 6539,
+   "seconds": 2.41,
+   "tokens_in": 6577,
    "tokens_cached": 0,
-   "tokens_out": 263,
-   "cost_usd": 0.002198,
+   "tokens_out": 208,
+   "cost_usd": 0.00216,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.002198,
-   "orig_seconds": 1.8
+   "orig_cost_usd": 0.00216,
+   "orig_seconds": 2.41
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -240,18 +279,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.16,
-   "tokens_in": 6392,
+   "seconds": 1.98,
+   "tokens_in": 6430,
    "tokens_cached": 0,
-   "tokens_out": 142,
-   "cost_usd": 0.002045,
+   "tokens_out": 112,
+   "cost_usd": 0.00203,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.002045,
-   "orig_seconds": 1.16
+   "orig_cost_usd": 0.00203,
+   "orig_seconds": 1.98
   }
  ],
- "cost_usd": 0.01734,
- "seconds": 3.0,
- "made": "2026-10-27"
+ "cost_usd": 0.01729,
+ "seconds": 4.5,
+ "made": "2026-10-28"
 }

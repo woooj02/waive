@@ -24,6 +24,21 @@
     ],
     "discretionary": false,
     "quote": "HRRMC will provide financial assistance (charity care) to qualified patients who are uninsured or underinsured and do not have the financial means to pay for hospital services."
+   },
+   {
+    "id": "req_unable_to_pay",
+    "label": "Unable to pay for services",
+    "cond": [
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 0.0
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Charity care write-offs are available to qualified persons receiving (1) emergency or (2) unscheduled, non-elective services and who are unable to pay for those services."
    }
   ],
   "rules": [
@@ -261,7 +276,8 @@
    "Medically necessary services evaluated on case-by-case basis at HRRMC's discretion.",
    "Services eligible include emergency medical services in ER, non-elective services for life-threatening circumstances, services for conditions leading to adverse change if not promptly treated.",
    "Policy states charity care is not a substitute for personal responsibility; patients expected to cooperate with procedures.",
-   "No explicit application deadline, ECA timing, or payment plan terms stated in provided text."
+   "No explicit application deadline, ECA timing, or payment plan terms stated in provided text.",
+   "req_unable_to_pay may leave out a condition: Policy requires inability to pay, but also requires being uninsured or underinsured."
   ]
  },
  "report": {
@@ -282,19 +298,12 @@
      "id": "req:req_emergency_or_unscheduled",
      "claim": "Every form of assistance requires: (emergency)",
      "quote": "Charity care write-offs are available to qualified persons receiving (1) emergency or (2) unscheduled, non-elective services and who are unable to pay for those services.",
-     "why": "Emergency or unscheduled non-elective services condition applies only to charity care write-offs, not every form of assistance like sliding scale discounts."
-    },
-    {
-     "kind": "unsupported",
-     "id": "req:req_unable_to_pay",
-     "claim": "Every form of assistance requires: (bill_pct_income > 0)",
-     "quote": "Charity care write-offs are available to qualified persons receiving (1) emergency or (2) unscheduled, non-elective services and who are unable to pay for those services.",
-     "why": "Policy requires inability to pay, but does not define it as bill_pct_income > 0; this is an incorrect interpretation."
+     "why": "Policy limits charity care to emergency/unscheduled services, but does not require this for every form of assistance."
     }
    ],
    "clauses": 14,
-   "clauses_proven": 11,
-   "unsupported": 3
+   "clauses_proven": 12,
+   "unsupported": 2
   },
   "secondary": {
    "model": "super",
@@ -321,18 +330,10 @@
     "sliding_scale_discount: the clause fpl_pct >= 376.0 OR fpl_pct <= 400.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
     "sliding_scale_discount: the clause fpl_pct >= 401.0 OR fpl_pct <= 425.0 is true for every household. Did you mean AND? Put each condition in its own clause."
    ],
-   "dropped": [
-    {
-     "kind": "unsupported",
-     "id": "rule:sliding_scale_discount",
-     "claim": "A patient with (fpl_pct <= 200) AND (fpl_pct >= 201 OR fpl_pct <= 225) AND (fpl_pct >= 226 OR fpl_pct <= 250) AND (fpl_pct >= 251 OR fpl_pct <= 275) AND (fpl_pct >= 276 OR fpl_pct <= 300) AND (fpl_pct >= 301 OR fpl_pct <= 325) AND (fpl_pct >= 326 OR fpl_pct <= 350) AND (fpl_pct >= 351 OR fpl_pct <= 375) AND (fpl_pct >= 376 OR fpl_pct <= 400) AND (fpl_pct >= 401 OR fpl_pct <= 425) gets an unstated amount of help",
-     "quote": "Financial assistance will be determined on a sliding scale based on family size and family income.",
-     "why": "The policy requires patients to be uninsured or underinsured and lack financial means to pay, which the claim omits."
-    }
-   ],
+   "dropped": [],
    "clauses": 1,
-   "clauses_proven": 0,
-   "unsupported": 1
+   "clauses_proven": 1,
+   "unsupported": 0
   },
   "secondary_model": {
    "hospital": "Heart of the Rockies Regional Medical Center",
@@ -340,7 +341,131 @@
    "source_url": "https://www.hrrmc.com/documents/brochures/Finance-Assistance_2021.pdf",
    "nonprofit": null,
    "requires": [],
-   "rules": [],
+   "rules": [
+    {
+     "id": "sliding_scale_discount",
+     "label": "Sliding Scale Income-Based Discount",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 200.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 201.0
+       },
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 225.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 226.0
+       },
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 251.0
+       },
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 275.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 276.0
+       },
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 300.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 301.0
+       },
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 325.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 326.0
+       },
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 350.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 351.0
+       },
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 375.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 376.0
+       },
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 400.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 401.0
+       },
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 425.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Financial assistance will be determined on a sliding scale based on family size and family income."
+    }
+   ],
    "timing": {
     "application": [],
     "eca_not_before": [],
@@ -353,20 +478,21 @@
     "quote": ""
    },
    "notes": [
-    "The policy provides specific dollar income thresholds by family size for each discount percentage (10% to 100%) corresponding to FPL percentages from 200% to 425%. For family units of more than 8 members, add $4,540 for each additional member. Pregnant women count as two people for the purpose of this chart. Income includes all monies received before taxes from all sources with specific exclusions listed. Applicants must complete the Financial Assistance Application with all required documentation of income, expenses, and assets. Charity care is available to qualified patients who are uninsured or underinsured and do not have the financial means to pay for hospital services, receiving emergency or unscheduled, non-elective services, and who do not qualify for federal, state, or local assistance and are unable to establish approved payments or pay balances in full."
+    "The policy provides specific dollar income thresholds by family size for each discount percentage (10% to 100%) corresponding to FPL percentages from 200% to 425%. For family units of more than 8 members, add $4,540 for each additional member. Pregnant women count as two people for the purpose of this chart. Income includes all monies received before taxes from all sources with specific exclusions listed. Applicants must complete the Financial Assistance Application with all required documentation of income, expenses, and assets. Charity care is available to qualified patients who are uninsured or underinsured and do not have the financial means to pay for hospital services, receiving emergency or unscheduled, non-elective services, and who do not qualify for federal, state, or local assistance and are unable to establish approved payments or pay balances in full.",
+    "sliding_scale_discount may leave out a condition: Policy requires completion of Financial Assistance application with all required documentation."
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 30% off, the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
    "A household of 3 earning $61,000 a year (223.3% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 90% off, the Nemotron 3 Super model gives no help.",
-   "A household of 4 earning $82,000 a year (248.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 80% off, the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 30% off, the Nemotron 3 Super model gives no help."
+   "A household of 3 earning $116,000 a year (424.6% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 10% off, the Nemotron 3 Super model gives no help."
   ],
   "disagreements_after": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 30% off, the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
    "A household of 3 earning $61,000 a year (223.3% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 90% off, the Nemotron 3 Super model gives no help.",
-   "A household of 4 earning $82,000 a year (248.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 80% off, the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 30% off, the Nemotron 3 Super model gives no help."
+   "A household of 3 earning $116,000 a year (424.6% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 10% off, the Nemotron 3 Super model gives no help."
   ],
   "equivalent": false
  },
@@ -390,13 +516,13 @@
    "model": "super",
    "label": "Nemotron 3 Super",
    "seconds": 3.34,
-   "tokens_in": 5281,
+   "tokens_in": 5319,
    "tokens_cached": 0,
-   "tokens_out": 780,
-   "cost_usd": 0.002286,
+   "tokens_out": 431,
+   "cost_usd": 0.001984,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.002286,
+   "orig_cost_usd": 0.001984,
    "orig_seconds": 3.34
   },
   {
@@ -431,18 +557,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.32,
-   "tokens_in": 4139,
+   "seconds": 1.08,
+   "tokens_in": 4177,
    "tokens_cached": 0,
-   "tokens_out": 59,
-   "cost_usd": 0.001295,
+   "tokens_out": 45,
+   "cost_usd": 0.001294,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001295,
-   "orig_seconds": 1.32
+   "orig_cost_usd": 0.001294,
+   "orig_seconds": 1.08
   }
  ],
- "cost_usd": 0.01884,
- "seconds": 5.2,
- "made": "2026-10-27"
+ "cost_usd": 0.01854,
+ "seconds": 5.1,
+ "made": "2026-10-28"
 }

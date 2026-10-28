@@ -44,23 +44,98 @@
     ],
     "discretionary": false,
     "quote": "Eligibility for financial assistance shall be considered for those individuals who are uninsured, underinsured, and unable to pay for their care, based upon a determination of financial need in accordance with this Policy."
+   },
+   {
+    "id": "req-applied-public-programs",
+    "label": "Must apply for public programs (Medicaid, etc.) unless prohibited by law",
+    "cond": [
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties, unless prohibited by local, state, or federal laws."
    }
   ],
   "rules": [
    {
-    "id": "rule-presumptive-eligibility",
-    "label": "Presumptive eligibility based on life circumstances (homeless, WIC, SNAP, etc.)",
+    "id": "rule-fully-discounted",
+    "label": "Fully Discounted Care (100% waiver) for income <= 250% FPL",
     "when": [
      [
       {
-       "var": "presumptive_program",
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for fully Discounted Care."
+   },
+   {
+    "id": "rule-discounted-care",
+    "label": "Discounted Care (sliding scale per Matrix) for income >250% and <=500% FPL",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "applied_public_programs",
        "op": "true",
        "value": null
       }
      ]
     ],
     "discount_pct": null,
-    "quote": "For patients, or patients' Guarantors, who are unable to provide required documentation but meet certain financial need criteria, Intermountain Health may grant Financial Assistance. In particular, presumptive eligibility may be determined on the basis of individual life circumstances that may include: 1. State-funded prescription programs; 2. Homeless or one who received care from a homeless clinic; 3. Participation in Women, Infants and Children (WIC) programs; 4. Food stamp eligibility; 5. Subsidized school lunch program eligibility; 6. Eligibility for other state or local assistance programs that are unfunded (e.g., Medicaid spend-down); 7. Low income/subsidized housing is provided as a valid address 8. Eligibility based on health care industry sources of information (e.g., public record data, socioeconomic information, vendor calculated scores)."
+    "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines, and All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties."
    }
   ],
   "timing": {
@@ -86,7 +161,10 @@
    "Appeals must be filed in writing within 90 days of determination.",
    "Collection policies comply with federal/state regulations; no extraordinary collections until financial assistance screening completed and patient informed.",
    "COBRA premium assistance may be offered for limited time; patient must cooperate in determining eligibility.",
-   "Policy prohibits screening for financial assistance prior to rendering emergency services per EMTALA."
+   "Policy prohibits screening for financial assistance prior to rendering emergency services per EMTALA.",
+   "req-applied-public-programs may leave out a condition: also requires exhaustion of private coverage and other third-party assistance",
+   "rule-fully-discounted may leave out a condition: also requires exhaustion of all other payment options",
+   "rule-discounted-care may leave out a condition: also requires exhaustion of all other payment options"
   ]
  },
  "report": {
@@ -102,11 +180,6 @@
     },
     {
      "kind": "rule",
-     "id": "rule-discounted-care",
-     "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines, and All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties."
-    },
-    {
-     "kind": "rule",
      "id": "rule-medical-hardship",
      "quote": "Patient, or patient's Guarantor, has annual family income in excess of 500% of the Federal Poverty Guidelines and The out-of-pocket, patient obligations resulting from medical services provided by Intermountain Health providers exceed 25% of annual family income. Patient, or patient's Guarantor, meeting eligibility criteria for Medical Hardship shall have their Intermountain Health charges limited to 25% of their annual family income."
     },
@@ -117,36 +190,29 @@
     },
     {
      "kind": "unsupported",
-     "id": "req:req-applied-public-programs",
-     "claim": "Every form of assistance requires: (applied_public_programs)",
-     "quote": "All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties, unless prohibited by local, state, or federal laws.",
-     "why": "Exhausting other payment options is a condition for specific assistance tiers (fully discounted, discounted, medical hardship), not a requirement for every form of assistance."
-    },
-    {
-     "kind": "unsupported",
-     "id": "rule:rule-fully-discounted",
-     "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) AND (applied_public_programs) gets 100% off",
-     "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for fully Discounted Care.",
-     "why": "While the quote correctly identifies income and insurance status for fully discounted care, it omits the requirement that all other payment options must be exhausted, which is explicitly stated in the policy."
+     "id": "rule:rule-presumptive-eligibility",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "For patients, or patients' Guarantors, who are unable to provide required documentation but meet certain financial need criteria, Intermountain Health may grant Financial Assistance. In particular, presumptive eligibility may be determined on the basis of individual life circumstances that may include: 1. State-funded prescription programs; 2. Homeless or one who received care from a homeless clinic; 3. Participation in Women, Infants and Children (WIC) programs; 4. Food stamp eligibility; 5. Subsidized school lunch program eligibility; 6. Eligibility for other state or local assistance programs that are unfunded (e.g., Medicaid spend-down); 7. Low income/subsidized housing is provided as a valid address 8. Eligibility based on health care industry sources of information (e.g., public record data, socioeconomic information, vendor calculated scores).",
+     "why": "presumptive eligibility is discretionary, not a guaranteed rule"
     },
     {
      "kind": "unsupported",
      "id": "rule:rule-uninsured-discount",
      "claim": "A patient with (not insured) gets an unstated amount of help",
      "quote": "Uninsured Discount: Patients ineligible for financial assistance and having no third-party coverage for Medically Necessary services provided by Intermountain Health will be considered for a discount as covered by the Intermountain Health Patient Discount Policy.",
-     "why": "The policy states uninsured patients ineligible for financial assistance will be considered for a discount under a separate policy, but does not specify the amount of help, making the discount amount unsupported."
+     "why": "refers to separate Patient Discount Policy, not stated here"
     },
     {
      "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "If eligibility is approved, the patient will be granted Financial Assistance for a period of twelve months. Financial Assistance will also be applied to all eligible accounts incurred for services received prior to application date.",
-     "why": "The quote refers to the duration of financial assistance approval (twelve months) and retroactive application, not the deadline for submitting an application."
+     "why": "quote refers to assistance duration, not application deadline"
     }
    ],
    "clauses": 9,
-   "clauses_proven": 3,
-   "unsupported": 4
+   "clauses_proven": 5,
+   "unsupported": 3
   },
   "secondary": {
    "model": "super",
@@ -167,61 +233,54 @@
      "id": "req:req_emergency_care_access",
      "claim": "Every form of assistance requires: (emergency)",
      "quote": "Intermountain Health will provide, without discrimination, care of emergency medical conditions to individuals regardless of their ability to pay or their eligibility for financial assistance or for government assistance.",
-     "why": "Quote discusses emergency care provision, not a requirement for receiving financial assistance."
+     "why": "claim misstates emergency care access as a requirement for all assistance; policy guarantees emergency care regardless of assistance eligibility."
     },
     {
      "kind": "unsupported",
      "id": "req:req_cooperation_applying_for_assistance",
      "claim": "Every form of assistance requires: (applied_public_programs)",
      "quote": "They will also contribute to the cost of their care according to their ability to pay. Individuals with the financial capacity to purchase health insurance shall be encouraged to do so, as a means of assuring access to health care services, for their overall personal health. Access to insurance or Medicaid coverage has extended significantly through the federal and state Health Exchanges. It is expected that any uninsured patient cooperate with Intermountain Health in determining the availability of Medicaid or insurance coverage.",
-     "why": "Cooperation expectation is not a requirement for every form of assistance per policy definition."
+     "why": "claim incorrectly ties cooperation to applied_public_programs; policy expects cooperation in determining coverage availability, not requiring actual application."
     },
     {
      "kind": "unsupported",
      "id": "req:req_financial_need_basis",
      "claim": "Every form of assistance requires: (medically_necessary)",
      "quote": "Financial Assistance shall be based on financial need and shall not consider race, ethnicity, religion, creed, gender, age, social or immigration status, sexual orientation, or insurance status.",
-     "why": "Financial need basis is a principle, not a condition requiring medically_necessary for all assistance."
+     "why": "claim misstates financial need basis as requiring medically_necessary; policy bases assistance on financial need, not care type."
     },
     {
      "kind": "unsupported",
      "id": "req:req_emtla_no_screening",
      "claim": "Every form of assistance requires: (emergency)",
      "quote": "In accordance with FEDERAL EMERGENCY MEDICAL TREATMENT AND LABOR ACT (EMTLA) regulations, no patient shall be screened for financial assistance or payment information prior to the rendering of services in emergency situations.",
-     "why": "EMTLA provision prohibits screening in emergencies, not a condition for receiving assistance."
+     "why": "claim misstates EMTLA provision as requiring emergency care; policy prohibits screening prior to emergency services, not requiring emergency."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_uninsured_discount",
+     "claim": "A patient with (not insured) AND (medically_necessary) gets an unstated amount of help",
+     "quote": "Patients ineligible for financial assistance and having no third-party coverage for Medically Necessary services provided by Intermountain Health will be considered for a discount as covered by the Intermountain Health Patient Discount Policy.",
+     "why": "policy refers to separate Patient Discount Policy; does not guarantee discount under this financial assistance policy."
     },
     {
      "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "If eligibility is approved, the patient will be granted Financial Assistance for a period of twelve months.",
-     "why": "Twelve-month assistance period \u2260 application submission deadline; no 365-day application window stated."
+     "why": "quote refers to 12-month assistance period, not application submission deadline."
     },
     {
      "kind": "unsupported",
      "id": "app:1",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
      "quote": "A Financial Assistance application will need to be re-submitted if more than six months has transpired since initial denial.",
-     "why": "Six-month reapplication after denial \u2260 initial application deadline; no 180-day window from first bill stated."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule_discounted_care",
-     "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 500) AND (medically_necessary) gets an unstated amount of help",
-     "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines,",
-     "why": "Policy specifies discounted care for 251-500% FPL but does not state the discount amount in the quote or rule."
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:rule_uninsured_discount",
-     "claim": "A patient with (not insured) AND (medically_necessary) gets an unstated amount of help",
-     "quote": "Patients ineligible for financial assistance and having no third-party coverage for Medically Necessary services provided by Intermountain Health will be considered for a discount as covered by the Intermountain Health Patient Discount Policy.",
-     "why": "Policy mentions consideration for discount but does not specify amount; refers to separate Patient Discount Policy."
+     "why": "quote refers to reapplication after denial, not initial application deadline."
     }
    ],
    "clauses": 9,
-   "clauses_proven": 4,
-   "unsupported": 8
+   "clauses_proven": 3,
+   "unsupported": 7
   },
   "secondary_model": {
    "hospital": "Intermountain Health",
@@ -325,28 +384,6 @@
      ],
      "discount_pct": null,
      "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines,"
-    },
-    {
-     "id": "rule_uninsured_discount",
-     "label": "Uninsured Discount",
-     "when": [
-      [
-       {
-        "var": "insured",
-        "op": "false",
-        "value": null
-       }
-      ],
-      [
-       {
-        "var": "medically_necessary",
-        "op": "true",
-        "value": null
-       }
-      ]
-     ],
-     "discount_pct": null,
-     "quote": "Patients ineligible for financial assistance and having no third-party coverage for Medically Necessary services provided by Intermountain Health will be considered for a discount as covered by the Intermountain Health Patient Discount Policy."
     }
    ],
    "timing": {
@@ -371,20 +408,22 @@
     "The policy describes presumptive eligibility criteria based on individual life circumstances such as participation in WIC, food stamp eligibility, subsidized school lunch program eligibility, low income/subsidized housing, etc.",
     "The policy mentions that Intermountain Health may utilize a third-party predictive model to assess financial need for patients unable to provide required documentation.",
     "The policy states that Information on Financial Assistance policies or programs is readily available and posted on all Intermountain Health websites and conspicuously posted in emergency departments, urgent care centers, admitting and registration areas.",
-    "The policy mentions that Financial Assistance information, including a contact number, shall be included in patient bills and through oral communication."
+    "The policy mentions that Financial Assistance information, including a contact number, shall be included in patient bills and through oral communication.",
+    "rule_fully_discounted_care may leave out a condition: rule omits requirement that all other payment options must be exhausted.",
+    "rule_discounted_care may leave out a condition: rule omits requirement that all other payment options must be exhausted."
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
-   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless), after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $136,600 a year (500.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000, who hasn't applied for Medicaid: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, who hasn't applied for Medicaid: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "disagreements_after": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
-   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless), after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
-   "A household of 3 earning $136,600 a year (500.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000, who hasn't applied for Medicaid: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, who hasn't applied for Medicaid: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "equivalent": false
  },
@@ -407,15 +446,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 2.49,
-   "tokens_in": 10576,
+   "seconds": 2.65,
+   "tokens_in": 10758,
    "tokens_cached": 0,
-   "tokens_out": 422,
-   "cost_usd": 0.003553,
+   "tokens_out": 274,
+   "cost_usd": 0.003474,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.003553,
-   "orig_seconds": 2.49
+   "orig_cost_usd": 0.003474,
+   "orig_seconds": 2.65
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -449,18 +488,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 2.98,
-   "tokens_in": 10742,
+   "seconds": 3.95,
+   "tokens_in": 10780,
    "tokens_cached": 0,
-   "tokens_out": 470,
-   "cost_usd": 0.003646,
+   "tokens_out": 456,
+   "cost_usd": 0.003644,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.003646,
-   "orig_seconds": 2.98
+   "orig_cost_usd": 0.003644,
+   "orig_seconds": 3.95
   }
  ],
- "cost_usd": 0.02805,
- "seconds": 5.6,
- "made": "2026-10-27"
+ "cost_usd": 0.02797,
+ "seconds": 6.7,
+ "made": "2026-10-28"
 }

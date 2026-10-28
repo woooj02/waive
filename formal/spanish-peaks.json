@@ -22,21 +22,6 @@
     "quote": "Patients will be considered as eligible for financial assistance up to 250% of the federal poverty level (FPL)."
    },
    {
-    "id": "rule-presumptive-cicp-chp-medicaid",
-    "label": "Presumptive eligibility via CICP, CHP, or Medicaid enrollment",
-    "when": [
-     [
-      {
-       "var": "presumptive_program",
-       "op": "true",
-       "value": null
-      }
-     ]
-    ],
-    "discount_pct": null,
-    "quote": "Applicant became CICP, CHP, or Medicaid-eligible and has balances prior to the effective date; Applicant is eligible for CICP, CHP, or Medicaid but incurs a non-covered service; Applicant is eligible for out-of-state Medicaid and SPRHC does not participate in that state's Medicaid program"
-   },
-   {
     "id": "rule-amount-charged",
     "label": "Amount charged limited to lesser of AGB or HDC co-payment",
     "when": [
@@ -116,7 +101,8 @@
    "Patients determined eligible shall not receive future bills for previously provided services based on undiscounted gross charges.",
    "Policy overrides Self-Pay Discounts Policy for patients to whom it applies.",
    "Hospital assists patients with applying for Medicaid, HDC, or CICP coverage; patients expected to cooperate.",
-   "CICP and HDC qualified patients issued laminated cards with effective dates."
+   "CICP and HDC qualified patients issued laminated cards with effective dates.",
+   "rule-hdc may leave out a condition: Eligibility for financial assistance up to 250% FPL also requires being uninsured or underinsured."
   ]
  },
  "report": {
@@ -164,7 +150,14 @@
      "id": "rule:rule-cicp",
      "claim": "A patient with (fpl_pct <= 150) gets 100% off",
      "quote": "Patients who qualify for CICP and HDC will be issued laminated cards including effective dates.",
-     "why": "Quote is about card issuance, not eligibility or discount amount for FPL <= 150."
+     "why": "Quote does not state that patients with FPL \u2264150% get 100% off."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule-presumptive-cicp-chp-medicaid",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Applicant became CICP, CHP, or Medicaid-eligible and has balances prior to the effective date; Applicant is eligible for CICP, CHP, or Medicaid but incurs a non-covered service; Applicant is eligible for out-of-state Medicaid and SPRHC does not participate in that state's Medicaid program",
+     "why": "Presumptive eligibility is not defined in the policy as granting financial assistance."
     },
     {
      "kind": "unsupported",
@@ -178,26 +171,26 @@
      "id": "rule:rule-amount-charged",
      "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
      "quote": "Patients who are eligible for financial assistance will pay the lesser of AGB or the co-payment amount per the HDC guidelines.",
-     "why": "Policy limits charges via AGB/copay but does not specify the discount amount."
+     "why": "Policy states patients pay lesser of AGB or copay, not an unstated amount of help."
     },
     {
      "kind": "amount removed",
      "id": "rule:rule-emergency-care-charge-limit",
      "claim": "A patient with (emergency OR medically_necessary) gets an unstated amount of help",
      "quote": "In no event shall the reduced rate charged to patients eligible for financial assistance for emergency care or medically necessary services be greater than the AGB for such services.",
-     "why": "Policy caps charges at AGB for emergency/medically necessary care but does not specify discount."
+     "why": "Policy limits charges to AGB for emergency/medically necessary care, does not state amount of help."
     },
     {
      "kind": "amount removed",
      "id": "rule:rule-non-emergency-charge-limit",
      "claim": "A patient with (not emergency OR not medically_necessary) gets an unstated amount of help",
      "quote": "With respect to medical care provided other than emergency care and medically necessary services, patients eligible for financial assistance shall not be charged more than gross charges for such care.",
-     "why": "Policy caps charges at gross charges for non-emergency/non-medically necessary care but does not specify discount."
+     "why": "Policy limits charges to gross charges for non-emergency/non-medically necessary care, does not state amount of help."
     }
    ],
    "clauses": 7,
-   "clauses_proven": 5,
-   "unsupported": 6
+   "clauses_proven": 4,
+   "unsupported": 7
   },
   "secondary": {
    "model": "super",
@@ -220,57 +213,59 @@
     },
     {
      "kind": "unsupported",
-     "id": "req:req_medically_necessary_non_emergency",
-     "claim": "Every form of assistance requires: (medically_necessary)",
-     "quote": "Services and items (other than emergency care) must be medically necessary as determined by the patient\u2019s physician to be eligible for financial assistance.",
-     "why": "Medically necessary care is required only for non-emergency services, not every form of assistance."
-    },
-    {
-     "kind": "unsupported",
-     "id": "rule:rule_hdc_cicp_presumptive",
-     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
-     "quote": "Patients who complete the screening process and appear eligible for HDC or the CICP and want to apply...",
-     "why": "Quote refers to wanting to apply, not automatic help for presumptive program enrollment."
-    },
-    {
-     "kind": "unsupported",
      "id": "app:0",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
      "quote": "Patients who complete the screening process and appear eligible for HDC or the CICP and want to apply, or patients who appear ineligible but who still wish to complete the application to find out for sure have 45 days from the date of the screening to submit all required documentation to Patient Financial Services (Appendix A).",
-     "why": "45-day deadline is from screening date, not date of service."
+     "why": "45-day deadline is from date of screening, not date of service."
     },
     {
      "kind": "unsupported",
      "id": "app:1",
      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
      "quote": "Patients who complete the screening process and appear eligible for HDC or the CICP and want to apply, or patients who appear ineligible but who still wish to complete the application to find out for sure have 45 days from the date of the screening to submit all required documentation to Patient Financial Services (Appendix A).",
-     "why": "45-day deadline is from screening date, not first post-discharge bill."
+     "why": "45-day deadline is from date of screening, not first post-discharge bill."
     },
     {
      "kind": "amount removed",
      "id": "rule:rule_fap_250",
      "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
      "quote": "Patients will be considered as eligible for financial assistance up to 250% of the federal poverty level (FPL).",
-     "why": "Policy states eligibility up to 250% FPL but does not specify the amount of help."
+     "why": "Eligibility up to 250% FPL stated, but discount amount not specified in policy."
     },
     {
      "kind": "amount removed",
      "id": "rule:rule_agb_cap",
      "claim": "A patient with (emergency OR medically_necessary) gets an unstated amount of help",
      "quote": "In no event shall the reduced rate charged to patients eligible for financial assistance for emergency care or medically necessary services be greater than the AGB for such services.",
-     "why": "Policy caps charges at AGB for emergency/medically necessary care but does not specify amount of help."
+     "why": "AGB cap applies to charges for eligible patients, but discount amount not specified."
     }
    ],
    "clauses": 6,
-   "clauses_proven": 2,
-   "unsupported": 8
+   "clauses_proven": 4,
+   "unsupported": 6
   },
   "secondary_model": {
    "hospital": "Huerfano County Hospital District",
    "doc": "policy",
    "source_url": "https://www.sprhc.org/files/be3a9926d/PFS.038-Financial-Assistance.pdf",
    "nonprofit": true,
-   "requires": [],
+   "requires": [
+    {
+     "id": "req_medically_necessary_non_emergency",
+     "label": "Medically necessary for non-emergency care",
+     "cond": [
+      [
+       {
+        "var": "medically_necessary",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "Services and items (other than emergency care) must be medically necessary as determined by the patient\u2019s physician to be eligible for financial assistance."
+    }
+   ],
    "rules": [
     {
      "id": "rule_fap_250",
@@ -286,6 +281,21 @@
      ],
      "discount_pct": null,
      "quote": "Patients will be considered as eligible for financial assistance up to 250% of the federal poverty level (FPL)."
+    },
+    {
+     "id": "rule_hdc_cicp_presumptive",
+     "label": "Presumptive eligibility for HDC or CICP",
+     "when": [
+      [
+       {
+        "var": "presumptive_program",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Patients who complete the screening process and appear eligible for HDC or the CICP and want to apply..."
     },
     {
      "id": "rule_agb_cap",
@@ -327,13 +337,17 @@
     "HCHD shall make reasonable efforts to determine whether an individual is eligible for financial assistance before engaging in any 'extraordinary collection actions' as such term is defined in Section 50 I (r)(6) of the Code.",
     "Self-Pay Discount policy applies if patient does not qualify for public programs and does not have insurance.",
     "Policy overrides Self-Pay Discounts Policy when it applies to a specific patient.",
-    "Application of this policy to any individual patient is contingent upon satisfactory completion of the Financial Assistance Application with all necessary documentation. Any patient who refuses to satisfactorily complete the financial assistance application including the supporting documentation is not eligible for financial assistance under this policy (provided the patient has received the notifications required by the proposed regulations under Section 501 (r))."
+    "Application of this policy to any individual patient is contingent upon satisfactory completion of the Financial Assistance Application with all necessary documentation. Any patient who refuses to satisfactorily complete the financial assistance application including the supporting documentation is not eligible for financial assistance under this policy (provided the patient has received the notifications required by the proposed regulations under Section 501 (r)).",
+    "req_medically_necessary_non_emergency may leave out a condition: Medically necessary required only for non-emergency care, not every form of assistance.",
+    "rule_hdc_cicp_presumptive may leave out a condition: Presumptive eligibility requires screening and appearance of eligibility for HDC/CICP, not just presumptive_program."
    ]
   },
   "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
    "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
    "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "equivalent": false
@@ -371,15 +385,15 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 2.07,
-   "tokens_in": 5268,
+   "seconds": 2.98,
+   "tokens_in": 5306,
    "tokens_cached": 0,
-   "tokens_out": 368,
-   "cost_usd": 0.001912,
+   "tokens_out": 388,
+   "cost_usd": 0.001941,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001912,
-   "orig_seconds": 2.07
+   "orig_cost_usd": 0.001941,
+   "orig_seconds": 2.98
   },
   {
    "step": "formalise (Nemotron 3 Super)",
@@ -399,18 +413,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 2.22,
-   "tokens_in": 5239,
+   "seconds": 3.13,
+   "tokens_in": 5277,
    "tokens_cached": 0,
-   "tokens_out": 359,
-   "cost_usd": 0.001895,
+   "tokens_out": 362,
+   "cost_usd": 0.001909,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001895,
-   "orig_seconds": 2.22
+   "orig_cost_usd": 0.001909,
+   "orig_seconds": 3.13
   }
  ],
- "cost_usd": 0.02843,
- "seconds": 4.3,
- "made": "2026-10-27"
+ "cost_usd": 0.02847,
+ "seconds": 6.2,
+ "made": "2026-10-28"
 }

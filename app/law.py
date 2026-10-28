@@ -229,9 +229,10 @@ def check_co_eca(pm: PolicyModel) -> Finding:
 
 def check_co_window(pm: PolicyModel) -> Finding:
     return _timeline(
-        pm, "co_window_181", "Accepts applications for at least 181 days after care", ("co_window",),
-        lambda e: e.application_ends, lambda h: z3.IntVal(181), 0,
-        "Proved: the application window never closes before day 181 after care.",
+        pm, "co_window_181", "Accepts applications for at least 181 days after care", ("co_window", "co_bills_46"),
+        lambda e: e.application_ends, lambda h: z3.IntVal(181), 46,
+        "Proved: whatever day the first bill goes out (Colorado allows bills from day 46), the application window "
+        "never closes before day 181 after care.",
         lambda s, got, need: f"With a first bill on day {s}, the policy closes applications on day {got} after care; "
                              f"Colorado requires at least day {need}.")
 

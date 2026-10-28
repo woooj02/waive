@@ -102,7 +102,9 @@
    "DHSFDP and HDC are discount programs and not considered health insurance.",
    "Health First Colorado (Medicaid) applications accepted anytime throughout the year; CHP+ and Connect for Health Colorado have open enrollment periods.",
    "Service exclusions (cosmetic, transplant, research) not specified in this text.",
-   "Application deadlines, extraordinary collection action timing, first statement timing, and payment plan terms not specified in this text."
+   "Application deadlines, extraordinary collection action timing, first statement timing, and payment plan terms not specified in this text.",
+   "rule_dhsfdp_nonemergency may leave out a condition: Requires also being insured or underinsured per DHSFDP context.",
+   "rule_dhsfdp_emergency may leave out a condition: Non-residents get emergency care, but DHSFDP does not apply to emergency care per policy."
   ]
  },
  "findings": [
@@ -225,6 +227,11 @@
      "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
      "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
      "quote": "Patients may complete a screening at any time within at least 181 days after their date of service or discharge, whichever is later"
+    },
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "begin sending bills beginning 46 days after the patient's date of service or date of discharge"
     }
    ],
    "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
@@ -234,7 +241,7 @@
    "policy_outcome": null,
    "clauses": [],
    "seconds": 0.0,
-   "domain": "every first-bill day from day 0 to day 400",
+   "domain": "every first-bill day from day 46 to day 400",
    "basis": "",
    "confidence": "confirmed",
    "second_opinion": [

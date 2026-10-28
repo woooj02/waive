@@ -17,7 +17,26 @@ _SUBS = {"‘": "'", "’": "'", "“": '"', "”": '"', "–": "-", "—": "-",
          " ": " ", "•": " ", "": " ", "­": ""}
 
 
+def _strip_page_furniture(text: str) -> str:
+    """Drop page markers and repeated headers/footers, which PDF extraction drops into mid-sentence."""
+    lines = text.split("\n")
+    counts: dict[str, int] = {}
+    for ln in lines:
+        k = ln.strip().lower()
+        if 0 < len(k) < 90:
+            counts[k] = counts.get(k, 0) + 1
+    keep = []
+    for ln in lines:
+        k = ln.strip().lower()
+        if re.fullmatch(r"\[page \d+\]|page \d+( of \d+)?|\d{1,3}", k) or (counts.get(k, 0) >= 3 and len(k) > 3):
+            continue
+        keep.append(ln)
+    return "\n".join(keep)
+
+
 def normalize(text: str) -> str:
+    if "\n" in text:  # a whole document, not a quote
+        text = _strip_page_furniture(text)
     text = unicodedata.normalize("NFKC", text)
     for a, b in _SUBS.items():
         text = text.replace(a, b)
