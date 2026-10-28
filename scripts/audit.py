@@ -157,7 +157,10 @@ def main() -> None:
                 f["second_opinion"] = sorted(theirs.get(f["check"], []))
         pair = load(f"{pid}-summary", args.source)
         if pair:
-            findings += [dict(f.as_dict(), check="summary_matches_policy") for f in equivalent(pm, pair[0])]
+            single = source == "nemotron"  # one Ultra model per document: not cross-checked like the audit verdicts
+            findings += [dict(f.as_dict(), check="summary_matches_policy",
+                              **({"confidence": "unconfirmed"} if single and f.status == "counterexample" else {}))
+                         for f in equivalent(pm, pair[0])]
         if lost:
             for f in findings:
                 if f["status"] == "counterexample" and f.get("basis") == "absence":

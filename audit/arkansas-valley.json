@@ -6,7 +6,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.094,
+ "solver_seconds": 0.096,
  "model": {
   "hospital": "Arkansas Valley Regional Medical Center",
   "doc": "policy",

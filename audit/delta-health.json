@@ -6,7 +6,7 @@
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.106,
+ "solver_seconds": 0.095,
  "model": {
   "hospital": "Delta Health",
   "doc": "policy",
@@ -245,7 +245,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.002,
+   "seconds": 0.003,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "confidence": "confirmed",

@@ -6,7 +6,7 @@
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.216,
+ "solver_seconds": 0.186,
  "model": {
   "hospital": "Memorial Regional Health",
   "doc": "policy",
@@ -276,7 +276,7 @@
      "holds": true
     }
    ],
-   "seconds": 0.004,
+   "seconds": 0.003,
    "domain": "every first-bill day from day 0 to day 400",
    "basis": "",
    "confidence": "confirmed",
@@ -314,7 +314,7 @@
      "holds": true
     }
    ],
-   "seconds": 0.004,
+   "seconds": 0.003,
    "domain": "every first-bill day from day 0 to day 400",
    "basis": "",
    "confidence": "confirmed",
@@ -360,7 +360,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.005,
+   "seconds": 0.004,
    "domain": "",
    "basis": "",
    "confidence": "confirmed",
@@ -487,7 +487,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.012,
+   "seconds": 0.01,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "confidence": "confirmed",

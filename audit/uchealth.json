@@ -6,7 +6,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": "nemotron",
- "solver_seconds": 0.247,
+ "solver_seconds": 0.224,
  "model": {
   "hospital": "UCHealth",
   "doc": "policy",
@@ -366,7 +366,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.002,
+   "seconds": 0.001,
    "domain": "every first-bill day from day 0 to day 400",
    "basis": "",
    "confidence": "confirmed",
@@ -572,7 +572,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.008,
+   "seconds": 0.006,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "confidence": "confirmed",
@@ -716,9 +716,10 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.004,
+   "seconds": 0.003,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
-   "basis": ""
+   "basis": "",
+   "confidence": "unconfirmed"
   },
   {
    "check": "summary_matches_policy",
@@ -856,9 +857,10 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.005,
+   "seconds": 0.004,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
-   "basis": ""
+   "basis": "",
+   "confidence": "unconfirmed"
   },
   {
    "check": "summary_matches_policy",
@@ -996,9 +998,10 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.009,
+   "seconds": 0.007,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
-   "basis": ""
+   "basis": "",
+   "confidence": "unconfirmed"
   },
   {
    "check": "summary_matches_policy",
@@ -1136,9 +1139,10 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.006,
+   "seconds": 0.008,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
-   "basis": ""
+   "basis": "",
+   "confidence": "unconfirmed"
   }
  ]
 }
