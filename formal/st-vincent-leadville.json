@@ -1,0 +1,215 @@
+{
+ "model": {
+  "hospital": "St. Vincent Health",
+  "doc": "policy",
+  "source_url": "https://www.stvincent.health/financial-assistance-policy",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_sliding_fee_scale",
+    "label": "Sliding Fee Discount Program for income at or below 200% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Sliding fees are specific to all individuals and families with annual incomes at or below 200 percent of the federal poverty line."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "At this point in time, [Name of Practice] can explore options not limited to, but including offering the patient a payment plan, waiving of charges, or referring for patient collections efforts."
+  },
+  "notes": [
+   "Policy covers emergency or medically necessary care per FAP Covered Providers list; noncovered providers listed separately.",
+   "Income definition includes extensive list of sources; noncash benefits (food stamps, housing subsidies) do not count.",
+   "Required documentation: prior year W-2, two most recent bank statements, two most recent pay stubs; self-employed submit three months income/expenses; self-declaration only in special circumstances (e.g., homeless).",
+   "Self-declared patients responsible for 100% of charges until management determines appropriate category.",
+   "Renewal applications required every 12 months or upon financial change; 10 business days to respond to termination notice.",
+   "If application cannot be processed due to missing info, applicant has 2 weeks from notification to supply info without application date adjustment; otherwise application re-dated to date info supplied.",
+   "Sliding fee schedule updated annually in first quarter with latest federal poverty guidelines.",
+   "Determination provided in writing with discount percentage or denial reason; if approved for less than 100% discount or denied, patient must immediately establish payment arrangements.",
+   "Reapplication look-back period is lesser of six months or expiration of last application.",
+   "Refusal to pay: verbal unwillingness or vacating without paying triggers written notice; if not on sliding fee schedule, application sent with notice; after 60 days no response/effort, collections options explored.",
+   "Information stored in shared confidential file in business office.",
+   "Policy violations by employees subject to disciplinary action up to termination.",
+   "Discounts based on income and family size only, could include HDC program or whichever comes first.",
+   "No discrimination on basis of race, color, sex, national origin, disability, religion, age, sexual orientation, or gender identity."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [
+    "req_application_complete: has no conditions; remove it or give its conditions",
+    "req_exhaust_alternative_sources: has no conditions; remove it or give its conditions",
+    "rule_fee_discount_unable_to_pay: has no conditions; remove it or give its conditions"
+   ],
+   "repaired": true,
+   "lint_after": [
+    "req_exhaust_alternative_sources: has no conditions; remove it or give its conditions"
+   ],
+   "dropped": [
+    {
+     "kind": "requirement",
+     "id": "req_exhaust_alternative_sources",
+     "quote": "All alternative payment resources must be exhausted, including all third-party payment from insurance(s), Federal and State programs.",
+     "reason": "invalid logic"
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_medically_necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "All patients seeking emergent health care services at St. Vincent Health are assured that they will be served regardless of ability to pay.",
+     "why": "The policy guarantees service regardless of ability to pay for emergent care, but does not require medically_necessary status for all forms of assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "eca:0",
+     "claim": "The policy promises no extraordinary collection action before 60 days after the first post-discharge bill",
+     "quote": "If the patient does not make effort to pay or fails to respond within 60 days, this constitutes refusal to pay.",
+     "why": "The 60-day period defines refusal to pay, not a restriction on extraordinary collection actions."
+    }
+   ],
+   "clauses": 2,
+   "clauses_proven": 1,
+   "unsupported": 2
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [],
+   "clauses": 1,
+   "clauses_proven": 1,
+   "unsupported": 0
+  },
+  "secondary_model": {
+   "hospital": "St. Vincent Health",
+   "doc": "policy",
+   "source_url": "https://www.stvincent.health/financial-assistance-policy",
+   "nonprofit": null,
+   "requires": [],
+   "rules": [
+    {
+     "id": "sliding_fee_discount_program",
+     "label": "Sliding Fee Discount Program",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 200.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Sliding fees are specific to all individuals and families with annual incomes at or below 200 percent of the federal poverty line."
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": []
+  },
+  "disagreements_before": [],
+  "disagreements_after": [],
+  "equivalent": true
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 4374,
+   "tokens_cached": 0,
+   "tokens_out": 1006,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.007392,
+   "orig_seconds": 2.82
+  },
+  {
+   "step": "repair (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 5386,
+   "tokens_cached": 0,
+   "tokens_out": 871,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.007999,
+   "orig_seconds": 2.96
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.59,
+   "tokens_in": 4001,
+   "tokens_cached": 0,
+   "tokens_out": 155,
+   "cost_usd": 0.00134,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.00134,
+   "orig_seconds": 1.59
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 4374,
+   "tokens_cached": 0,
+   "tokens_out": 189,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.001482,
+   "orig_seconds": 1.94
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.49,
+   "tokens_in": 3892,
+   "tokens_cached": 0,
+   "tokens_out": 51,
+   "cost_usd": 0.001213,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001213,
+   "orig_seconds": 1.49
+  }
+ ],
+ "cost_usd": 0.01943,
+ "seconds": 3.1,
+ "made": "2026-10-27"
+}

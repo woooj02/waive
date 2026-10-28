@@ -1,0 +1,354 @@
+{
+ "model": {
+  "hospital": "HCA HealthONE",
+  "doc": "policy",
+  "source_url": "https://www.healthonecares.com/patient-resources/patient-financial-resources/financial-assistance",
+  "nonprofit": false,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_full_charity",
+    "label": "Full charity discount (100%) for income 0-250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed"
+   },
+   {
+    "id": "rule_partial_charity",
+    "label": "Partial charity discount for income 251-400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe"
+   },
+   {
+    "id": "rule_uninsured_discount",
+    "label": "Uninsured discount (managed care equivalent) for self-pay patients",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures, will receive discount similar to managed care, referred to as an \"uninsured discount\""
+   },
+   {
+    "id": "rule_hdc_250_fpl",
+    "label": "Hospital Discounted Care for income at or below 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "For patients whose income is at or below 250% of the Federal Poverty Guidelines, the limits to how much the hospital can charge must follow the rules of Hospital Discounted Care"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 30,
+     "quote": "Tell you in writing 30 days before they send you to collections"
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": 36,
+   "min_monthly_usd": null,
+   "quote": "You do not owe any more money after: You make 36 monthly payments, or You pay the full discounted amount in your payment plan"
+  },
+  "notes": [
+   "Policy applies to non-elective care only; elective cosmetic procedures and facility designated self-pay flat rate procedures are excluded from uninsured discount.",
+   "Some locations may have additional criteria for charity eligibility (high medical costs, more lenient income levels). Contact hospital to verify eligibility.",
+   "Medicare beneficiaries require independent income and resource verification (PRM-I \u00a7 312); preferred documentation is most current year's Federal Tax Return, or two pieces from: State Income Tax Return, Most Recent Employer Pay Stubs, Written documentation from income sources, Copy of all bank statements for last three months, Current credit report.",
+   "Uninsured discount amount may vary by location based on state requirements, patient income levels, and local rates.",
+   "Hospital Discounted Care is a Colorado law; patients may qualify regardless of citizenship or immigration status, and even if they have health insurance.",
+   "Hospital must bill insurance before making a payment plan; must explain all services and fees in patient's preferred language before collections.",
+   "Determination within 21 days after application completion; appeal must be filed in writing within 30 days of decision date.",
+   "Patients can refuse hospital screening for public programs; if they refuse, they cannot sue for lack of discounts or screening.",
+   "Pricing information on website is strictly an estimate; final bill may differ substantially due to unforeseen complications, additional tests/procedures, non-hospital charges."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [
+    "the requirements together exclude every household",
+    "rule rule_full_charity can never apply to anyone (its clauses contradict each other or the requirements)",
+    "rule rule_partial_charity can never apply to anyone (its clauses contradict each other or the requirements)",
+    "rule rule_uninsured_discount can never apply to anyone (its clauses contradict each other or the requirements)",
+    "rule rule_hdc_250_fpl can never apply to anyone (its clauses contradict each other or the requirements)"
+   ],
+   "repaired": true,
+   "lint_after": [],
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req_non_elective",
+     "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+     "quote": "Financial relief may be available to patients who have received non-elective care",
+     "why": "Policy mentions non-elective care for charity discount but does not require it for every form of assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_no_outstanding_payer_liability",
+     "claim": "Every form of assistance requires: (not insured)",
+     "quote": "No charity discount can be applied to any account with any outstanding payer liability",
+     "why": "Quote refers to charity discount specifically, not every form of assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "The hospital must check to see if you qualify within 45 days of when you got care",
+     "why": "45-day period is for hospital to check eligibility after care, not for patient to submit application."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:1",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+     "quote": "The hospital has 45 days to see if you can get help after you ask them",
+     "why": "45-day period is for hospital to act after patient asks for help, not for patient to submit application."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_partial_charity",
+     "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+     "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe",
+     "why": "Policy states expanded financial assistance may reduce amount owed but does not specify the amount of help."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_uninsured_discount",
+     "claim": "A patient with (not insured) gets an unstated amount of help",
+     "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures, will receive discount similar to managed care, referred to as an \"uninsured discount\"",
+     "why": "Policy states uninsured patients receive a discount similar to managed care but does not specify the amount."
+    }
+   ],
+   "clauses": 6,
+   "clauses_proven": 4,
+   "unsupported": 6
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "The hospital must check to see if you qualify within 45 days of when you got care.",
+     "why": "The 45-day quote refers to hospital's eligibility check deadline, not patient's application submission deadline."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:1",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+     "quote": "Tell you in writing 30 days before they send you to collections.",
+     "why": "The 30-day quote refers to notice before collections, not patient's application submission deadline."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:r2_uninsured_discount",
+     "claim": "A patient with (not insured) gets an unstated amount of help",
+     "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures , will receive discount similar to managed care, referred to as an \"uninsured discount\".",
+     "why": "Policy promises uninsured discount but does not state the discount amount or percentage."
+    }
+   ],
+   "clauses": 2,
+   "clauses_proven": 2,
+   "unsupported": 3
+  },
+  "secondary_model": {
+   "hospital": "HCA HealthONE",
+   "doc": "policy",
+   "source_url": "https://www.healthonecares.com/patient-resources/patient-financial-resources/financial-assistance",
+   "nonprofit": false,
+   "requires": [],
+   "rules": [
+    {
+     "id": "r1_charity_full",
+     "label": "Full charity discount (0-250% FPL)",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": 100.0,
+     "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed."
+    },
+    {
+     "id": "r2_uninsured_discount",
+     "label": "Uninsured discount",
+     "when": [
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures , will receive discount similar to managed care, referred to as an \"uninsured discount\"."
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": 36,
+    "min_monthly_usd": null,
+    "quote": "You do not owe any more money after: You make 36 monthly payments, or You pay the full discounted amount in your payment plan."
+   },
+   "notes": [
+    "The policy mentions that some locations may have identified additional criteria for charity eligibility besides the Federal Poverty Levels (e.g., high medical costs, more lenient income levels).",
+    "Medicare accounts and non-Medicare inpatient accounts require supporting income verification documentation.",
+    "For Medicare beneficiaries, preferred income documentation is the most current year's Federal Tax Return; alternatives include state tax return, pay stubs, written documentation from income sources, bank statements for last three months, or current credit report.",
+    "The uninsured discount amount may vary by location based on state requirements, patient income levels, and local rates.",
+    "Patients confirmed to be uninsured are presented with an Uninsured Patient Information document at time of service and must sign and date it.",
+    "If a patient agrees to a payment plan, they may request to renegotiate it, including opportunity for a new financial assessment.",
+    "The hospital must inform patients of their rights in their preferred language.",
+    "Patients can refuse to let the hospital check for public program eligibility; if they refuse, they cannot sue the hospital for not giving discounts or not checking for helpful programs.",
+    "For insured patients, the hospital has 45 days to see if they can get help after the patient asks them.",
+    "After application, the hospital must tell the patient if they qualify within 21 days.",
+    "Patients may appeal a decision by asking in writing for a mistake check and filing the appeal within 30 days of the hospital's decision.",
+    "Before sending to collections, the biller must: explain services and fees in the patient's preferred language, bill insurance first (if applicable), and tell the patient in writing 30 days prior.",
+    "If bill is sent to collections without completing required steps, patient can file a complaint or take legal action.",
+    "Complaints may be filed with the hospital billing department, Health Care Policy and Financing, or via phone/email provided.",
+    "HealthONE Cares does not guarantee accuracy of pricing estimates on the website; final bills may differ substantially due to unforeseen complications, additional tests, non-hospital charges, etc."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 4098,
+   "tokens_cached": 0,
+   "tokens_out": 1359,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.008175,
+   "orig_seconds": 3.55
+  },
+  {
+   "step": "repair (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 5474,
+   "tokens_cached": 0,
+   "tokens_out": 1280,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.009314,
+   "orig_seconds": 3.56
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 2.46,
+   "tokens_in": 4132,
+   "tokens_cached": 0,
+   "tokens_out": 411,
+   "cost_usd": 0.00161,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.00161,
+   "orig_seconds": 2.46
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 4098,
+   "tokens_cached": 0,
+   "tokens_out": 823,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.00197,
+   "orig_seconds": 3.36
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 2.14,
+   "tokens_in": 3825,
+   "tokens_cached": 0,
+   "tokens_out": 183,
+   "cost_usd": 0.001312,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001312,
+   "orig_seconds": 2.14
+  }
+ ],
+ "cost_usd": 0.02238,
+ "seconds": 4.7,
+ "made": "2026-10-27"
+}

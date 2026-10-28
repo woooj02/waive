@@ -1,0 +1,369 @@
+{
+ "model": {
+  "hospital": "UCHealth",
+  "doc": "summary",
+  "source_url": "https://www.uchealth.org/uchealth-financial-assistance-policy-summary-2024/",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_insured_status",
+    "label": "Uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "If you do not have insurance or if you are under-insured"
+   },
+   {
+    "id": "req_care_type",
+    "label": "Emergency or medically necessary care",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "UCHealth provides financial assistance for emergency and other medically necessary care"
+   },
+   {
+    "id": "req_residency",
+    "label": "Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "for Resident of the State of Colorado"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_free_care",
+    "label": "Free care up to 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Annual family income up to 250% of the FPG: free care"
+   },
+   {
+    "id": "rule_discounted_care",
+    "label": "Discounted care 251% to 400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed"
+   },
+   {
+    "id": "rule_catastrophic",
+    "label": "Catastrophic balance discount",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income_assets",
+       "op": ">",
+       "value": 50.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Lawful presence status is not counted in determining residency status.",
+   "Amount Generally Billed (AGB) defined as the amount UCHealth generally bills patients with commercial insurance, Medicare, and Medicaid coverage.",
+   "Catastrophic balance considers 'certain other financial resources' beyond income (assets_usd).",
+   "Application methods: online, phone (855.843.3547), or in-person at listed hospital locations.",
+   "Documents available in English and Spanish.",
+   "Policy updated July 2024."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_catastrophic",
+     "claim": "A patient with (bill_pct_income_assets > 50) gets an unstated amount of help",
+     "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill",
+     "why": "Policy mentions possible discount for catastrophic balance but does not specify the amount of help."
+    }
+   ],
+   "clauses": 6,
+   "clauses_proven": 6,
+   "unsupported": 1
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req_co_resident",
+     "claim": "Every form of assistance requires: (co_resident)",
+     "quote": "if your family income is at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado.",
+     "why": "The policy limits financial assistance to Colorado residents, so residency is required."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_discounted_care",
+     "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+     "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
+     "why": "Discounted care is capped at AGB, but the exact discount percentage is not specified."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_catastrophic_balance",
+     "claim": "A patient with (bill_pct_income > 50) gets an unstated amount of help",
+     "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill.",
+     "why": "Eligibility is based on bill > 50% of income, but the discount amount is not stated."
+    }
+   ],
+   "clauses": 6,
+   "clauses_proven": 5,
+   "unsupported": 3
+  },
+  "secondary_model": {
+   "hospital": "UCHealth",
+   "doc": "summary",
+   "source_url": "https://www.uchealth.org/uchealth-financial-assistance-policy-summary-2024/",
+   "nonprofit": true,
+   "requires": [
+    {
+     "id": "req_emergency_or_medically_necessary",
+     "label": "Emergency or medically necessary care",
+     "cond": [
+      [
+       {
+        "var": "medically_necessary",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "UCHealth provides financial assistance for emergency and other medically necessary care at a discount from our normal charges"
+    },
+    {
+     "id": "req_uninsured_or_underinsured",
+     "label": "Uninsured or underinsured",
+     "cond": [
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       },
+       {
+        "var": "underinsured",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "If you do not have insurance or if you are under-insured, UCHealth provides financial assistance"
+    }
+   ],
+   "rules": [
+    {
+     "id": "rule_free_care",
+     "label": "Free care up to 250% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": 100.0,
+     "quote": "Annual family income up to 250% of the FPG: free care"
+    },
+    {
+     "id": "rule_discounted_care",
+     "label": "Discounted care between 251% and 400% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 251.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 400.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed"
+    },
+    {
+     "id": "rule_catastrophic_balance",
+     "label": "Catastrophic balance discount",
+     "when": [
+      [
+       {
+        "var": "bill_pct_income",
+        "op": ">",
+        "value": 50.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill."
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "Lawful presence status is not counted in determining residency status.",
+    "Charges Will Not Exceed Amount Generally Billed: If you are eligible to receive financial assistance under UCHealth\u2019s FAP, UCHealth will not charge you more for emergency or other medically necessary care than the amount UCHealth generally bills patients with commercial insurance, Medicare, and Medicaid coverage (\u2018Amount Generally Billed,\u2019 or \u2018AGB\u2019).",
+    "The policy mentions that additional measures may be applied for catastrophic encounters but does not specify details.",
+    "The policy does not specify a time limit for applying for financial assistance or when extraordinary collection actions may begin."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living outside Colorado, uninsured, owing $34,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living outside Colorado, uninsured, owing $34,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "One person earning $68,000 a year (426.1% of the poverty line), living outside Colorado, uninsured, owing $34,200: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living outside Colorado, uninsured, owing $34,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living outside Colorado, uninsured, owing $34,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "One person earning $68,000 a year (426.1% of the poverty line), living outside Colorado, uninsured, owing $34,200: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 2875,
+   "tokens_cached": 0,
+   "tokens_out": 818,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.005329,
+   "orig_seconds": 2.6
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.63,
+   "tokens_in": 2654,
+   "tokens_cached": 0,
+   "tokens_out": 258,
+   "cost_usd": 0.001028,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001028,
+   "orig_seconds": 1.63
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 2875,
+   "tokens_cached": 0,
+   "tokens_out": 784,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.001568,
+   "orig_seconds": 3.26
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 5.08,
+   "tokens_in": 2696,
+   "tokens_cached": 0,
+   "tokens_out": 276,
+   "cost_usd": 0.001057,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001057,
+   "orig_seconds": 5.08
+  }
+ ],
+ "cost_usd": 0.00898,
+ "seconds": 6.8,
+ "made": "2026-10-27"
+}

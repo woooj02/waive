@@ -1,0 +1,356 @@
+{
+ "model": {
+  "hospital": "San Luis Valley Health",
+  "doc": "policy",
+  "source_url": "https://www.sanluisvalleyhealth.org/documents/SLVH-Financial-Assistance-Policy-04.28.25.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req-medically-necessary",
+    "label": "Care must be medically necessary",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Financial assistance under this policy is not available for services that are not medically necessary as determined by the patient's treating provider."
+   },
+   {
+    "id": "req-colorado-resident",
+    "label": "Patient must be a Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": true,
+    "quote": "Residents of any state other than Colorado are not eligible for financial assistance without prior approval from the facility Chief Financial Officer."
+   },
+   {
+    "id": "req-us-resident",
+    "label": "Patient must be a U.S. resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": true,
+    "quote": "Residents of countries outside the United States of America are not eligible for financial assistance without prior approval from the facility Chief Financial Officer."
+   }
+  ],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 181,
+     "quote": "Extraordinary Collection Activities ECAs will not be initiated earlier than 181 days after the first billing statement is sent to the individual."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": 50.0,
+   "quote": "All payment plans should be at least $50 per month."
+  },
+  "notes": [
+   "Policy applies to all SLV Health licensed hospitals and provider-based practices listed in Addendum A and covered providers in Addendum B.",
+   "Adjusted FPL uses household size, current income, and liquid assets; standard FPL uses household size and current income.",
+   "Patient must be ineligible for Medicaid, CHP+, Colorado Indigent Care Program, or other financial assistance programs.",
+   "Medicaid patients receiving non-covered medically necessary services may be considered for financial assistance.",
+   "Insured patients with a balance may be eligible; determinations based on patient liability, not original charges.",
+   "Non-medically necessary services and procedures do not qualify.",
+   "Household composition includes adult, spouse/civil union partner, minor children, legal dependents, students over 18 dependent >50%, and others dependent >50% (tax return required).",
+   "Proof of physical address requires at least 2 of: current utility, water, trash, or rent/mortgage statement.",
+   "Income documentation for last 90 days: tax return, W-2, pay stub, complete bank statements, signed attestation, or notarized letter if no documentation.",
+   "SLV Health may use third-party electronic review for non-responsive patients (discretionary).",
+   "Incomplete FAA Form: SLV Health may suspend credit reporting, provide written notice of missing info, and give at least one written notice before adverse reporting. Deadline not earlier than last day of application period or 30 days after notice. 60 days to resubmit before ECAs; ECAs stopped during 60-day period if already started.",
+   "SLV Health provides refund if payments exceed approved financial assistance rate and copayment.",
+   "No interest accrues on account balances during payment plans.",
+   "HDC-approved applicants follow State of Colorado HDC card payment plan; others follow SLV Health guidelines.",
+   "Payment plan durations: <$500 \u226410 months; $500-$750 \u226412 months; $751-$1999 \u226418 months; $2000-$4999 \u226424 months; >$5000 \u226436 months.",
+   "Plans under $50/month or longer than guidelines require approval from Facility Patient Access Director or Facility CFO/Controller.",
+   "No collection action if patient complies with payment plan terms.",
+   "Records maintained for minimum 7 years.",
+   "Financial assistance reported annually in Community Benefit Report as cost of care using operating costs and cost-to-charge ratio.",
+   "Approval levels: Revenue Cycle oversight; required approvals via email scanned to record; no approval needed if patient meets criteria and qualifies.",
+   "Approved applicants informed of amount and responsibility; denied applicants receive denial letter with reason and contact number.",
+   "Facilities may require re-application if new income information becomes available; patients may request re-application if income reduces significantly or family status changes.",
+   "AGB percentage calculated per hospital using look-back method (Medicare FFS + private insurers), reviewed annually by 120th day after 12-month period (November 1 for SLV Health).",
+   "FAP, FAA Form, and PLS posted on website; paper copies available free in public locations and by mail.",
+   "Community notification reasonably calculated to reach those most likely to need assistance.",
+   "Patient notification: PLS at intake/discharge; conspicuous notice on billing statements with phone number and website; public displays in ER and admissions.",
+   "Interpreters/communication aids provided for limited English proficiency, deaf, or hard of hearing.",
+   "Documents translated into languages constituting lesser of 1,000 individuals or 5% of community served; reviewed annually by 120th day after 12-month period (November 1).",
+   "FAP, FAA, PLS available in English and Spanish.",
+   "SLV Health workforce in Revenue Cycle and Patient Access understand FAP and can direct questions.",
+   "Application processing: 15 days for processing, 15 days to contact patient with written determination.",
+   "Patients must cooperate to provide information/documentation for eligibility and apply for other assistance (Medicare, Medicaid, third-party liability).",
+   "HDC qualifiers must cooperate to establish payment plan per State of Colorado HDC application and make good faith efforts to honor it; must promptly notify SLV Health of financial changes.",
+   "Application methods: contact financial counselor, visit website, or log into patient portal.",
+   "Final ECA notice includes: amount due, provider name/address/phone, where payment may be made, date of service, plain language summary of financial assistance availability."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "rule",
+     "id": "rule-hdc-100",
+     "quote": "Hospital Discounted Care (HDC) 100% Discount (Free Care) - At or below 250% FPL"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-hdc-80",
+     "quote": "Hospital Discounted Care (HDC) 80% Discount - Between 251% and 300% FPL"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-hdc-60",
+     "quote": "Hospital Discounted Care (HDC) 60% Discount - Between 301% and 350% FPL"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-hdc-40",
+     "quote": "Hospital Discounted Care (HDC) 40% Discount - Between 351% and 400% FPL"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-presumptive-100",
+     "quote": "Presumptive Eligibility (PE) 100% Discount (Free Care) - Patient is enrolled in a means-tested program (SNAP, WIC, Medicaid, etc.) or is homeless"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-catastrophic-100",
+     "quote": "Catastrophic/Medical Hardship 100% Discount (Free Care) - Patient's bill exceeds 10% of annual income and FPL is at or below 400%"
+    },
+    {
+     "kind": "rule",
+     "id": "rule-agi-discount",
+     "quote": "The amounts billed for emergency and other medically necessary medical services will not be more than the AGB to individuals with insurance covering such care."
+    },
+    {
+     "kind": "application window",
+     "id": "application window",
+     "quote": "Individuals have 240 days from the date of service to submit a completed FAA Form."
+    }
+   ],
+   "clauses": 10,
+   "clauses_proven": 3,
+   "unsupported": 0
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req_in_service_area",
+     "claim": "Every form of assistance requires: (in_service_area)",
+     "quote": "This Policy applies to all SLV Health (SLV Health) licensed hospitals and provider-based practices listed in Addendum A (SLV Health Hospitals) and to the providers and practices listed in Addendum B (Covered Providers).",
+     "why": "Quote defines scope of covered providers, not a patient service-area requirement."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_hdc",
+     "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
+     "quote": "Patient must be ineligible for Medicaid, Child Health Plan+, Colorado Indigent Care Program (where applicable), or other financial assistance programs.",
+     "why": "Quote describes Medicaid ineligibility requirement, not a rule granting help based on FPL \u2264 250%."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_medicaid_spenddown",
+     "claim": "A patient with (applied_public_programs) gets an unstated amount of help",
+     "quote": "Medicaid patients who receive non-covered medically necessary services will be considered for financial assistance.",
+     "why": "Quote allows consideration for financial assistance but does not guarantee help."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_underinsured",
+     "claim": "A patient with (insured OR underinsured) gets an unstated amount of help",
+     "quote": "Insurance programs leaving a patient balance may be eligible for SLV Health financial assistance if the patient meets financial screening requirements.",
+     "why": "Quote allows consideration for insured patients with a balance but does not guarantee help."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 60 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+     "quote": "Individuals will be given 60 days to resubmit a completed form before extraordinary collection activities (ECA\u2019s) will occur.",
+     "why": "Quote refers to resubmitting incomplete forms, not initial application deadline."
+    }
+   ],
+   "clauses": 7,
+   "clauses_proven": 3,
+   "unsupported": 5
+  },
+  "secondary_model": {
+   "hospital": "SLV Health",
+   "doc": "policy",
+   "source_url": "https://www.sanluisvalleyhealth.org/documents/SLVH-Financial-Assistance-Policy-04.28.25.pdf",
+   "nonprofit": true,
+   "requires": [
+    {
+     "id": "req_co_resident",
+     "label": "Colorado resident",
+     "cond": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "Residents of any state other than Colorado are not eligible for financial assistance without prior approval from the facility Chief Financial Officer."
+    },
+    {
+     "id": "req_emergency_or_medically_necessary",
+     "label": "Emergency or medically necessary care",
+     "cond": [
+      [
+       {
+        "var": "emergency",
+        "op": "true",
+        "value": null
+       },
+       {
+        "var": "medically_necessary",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "Exception: Financial assistance under this policy is not available for services that are not medically necessary as determined by the patient\u2019s treating provider."
+    },
+    {
+     "id": "req_not_outside_us",
+     "label": "Not resident outside USA",
+     "cond": [
+      [
+       {
+        "var": "presumptive_program",
+        "op": "false",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "Residents of countries outside the United States of America are not eligible for financial assistance without prior approval from the facility Chief Financial Officer."
+    }
+   ],
+   "rules": [],
+   "timing": {
+    "application": [],
+    "eca_not_before": [
+     {
+      "anchor": "first_statement",
+      "days": 181,
+      "quote": "Extraordinary Collection Activities ECAs will not be initiated earlier than 181 days after the first billing statement is sent to the individual."
+     }
+    ],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": 36,
+    "min_monthly_usd": 50.0,
+    "quote": ">$5000 No more than 36 months\n\n3. All payment plans should be at least $50 per month."
+   },
+   "notes": [
+    "The policy references Hospital Discounted Care (HDC) program governed by the State of Colorado, which determines payment plans for approved applicants.",
+    "AGB (Amounts Generally Billed) is calculated separately for each hospital and specified in Addendum A.",
+    "The policy requires cooperation with information gathering and assessment process for eligibility determination.",
+    "SLV Health will make financial assistance eligibility determinations and the process of applying for financial assistance equitable, consistent, and timely. SLV Health will allow 15 days for processing of the application and 15 days to contact the patient with the determination in writing.",
+    "The policy does not specify income thresholds for free or discounted care beyond HDC (<=250% FPL); other assistance is based on financial screening requirements.",
+    "The policy does not state a specific discount percentage for financial assistance; amounts are based on patient liability after insurance, not original charges.",
+    "The policy does not explicitly define 'underinsured' but uses the term in context of insurance leaving a patient balance."
+   ]
+  },
+  "disagreements_before": [],
+  "disagreements_after": [],
+  "equivalent": true
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 7035,
+   "tokens_cached": 0,
+   "tokens_out": 2536,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.014643,
+   "orig_seconds": 6.83
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.81,
+   "tokens_in": 6717,
+   "tokens_cached": 0,
+   "tokens_out": 193,
+   "cost_usd": 0.002189,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.002189,
+   "orig_seconds": 1.81
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 7035,
+   "tokens_cached": 0,
+   "tokens_out": 1041,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.003047,
+   "orig_seconds": 4.24
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 2.55,
+   "tokens_in": 7035,
+   "tokens_cached": 0,
+   "tokens_out": 375,
+   "cost_usd": 0.002448,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.002448,
+   "orig_seconds": 2.55
+  }
+ ],
+ "cost_usd": 0.02233,
+ "seconds": 4.4,
+ "made": "2026-10-27"
+}

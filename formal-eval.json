@@ -1,0 +1,2837 @@
+{
+ "run": "2026-10-27",
+ "references": [
+  "childrens-colorado",
+  "healthone",
+  "intermountain",
+  "uchealth",
+  "uchealth-summary"
+ ],
+ "summary": {
+  "nano": {
+   "label": "Nemotron 3 Nano",
+   "docs": 5,
+   "equivalent": 0,
+   "findings_match_pct": 70,
+   "quotes_proven_pct": 28,
+   "cost_per_doc": 0.00351,
+   "seconds_per_doc": 22.8
+  },
+  "super": {
+   "label": "Nemotron 3 Super",
+   "docs": 5,
+   "equivalent": 0,
+   "findings_match_pct": 86,
+   "quotes_proven_pct": 71,
+   "cost_per_doc": 0.00694,
+   "seconds_per_doc": 12.0
+  },
+  "ultra": {
+   "label": "Nemotron 3 Ultra",
+   "docs": 5,
+   "equivalent": 0,
+   "findings_match_pct": 88,
+   "quotes_proven_pct": 62,
+   "cost_per_doc": 0.015,
+   "seconds_per_doc": 9.8
+  },
+  "repair": {
+   "label": "Ultra + Super + Z3 counterexample repair",
+   "docs": 5,
+   "equivalent": 0,
+   "findings_match_pct": 76,
+   "quotes_proven_pct": 48,
+   "cost_per_doc": 0.06274,
+   "seconds_per_doc": 65.3,
+   "note": "run with an earlier version of the meaning check"
+  },
+  "two_models": {
+   "label": "Ultra + Super, verdicts confirmed when both agree",
+   "confirmed_share_pct": 86,
+   "confirmed_match_pct": 93,
+   "disputed_match_pct": 57,
+   "cost_per_doc": 0.02193
+  }
+ },
+ "rows": [
+  {
+   "model": "nano",
+   "doc": "childrens-colorado",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the nano model gives help (amount not stated), the reference gives 35% off.",
+    "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the nano model gives no help, the reference gives help (amount not stated).",
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after non-emergency care: the nano model gives help (amount not stated), the reference gives no help.",
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after non-emergency care: the nano model gives no help, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "5/10",
+   "findings_match_pct": 50,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "proved"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "counterexample"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "proved"
+    ],
+    "fed_window_240": [
+     "not_stated"
+    ],
+    "fed_eca_120": [
+     "proved"
+    ],
+    "monotone": [
+     "proved"
+    ]
+   },
+   "quotes_proven_pct": 33,
+   "cost_usd": 0.00432,
+   "seconds": 31.1,
+   "report": {
+    "model": "nano",
+    "lint": [
+     "rule self_pay_discount can never apply to anyone (its clauses contradict each other or the requirements)"
+    ],
+    "repaired": true,
+    "lint_after": [
+     "rule self_pay_discount can never apply to anyone (its clauses contradict each other or the requirements)"
+    ],
+    "dropped": [
+     {
+      "kind": "unsupported",
+      "id": "req:service_area",
+      "claim": "Every form of assistance requires: (in_service_area)",
+      "quote": "HDC and CICP applicants must be residents of Colorado.",
+      "why": "The policy requires Colorado residency but does not require living in the hospital's service area."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:emergency_or_medically_necessary",
+      "claim": "Every form of assistance requires: (medically_necessary)",
+      "quote": "CHCO will not deny discounted care on the basis that a patient has not applied for public benefits.",
+      "why": "The quote is about not denying care for lack of public benefit application, not requiring emergency or medically necessary care for assistance."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:inpatient_251_to_400_fpl",
+      "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets 100% off",
+      "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines, with the level of discount for which an individual is eligible for, determined on a sliding fee scale, based upon the individual\u2019s rating, or family Income as a percentage of FPL. CHCO provides additional limited financial assistance for Inpatient Services only for individuals 251% to 400% FPG.",
+      "why": "The policy provides limited financial assistance for inpatient services 251%-400% FPL, not 100% off."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:self_pay_discount",
+      "claim": "A patient with (not insured) AND (underinsured) gets 35% off",
+      "quote": "At the time of billing, if the patient does not have HDC, a standard 35% discount will be applied to all self-pay balances.",
+      "why": "The 35% discount applies to self-pay patients without HDC, not specifically to those who are uninsured and underinsured."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:0",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+      "quote": "CHCO Financial Counselors will attempt to complete the screening process within 45 days from the date of service or date of discharge, whichever is later.",
+      "why": "The 45-day deadline is for the hospital to complete screening, not for the patient to submit an application."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:qualified_patient_250_fpl",
+      "claim": "A patient with (fpl_pct <= 250) gets 100% off",
+      "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines.",
+      "why": "The policy states HDC is available up to 250% FPL but does not specify 100% off; discount is on a sliding scale."
+     }
+    ],
+    "clauses": 6,
+    "clauses_proven": 2,
+    "unsupported": 6
+   }
+  },
+  {
+   "model": "nano",
+   "doc": "healthone",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the nano model gives 100% off, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "8/10",
+   "findings_match_pct": 80,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "proved"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "counterexample"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "counterexample"
+    ],
+    "fed_window_240": [
+     "n/a"
+    ],
+    "fed_eca_120": [
+     "n/a"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 40,
+   "cost_usd": 0.002,
+   "seconds": 14.1,
+   "report": {
+    "model": "nano",
+    "lint": [],
+    "repaired": false,
+    "dropped": [
+     {
+      "kind": "unsupported",
+      "id": "req:residency",
+      "claim": "Every form of assistance requires: (co_resident)",
+      "quote": "You may qualify even if you: Are not a citizen. Are an immigrant. Have health insurance.",
+      "why": "Policy explicitly states qualification regardless of citizenship/immigration status, so Colorado residency is not required."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:service_area",
+      "claim": "Every form of assistance requires: (in_service_area)",
+      "quote": "You may qualify even if you: Are not a citizen. Are an immigrant. Have health insurance.",
+      "why": "No mention of service area as a requirement; policy focuses on income and care type, not geographic service limits."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:care_type",
+      "claim": "Every form of assistance requires: (medically_necessary)",
+      "quote": "You may qualify even if you: Are not a citizen. Are an immigrant. Have health insurance.",
+      "why": "Policy references non-elective care but does not require medically_necessary for all assistance; charity discount applies to non-elective care, but HDC may have separate rules."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:0",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+      "quote": "The hospital must check to see if you qualify within 45 days of when you got care.",
+      "why": "The 45-day deadline is for the hospital to check eligibility, not for the patient to submit an application."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:partial_charity",
+      "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets 50% off",
+      "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe.",
+      "why": "Policy mentions expanded assistance for 251-400% FPL but does not specify 50% off; amount is not stated."
+     }
+    ],
+    "clauses": 5,
+    "clauses_proven": 2,
+    "unsupported": 5
+   }
+  },
+  {
+   "model": "nano",
+   "doc": "intermountain",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the nano model gives no help, the reference gives 100% off.",
+    "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the nano model gives no help, the reference gives help (amount not stated).",
+    "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $34,250: the nano model gives no help, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "8/10",
+   "findings_match_pct": 80,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "not_stated"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "not_stated"
+    ],
+    "fed_eca_120": [
+     "not_stated"
+    ],
+    "monotone": [
+     "proved"
+    ]
+   },
+   "quotes_proven_pct": 0,
+   "cost_usd": 0.00494,
+   "seconds": 27.5,
+   "report": {
+    "model": "nano",
+    "lint": [
+     "rule fully_discounted_care can never apply to anyone (its clauses contradict each other or the requirements)",
+     "rule discounted_care can never apply to anyone (its clauses contradict each other or the requirements)"
+    ],
+    "repaired": true,
+    "lint_after": [
+     "rule fully_discounted_care can never apply to anyone (its clauses contradict each other or the requirements)",
+     "rule discounted_care can never apply to anyone (its clauses contradict each other or the requirements)"
+    ],
+    "dropped": [
+     {
+      "kind": "rule",
+      "id": "medical_hardship",
+      "quote": "financial obligations resulting from medical services provided by Intermountain Health exceed 25% of annual family income"
+     },
+     {
+      "kind": "collection timing",
+      "id": "collection timing",
+      "quote": "extraordinary collection actions will not be pursued without first making reasonable efforts"
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:residency",
+      "claim": "Every form of assistance requires: (co_resident)",
+      "quote": "reside within one of Intermountain Health\u2019s service areas",
+      "why": "Residency is not required for emergency care."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:service_area",
+      "claim": "Every form of assistance requires: (in_service_area)",
+      "quote": "reside within one of Intermountain Health\u2019s service areas",
+      "why": "Service area is not required for emergency care."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:emergency_care",
+      "claim": "Every form of assistance requires: (emergency)",
+      "quote": "care of emergency medical conditions to individuals regardless of their ability to pay",
+      "why": "Emergency care is not required for all assistance; it is explicitly excluded as a requirement for non-emergent services."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:medically_necessary",
+      "claim": "Every form of assistance requires: (medically_necessary)",
+      "quote": "care of emergency medical conditions to individuals regardless of their ability to pay",
+      "why": "Medically necessary care is not required for all forms of assistance; the policy provides emergency care regardless of ability to pay, and financial assistance is based on financial need for medically necessary services, but not every form of assistance requires it."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:fully_discounted_care",
+      "claim": "A patient with (not insured) AND (underinsured) AND (fpl_pct <= 250) AND (bill_pct_income <= 100) gets 100% off",
+      "quote": "annual family incomes not in excess of 250% of the Federal Poverty Guidelines",
+      "why": "The policy does not state that bill_pct_income <= 100 is a requirement for fully discounted care; it only specifies income <= 250% FPL and exhaustion of other payment options."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:discounted_care",
+      "claim": "A patient with (not insured) AND (underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 500) AND (bill_pct_income <= 100) gets 100% off",
+      "quote": "annualized family incomes in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines",
+      "why": "The policy does not state that bill_pct_income <= 100 is a requirement for discounted care; it only specifies income between 251% and 500% FPL and exhaustion of other payment options."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:0",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the date of service (alone, or as one of several 'the later of' options)",
+      "quote": "within a reasonable timeframe",
+      "why": "The policy does not specify a deadline for submitting a financial assistance application; 'within a reasonable timeframe' refers to notification, not application submission."
+     }
+    ],
+    "clauses": 7,
+    "clauses_proven": 0,
+    "unsupported": 7
+   }
+  },
+  {
+   "model": "nano",
+   "doc": "uchealth",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the nano model gives no help, the reference gives 100% off.",
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000: the nano model gives no help, the reference gives help (amount not stated).",
+    "One person earning $68,000 a year (426.1% of the poverty line), living outside Colorado, uninsured, owing $34,000, enrolled in SNAP, WIC or a similar program (or homeless): the nano model gives 100% off, the reference gives no help.",
+    "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, owing $34,200: the nano model gives no help, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "6/10",
+   "findings_match_pct": 60,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "not_stated"
+    ],
+    "co_window_181": [
+     "proved"
+    ],
+    "co_window_insured": [
+     "proved"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "proved"
+    ],
+    "fed_eca_120": [
+     "not_stated"
+    ],
+    "monotone": [
+     "proved"
+    ]
+   },
+   "quotes_proven_pct": 29,
+   "cost_usd": 0.00404,
+   "seconds": 16.2,
+   "report": {
+    "model": "nano",
+    "lint": [],
+    "repaired": false,
+    "dropped": [
+     {
+      "kind": "rule",
+      "id": "income_below_400pct_fpl",
+      "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines."
+     },
+     {
+      "kind": "rule",
+      "id": "catastrophic_balance",
+      "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts is greater than 50% of the Patient's total annual Family Income and Financial Resources combined."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:residency",
+      "claim": "Every form of assistance requires: (co_resident)",
+      "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance.",
+      "why": "The policy allows discretionary exceptions to residency for unscheduled emergency services, so it is not required for every form of assistance."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:service_area",
+      "claim": "Every form of assistance requires: (in_service_area)",
+      "quote": "UCHealth is committed to providing access to quality healthcare for the Residents of the State of Colorado including patients in difficult financial circumstances",
+      "why": "The quote is about commitment to Colorado residents, not a requirement to be in the hospital's service area for assistance."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:no_public_programs_required",
+      "claim": "Every form of assistance requires: (not applied_public_programs) (the hospital MAY deny otherwise)",
+      "quote": "UCHealth does not deny discounted care on the basis the patient has not applied for any public benefits program",
+      "why": "The quote states the hospital does NOT deny care based on lack of public program application, which is a prohibition, not a requirement to apply."
+     },
+     {
+      "kind": "unsupported",
+      "id": "eca:0",
+      "claim": "The policy promises no extraordinary collection action before 30 days after the first post-discharge bill",
+      "quote": "no sooner than 30 days after the date the written notice is provided",
+      "why": "The policy states ECAs may not be initiated sooner than 30 days after a written notice is provided, not 30 days after the first post-discharge bill."
+     }
+    ],
+    "clauses": 7,
+    "clauses_proven": 2,
+    "unsupported": 4
+   }
+  },
+  {
+   "model": "nano",
+   "doc": "uchealth-summary",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the nano model gives help (amount not stated), the reference gives no help.",
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the nano model gives 100% off, the reference gives no help.",
+    "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $55,000, after elective care: the nano model gives help (amount not stated), the reference gives no help."
+   ],
+   "findings_match": "8/10",
+   "findings_match_pct": 80,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "proved"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "not_stated"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "not_stated"
+    ],
+    "fed_eca_120": [
+     "not_stated"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 38,
+   "cost_usd": 0.00224,
+   "seconds": 25.2,
+   "report": {
+    "model": "nano",
+    "lint": [
+     "the requirements together exclude every household",
+     "rule free_care can never apply to anyone (its clauses contradict each other or the requirements)",
+     "rule discounted_care can never apply to anyone (its clauses contradict each other or the requirements)",
+     "rule catastrophic_discount can never apply to anyone (its clauses contradict each other or the requirements)"
+    ],
+    "repaired": true,
+    "lint_after": [
+     "the requirements together exclude every household",
+     "rule free_care can never apply to anyone (its clauses contradict each other or the requirements)",
+     "rule discounted_care can never apply to anyone (its clauses contradict each other or the requirements)",
+     "rule catastrophic_discount can never apply to anyone (its clauses contradict each other or the requirements)"
+    ],
+    "dropped": [
+     {
+      "kind": "application window",
+      "id": "application window",
+      "quote": "the later of"
+     },
+     {
+      "kind": "collection timing",
+      "id": "collection timing",
+      "quote": "extraordinary collection actions"
+     },
+     {
+      "kind": "payment plan",
+      "id": "payment_plan",
+      "quote": "null"
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:residency",
+      "claim": "Every form of assistance requires: (co_resident) AND (in_service_area)",
+      "quote": "if your family income is at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado",
+      "why": "Policy limits assistance to Colorado residents but does not require living in the hospital's service area."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:emergency_care",
+      "claim": "Every form of assistance requires: (medically_necessary)",
+      "quote": "provides financial assistance for emergency and other medically necessary care",
+      "why": "Assistance is provided for emergency and other medically necessary care, so medically_necessary alone is insufficient\u2014uninsured/underinsured also required."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:income_band_250",
+      "claim": "Every form of assistance requires: (fpl_pct <= 250)",
+      "quote": "Annual family income up to 250% of the FPG: free care",
+      "why": "Free care applies only to income \u2264250% FPL, but not every form of assistance (e.g., discounted care) requires this band."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:income_band_251_to_400",
+      "claim": "Every form of assistance requires: (fpl_pct >= 251) AND (fpl_pct <= 400)",
+      "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
+      "why": "Discounted care applies to income 251%-400% FPL, but not every form of assistance (e.g., free care) requires this band."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:catastrophic_balance",
+      "claim": "Every form of assistance requires: (bill_pct_income > 50) (the hospital MAY deny otherwise)",
+      "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill",
+      "why": "Catastrophic balance discount is optional ('may be eligible'), not a requirement for all assistance."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:discounted_care",
+      "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+      "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
+      "why": "Policy specifies discounted care equal to or less than AGB but does not state the exact discount percentage."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:catastrophic_discount",
+      "claim": "A patient with (bill_pct_income > 50) gets an unstated amount of help",
+      "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill",
+      "why": "Policy states eligibility for discount based on catastrophic balance but does not specify the discount amount."
+     }
+    ],
+    "clauses": 8,
+    "clauses_proven": 3,
+    "unsupported": 7
+   }
+  },
+  {
+   "model": "super",
+   "doc": "childrens-colorado",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000: the super model gives no help, the reference gives 35% off.",
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after non-emergency care: the super model gives 35% off, the reference gives no help.",
+    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, outside the hospital's service area, under-insured, owing $10,000, after non-emergency care: the super model gives no help, the reference gives help (amount not stated).",
+    "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, under-insured, owing $10,000, after elective care: the super model gives no help, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "7/10",
+   "findings_match_pct": 70,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "counterexample"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "proved"
+    ],
+    "fed_window_240": [
+     "not_stated"
+    ],
+    "fed_eca_120": [
+     "proved"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 100,
+   "cost_usd": 0.00977,
+   "seconds": 14.8,
+   "report": {
+    "model": "super",
+    "lint": [
+     "req_no_discount_for_no_public_benefits_application: has no conditions; remove it or give its conditions"
+    ],
+    "repaired": true,
+    "lint_after": [],
+    "dropped": [
+     {
+      "kind": "unsupported",
+      "id": "app:0",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the date of service (alone, or as one of several 'the later of' options)",
+      "quote": "The patient/guardian will be asked to complete the Colorado State Uniform Application, and submit all required documentation, within 45 days.",
+      "why": "Quote refers to 45-day deadline to submit application after request, not 365 days from service."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:1",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+      "quote": "The patient/guardian will be asked to complete the Colorado State Uniform Application, and submit all required documentation, within 45 days.",
+      "why": "Quote refers to 45-day deadline to submit application after request, not 365 days from first bill."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule_hdc_free_to_250_fpl",
+      "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets 100% off",
+      "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less)",
+      "why": "Policy states sliding scale discount, not necessarily 100% off for all <=250% FPL."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule_cicp",
+      "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets an unstated amount of help",
+      "quote": "CICP and CHCO\u2019s HDC programs are not insurance coverage, but rather discounted care programs for patients who are Uninsured or Underinsured and have demonstrated financial need.",
+      "why": "Policy describes CICP as discounted care for uninsured/underinsured with financial need but does not specify amount."
+     }
+    ],
+    "clauses": 8,
+    "clauses_proven": 8,
+    "unsupported": 4
+   }
+  },
+  {
+   "model": "super",
+   "doc": "healthone",
+   "equivalent": false,
+   "differences": [
+    "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, owing $10,000: the super model gives help (amount not stated), the reference gives no help.",
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the super model gives no help, the reference gives help (amount not stated).",
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after elective care: the super model gives 100% off, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "8/10",
+   "findings_match_pct": 80,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "proved"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "not_stated"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "proved"
+    ],
+    "fed_window_240": [
+     "n/a"
+    ],
+    "fed_eca_120": [
+     "n/a"
+    ],
+    "monotone": [
+     "proved"
+    ]
+   },
+   "quotes_proven_pct": 100,
+   "cost_usd": 0.00328,
+   "seconds": 5.5,
+   "report": {
+    "model": "super",
+    "lint": [],
+    "repaired": false,
+    "dropped": [
+     {
+      "kind": "unsupported",
+      "id": "app:0",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+      "quote": "The hospital must check to see if you qualify within 45 days of when you got care.",
+      "why": "The 45-day quote refers to hospital's eligibility check deadline, not patient's application submission deadline."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:1",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+      "quote": "Tell you in writing 30 days before they send you to collections.",
+      "why": "The 30-day quote refers to notice before collections, not patient's application submission deadline."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:r2_uninsured_discount",
+      "claim": "A patient with (not insured) gets an unstated amount of help",
+      "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures , will receive discount similar to managed care, referred to as an \"uninsured discount\".",
+      "why": "Policy promises uninsured discount but does not state the discount amount or percentage."
+     }
+    ],
+    "clauses": 2,
+    "clauses_proven": 2,
+    "unsupported": 3
+   }
+  },
+  {
+   "model": "super",
+   "doc": "intermountain",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the super model gives help (amount not stated), the reference gives no help.",
+    "A household of 4 earning $137,000 a year (415.1% of the poverty line), living in Colorado, under-insured, owing $34,000, who hasn't applied for Medicaid: the super model gives help (amount not stated), the reference gives no help.",
+    "A household of 8 earning $137,000 a year (245.9% of the poverty line), living in Colorado, under-insured, owing $34,000, who hasn't applied for Medicaid: the super model gives 100% off, the reference gives no help.",
+    "A household of 7 earning $137,000 a year (273.8% of the poverty line), living in Colorado, under-insured, owing $34,000, after elective care: the super model gives no help, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "9/10",
+   "findings_match_pct": 90,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "not_stated"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "not_stated"
+    ],
+    "fed_eca_120": [
+     "not_stated"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 44,
+   "cost_usd": 0.01115,
+   "seconds": 14.9,
+   "report": {
+    "model": "super",
+    "lint": [
+     "req_financial_need_basis: has no conditions; remove it or give its conditions",
+     "rule_discounted_care: the clause fpl_pct >= 251.0 OR fpl_pct <= 500.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+    ],
+    "repaired": true,
+    "lint_after": [],
+    "dropped": [
+     {
+      "kind": "rule",
+      "id": "rule_medical_hardship",
+      "quote": "Patient, or patient\u2019s Guarantor, has annual family income in excess of 500% of the Federal Poverty Guidelines ... The out-of-pocket, patient obligations resulting from medical services provided by Intermountain Health providers exceed 25% of annual family income."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_emergency_care_access",
+      "claim": "Every form of assistance requires: (emergency)",
+      "quote": "Intermountain Health will provide, without discrimination, care of emergency medical conditions to individuals regardless of their ability to pay or their eligibility for financial assistance or for government assistance.",
+      "why": "Quote discusses emergency care provision, not a requirement for receiving financial assistance."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_cooperation_applying_for_assistance",
+      "claim": "Every form of assistance requires: (applied_public_programs)",
+      "quote": "They will also contribute to the cost of their care according to their ability to pay. Individuals with the financial capacity to purchase health insurance shall be encouraged to do so, as a means of assuring access to health care services, for their overall personal health. Access to insurance or Medicaid coverage has extended significantly through the federal and state Health Exchanges. It is expected that any uninsured patient cooperate with Intermountain Health in determining the availability of Medicaid or insurance coverage.",
+      "why": "Cooperation expectation is not a requirement for every form of assistance per policy definition."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_financial_need_basis",
+      "claim": "Every form of assistance requires: (medically_necessary)",
+      "quote": "Financial Assistance shall be based on financial need and shall not consider race, ethnicity, religion, creed, gender, age, social or immigration status, sexual orientation, or insurance status.",
+      "why": "Financial need basis is a principle, not a condition requiring medically_necessary for all assistance."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_emtla_no_screening",
+      "claim": "Every form of assistance requires: (emergency)",
+      "quote": "In accordance with FEDERAL EMERGENCY MEDICAL TREATMENT AND LABOR ACT (EMTLA) regulations, no patient shall be screened for financial assistance or payment information prior to the rendering of services in emergency situations.",
+      "why": "EMTLA provision prohibits screening in emergencies, not a condition for receiving assistance."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:0",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the date of service (alone, or as one of several 'the later of' options)",
+      "quote": "If eligibility is approved, the patient will be granted Financial Assistance for a period of twelve months.",
+      "why": "Twelve-month assistance period \u2260 application submission deadline; no 365-day application window stated."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:1",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+      "quote": "A Financial Assistance application will need to be re-submitted if more than six months has transpired since initial denial.",
+      "why": "Six-month reapplication after denial \u2260 initial application deadline; no 180-day window from first bill stated."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule_discounted_care",
+      "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 500) AND (medically_necessary) gets an unstated amount of help",
+      "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines,",
+      "why": "Policy specifies discounted care for 251-500% FPL but does not state the discount amount in the quote or rule."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule_uninsured_discount",
+      "claim": "A patient with (not insured) AND (medically_necessary) gets an unstated amount of help",
+      "quote": "Patients ineligible for financial assistance and having no third-party coverage for Medically Necessary services provided by Intermountain Health will be considered for a discount as covered by the Intermountain Health Patient Discount Policy.",
+      "why": "Policy mentions consideration for discount but does not specify amount; refers to separate Patient Discount Policy."
+     }
+    ],
+    "clauses": 9,
+    "clauses_proven": 4,
+    "unsupported": 8
+   }
+  },
+  {
+   "model": "super",
+   "doc": "uchealth",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the super model gives no help, the reference gives 100% off.",
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the super model gives help (amount not stated), the reference gives 100% off.",
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the super model gives help (amount not stated), the reference gives no help.",
+    "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, owing $34,200, after elective care: the super model gives help (amount not stated), the reference gives no help."
+   ],
+   "findings_match": "10/10",
+   "findings_match_pct": 100,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "counterexample"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "proved"
+    ],
+    "co_window_181": [
+     "proved"
+    ],
+    "co_window_insured": [
+     "proved"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "proved"
+    ],
+    "fed_eca_120": [
+     "proved"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 29,
+   "cost_usd": 0.00787,
+   "seconds": 16.5,
+   "report": {
+    "model": "super",
+    "lint": [],
+    "repaired": false,
+    "dropped": [
+     {
+      "kind": "unsupported",
+      "id": "req:req_co_resident",
+      "claim": "Every form of assistance requires: (co_resident)",
+      "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance.",
+      "why": "Residency is not required for emergency services due to discretionary exception."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_emergency_or_medically_necessary",
+      "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+      "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services.",
+      "why": "Intro language limits scope; not a universal requirement for all assistance."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_uninsured_or_underinsured_for_fap",
+      "claim": "Every form of assistance requires: (not insured OR underinsured)",
+      "quote": "This policy serves to establish and ensure a fair and consistent method for Uninsured and Under-insured Patients to apply and be considered for Financial Assistance.",
+      "why": "Describes policy purpose, not a requirement for all assistance (catastrophic/presumptive may not require)."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:rule_presumptive_eligibility",
+      "claim": "A patient with (presumptive_program) gets 100% off",
+      "quote": "Presumptive eligibility for Financial Assistance may be granted for circumstances outlined in the Presumptive Eligibility section of this policy.",
+      "why": "Quote only references section; does not state that presumptive_program triggers eligibility."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:rule_fap_up_to_250_fpl",
+      "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets 100% off",
+      "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines.",
+      "why": "Quote uses 400% FPL, not 250%; incorrect threshold."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:1",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the date of service (alone, or as one of several 'the later of' options)",
+      "quote": "Applicants have the later of (a) 365 days from the date of the first post-discharge Billing Statement, or (b) 30 days after notice of the initiation of one or more Extraordinary Collection Actions (\"ECA\") has been provided, to submit an application or to request a reconsideration of an incomplete and denied application",
+      "why": "Policy does not mention 30 days after date of service as an option for application deadline."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule_catastrophic_balance",
+      "claim": "A patient with (bill_pct_income_assets > 50) gets an unstated amount of help",
+      "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined.",
+      "why": "Quote correctly identifies condition but policy does not specify discount amount."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule_fap_251_to_400_fpl",
+      "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+      "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines.",
+      "why": "Quote uses 400% FPL cap but omits 251% floor; policy does not specify discount amount."
+     }
+    ],
+    "clauses": 7,
+    "clauses_proven": 2,
+    "unsupported": 8
+   }
+  },
+  {
+   "model": "super",
+   "doc": "uchealth-summary",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $14,000: the super model gives no help, the reference gives help (amount not stated).",
+    "A household of 3 earning $109,000 a year (399.0% of the poverty line), living outside Colorado, uninsured: the super model gives help (amount not stated), the reference gives no help.",
+    "A household of 6 earning $109,000 a year (245.7% of the poverty line), living outside Colorado, uninsured: the super model gives 100% off, the reference gives no help.",
+    "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, with $1,000 in savings, owing $55,000: the super model gives help (amount not stated), the reference gives no help."
+   ],
+   "findings_match": "9/10",
+   "findings_match_pct": 90,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "not_stated"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "not_stated"
+    ],
+    "fed_eca_120": [
+     "not_stated"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 83,
+   "cost_usd": 0.00262,
+   "seconds": 8.3,
+   "report": {
+    "model": "super",
+    "lint": [],
+    "repaired": false,
+    "dropped": [
+     {
+      "kind": "unsupported",
+      "id": "req:req_co_resident",
+      "claim": "Every form of assistance requires: (co_resident)",
+      "quote": "if your family income is at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado.",
+      "why": "The policy limits financial assistance to Colorado residents, so residency is required."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule_discounted_care",
+      "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+      "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
+      "why": "Discounted care is capped at AGB, but the exact discount percentage is not specified."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule_catastrophic_balance",
+      "claim": "A patient with (bill_pct_income > 50) gets an unstated amount of help",
+      "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill.",
+      "why": "Eligibility is based on bill > 50% of income, but the discount amount is not stated."
+     }
+    ],
+    "clauses": 6,
+    "clauses_proven": 5,
+    "unsupported": 3
+   }
+  },
+  {
+   "model": "ultra",
+   "doc": "childrens-colorado",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, under-insured, owing $10,000, after non-emergency care: the ultra model gives no help, the reference gives help (amount not stated).",
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after non-emergency care: the ultra model gives no help, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "10/10",
+   "findings_match_pct": 100,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "counterexample"
+    ],
+    "co_window_181": [
+     "proved"
+    ],
+    "co_window_insured": [
+     "counterexample"
+    ],
+    "co_plan_4pct": [
+     "proved"
+    ],
+    "fed_window_240": [
+     "counterexample"
+    ],
+    "fed_eca_120": [
+     "proved"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 38,
+   "cost_usd": 0.0181,
+   "seconds": 9.9,
+   "report": {
+    "model": "ultra",
+    "lint": [],
+    "repaired": false,
+    "dropped": [
+     {
+      "kind": "rule",
+      "id": "rule-cicp",
+      "quote": "Colorado Indigent Care Program (CICP) ... allows participating providers, like CHCO, to render discounted services to patients who are Colorado residents with limited financial resources who are uninsured or underinsured and not eligible for benefits under the Medicaid Program or the Children's Basic Health Plan."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req-residency",
+      "claim": "Every form of assistance requires: (co_resident)",
+      "quote": "HDC and CICP applicants must be residents of Colorado.",
+      "why": "Residency is required only for HDC and CICP, not for every form of assistance (e.g., emergency assistance to international individuals)."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req-care-type",
+      "claim": "Every form of assistance requires: (medically_necessary)",
+      "quote": "HDC is available only to Qualified Patients residing in Colorado and only for Emergency and Medically Necessary care.",
+      "why": "Emergency and medically necessary care is required only for HDC, not for every form of assistance (e.g., self-pay discount applies regardless of care type)."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req-uninsured-underinsured",
+      "claim": "Every form of assistance requires: (not insured OR underinsured)",
+      "quote": "CICP and CHCO's HDC programs are not insurance coverage, but rather discounted care programs for patients who are Uninsured or Underinsured and have demonstrated financial need.",
+      "why": "Being uninsured or underinsured applies to HDC and CICP, but not to every form of assistance (e.g., emergency assistance to international individuals may not require this)."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:rule-hdc-0-250",
+      "claim": "A patient with (fpl_pct <= 250) AND (not insured OR underinsured) AND (co_resident) AND (medically_necessary) gets 100% off",
+      "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less), with the level of discount for which an individual is eligible for, determined on a sliding fee scale, based upon the individual's rating, or family Income as a percentage of FPL.",
+      "why": "The policy states HDC discount is determined on a sliding fee scale based on income as % of FPL, not that 100% off is guaranteed for all at or below 250% FPL."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:1",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 181 days after the date of service (alone, or as one of several 'the later of' options)",
+      "quote": "CICP may be backdated up to 181 days.",
+      "why": "The 181-day period applies to backdating CICP eligibility, not to the deadline for submitting a financial-assistance application."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule-hdc-251-400-inpatient",
+      "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) AND (not insured OR underinsured) AND (co_resident) AND (inpatient) AND (medically_necessary) gets an unstated amount of help",
+      "quote": "CHCO provides additional limited financial assistance for Inpatient Services only for individuals 251% to 400% FPG.",
+      "why": "The policy states limited financial assistance for inpatient services for 251%-400% FPL, but does not specify the amount, so who qualifies is right but amount is not stated."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule-emergency-international",
+      "claim": "A patient with (emergency) gets an unstated amount of help",
+      "quote": "CHCO does offer some limited financial assistance for Emergency medical services to all patients, including International Individuals.",
+      "why": "The policy states CHCO offers limited financial assistance for emergency medical services to all patients, including international individuals, but does not specify the amount."
+     }
+    ],
+    "clauses": 8,
+    "clauses_proven": 3,
+    "unsupported": 7
+   }
+  },
+  {
+   "model": "ultra",
+   "doc": "healthone",
+   "equivalent": false,
+   "differences": [
+    "One person earning $69,000 a year (432.3% of the poverty line), living in Colorado, uninsured, owing $10,000: the ultra model gives help (amount not stated), the reference gives no help.",
+    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after elective care: the ultra model gives 100% off, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "8/10",
+   "findings_match_pct": 80,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "proved"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "counterexample"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "proved"
+    ],
+    "fed_window_240": [
+     "n/a"
+    ],
+    "fed_eca_120": [
+     "n/a"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 67,
+   "cost_usd": 0.0191,
+   "seconds": 9.6,
+   "report": {
+    "model": "ultra",
+    "lint": [
+     "the requirements together exclude every household",
+     "rule rule_full_charity can never apply to anyone (its clauses contradict each other or the requirements)",
+     "rule rule_partial_charity can never apply to anyone (its clauses contradict each other or the requirements)",
+     "rule rule_uninsured_discount can never apply to anyone (its clauses contradict each other or the requirements)",
+     "rule rule_hdc_250_fpl can never apply to anyone (its clauses contradict each other or the requirements)"
+    ],
+    "repaired": true,
+    "lint_after": [],
+    "dropped": [
+     {
+      "kind": "unsupported",
+      "id": "req:req_non_elective",
+      "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+      "quote": "Financial relief may be available to patients who have received non-elective care",
+      "why": "Policy mentions non-elective care for charity discount but does not require it for every form of assistance."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_no_outstanding_payer_liability",
+      "claim": "Every form of assistance requires: (not insured)",
+      "quote": "No charity discount can be applied to any account with any outstanding payer liability",
+      "why": "Quote refers to charity discount specifically, not every form of assistance."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:0",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+      "quote": "The hospital must check to see if you qualify within 45 days of when you got care",
+      "why": "45-day period is for hospital to check eligibility after care, not for patient to submit application."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:1",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+      "quote": "The hospital has 45 days to see if you can get help after you ask them",
+      "why": "45-day period is for hospital to act after patient asks for help, not for patient to submit application."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule_partial_charity",
+      "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+      "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe",
+      "why": "Policy states expanded financial assistance may reduce amount owed but does not specify the amount of help."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule_uninsured_discount",
+      "claim": "A patient with (not insured) gets an unstated amount of help",
+      "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures, will receive discount similar to managed care, referred to as an \"uninsured discount\"",
+      "why": "Policy states uninsured patients receive a discount similar to managed care but does not specify the amount."
+     }
+    ],
+    "clauses": 6,
+    "clauses_proven": 4,
+    "unsupported": 6
+   }
+  },
+  {
+   "model": "ultra",
+   "doc": "intermountain",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the ultra model gives no help, the reference gives 100% off.",
+    "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the ultra model gives no help, the reference gives help (amount not stated).",
+    "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $34,000, enrolled in SNAP, WIC or a similar program (or homeless): the ultra model gives help (amount not stated), the reference gives no help.",
+    "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $34,250: the ultra model gives no help, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "8/10",
+   "findings_match_pct": 80,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "not_stated"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "not_stated"
+    ],
+    "fed_eca_120": [
+     "not_stated"
+    ],
+    "monotone": [
+     "proved"
+    ]
+   },
+   "quotes_proven_pct": 33,
+   "cost_usd": 0.0169,
+   "seconds": 9.5,
+   "report": {
+    "model": "ultra",
+    "lint": [],
+    "repaired": false,
+    "dropped": [
+     {
+      "kind": "requirement",
+      "id": "req-medically-necessary",
+      "quote": "Services and goods eligible under this financial assistance policy include the following: 1. Trauma and emergency medical services provided in an emergency setting. 2. Services for a condition that, if not treated promptly, would lead to an adverse change in the health status of a patient; 3. Non-elective services provided in response to life-threatening circumstances in a non-emergency room setting; and/or 4. Other Medically Necessary services scheduled in advance and assessed and approved at the discretion of Intermountain Health."
+     },
+     {
+      "kind": "rule",
+      "id": "rule-discounted-care",
+      "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines, and All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties."
+     },
+     {
+      "kind": "rule",
+      "id": "rule-medical-hardship",
+      "quote": "Patient, or patient's Guarantor, has annual family income in excess of 500% of the Federal Poverty Guidelines and The out-of-pocket, patient obligations resulting from medical services provided by Intermountain Health providers exceed 25% of annual family income. Patient, or patient's Guarantor, meeting eligibility criteria for Medical Hardship shall have their Intermountain Health charges limited to 25% of their annual family income."
+     },
+     {
+      "kind": "collection timing",
+      "id": "collection timing",
+      "quote": "No extraordinary collection actions will be pursued against any patient without first making reasonable efforts to determine whether that patient is eligible for financial assistance. Reasonable efforts also include a prohibition on collection actions pursued against an uninsured patient (or one likely to be underinsured) until the patient has been made aware of the care site's financial assistance policy and has had the opportunity to apply for it or has availed themselves of a reasonable payment plan."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req-applied-public-programs",
+      "claim": "Every form of assistance requires: (applied_public_programs)",
+      "quote": "All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties, unless prohibited by local, state, or federal laws.",
+      "why": "Exhausting other payment options is a condition for specific assistance tiers (fully discounted, discounted, medical hardship), not a requirement for every form of assistance."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:rule-fully-discounted",
+      "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) AND (applied_public_programs) gets 100% off",
+      "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for fully Discounted Care.",
+      "why": "While the quote correctly identifies income and insurance status for fully discounted care, it omits the requirement that all other payment options must be exhausted, which is explicitly stated in the policy."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:rule-uninsured-discount",
+      "claim": "A patient with (not insured) gets an unstated amount of help",
+      "quote": "Uninsured Discount: Patients ineligible for financial assistance and having no third-party coverage for Medically Necessary services provided by Intermountain Health will be considered for a discount as covered by the Intermountain Health Patient Discount Policy.",
+      "why": "The policy states uninsured patients ineligible for financial assistance will be considered for a discount under a separate policy, but does not specify the amount of help, making the discount amount unsupported."
+     },
+     {
+      "kind": "unsupported",
+      "id": "app:0",
+      "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the date of service (alone, or as one of several 'the later of' options)",
+      "quote": "If eligibility is approved, the patient will be granted Financial Assistance for a period of twelve months. Financial Assistance will also be applied to all eligible accounts incurred for services received prior to application date.",
+      "why": "The quote refers to the duration of financial assistance approval (twelve months) and retroactive application, not the deadline for submitting an application."
+     }
+    ],
+    "clauses": 9,
+    "clauses_proven": 3,
+    "unsupported": 4
+   }
+  },
+  {
+   "model": "ultra",
+   "doc": "uchealth",
+   "equivalent": false,
+   "differences": [
+    "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $10,000: the ultra model gives help (amount not stated), the reference gives no help.",
+    "A household of 3 earning $20,000 a year (73.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless), after elective care: the ultra model gives 100% off, the reference gives no help.",
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $14,000: the ultra model gives no help, the reference gives help (amount not stated).",
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, under-insured, owing $10,000, after elective care: the ultra model gives help (amount not stated), the reference gives no help."
+   ],
+   "findings_match": "9/10",
+   "findings_match_pct": 90,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "proved"
+    ],
+    "co_window_181": [
+     "proved"
+    ],
+    "co_window_insured": [
+     "proved"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "proved"
+    ],
+    "fed_eca_120": [
+     "proved"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 71,
+   "cost_usd": 0.01452,
+   "seconds": 15.7,
+   "report": {
+    "model": "ultra",
+    "lint": [],
+    "repaired": false,
+    "dropped": [
+     {
+      "kind": "collection timing",
+      "id": "collection timing",
+      "quote": "at least 30 days in advance of initiating ECAs, to determine if the Patient is eligible for Financial Assistance"
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req-care-type",
+      "claim": "Every form of assistance requires: (medically_necessary)",
+      "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services",
+      "why": "The policy limits assistance to emergency and medically necessary care, but does not state this as a requirement for every form of assistance offered."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req-uninsured-underinsured",
+      "claim": "Every form of assistance requires: (not insured OR underinsured)",
+      "quote": "for Uninsured and Under-insured Patients to apply and be considered for Financial Assistance",
+      "why": "The policy targets uninsured and underinsured patients but does not require this status for every form of assistance (e.g., catastrophic assistance may apply regardless)."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule-income-251-400",
+      "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+      "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges as outlined in Appendix A",
+      "why": "The policy specifies a discount based on Appendix A for this income band, not an unspecified amount."
+     },
+     {
+      "kind": "amount removed",
+      "id": "rule:rule-self-pay-discount",
+      "claim": "A patient with (not insured) gets an unstated amount of help",
+      "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
+      "why": "The quote confirms uninsured patients get a self-pay discount, but the policy does not specify the amount in this clause."
+     }
+    ],
+    "clauses": 7,
+    "clauses_proven": 5,
+    "unsupported": 4
+   }
+  },
+  {
+   "model": "ultra",
+   "doc": "uchealth-summary",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $20,000 a year (73.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,001: the ultra model gives no help, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "9/10",
+   "findings_match_pct": 90,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "not_stated"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "not_stated"
+    ],
+    "fed_eca_120": [
+     "not_stated"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 100,
+   "cost_usd": 0.00636,
+   "seconds": 4.2,
+   "report": {
+    "model": "ultra",
+    "lint": [],
+    "repaired": false,
+    "dropped": [
+     {
+      "kind": "amount removed",
+      "id": "rule:rule_catastrophic",
+      "claim": "A patient with (bill_pct_income_assets > 50) gets an unstated amount of help",
+      "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill",
+      "why": "Policy mentions possible discount for catastrophic balance but does not specify the amount of help."
+     }
+    ],
+    "clauses": 6,
+    "clauses_proven": 6,
+    "unsupported": 1
+   }
+  },
+  {
+   "model": "repair",
+   "doc": "childrens-colorado",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after non-emergency care: the repair model gives help (amount not stated), the reference gives no help.",
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after elective care: the repair model gives no help, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "9/10",
+   "findings_match_pct": 90,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "proved"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "counterexample"
+    ],
+    "co_window_181": [
+     "proved"
+    ],
+    "co_window_insured": [
+     "counterexample"
+    ],
+    "co_plan_4pct": [
+     "proved"
+    ],
+    "fed_window_240": [
+     "counterexample"
+    ],
+    "fed_eca_120": [
+     "proved"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 57,
+   "cost_usd": 0.09222,
+   "seconds": 87.8,
+   "report": {
+    "primary": {
+     "model": "ultra",
+     "lint": [
+      "req-application-window: has no conditions; remove it or give its conditions"
+     ],
+     "repaired": true,
+     "lint_after": [],
+     "dropped": [
+      {
+       "kind": "unsupported",
+       "id": "rule:rule-hdc-0-250",
+       "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets 100% off",
+       "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less), with the level of discount for which an individual is eligible for, determined on a sliding fee scale, based upon the individual's rating, or family Income as a percentage of FPL.",
+       "why": "Discount is on a sliding scale, not necessarily 100% off; 100% is not guaranteed for all in this income range."
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:rule-payment-plan",
+       "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets an unstated amount of help",
+       "quote": "CHCO will enter into payment plans with Qualified Patients in which the Qualified Patient pays for care in monthly installments. Monthly installments for hospital charges will not exceed 4% of their monthly household Income (2% for professional fees). After a cumulative 36 months of payments, CHCO will treat the Qualified Patient's bill as paid in full and will cease collection activities on any balance that remains unpaid.",
+       "why": "Payment plans are for Qualified Patients (\u2264250% FPL), but the discount amount is not unstated\u2014it is based on income-driven installments."
+      }
+     ],
+     "clauses": 7,
+     "clauses_proven": 5,
+     "unsupported": 2
+    },
+    "secondary": {
+     "model": "super",
+     "lint": [
+      "req_no_assets_test: has no conditions; remove it or give its conditions",
+      "rule_hdc_scaled_201_to_250: the clause fpl_pct >= 201.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+      "rule_hdc_limited_inpatient_251_to_400: the clause fpl_pct >= 251.0 OR fpl_pct <= 400.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+     ],
+     "repaired": true,
+     "lint_after": [],
+     "dropped": [
+      {
+       "kind": "application window",
+       "id": "application window",
+       "quote": "The patient/guardian will be asked to complete the Colorado State Uniform Application, and submit all required documentation, within 45 days. ... E. If Financial Assistance will be used to cover past dates of service, the patient/family must indicate the request for such assistance on the application. The application must be completed within 365 days from the date of services or date of discharge."
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:rule_hdc_free_to_200",
+       "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 200) gets 100% off",
+       "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less), with the level of discount for which an individual is eligible for , determined on a sliding fee scale, based upon the individual\u2019s rating, or family Income as a percentage of FPL.",
+       "why": "The policy does not specify a 100% discount for any income level; discounts are on a sliding scale based on FPL."
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:rule_hdc_scaled_201_to_250",
+       "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 201) AND (fpl_pct <= 250) gets an unstated amount of help",
+       "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients with an annual family Income of up to 250% FPL guidelines (or less), with the level of discount for which an individual is eligible for , determined on a sliding fee scale, based upon the individual\u2019s rating, or family Income as a percentage of FPL.",
+       "why": "The policy does not specify discount amounts for any income level; discounts are determined on a sliding fee scale."
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:rule_hdc_limited_inpatient_251_to_400",
+       "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 400) AND (inpatient) gets an unstated amount of help",
+       "quote": "CHCO provides additional limited financial assistance for Inpatient Services only for individuals 251% to 400% FPG.",
+       "why": "While limited financial assistance for inpatient services is provided for 251%-400% FPG, the policy does not restrict this to only uninsured or underinsured patients."
+      }
+     ],
+     "clauses": 7,
+     "clauses_proven": 4,
+     "unsupported": 3
+    },
+    "secondary_model": {
+     "hospital": "Children's Hospital Colorado",
+     "doc": "policy",
+     "source_url": "https://www.childrenscolorado.org/globalassets/your-visit/financial-assistance-policy-english.pdf",
+     "nonprofit": true,
+     "requires": [
+      {
+       "id": "req_co_resident",
+       "label": "Must be Colorado resident",
+       "cond": [
+        [
+         {
+          "var": "co_resident",
+          "op": "true",
+          "value": null
+         }
+        ]
+       ],
+       "discretionary": false,
+       "quote": "HDC and CICP applicants must be residents of Colorado."
+      },
+      {
+       "id": "req_in_service_area",
+       "label": "Must be in service area",
+       "cond": [
+        [
+         {
+          "var": "in_service_area",
+          "op": "true",
+          "value": null
+         }
+        ]
+       ],
+       "discretionary": false,
+       "quote": "who received a health care service at a hospital -based CHCO location."
+      },
+      {
+       "id": "req_emergency_or_medically_necessary",
+       "label": "Care must be emergency or medically necessary",
+       "cond": [
+        [
+         {
+          "var": "emergency",
+          "op": "true",
+          "value": null
+         },
+         {
+          "var": "medically_necessary",
+          "op": "true",
+          "value": null
+         }
+        ]
+       ],
+       "discretionary": false,
+       "quote": "HDC is available for all Emergency and Medically Necessary care to all Qualified Patients"
+      }
+     ],
+     "rules": [
+      {
+       "id": "rule_self_pay_discount",
+       "label": "Self-pay discount: 35% for those without HDC",
+       "when": [
+        [
+         {
+          "var": "insured",
+          "op": "false",
+          "value": null
+         },
+         {
+          "var": "underinsured",
+          "op": "false",
+          "value": null
+         }
+        ]
+       ],
+       "discount_pct": 35.0,
+       "quote": "At the time of billing, if the patient does not have HDC, a standard 35% discount will be applied to all self-pay balances."
+      }
+     ],
+     "timing": {
+      "application": [
+       {
+        "anchor": "first_statement",
+        "days": 365,
+        "quote": "E. If Financial Assistance will be used to cover past dates of service, the patient/family must indicate the request for such assistance on the application. The application must be completed within 365 days from the date of services or date of discharge."
+       }
+      ],
+      "eca_not_before": [
+       {
+        "anchor": "first_statement",
+        "days": 120,
+        "quote": "CHCO will not initiate ECAs for at least 120 days from the date CHCO provides the first post -discharge billing statement for the care ."
+       }
+      ],
+      "first_statement_from_day": 46
+     },
+     "payment_plan": {
+      "max_pct_monthly_income": 4.0,
+      "max_months": 36,
+      "min_monthly_usd": null,
+      "quote": "Monthly installments for hospital charges will not exceed 4% of their monthly household Income (2% for professional fees). After a cumulative 36 months of payments, CHCO will treat the Qualified Patient\u2019s bill as paid in full and will cease collection activities on any balance that remains unpaid."
+     },
+     "notes": [
+      "Screening for HDC can be requested up to 365 days after service/discharge; for CICP up to 181 days after service/discharge.",
+      "Insured patients may request screening within 45 days of date of service or first billing statement after insurance adjustment.",
+      "If a patient is believed to have insurance on date of service but later determined uninsured, CHCO will contact within 45 days of notification to offer screening.",
+      "Patient Contact Best Efforts: monthly contact attempts for 6 months after service if not screened or decline screening form completed.",
+      "Billing statements may be sent beginning 46 days after date of service.",
+      "After three billing notices and no payment within 60 days of Final Notice, account may turn to Bad Debt and ECAs may be taken.",
+      "Bad Debt agency may report to credit bureau 60 days after account placement if no action taken by guarantor.",
+      "If all collection options exhausted and Bad Debt account aged >60 days without guarantor contact or refusal to resolve, ECAs may be taken.",
+      "CHCO will not deny discounted care based on failure to apply for public benefits.",
+      "CHCO will not deny admission/treatment because patient may qualify for HDC.",
+      "CHCO does not participate in fundraising efforts to pay for a specific patient\u2019s care.",
+      "Financial counselors available to help identify payment sources and community-based resources.",
+      "Some services (elective/cosmetic surgery, transplant, research, etc.) not covered by FAP.",
+      "Financial assistance does not extend to housing, food, transportation, community services, or continuity-of-care services/supplies."
+     ]
+    },
+    "disagreements_before": [
+     "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 35% off, the Nemotron 3 Super model gives no help.",
+     "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives 35% off.",
+     "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, under-insured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+     "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, under-insured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+    ],
+    "reconcile_dropped": [
+     {
+      "kind": "unsupported",
+      "id": "rule:rule-cicp",
+      "claim": "A patient with (co_resident) AND (not insured OR underinsured) AND (fpl_pct <= 250) AND (emergency OR medically_necessary) gets an unstated amount of help",
+      "quote": "allows participating providers, like CHCO, to render discounted services to patients who are Colorado residents with limited financial resources who are uninsured or underinsured and not eligible for benefits under the Medicaid Program or the Children's Basic Health Plan",
+      "why": "Omits Medicaid/CHP+ ineligibility requirement for CICP eligibility."
+     }
+    ],
+    "rounds": 1,
+    "disagreements_after": [
+     "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 35% off, the Nemotron 3 Super model gives no help.",
+     "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives 35% off.",
+     "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, under-insured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+     "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, under-insured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+    ],
+    "equivalent": false
+   }
+  },
+  {
+   "model": "repair",
+   "doc": "healthone",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the repair model gives 100% off, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "6/10",
+   "findings_match_pct": 60,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "proved"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "counterexample"
+    ],
+    "co_window_181": [
+     "counterexample"
+    ],
+    "co_window_insured": [
+     "counterexample"
+    ],
+    "co_plan_4pct": [
+     "proved"
+    ],
+    "fed_window_240": [
+     "n/a"
+    ],
+    "fed_eca_120": [
+     "n/a"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 33,
+   "cost_usd": 0.01545,
+   "seconds": 39.9,
+   "report": {
+    "primary": {
+     "model": "ultra",
+     "lint": [],
+     "repaired": false,
+     "dropped": [
+      {
+       "kind": "unsupported",
+       "id": "req:req_non_elective",
+       "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+       "quote": "Financial relief may be available to patients who have received non-elective care",
+       "why": "Policy mentions \"non-elective care\" for charity discount but includes Hospital Discounted Care which applies regardless of care type."
+      },
+      {
+       "kind": "unsupported",
+       "id": "req:req_no_outstanding_payer_liability",
+       "claim": "Every form of assistance requires: (not insured)",
+       "quote": "No charity discount can be applied to any account with any outstanding payer liability",
+       "why": "Outstanding payer liability blocks charity discount only, not all forms of assistance like Hospital Discounted Care."
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:rule_uninsured_discount",
+       "claim": "A patient with (not insured) gets an unstated amount of help",
+       "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures, will receive discount similar to managed care, referred to as an \"uninsured discount\"",
+       "why": "Uninsured discount applies to self-pay patients without third-party payer, not simply all uninsured patients."
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:rule_hdc",
+       "claim": "A patient with (co_resident) AND (fpl_pct <= 250) gets an unstated amount of help",
+       "quote": "For patients whose income is at or below 250% of the Federal Poverty Guidelines, the limits to how much the hospital can charge must follow the rules of Hospital Discounted Care",
+       "why": "Hospital Discounted Care requires Colorado residency, but policy quote does not mention residency requirement."
+      }
+     ],
+     "clauses": 6,
+     "clauses_proven": 2,
+     "unsupported": 4
+    },
+    "secondary": {
+     "model": "super",
+     "lint": [
+      "r3_hdc_colorado: fpl_pct is a number, give an op like <= and a value"
+     ],
+     "repaired": true,
+     "lint_after": [],
+     "dropped": [
+      {
+       "kind": "rule",
+       "id": "r4_uninsured_discount",
+       "quote": "quote\": "
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:r3_hdc_colorado",
+       "claim": "A patient with (co_resident OR in_service_area) AND (fpl_pct <= 250) gets an unstated amount of help",
+       "quote": "For patients whose income is at or below 250% of the Federal Poverty Guidelines, the limits to how much the hospital can charge must follow the rules of Hospital Discounted Care.",
+       "why": "Quote refers to Hospital Discounted Care applying to patients at/below 250% FPL, but does not specify that help requires Colorado residency or service area; those are separate HDC requirements not tied to this quote."
+      },
+      {
+       "kind": "unsupported",
+       "id": "app:1",
+       "claim": "The patient can still apply at least 30 days after the first post-discharge bill (possibly one of several 'later of' deadlines)",
+       "quote": "Determination and Appeals\nAfter you complete an application, the hospital must tell you if you qualify within 21 days.\nIf you disagree with their decision, you can appeal:\nYou must ask the hospital in writing for your case to be checked for mistakes.\nYou must file your appeal within 30 days of the date the hospital gave you their decision.",
+       "why": "Quote concerns appeal timing (30 days after hospital's decision), not patient's application window relative to first post-discharge bill."
+      }
+     ],
+     "clauses": 4,
+     "clauses_proven": 2,
+     "unsupported": 2
+    },
+    "secondary_model": {
+     "hospital": "HCA HealthONE",
+     "doc": "policy",
+     "source_url": "https://www.healthonecares.com/patient-resources/patient-financial-resources/financial-assistance",
+     "nonprofit": true,
+     "requires": [],
+     "rules": [
+      {
+       "id": "r1_charity_free",
+       "label": "Full charity discount",
+       "when": [
+        [
+         {
+          "var": "fpl_pct",
+          "op": "<=",
+          "value": 250.0
+         }
+        ]
+       ],
+       "discount_pct": 100.0,
+       "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed."
+      },
+      {
+       "id": "r2_charity_partial",
+       "label": "Partial charity discount",
+       "when": [
+        [
+         {
+          "var": "fpl_pct",
+          "op": ">=",
+          "value": 251.0
+         }
+        ],
+        [
+         {
+          "var": "fpl_pct",
+          "op": "<=",
+          "value": 400.0
+         }
+        ]
+       ],
+       "discount_pct": null,
+       "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe."
+      }
+     ],
+     "timing": {
+      "application": [
+       {
+        "anchor": "service",
+        "days": 45,
+        "quote": "The hospital must check to see if you qualify within 45 days of when you got care."
+       }
+      ],
+      "eca_not_before": [],
+      "first_statement_from_day": null
+     },
+     "payment_plan": {
+      "max_pct_monthly_income": null,
+      "max_months": 36,
+      "min_monthly_usd": null,
+      "quote": "You do not owe any more money after:\nYou make 36 monthly payments, or\nYou pay the full discounted amount in your payment plan."
+     },
+     "notes": [
+      "Medicare accounts and non-Medicare inpatient accounts require supporting income verification documentation.",
+      "Uninsured discount varies by location based on state requirements, patient income levels, and local rates.",
+      "Some locations may have identified additional criteria for charity eligibility besides the Federal Poverty Levels (i.e., high medical costs, more lenient income levels, etc.).",
+      "Validation must be completed to ensure no outstanding payer liability before applying charity discount.",
+      "Patients must be asked to make payment in full or establish monthly payment arrangements at time of service.",
+      "Uninsured Patient Information document must be presented and signed at time of service.",
+      "Patients eligible for assistance may enter into an appropriate payment plan with opportunity to renegotiate.",
+      "Hospitals must bill insurance before making a payment plan.",
+      "Billers must explain all services and fees in the patient's preferred language before sending to collections.",
+      "Billers must tell patient in writing 30 days before sending to collections.",
+      "Patients can refuse to let the hospital check for public program eligibility, but then cannot sue for lack of discounts or failure to check.",
+      "Hospital has 45 days to see if insured patient can get help after being asked.",
+      "Appeals must be filed in writing within 30 days of determination."
+     ]
+    },
+    "disagreements_before": [],
+    "disagreements_after": [],
+    "equivalent": true
+   }
+  },
+  {
+   "model": "repair",
+   "doc": "intermountain",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the repair model gives no help, the reference gives 100% off.",
+    "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the repair model gives no help, the reference gives help (amount not stated).",
+    "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $34,250: the repair model gives no help, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "8/10",
+   "findings_match_pct": 80,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "not_stated"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "not_stated"
+    ],
+    "fed_eca_120": [
+     "not_stated"
+    ],
+    "monotone": [
+     "proved"
+    ]
+   },
+   "quotes_proven_pct": 0,
+   "cost_usd": 0.08421,
+   "seconds": 87.4,
+   "report": {
+    "primary": {
+     "model": "ultra",
+     "lint": [],
+     "repaired": false,
+     "dropped": [
+      {
+       "kind": "requirement",
+       "id": "req_medically_necessary",
+       "quote": "Services and goods eligible under this financial assistance policy include the following: 1. Trauma and emergency medical services provided in an emergency setting. 2. Services for a condition that, if not treated promptly, would lead to an adverse change in the health status of a patient; 3. Non-elective services provided in response to life-threatening circumstances in a non-emergency room setting; and/or 4. Other Medically Necessary services scheduled in advance and assessed and approved at the discretion of Intermountain Health."
+      },
+      {
+       "kind": "rule",
+       "id": "rule_discounted_care",
+       "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines, and All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties."
+      },
+      {
+       "kind": "rule",
+       "id": "rule_medical_hardship",
+       "quote": "Patient, or patient's Guarantor, has annual family income in excess of 500% of the Federal Poverty Guidelines; Patient, or patient's Guarantor, has exhausted all other payment options including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties; and The out-of-pocket, patient obligations resulting from medical services provided by Intermountain Health providers exceed 25% of annual family income."
+      },
+      {
+       "kind": "unsupported",
+       "id": "req:req_applied_public_programs",
+       "claim": "Every form of assistance requires: (applied_public_programs)",
+       "quote": "All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties, unless prohibited by local, state, or federal laws.",
+       "why": "While exhausting other payment options is required for specific programs like fully/discounted care and medical hardship, it is not stated as a requirement for every form of assistance (e.g., presumptive eligibility or uninsured discount)."
+      },
+      {
+       "kind": "unsupported",
+       "id": "app:0",
+       "claim": "The patient can still apply at least 365 days after the date of service (possibly one of several 'later of' deadlines)",
+       "quote": "A Financial Assistance application will need to be re-submitted if more than six months has transpired since initial denial.",
+       "why": "The quote refers to reapplication after denial (>6 months), not the initial application window; no 365-day initial deadline is stated in the policy."
+      }
+     ],
+     "clauses": 9,
+     "clauses_proven": 5,
+     "unsupported": 2
+    },
+    "secondary": {
+     "model": "super",
+     "lint": [
+      "rule_discounted_care: the clause fpl_pct >= 251.0 OR fpl_pct <= 500.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+     ],
+     "repaired": true,
+     "lint_after": [
+      "rule rule_uninsured_discount can never apply to anyone (its clauses contradict each other or the requirements)"
+     ],
+     "dropped": [
+      {
+       "kind": "unsupported",
+       "id": "req:req_emergency_care_access",
+       "claim": "Every form of assistance requires: (emergency)",
+       "quote": "Intermountain Health will provide, without discrimination, care of emergency medical conditions to individuals regardless of their ability to pay or their eligibility for financial assistance or for government assistance.",
+       "why": "Emergency care access is guaranteed regardless of assistance eligibility, not a requirement for receiving assistance."
+      },
+      {
+       "kind": "unsupported",
+       "id": "req:req_cooperation_for_assistance",
+       "claim": "Every form of assistance requires: (applied_public_programs)",
+       "quote": "They will also contribute to the cost of their care according to their ability to pay. Individuals with the financial capacity to purchase health insurance shall be encouraged to do so, as a means of assuring access to health care services, for their overall personal health. Access to insurance or Medicaid coverage has extended significantly through the federal and state Health Exchanges. It is expected that any uninsured patient cooperate with Intermountain Health in determining the availability of Medicaid or insurance coverage.",
+       "why": "Cooperation is encouraged but not stated as a requirement for every form of assistance."
+      },
+      {
+       "kind": "unsupported",
+       "id": "req:req_exhaust_other_options_first",
+       "claim": "Every form of assistance requires: (applied_public_programs)",
+       "quote": "All other payment options have been exhausted for the patient including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties, unless prohibited by local, state, or federal laws.",
+       "why": "Exhausting other options is a criterion for specific assistance types, not a universal requirement for all assistance."
+      },
+      {
+       "kind": "unsupported",
+       "id": "req:req_residency_for_non_emergent_services",
+       "claim": "Every form of assistance requires: (in_service_area OR co_resident)",
+       "quote": "Residency within an Intermountain service area for non-emergent hospital services and/or extenuating circumstances. Trauma and emergency services provided in an emergency setting are covered regardless of residency status.",
+       "why": "Residency is required only for non-emergent services, not every form of assistance."
+      },
+      {
+       "kind": "unsupported",
+       "id": "req:req_no_screening_before_emergency_care",
+       "claim": "Every form of assistance requires: (emergency)",
+       "quote": "In accordance with FEDERAL EMERGENCY MEDICAL TREATMENT AND LABOR ACT (EMTLA) regulations, no patient shall be screened for financial assistance or payment information prior to the rendering of services in emergency situations.",
+       "why": "No screening before emergency care is an EMTLA restriction on the hospital, not a patient requirement for assistance."
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:rule_uninsured_discount",
+       "claim": "A patient with (not insured) AND (not applied_public_programs) gets an unstated amount of help",
+       "quote": "Patients ineligible for financial assistance and having no third-party coverage for Medically Necessary services provided by Intermountain Health will be considered for a discount as covered by the Intermountain Health Patient Discount Policy.",
+       "why": "The uninsured discount applies to patients ineligible for financial assistance, not conditional on not applying for public programs."
+      }
+     ],
+     "clauses": 9,
+     "clauses_proven": 3,
+     "unsupported": 6
+    },
+    "secondary_model": {
+     "hospital": "Intermountain Health",
+     "doc": "policy",
+     "source_url": "https://www.intermountainhealth.org/-/media/files/intermountain-health/for-patients/financial-assistance/2026/imh-financial-assistance-policy-2026_english.ashx",
+     "nonprofit": false,
+     "requires": [],
+     "rules": [
+      {
+       "id": "rule_fully_discounted_care",
+       "label": "Fully Discounted (No Charge) Care",
+       "when": [
+        [
+         {
+          "var": "insured",
+          "op": "false",
+          "value": null
+         },
+         {
+          "var": "underinsured",
+          "op": "true",
+          "value": null
+         }
+        ],
+        [
+         {
+          "var": "fpl_pct",
+          "op": "<=",
+          "value": 250.0
+         }
+        ]
+       ],
+       "discount_pct": 100.0,
+       "quote": "Uninsured and Underinsured patients meeting other eligibility criteria and with annual family incomes not in excess of 250% of the Federal Poverty Guidelines"
+      },
+      {
+       "id": "rule_discounted_care",
+       "label": "Discounted Care",
+       "when": [
+        [
+         {
+          "var": "insured",
+          "op": "false",
+          "value": null
+         },
+         {
+          "var": "underinsured",
+          "op": "true",
+          "value": null
+         }
+        ],
+        [
+         {
+          "var": "fpl_pct",
+          "op": ">=",
+          "value": 251.0
+         }
+        ],
+        [
+         {
+          "var": "fpl_pct",
+          "op": "<=",
+          "value": 500.0
+         }
+        ]
+       ],
+       "discount_pct": null,
+       "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines"
+      },
+      {
+       "id": "rule_medical_hardship",
+       "label": "Medical Hardship",
+       "when": [
+        [
+         {
+          "var": "fpl_pct",
+          "op": ">",
+          "value": 500.0
+         }
+        ],
+        [
+         {
+          "var": "bill_pct_income",
+          "op": ">",
+          "value": 25.0
+         }
+        ]
+       ],
+       "discount_pct": null,
+       "quote": "Patient, or patient\u2019s Guarantor, has annual family income in excess of 500% of the Federal Poverty Guidelines and Patient, or patient\u2019s Guarantor, has exhausted all other payment options including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties; and The out-of-pocket, patient obligations resulting from medical services provided by Intermountain Health providers exceed 25% of annual family income."
+      }
+     ],
+     "timing": {
+      "application": [
+       {
+        "anchor": "service",
+        "days": 180,
+        "quote": "A Financial Assistance application will need to be re-submitted if more than six months has transpired since initial denial."
+       }
+      ],
+      "eca_not_before": [],
+      "first_statement_from_day": null
+     },
+     "payment_plan": {
+      "max_pct_monthly_income": null,
+      "max_months": null,
+      "min_monthly_usd": null,
+      "quote": "A reasonable payment plan will be established between Intermountain Health and the patient, or patient guarantor, for any balance remaining after the cost of care has been discounted under the financial assistance policy."
+     },
+     "notes": [
+      "The policy states that financial assistance determinations are made after all efforts to qualify the patient for other public or private programs have been exhausted, but does not specify a exact timeframe for when the patient must apply beyond the 6-month reapplication rule after denial.",
+      "The policy mentions that financial assistance will be applied to all eligible accounts incurred for services received prior to application date if eligibility is approved, for a period of twelve months.",
+      "The policy does not specify a maximum percentage of monthly income for payment plans or a minimum monthly payment amount.",
+      "The policy does not state when extraordinary collection actions (ECA) may begin, only that reasonable efforts to determine eligibility must be made first.",
+      "The policy defines 'Medically Necessary' as services or items reasonable and necessary for the diagnosis or treatment of illness or injury, as defined by Medicare.",
+      "The policy defines 'Underinsured Patient' as an individual with private or public insurance coverage for whom it would be a financial hardship to fully pay the expected out-of-pocket expenses for medical services provided by Intermountain Health.",
+      "The policy defines 'Fully Discounted Care' as a 100% waiver of patient financial obligation resulting from medical services provided by Intermountain Health.",
+      "The policy defines 'Discounted Care' as financial assistance that provides care at a discounted fee to eligible patients with annualized family incomes between amounts equal to or greater than 250% but less than or equal to 500% of the Federal Poverty Guidelines.",
+      "The policy defines 'Medical Hardship' as financial assistance that provides a discount based on a sliding scale to eligible patients with annualized family household income in excess of 500% of the Federal Poverty Guidelines and financial obligations resulting from medical services provided by any Intermountain Health entity or provider that exceed 25% of annualized family income.",
+      "The policy states that for Medical Hardship, the patient's Intermountain Health charges will be limited to 25% of their annual family income, and this charge adjustment will apply for all medical services qualified under this provision during a calendar year.",
+      "The policy lists eligibility criteria for presumptive eligibility including state-funded prescription programs, homelessness, participation in WIC, food stamp eligibility, subsidized school lunch program eligibility, eligibility for other state or local assistance programs, low income/subsidized housing, and eligibility based on health care industry sources of information.",
+      "The policy states that Intermountain Health may utilize a third-party predictive model based on public record databases to assess financial need and grant presumptive eligibility or relax documentation requirements.",
+      "The policy states that if a deceased patient is not married, has no established estate, and meets criteria for adjustment, the account will be routed for adjustment review; if the deceased has a surviving spouse, state law determines if the balance becomes the responsibility of the surviving spouse or the estate.",
+      "The policy excludes Mount Saint Vincent, Saltzer Health clinics, and Tellica Imaging locations from coverage.",
+      "The policy states that Intermountain Health will not charge patients eligible for financial assistance under this policy for emergency or other medically necessary care more than the AGB to individuals who have insurance.",
+      "The policy describes the look back method used to calculate AGB percentage at least annually by dividing the sum of all claims paid in full by Medicare and private health insurers by the sum of associated gross charges for those claims during the prior twelve-month period."
+     ]
+    },
+    "disagreements_before": [
+     "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000, who hasn't applied for Medicaid: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives 100% off.",
+     "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+     "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+     "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, under-insured, owing $34,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+    ],
+    "reconcile_dropped": [
+     {
+      "kind": "requirement",
+      "id": "req_cooperation_public_programs",
+      "quote": "The patient's, or a patient's guarantor's, cooperation in applying for applicable programs and identifiable funding sources, including COBRA coverage, shall be required."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_service_area_or_emergency",
+      "claim": "Every form of assistance requires: (in_service_area) AND (emergency)",
+      "quote": "Residency within an Intermountain service area for non-emergent hospital services and/or extenuating circumstances. Trauma and emergency services provided in an emergency setting are covered regardless of residency status.",
+      "why": "The policy requires service area only for non-emergent services; emergency care is covered regardless of residency."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_medically_necessary",
+      "claim": "Every form of assistance requires: (medically_necessary)",
+      "quote": "Services and goods eligible under this financial assistance policy include the following: 1. Trauma and emergency medical services provided in an emergency setting.",
+      "why": "Emergency services are covered regardless of medical necessity determination; the policy covers trauma and emergency services in an emergency setting."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_uninsured_or_underinsured",
+      "claim": "Every form of assistance requires: (not insured) AND (underinsured)",
+      "quote": "Eligibility for financial assistance shall be considered for those individuals who are uninsured, underinsured, and unable to pay for their care, based upon a determination of financial need in accordance with this Policy.",
+      "why": "Eligibility is considered for uninsured, underinsured, and unable to pay; it does not require both uninsured and underinsured simultaneously."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:rule_fully_discounted",
+      "claim": "A patient with (fpl_pct <= 250) AND (applied_public_programs) gets 100% off",
+      "quote": "Uninsured and Underinsured patients meeting other eligibility criteria and with annual family incomes not in excess of 250% of the Federal Poverty Guidelines",
+      "why": "Fully discounted care requires exhaustion of other payment options, not just applied_public_programs."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:rule_discounted_care",
+      "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 500) AND (applied_public_programs) gets an unstated amount of help",
+      "quote": "Uninsured and underinsured patients meeting other eligibility criteria and whose annualized family incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines",
+      "why": "Discounted care requires exhaustion of other payment options, not just applied_public_programs."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:rule_medical_hardship",
+      "claim": "A patient with (fpl_pct > 500) AND (applied_public_programs) AND (bill_pct_income > 25) gets an unstated amount of help",
+      "quote": "Patient, or patient's Guarantor, has annual family income in excess of 500% of the Federal Poverty Guidelines",
+      "why": "Medical hardship requires exhaustion of other payment options and patient obligations exceeding 25% of income, not just fpl_pct > 500."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:rule_presumptive_eligibility",
+      "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+      "quote": "For patients, or patients' Guarantors, who are unable to provide required documentation but meet certain financial need criteria, Intermountain Health may grant Financial Assistance. In particular, presumptive eligibility may be determined on the basis of individual life circumstances that may include:",
+      "why": "Presumptive eligibility is based on life circumstances like homelessness or WIC participation, not solely on presumptive_program enrollment."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:rule_uninsured_discount",
+      "claim": "A patient with (not insured) gets an unstated amount of help",
+      "quote": "Uninsured Discount: Patients ineligible for financial assistance and having no third-party coverage for Medically Necessary services provided by Intermountain Health will be considered for a discount as covered by the Intermountain Health Patient Discount Policy.",
+      "why": "Uninsured discount applies only to patients ineligible for financial assistance and refers to a separate Patient Discount Policy."
+     }
+    ],
+    "rounds": 1,
+    "disagreements_after": [
+     "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+     "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+     "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $34,250: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+    ],
+    "equivalent": false
+   }
+  },
+  {
+   "model": "repair",
+   "doc": "uchealth",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the repair model gives help (amount not stated), the reference gives no help.",
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the repair model gives 100% off, the reference gives no help.",
+    "One person earning $68,000 a year (426.1% of the poverty line), living outside Colorado, uninsured, owing $34,000, enrolled in SNAP, WIC or a similar program (or homeless): the repair model gives 100% off, the reference gives no help.",
+    "A household of 2 earning $109,000 a year (503.7% of the poverty line), living outside Colorado, uninsured, owing $55,000: the repair model gives help (amount not stated), the reference gives no help."
+   ],
+   "findings_match": "6/10",
+   "findings_match_pct": 60,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "proved"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "not_stated"
+    ],
+    "co_window_181": [
+     "proved"
+    ],
+    "co_window_insured": [
+     "proved"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "proved"
+    ],
+    "fed_eca_120": [
+     "not_stated"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 50,
+   "cost_usd": 0.07762,
+   "seconds": 72.1,
+   "report": {
+    "primary": {
+     "model": "ultra",
+     "lint": [],
+     "repaired": false,
+     "dropped": [
+      {
+       "kind": "unsupported",
+       "id": "req:req_medically_necessary",
+       "claim": "Every form of assistance requires: (medically_necessary)",
+       "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services",
+       "why": "The policy limits assistance to emergency and medically necessary care, but does not require medically_necessary for every form of assistance (e.g., presumptive eligibility may apply regardless)."
+      },
+      {
+       "kind": "unsupported",
+       "id": "req:req_uninsured_or_underinsured",
+       "claim": "Every form of assistance requires: (not insured OR underinsured)",
+       "quote": "The Patient is Uninsured or Under-insured",
+       "why": "Being uninsured or underinsured is required only for the income-based assistance program, not for every form of assistance (e.g., catastrophic balance assistance may apply to insured patients)."
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:rule_self_pay_discount",
+       "claim": "A patient with (not insured) gets an unstated amount of help",
+       "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
+       "why": "The self-pay discount applies to self-pay guarantors at time of billing, but is reversed upon financial assistance approval; it is not a form of financial assistance under this policy."
+      },
+      {
+       "kind": "unsupported",
+       "id": "eca:1",
+       "claim": "The policy promises no extraordinary collection action before 30 days after the first post-discharge bill",
+       "quote": "at least 30 days in advance of initiating ECAs",
+       "why": "The policy requires at least 30 days' notice before initiating ECAs, but does not promise no ECA before 30 days after the first post-discharge bill; the 30-day period relates to notice timing, not a fixed post-bill waiting period."
+      }
+     ],
+     "clauses": 8,
+     "clauses_proven": 5,
+     "unsupported": 4
+    },
+    "secondary": {
+     "model": "super",
+     "lint": [
+      "rule_fap_income_tier_discounted: the clause fpl_pct >= 251.0 OR fpl_pct <= 400.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+     ],
+     "repaired": true,
+     "lint_after": [],
+     "dropped": [
+      {
+       "kind": "unsupported",
+       "id": "req:req_co_resident",
+       "claim": "Every form of assistance requires: (co_resident)",
+       "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance.",
+       "why": "The policy allows a discretionary exception to the residency requirement for unscheduled emergency services, so residency is not required for every form of assistance."
+      },
+      {
+       "kind": "unsupported",
+       "id": "req:req_emergency_or_medically_necessary",
+       "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+       "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services.",
+       "why": "The policy offers assistance to those needing emergency or medically necessary care, but does not require it for every form of assistance (e.g., catastrophic balance assistance may apply regardless)."
+      },
+      {
+       "kind": "unsupported",
+       "id": "req:req_uninsured_or_underinsured",
+       "claim": "Every form of assistance requires: (not insured OR underinsured)",
+       "quote": "This policy serves to establish and ensure a fair and consistent method for Uninsured and Under-insured Patients to apply and be considered for Financial Assistance.",
+       "why": "While the policy focuses on uninsured and under-insured patients, catastrophic balance assistance may apply to insured patients, so this is not a requirement for every form of assistance."
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:rule_fap_income_tier_100",
+       "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) gets 100% off",
+       "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines.",
+       "why": "The quote refers to income not more than 400% FPL, but the rule claims 100% discount for <=250% FPL; the quote does not support the 100% discount claim."
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:rule_fap_income_tier_discounted",
+       "claim": "A patient with (not insured OR underinsured) AND (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
+       "quote": "The Patient is Uninsured or Under-insured; and Guarantor's annual Family Income (\"Family Income\") is not more than four hundred percent (400%) of the current federal poverty level (FPL) guidelines.",
+       "why": "The quote does not mention a discount for 251-400% FPL; it only states the income limit for eligibility, and the discount is detailed elsewhere (Appendix A)."
+      },
+      {
+       "kind": "unsupported",
+       "id": "rule:rule_presumptive",
+       "claim": "A patient with (presumptive_program) gets 100% off",
+       "quote": "Presumptive eligibility for Financial Assistance may be granted for circumstances outlined in the Presumptive Eligibility section of this policy.",
+       "why": "The quote only introduces the presumptive eligibility section; it does not state that presumptive_program alone grants 100% off (eligibility depends on specific circumstances like homelessness or public program enrollment)."
+      },
+      {
+       "kind": "unsupported",
+       "id": "app:1",
+       "claim": "The patient can still apply at least 0 days after the date of service (possibly one of several 'later of' deadlines)",
+       "quote": "Applicants have the later of (a) 365 days from the date of the first post-discharge Billing Statement, or (b) 30 days after notice of the initiation of one or more Extraordinary Collection Actions (\"ECA\") has been provided, to submit an application or to request a reconsideration of an incomplete and denied application",
+       "why": "The quote does not mention the date of service as a starting point for the application period; it references the first post-discharge billing statement and ECA notice."
+      }
+     ],
+     "clauses": 7,
+     "clauses_proven": 1,
+     "unsupported": 7
+    },
+    "secondary_model": {
+     "hospital": "UCHealth",
+     "doc": "policy",
+     "source_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/2026/09/29153210/UCHealth-Financial-Assistance-Policy-English-09_28_26.pdf",
+     "nonprofit": true,
+     "requires": [],
+     "rules": [
+      {
+       "id": "rule_catastrophic",
+       "label": "Catastrophic Balance Financial Assistance",
+       "when": [
+        [
+         {
+          "var": "bill_pct_income_assets",
+          "op": ">",
+          "value": 50.0
+         }
+        ]
+       ],
+       "discount_pct": null,
+       "quote": "The Patient's outstanding single account balance due after all insurance or third-party payments and/or discounts (including the application of Financial Assistance based on family income alone) is greater than 50% of the Patient's total annual Family Income and Financial Resources combined."
+      }
+     ],
+     "timing": {
+      "application": [
+       {
+        "anchor": "first_statement",
+        "days": 365,
+        "quote": "Applicants have the later of (a) 365 days from the date of the first post-discharge Billing Statement, or (b) 30 days after notice of the initiation of one or more Extraordinary Collection Actions (\"ECA\") has been provided, to submit an application or to request a reconsideration of an incomplete and denied application"
+       }
+      ],
+      "eca_not_before": [
+       {
+        "anchor": "first_statement",
+        "days": 365,
+        "quote": "UCHealth does not initiate ECAs prior to (a) 365 days from the date UCHealth provides the first post-discharge Billing Statement to the Patient; and (b) reasonable efforts have been made to determine whether a Guarantor is approved for Financial Assistance under this policy, as described in this section."
+       }
+      ],
+      "first_statement_from_day": null
+     },
+     "payment_plan": {
+      "max_pct_monthly_income": null,
+      "max_months": null,
+      "min_monthly_usd": null,
+      "quote": ""
+     },
+     "notes": [
+      "Residency exception: For unscheduled emergency services, UCHealth may, at its sole discretion, make an exception to the residency requirement.",
+      "Self-pay discount reversal: When a Patient's application for Financial Assistance is approved, the self-pay discount will be reversed and the Patients will receive a discount on gross charges as outlined in the above Section titled Discounts and Appendix A of this policy.",
+      "AGB cap: UCHealth will not charge Patients approved for Financial Assistance more than the amount generally billed (AGB) by UCHealth to insured Patients for emergency or Medically Necessary care covered by this policy.",
+      "Catastrophic discount detail: Patients approved for Catastrophic Balance Financial Assistance will receive a discount on gross charges as outlined in Appendix A or 50% of their total annual Family Income, whichever results in the lesser outstanding balance due.",
+      "Timing of financial assistance validity: If Family Income is at or below 250% of FPL, Financial Assistance is valid for 365 days from the date of the last signed and dated Financial Assistance Application. If Family Income is between 251-400% of FPL, eligibility for Financial Assistance is valid for 180 days from the date of the last signed and dated Financial Assistance Application.",
+      "Non-covered services: Health care services that are not emergent or Medically Necessary, including elective or cosmetic surgery; and health care services related to a transplant procedure, self-pay package, single case agreement, grants & research, or when there is a legal obligation for a third party to pay a claim.",
+      "UCHealth employees residing outside Colorado: UCHealth employees residing outside the State of Colorado, but who receive services at a UCHealth facility do not have to meet residency requirements for financial assistance applications they may request.",
+      "Patients with UCHealth debt not denied services: Patients with UCHealth debt are not denied services for non-emergency care and are not excluded from financial assistance."
+     ]
+    },
+    "disagreements_before": [
+     "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
+     "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+     "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
+     "A household of 2 earning $109,000 a year (503.7% of the poverty line), living outside Colorado, uninsured, owing $55,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+    ],
+    "reconcile_dropped": [
+     {
+      "kind": "collection timing",
+      "id": "collection timing",
+      "quote": "UCHealth will not initiate ECAs prior to (a) 365 days from the date UCHealth provides the first post-discharge Billing Statement to the Patient"
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_medically_necessary",
+      "claim": "Every form of assistance requires: (medically_necessary)",
+      "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services",
+      "why": "The policy limits assistance to emergency or medically necessary care, but does not require medically_necessary for every form of assistance (e.g., presumptive eligibility may apply regardless)."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_residency",
+      "claim": "Every form of assistance requires: (co_resident)",
+      "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance",
+      "why": "Residency is required for Financial Assistance, but the policy allows discretionary exceptions for unscheduled emergency services, so it is not an absolute requirement for every form of assistance."
+     },
+     {
+      "kind": "unsupported",
+      "id": "req:req_uninsured_or_underinsured",
+      "claim": "Every form of assistance requires: (not insured OR underinsured)",
+      "quote": "offer discounted, medically necessary care for those who are Uninsured, or Under-insured and have demonstrated financial need",
+      "why": "While the policy offers assistance to uninsured or underinsured patients, it also provides Catastrophic Balance Financial Assistance based on balance-to-income ratio, which does not require being uninsured or underinsured."
+     },
+     {
+      "kind": "unsupported",
+      "id": "rule:rule_self_pay",
+      "claim": "A patient with (not insured) gets an unstated amount of help",
+      "quote": "Self-pay Guarantors automatically receive a discount on total billed charges at time of billing",
+      "why": "The self-pay discount is automatic at billing, but applying for Financial Assistance reverses it and applies a different discount; thus, being uninsured does not guarantee financial assistance under this policy."
+     }
+    ],
+    "rounds": 1,
+    "disagreements_after": [
+     "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
+     "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+     "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help."
+    ],
+    "equivalent": false
+   }
+  },
+  {
+   "model": "repair",
+   "doc": "uchealth-summary",
+   "equivalent": false,
+   "differences": [
+    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $34,200: the repair model gives no help, the reference gives help (amount not stated)."
+   ],
+   "findings_match": "9/10",
+   "findings_match_pct": 90,
+   "verdicts": {
+    "co_hdc_coverage": [
+     "counterexample"
+    ],
+    "co_hdc_assets": [
+     "proved"
+    ],
+    "co_hdc_public": [
+     "proved"
+    ],
+    "co_eca_182": [
+     "not_stated"
+    ],
+    "co_window_181": [
+     "not_stated"
+    ],
+    "co_window_insured": [
+     "not_stated"
+    ],
+    "co_plan_4pct": [
+     "not_stated"
+    ],
+    "fed_window_240": [
+     "not_stated"
+    ],
+    "fed_eca_120": [
+     "not_stated"
+    ],
+    "monotone": [
+     "counterexample"
+    ]
+   },
+   "quotes_proven_pct": 100,
+   "cost_usd": 0.04422,
+   "seconds": 39.3,
+   "report": {
+    "primary": {
+     "model": "ultra",
+     "lint": [],
+     "repaired": false,
+     "dropped": [],
+     "clauses": 6,
+     "clauses_proven": 6,
+     "unsupported": 0
+    },
+    "secondary": {
+     "model": "super",
+     "lint": [],
+     "repaired": false,
+     "dropped": [
+      {
+       "kind": "unsupported",
+       "id": "req:req_in_service_area",
+       "claim": "Every form of assistance requires: (in_service_area)",
+       "quote": "UCHealth provides financial assistance for emergency and other medically necessary care at a discount from our normal charges if your family income is at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado.",
+       "why": "Policy does not mention hospital service area as a requirement."
+      }
+     ],
+     "clauses": 7,
+     "clauses_proven": 6,
+     "unsupported": 1
+    },
+    "secondary_model": {
+     "hospital": "UCHealth",
+     "doc": "summary",
+     "source_url": "https://www.uchealth.org/uchealth-financial-assistance-policy-summary-2024/",
+     "nonprofit": true,
+     "requires": [
+      {
+       "id": "req_co_resident",
+       "label": "Colorado resident",
+       "cond": [
+        [
+         {
+          "var": "co_resident",
+          "op": "true",
+          "value": null
+         }
+        ]
+       ],
+       "discretionary": false,
+       "quote": "if your family income is at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado."
+      },
+      {
+       "id": "req_emergency_or_medically_necessary",
+       "label": "Emergency or medically necessary care",
+       "cond": [
+        [
+         {
+          "var": "emergency",
+          "op": "true",
+          "value": null
+         },
+         {
+          "var": "medically_necessary",
+          "op": "true",
+          "value": null
+         }
+        ]
+       ],
+       "discretionary": false,
+       "quote": "UCHealth provides financial assistance for emergency and other medically necessary care at a discount from our normal charges if your family income is at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado."
+      },
+      {
+       "id": "req_uninsured_or_underinsured",
+       "label": "Uninsured or underinsured",
+       "cond": [
+        [
+         {
+          "var": "insured",
+          "op": "false",
+          "value": null
+         },
+         {
+          "var": "underinsured",
+          "op": "true",
+          "value": null
+         }
+        ]
+       ],
+       "discretionary": false,
+       "quote": "If you do not have insurance or if you are under-insured, UCHealth provides financial assistance for emergency and other medically necessary care at a discount from our normal charges if your family income is at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado."
+      }
+     ],
+     "rules": [
+      {
+       "id": "rule_free_care",
+       "label": "Free care up to 250% FPL",
+       "when": [
+        [
+         {
+          "var": "fpl_pct",
+          "op": "<=",
+          "value": 250.0
+         }
+        ]
+       ],
+       "discount_pct": 100.0,
+       "quote": "Annual family income up to 250% of the FPG: free care"
+      },
+      {
+       "id": "rule_discounted_care",
+       "label": "Discounted care between 251% and 400% FPL",
+       "when": [
+        [
+         {
+          "var": "fpl_pct",
+          "op": ">=",
+          "value": 251.0
+         }
+        ],
+        [
+         {
+          "var": "fpl_pct",
+          "op": "<=",
+          "value": 400.0
+         }
+        ]
+       ],
+       "discount_pct": null,
+       "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed (see below for description)."
+      },
+      {
+       "id": "rule_catastrophic_balance",
+       "label": "Catastrophic balance discount",
+       "when": [
+        [
+         {
+          "var": "bill_pct_income",
+          "op": ">",
+          "value": 50.0
+         }
+        ]
+       ],
+       "discount_pct": null,
+       "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources, you may be eligible for a discount to your bill."
+      }
+     ],
+     "timing": {
+      "application": [],
+      "eca_not_before": [],
+      "first_statement_from_day": null
+     },
+     "payment_plan": {
+      "max_pct_monthly_income": null,
+      "max_months": null,
+      "min_monthly_usd": null,
+      "quote": ""
+     },
+     "notes": [
+      "Lawful presence status is not counted in determining residency status.",
+      "Charges Will Not Exceed Amount Generally Billed: If you are eligible to receive financial assistance under UCHealth\u2019s FAP, UCHealth will not charge you more for emergency or other medically necessary care than the amount UCHealth generally bills patients with commercial insurance, Medicare, and Medicaid coverage (\u2018Amount Generally Billed,\u2019 or \u2018AGB\u2019).",
+      "Additional measures may be applied for catastrophic encounters.",
+      "The policy mentions that discounted care is 'equal to or less than the Amount Generally Billed' but does not specify a fixed discount percentage.",
+      "Catastrophic balance eligibility also considers 'certain other financial resources' beyond income, which the current vocabulary cannot fully capture (assets_usd may partially reflect this)."
+     ]
+    },
+    "disagreements_before": [
+     "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, with $400 in savings, owing $34,200: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+    ],
+    "reconcile_dropped": [],
+    "rounds": 1,
+    "disagreements_after": [
+     "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, with $1,000 in savings, owing $55,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+    ],
+    "equivalent": false
+   }
+  }
+ ]
+}

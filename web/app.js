@@ -353,18 +353,26 @@ async function showPolicy(id) {
 /* ---------- how ---------- */
 async function loadHow() {
   const h = await (await fetch("/api/health")).json();
-  const jobs = { vl: "Reads the bill photo or PDF", ultra: "Compiles each policy into rules; settles disagreements", super: "Second, independent compile to catch mistakes",
-    nano: "Picks the official policy among search results", lightning: "Writes the plain-language letter" };
+  const jobs = [["Writes each policy as logic (long, precise reading)", "ultra"], ["Second, independent formalisation; checks each quote's meaning", "super"],
+    ["Picks the hospital's own policy among search results", "nano"], ["Reads a bill photo (Check my bill tab)", "vl"]];
   $("#how-models").innerHTML = `<table class="plain"><thead><tr><th>Job</th><th>Model on Nebius Token Factory</th></tr></thead><tbody>
-    ${Object.entries(jobs).map(([k, j]) => `<tr><td>${esc(j)}</td><td><code>${esc(h.models[k])}</code></td></tr>`).join("")}
-    <tr><td>Eligibility, maths, dates, quote checks</td><td>plain Python, no model</td></tr></tbody></table>`;
-  const ev = await (await fetch("/api/eval")).json();
-  if (ev.models) $("#how-eval").innerHTML = evalHtml(ev);
+    ${jobs.map(([j, k]) => `<tr><td>${esc(j)}</td><td><code>${esc(h.models[k])}</code></td></tr>`).join("")}
+    <tr><td>Every legal question: coverage, deadlines, equivalence, counterexamples</td><td>Z3 theorem prover, no model</td></tr></tbody></table>`;
+  const ev = await (await fetch("/api/formal-eval")).json();
+  if (ev.summary) $("#how-eval").innerHTML = formalEvalHtml(ev);
 }
 
-function evalHtml(ev) {
-  return `<p>${esc(ev.summary || "")}</p><table class="plain"><thead><tr><th>Model</th><th>Fields correct</th><th>Income limits correct</th><th>Avg cost / policy</th><th>Avg time</th></tr></thead><tbody>
-    ${ev.models.map((m) => `<tr><td>${esc(m.label)}</td><td>${m.field_acc}%</td><td>${m.tier_acc}%</td><td>$${m.cost.toFixed(4)}</td><td>${m.seconds}s</td></tr>`).join("")}</tbody></table>`;
+function formalEvalHtml(ev) {
+  const s = ev.summary;
+  const rows = ["nano", "super", "ultra", "repair"].filter((k) => s[k]).map((k) => `<tr><td>${esc(s[k].label)}</td><td>${s[k].findings_match_pct}%</td><td>${s[k].equivalent}/${s[k].docs}</td><td>$${s[k].cost_per_doc.toFixed(3)}</td><td>${s[k].seconds_per_doc}s</td></tr>`).join("");
+  const t = s.two_models;
+  return `<p>We wrote ${ev.references.length} reference models by hand (UCHealth's policy and its summary, Intermountain, Children's, HealthONE), checking every quote.
+    Each model formalised the same documents; Z3 compared the audit verdicts it led to with the verdicts from our references.</p>
+    <table class="plain"><thead><tr><th>Model</th><th>Audit verdicts that match ours</th><th>Logically equivalent to ours</th><th>Cost / document</th><th>Time</th></tr></thead><tbody>${rows}</tbody></table>
+    ${t ? `<p><b>Two models as a confidence signal.</b> When Nemotron 3 Ultra's and Nemotron 3 Super's models reach the same verdict (${t.confirmed_share_pct}% of verdicts), it matches ours ${t.confirmed_match_pct}% of the time; when they disagree, ${t.disputed_match_pct}%. So the audit publishes both and marks disagreements "disputed". Cost for both: $${t.cost_per_doc.toFixed(3)} per document.</p>` : ""}
+    <p>What we learned: no model is logically equivalent to our references on any document; they differ on details like which program a condition belongs to.
+    Letting Ultra rewrite its model from the disagreement households (row "repair") made results worse and cost 4× more, so it is off.
+    Ultra also surfaced two clauses our own reference for Children's had missed; we corrected the reference and say so.</p>`;
 }
 
 /* ---------- boot ---------- */

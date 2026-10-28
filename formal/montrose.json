@@ -1,0 +1,195 @@
+{
+ "model": {
+  "hospital": "Montrose Regional Health",
+  "doc": "summary",
+  "source_url": "https://montrosehealth.com/wp-content/uploads/2021/11/Plain-Language-Summary-of-Charity-Care-and-Financial-Assistance-Policy_Final-MRH-1.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_financial_assistance",
+    "label": "Financial assistance per sliding scale based on Federal Poverty Guidelines",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Financial assistance is generally determined by a sliding scale of total household income based on Federal Poverty Guidelines"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy references a sliding scale chart with categories (e.g., category Z for family of 1 making $4,500) and a responsibility chart (e.g., $1,000 bill -> $0 responsibility) but the summary does not include the actual tables.",
+   "Service exclusions exist (transplants, cosmetic services, and others) but cannot be expressed with the available vocabulary.",
+   "AGB (Amounts Generally Billed) is used as a cap: eligible patients will not be charged more than AGB for medically necessary care. AGB is calculated from all claims paid in full by Medicare and private insurers over a 12-month period divided by associated gross charges.",
+   "Patients with sufficient insurance coverage or assets may be deemed ineligible.",
+   "Application process requires form and supporting documents submitted to Business Office at 800 S 3rd Street, Montrose, CO 81401.",
+   "Policy and application available in English and Spanish; translation aids may be provided.",
+   "All Montrose Regional Health providers participate in the program."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req_medically_necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "No person eligible for financial assistance under the FAP will be charged more for medically necessary care than amounts generally billed to individuals who have insurance covering such care",
+     "why": "The quote discusses billing limits for eligible patients, not a requirement that all assistance requires medically necessary care."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_financial_assistance",
+     "claim": "A patient with (not insured OR underinsured) gets an unstated amount of help",
+     "quote": "Financial assistance is generally determined by a sliding scale of total household income based on Federal Poverty Guidelines",
+     "why": "The quote confirms that uninsured or underinsured patients may qualify, but does not specify the amount of help."
+    }
+   ],
+   "clauses": 2,
+   "clauses_proven": 1,
+   "unsupported": 2
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_fap_general",
+     "claim": "A patient with (not insured OR underinsured) AND (not applied_public_programs) AND (medically_necessary) AND (co_resident) gets an unstated amount of help",
+     "quote": "You may be able to get financial assistance if you do not have insurance, are underinsured, or if it would be a financial hardship to pay in full the expected out of pocket expenses for services at Montrose Regional Health.",
+     "why": "Policy requires financial hardship, not just lack of public program application."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_agb_limit",
+     "claim": "A patient with (medically_necessary) gets an unstated amount of help",
+     "quote": "No person eligible for financial assistance under the FAP will be charged more for medically necessary care than amounts generally billed to individuals who have insurance covering such care (AGB).",
+     "why": "Quote describes a charge limit for eligible patients, not eligibility for help."
+    }
+   ],
+   "clauses": 2,
+   "clauses_proven": 0,
+   "unsupported": 2
+  },
+  "secondary_model": {
+   "hospital": "Montrose Regional Health",
+   "doc": "summary",
+   "source_url": "https://montrosehealth.com/wp-content/uploads/2021/11/Plain-Language-Summary-of-Charity-Care-and-Financial-Assistance-Policy_Final-MRH-1.pdf",
+   "nonprofit": null,
+   "requires": [],
+   "rules": [],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "The policy mentions service exclusions not typically eligible for financial assistance, including transplants, cosmetic services and other services.",
+    "The policy references a sliding scale based on Federal Poverty Guidelines and family size but does not specify exact percentages or discount amounts in the summary provided.",
+    "Applications can be submitted online, by mail, in person at the Business Office, or by phone.",
+    "The policy is available in English and Spanish, with translation aids available upon request.",
+    "The hospital determines AGB based on claims paid by Medicare and private insurers over a 12-month period."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 3025,
+   "tokens_cached": 0,
+   "tokens_out": 569,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.004732,
+   "orig_seconds": 2.1
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.12,
+   "tokens_in": 2595,
+   "tokens_cached": 0,
+   "tokens_out": 108,
+   "cost_usd": 0.000876,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.000876,
+   "orig_seconds": 1.12
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 3025,
+   "tokens_cached": 0,
+   "tokens_out": 470,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.001331,
+   "orig_seconds": 2.7
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.21,
+   "tokens_in": 2649,
+   "tokens_cached": 0,
+   "tokens_out": 86,
+   "cost_usd": 0.000872,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.000872,
+   "orig_seconds": 1.21
+  }
+ ],
+ "cost_usd": 0.00781,
+ "seconds": 2.4,
+ "made": "2026-10-27"
+}

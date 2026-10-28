@@ -1,0 +1,239 @@
+{
+ "model": {
+  "hospital": "Yuma District Hospital",
+  "doc": "policy",
+  "source_url": "https://yumahospital.org/wp-content/uploads/2025/06/Yuma_Website-Content-Doc_Batch_4_03.27.25.v1_discounted-care_english.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_income_250_fpl",
+    "label": "Income at or below 250% FPL qualifies for discounted care",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If your gross household income is at or below 250% of the federal poverty level: You may be able to get discounts on your health services."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy is a patient-facing summary of Colorado Hospital Discounted Care law (effective September 1, 2022).",
+   "Residency (Colorado) and service-area requirements are implied by state law but not explicit in this text.",
+   "Insurance status does not bar eligibility: uninsured patients must be screened for public programs; insured patients have the right to request screening.",
+   "Hospital must check eligibility within 45 days of service or request to be screened.",
+   "Decision notification within 14 days of completing an application.",
+   "Appeal window: 30 days from date hospital gave the decision.",
+   "Before sending to collections, hospital must: screen for eligibility, offer payment plan if eligible, explain bill in primary language, bill insurance if applicable, notify patient of potential collections.",
+   "Provider (physician) monthly bill capped at 2% of monthly income (not modeled in payment_plan).",
+   "Maximum bill rates for services are set by the Department of Health Care Policy and Financing.",
+   "Immigration status and citizenship do not affect eligibility.",
+   "Patient may refuse screening but may lose right to legal action for failure to screen or discount.",
+   "Complaints can be filed with hospital, provider, or Department of Health Care Policy and Financing."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "payment plan",
+     "id": "payment_plan",
+     "quote": "Your monthly bill cannot be more than 4% of your monthly income. You do not owe any more money Once you make 36 payments, or Pay the full amount due on your payment plan."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_medically_necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "If you need help paying a hospital bill, you can see if you qualify for discounted care.",
+     "why": "Policy does not require medical necessity for all forms of assistance."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_income_250_fpl",
+     "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
+     "quote": "If your gross household income is at or below 250% of the federal poverty level: You may be able to get discounts on your health services.",
+     "why": "Policy states possible discounts but does not specify amount of help."
+    }
+   ],
+   "clauses": 2,
+   "clauses_proven": 1,
+   "unsupported": 2
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "The hospital must check to see if you qualify within 45 days of when you received the service or ask to be screened.",
+     "why": "45-day deadline is for hospital to check eligibility, not for patient to submit application."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_low_income_discount",
+     "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
+     "quote": "If your gross household income is at or below 250% of the federal poverty level:",
+     "why": "Policy states eligibility for discounts but does not specify amount of help."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_payment_plan_offered",
+     "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
+     "quote": "You have the right to a payment plan based on your income.",
+     "why": "Policy guarantees payment plan based on income but does not state amount of help."
+    }
+   ],
+   "clauses": 2,
+   "clauses_proven": 2,
+   "unsupported": 3
+  },
+  "secondary_model": {
+   "hospital": "Colorado Hospital Discounted Care Program",
+   "doc": "policy",
+   "source_url": "https://yumahospital.org/wp-content/uploads/2025/06/Yuma_Website-Content-Doc_Batch_4_03.27.25.v1_discounted-care_english.pdf",
+   "nonprofit": null,
+   "requires": [],
+   "rules": [
+    {
+     "id": "rule_low_income_discount",
+     "label": "Income-based discount (\u2264250% FPL)",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "If your gross household income is at or below 250% of the federal poverty level:"
+    },
+    {
+     "id": "rule_payment_plan_offered",
+     "label": "Payment plan offer for eligible patients",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "You have the right to a payment plan based on your income."
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": 4.0,
+    "max_months": 36,
+    "min_monthly_usd": null,
+    "quote": "Your monthly bill cannot be more than 4% of your monthly income."
+   },
+   "notes": [
+    "Policy mentions eligibility checks for public programs (Medicaid, CHP+, etc.) but does not require application as a condition for discounted care.",
+    "Policy states that patients may refuse screening but may lose right to legal action if they do.",
+    "Policy includes provisions for appeals (30 days from decision) and complaints.",
+    "Policy specifies provider monthly bill limit of 2% of monthly income.",
+    "Policy indicates that after 36 payments or full payment, no more money is owed.",
+    "Policy does not specify asset limits or bill-to-income/assets ratios for eligibility.",
+    "Policy does not distinguish between inpatient/outpatient or emergency care for eligibility.",
+    "Policy does not require Colorado residency or service area residence for eligibility (statewide program).",
+    "Policy does not mention underinsured status as a factor for eligibility.",
+    "Policy does not specify timing for first statement after service."
+   ]
+  },
+  "disagreements_before": [],
+  "disagreements_after": [],
+  "equivalent": true
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 3141,
+   "tokens_cached": 0,
+   "tokens_out": 674,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.005163,
+   "orig_seconds": 2.57
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 3.6,
+   "tokens_in": 2714,
+   "tokens_cached": 0,
+   "tokens_out": 90,
+   "cost_usd": 0.000895,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.000895,
+   "orig_seconds": 3.6
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 3141,
+   "tokens_cached": 0,
+   "tokens_out": 502,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.001394,
+   "orig_seconds": 2.3
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 3.03,
+   "tokens_in": 2776,
+   "tokens_cached": 0,
+   "tokens_out": 131,
+   "cost_usd": 0.000951,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.000951,
+   "orig_seconds": 3.03
+  }
+ ],
+ "cost_usd": 0.0084,
+ "seconds": 6.7,
+ "made": "2026-10-27"
+}

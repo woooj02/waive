@@ -1,0 +1,425 @@
+{
+ "model": {
+  "hospital": "Community Hospital",
+  "doc": "policy",
+  "source_url": "https://communityhospital-corporate-cdn.codespeed.app/files/Financial+Assistance+Policy.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_fpl_100",
+    "label": "Free care at or below 100% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 100.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at or below 100% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_fpl_100_150",
+    "label": "Up to 50% discount between 100% and 150% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 100.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patient whose family income is over 100% and below 150% of the FPL would be eligible for up to a 50% discount."
+   },
+   {
+    "id": "rule_fpl_above_150",
+    "label": "Case-by-case discount above 150% FPL (catastrophic/medical indigence)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients whose family income exceeds 150% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Community Hospital"
+   },
+   {
+    "id": "rule_presumptive_homeless",
+    "label": "Presumptive eligibility for homelessness",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: Homelessness"
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 240,
+     "quote": "Accounts turned to bad debt remain eligible for financial assistance consideration as long as the complete application and documentation are submitted prior to 240 days from the date of the initial account statement"
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 120,
+     "quote": "ECA's will not be initiated by Community Hospital or by an outside collection agency acting on behalf of Community Hospital until at least 120 days after the initial guarantor account statement has been mailed."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "For patients who qualify for charity and who are cooperating in good faith to resolve their discounted hospital bills, Community Hospital may offer extended payment plans"
+  },
+  "notes": [
+   "Policy reserves right to exclude or limit non-urgent services from FAP",
+   "Financial assistance is last resort after exploring all other payment options (private insurance, Medicare, Medicaid, CHP, liability, Crime Victims, CICP)",
+   "Elective procedures and flat rate procedures including cosmetic, bariatric lithotripsy are not eligible; complications from elective procedures considered case-by-case",
+   "Duration of eligibility does not exceed 12 months; hospital may reevaluate if income changes or new hospital care needed",
+   "Relatives/guardians may apply for incapacitated or deceased individuals",
+   "Income determination uses gross personal and business income per CICP guidelines; includes all household members and legally responsible parties",
+   "AGB (Amounts Generally Billed) calculated per IRC 501(r) rules; recalculated annually May 1-April 30",
+   "Patient must submit documentation: minimum last year's tax return, last 3 months income, or bank statement with checking/savings/investment balances",
+   "Completed applications processed within 30 days; written notification within 30 days of receipt",
+   "Applicant denied has right to appeal in writing to Business Office Manager within 30 days of denial receipt",
+   "Applicant must provide required information within 14 days of application date; failure may result in denial",
+   "Misrepresentation/falsification causes financial assistance to be withdrawn retroactively",
+   "Records maintained for at least 7 years",
+   "Hospital may use outside agencies to estimate income when documentation lacking",
+   "Collections policy: reasonable efforts to determine eligibility before ECA; ECA includes wage garnishments, liens on primary residences, other legal actions",
+   "Collection activity suspended during financial assistance review; resumes if partial adjustment, failure to cooperate, or ineligibility",
+   "Hospital complies with all federal, state, and local laws",
+   "Hospital located at 2351 G Road, Grand Junction, CO 81505"
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "rule",
+     "id": "rule_presumptive_deceased",
+     "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: Patient is deceased with no known estate"
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_medically_necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "Services eligible under this Policy will be made available to the patient on a sliding fee scale, in accordance with financial need, as determined in reference to Federal Poverty Levels (FPL) in effect at the time of the determination.",
+     "why": "Policy limits eligibility to medically necessary services but does not require it for every form of assistance; sliding fee scale applies only to those already eligible."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_uninsured_or_underinsured",
+     "claim": "Every form of assistance requires: (not insured OR underinsured)",
+     "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care",
+     "why": "Policy considers eligibility for those who are uninsured, underinsured, ineligible for government programs, and unable to pay; it does not require (uninsured OR underinsured) alone for every form of assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_ineligible_govt_programs",
+     "claim": "Every form of assistance requires: (not applied_public_programs)",
+     "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care",
+     "why": "Policy requires ineligibility for government programs as part of a conjunction with other factors (uninsured, underinsured, unable to pay), not as a standalone requirement for every form of assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_unable_to_pay",
+     "claim": "Every form of assistance requires: (bill_pct_income > 0)",
+     "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care",
+     "why": "Policy states eligibility is for those unable to pay for their care, but does not define this as (bill_pct_income > 0); inability to pay is a broader determination of financial need, not equivalent to bill exceeding zero income."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_fpl_100_150",
+     "claim": "A patient with (fpl_pct > 100) AND (fpl_pct < 150) gets 50% off",
+     "quote": "Patient whose family income is over 100% and below 150% of the FPL would be eligible for up to a 50% discount.",
+     "why": "Policy states up to a 50% discount for income over 100% and below 150% FPL, so the exact 50% discount is not guaranteed; amount is not fixed."
+    }
+   ],
+   "clauses": 9,
+   "clauses_proven": 4,
+   "unsupported": 5
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "rule",
+     "id": "rule_presumptive_deceased",
+     "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: \u2022 Patient is deceased with no known estate"
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_co_resident",
+     "claim": "Every form of assistance requires: (co_resident)",
+     "quote": "Community Hospital appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+     "why": "Policy does not require Colorado residency for any assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_in_service_area",
+     "claim": "Every form of assistance requires: (in_service_area)",
+     "quote": "Community Hospital appropriately serves patients in difficult financial circumstances and offers financial assistance to those who have an established need to receive medically necessary medical services.",
+     "why": "Policy does not require living in the hospital's service area for any assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_medically_necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "Services for a condition which, if not promptly treated, would lead to an adverse change in the health status of an individual;",
+     "why": "Policy lists medically necessary services as eligible but does not require them for all assistance (e.g., emergency services are eligible without being medically necessary)."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_no_other_payment",
+     "claim": "Every form of assistance requires: (applied_public_programs)",
+     "quote": "All other payment options including but not limited to private insurance, Medicare, Medicaid, CHP, liability, Crime Victims, CICP must be explored for eligibility and secured where eligible prior to the application of financial assistance.",
+     "why": "Policy requires exploring other payment options but does not require having applied for public programs as a condition for assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:1",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 30 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "Requests for charity shall be processed promptly and Community Hospital shall notify the patient or applicant in writing within 30 days of receipt of a completed application.",
+     "why": "30-day quote refers to hospital notification timing, not patient application deadline."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_case_by_case",
+     "claim": "A patient with (fpl_pct >= 150) gets an unstated amount of help",
+     "quote": "Patients whose family income exceeds 150% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Community Hospital; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients.",
+     "why": "Policy states patients over 150% FPL may be eligible for discounted rates on a case-by-case basis but does not specify the amount of help."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_presumptive_homeless",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: \u2022 Homelessness",
+     "why": "Policy mentions homelessness as a basis for presumptive eligibility but does not specify the amount of help."
+    }
+   ],
+   "clauses": 9,
+   "clauses_proven": 4,
+   "unsupported": 7
+  },
+  "secondary_model": {
+   "hospital": "Community Hospital",
+   "doc": "policy",
+   "source_url": "https://communityhospital-corporate-cdn.codespeed.app/files/Financial+Assistance+Policy.pdf",
+   "nonprofit": true,
+   "requires": [],
+   "rules": [
+    {
+     "id": "rule_free_care",
+     "label": "Free care at or below 100% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 100.0
+       }
+      ]
+     ],
+     "discount_pct": 100.0,
+     "quote": "Patients whose family income is at or below 100% of the FPL are eligible to receive free care."
+    },
+    {
+     "id": "rule_discount_50",
+     "label": "Up to 50% discount for 100-150% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 101.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 149.0
+       }
+      ]
+     ],
+     "discount_pct": 50.0,
+     "quote": "Patient whose family income is over 100% and below 150% of the FPL would be eligible for up to a 50% discount."
+    },
+    {
+     "id": "rule_case_by_case",
+     "label": "Case-by-case discount over 150% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 150.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Patients whose family income exceeds 150% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Community Hospital; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients."
+    },
+    {
+     "id": "rule_presumptive_homeless",
+     "label": "Presumptive eligibility for homeless",
+     "when": [
+      [
+       {
+        "var": "presumptive_program",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: \u2022 Homelessness"
+    }
+   ],
+   "timing": {
+    "application": [
+     {
+      "anchor": "first_statement",
+      "days": 240,
+      "quote": "Accounts turned to bad debt remain eligible for financial assistance consideration as long as the complete application and documentation are submitted prior to 240 days from the date of the initial account statement;"
+     }
+    ],
+    "eca_not_before": [
+     {
+      "anchor": "service",
+      "days": 120,
+      "quote": "ECA\u2019s will not be initiated by Community Hospital or by an outside collection agency acting on behalf of Community Hospital until at least 120 days after the initial guarantor account statement has been mailed."
+     }
+    ],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "The policy states that financial assistance benefits are provided as a last resort and all other payment options must be explored prior to application.",
+    "The policy allows the hospital to exclude or limit non-urgent services from financial assistance.",
+    "The policy specifies that elective procedures and flat rate procedures including cosmetic, bariatric lithotripsy are not eligible for charity care.",
+    "The policy states that the term of benefits granted will not exceed twelve months and is subject to financial and medical circumstances.",
+    "The policy requires applicants to provide required information within 14 days of the application date or risk denial.",
+    "The policy allows for reconsideration of a denial within 30 days of receipt of the denial.",
+    "The policy states that misrepresentation or falsification of information will cause financial assistance to be withdrawn retroactively and currently.",
+    "The policy indicates that records relating to application and determination will be maintained for at least 7 years.",
+    "The policy indicates that the hospital will use gross personal and business income consistent with CICP program guidelines for income determination.",
+    "The policy states that the hospital will provide an itemized statement showing charges and discount amount applied once a complete application is submitted.",
+    "The policy indicates that the hospital will notify the patient or applicant in writing within 30 days of receipt of a completed application.",
+    "The policy states that the hospital will not engage in extraordinary collection actions before making a reasonable effort to determine financial assistance eligibility.",
+    "The policy defines extraordinary collection actions as wage garnishments, liens on primary residences, or other legal actions.",
+    "The policy states that if a collection agency identifies a patient meeting financial assistance eligibility criteria, the account may be considered for financial assistance and collection activity suspended.",
+    "The policy indicates that the hospital complies with all other federal, state, and local laws, rules, and regulations."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 4 earning $41,000 a year (124.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives 50% off.",
+   "A household of 3 earning $40,707 a year (149.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $40,980 a year (150.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "disagreements_after": [
+   "A household of 4 earning $41,000 a year (124.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives 50% off.",
+   "A household of 3 earning $40,707 a year (149.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $40,980 a year (150.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 5541,
+   "tokens_cached": 0,
+   "tokens_out": 1863,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.01113,
+   "orig_seconds": 5.53
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 3.34,
+   "tokens_in": 5740,
+   "tokens_cached": 0,
+   "tokens_out": 652,
+   "cost_usd": 0.002309,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.002309,
+   "orig_seconds": 3.34
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 5541,
+   "tokens_cached": 0,
+   "tokens_out": 1496,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.003009,
+   "orig_seconds": 4.94
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 3.28,
+   "tokens_in": 5765,
+   "tokens_cached": 0,
+   "tokens_out": 525,
+   "cost_usd": 0.002202,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.002202,
+   "orig_seconds": 3.28
+  }
+ ],
+ "cost_usd": 0.01865,
+ "seconds": 6.8,
+ "made": "2026-10-27"
+}

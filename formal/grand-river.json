@@ -1,0 +1,267 @@
+{
+ "model": {
+  "hospital": "Grand River Health",
+  "doc": "policy",
+  "source_url": "https://grandriverhealth.org/patients-visitors/commitment-to-charity-care/",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule-sliding-scale",
+    "label": "Sliding Scale Financial Assistance (up to 400% FPL)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Grand River Health's Sliding Scale is based on 400% of the Federal Poverty Level Guidelines"
+   },
+   {
+    "id": "rule-homeless-transient",
+    "label": "Automatic 100% charity care for homeless or transient patients",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients who are homeless or transient are generally considered automatically eligible for 100% charity care"
+   },
+   {
+    "id": "rule-catastrophic-hardship",
+    "label": "Charity care extension for illness making financial obligations impossible",
+    "when": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "If circumstances are such that an illness makes it impossible to meet financial obligations; charity care may be extended with hospital administrative approval"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "If you are having trouble paying your bill, payment plans are available"
+  },
+  "notes": [
+   "Policy requires application for State Medicaid and Hospital Discount Care (HDC) prior to Sliding Scale consideration",
+   "Income verification requires recent pay stub or federal/state W-2; hospital reserves right to investigate assets and income",
+   "Financial assistance determination initiated prior to or at time of admission",
+   "Hospital inpatients without insurance identified by Registration and reported to Patient Financial Services Director",
+   "Policy reviewed yearly and may be amended",
+   "Financial assistance may be revoked for knowing misrepresentation of financial needs",
+   "Chief Financial Officer exercises final discretion on financial assistance/charity care",
+   "Hospital reserves right to pursue claims against decedent's estate for unpaid services",
+   "Elective/cosmetic surgery defined as not medically necessary and excluded",
+   "Services accessible regardless of age, gender, geographic location, cultural background, physical mobility, or ability to pay",
+   "No denial or extension of financial assistance based on race, color, creed, age, religion, or national origin",
+   "Uninsured/Self Pay defined as without coverage by a commercial third-party payer",
+   "Emergent/Urgent Medical Care defined as unexpected, sudden onset health condition that could result in serious body dysfunction/failure putting person in serious jeopardy"
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req-medically-necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "Grand River Health is dedicated to providing medically necessary health care services",
+     "why": "Policy states dedication to providing medically necessary care but does not require it for every form of assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req-explore-other-means",
+     "claim": "Every form of assistance requires: (applied_public_programs)",
+     "quote": "Grand River Health will explore other means of payment prior to offering Financial Assistance",
+     "why": "Exploring other means is a procedural step before offering assistance, not a patient requirement for receiving assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule-one-time-charity-unemployed",
+     "claim": "A patient with (inpatient OR not insured) gets an unstated amount of help",
+     "quote": "Grand River Health also offers a one-time charity care program for services the patient may require",
+     "why": "One-time charity care program targets unemployed patients at registration, not broadly inpatient or uninsured patients."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-sliding-scale",
+     "claim": "A patient with (fpl_pct <= 400) gets an unstated amount of help",
+     "quote": "Grand River Health's Sliding Scale is based on 400% of the Federal Poverty Level Guidelines",
+     "why": "Sliding scale based on 400% FPL defines eligibility but policy does not specify the amount of help."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-catastrophic-hardship",
+     "claim": "A patient with (medically_necessary) gets an unstated amount of help",
+     "quote": "If circumstances are such that an illness makes it impossible to meet financial obligations; charity care may be extended with hospital administrative approval",
+     "why": "Policy allows extension of charity care with administrative approval for financial hardship but does not specify amount of help."
+    }
+   ],
+   "clauses": 6,
+   "clauses_proven": 3,
+   "unsupported": 5
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_sliding_scale_up_to_400_fpl",
+     "claim": "A patient with (fpl_pct <= 400) gets an unstated amount of help",
+     "quote": "Grand River Health\u2019s Sliding Scale is based on 400% of the Federal Poverty Level Guidelines.",
+     "why": "Policy sets sliding scale limit at 400% FPL but does not specify the amount of help provided."
+    }
+   ],
+   "clauses": 2,
+   "clauses_proven": 2,
+   "unsupported": 1
+  },
+  "secondary_model": {
+   "hospital": "Grand River Health",
+   "doc": "policy",
+   "source_url": "https://grandriverhealth.org/patients-visitors/commitment-to-charity-care/",
+   "nonprofit": null,
+   "requires": [],
+   "rules": [
+    {
+     "id": "rule_homeless_charity_care",
+     "label": "Homeless or transient patients receive 100% charity care",
+     "when": [
+      [
+       {
+        "var": "presumptive_program",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": 100.0,
+     "quote": "Patients who are homeless or transient are generally considered automatically eligible for 100% charity care."
+    },
+    {
+     "id": "rule_sliding_scale_up_to_400_fpl",
+     "label": "Sliding scale financial assistance up to 400% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 400.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Grand River Health\u2019s Sliding Scale is based on 400% of the Federal Poverty Level Guidelines."
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": "If you are having trouble paying your bill, payment plans are available."
+   },
+   "notes": [
+    "The policy mentions exploring other means of payment prior to offering financial assistance, including Hospital Discount Care Program, Medicaid, and CHP+. It requires applicants to apply for State Medicaid if applicable, must apply for HDC prior to Sliding Scale and be denied, and provide secure evidence of income and dependents' information for verification. The policy also states that financial assistance may be revoked if the applicant knowingly misrepresented financial needs, and that the hospital reserves the right to extend or deny assistance for administrative or legal reasons, but not based on race, color, creed, age, religion, or national origin. The CFO exercises final discretion. The policy includes a one-time charity care program for unemployed patients at registration/pre-registration using Federal Poverty Guidelines. It also states that charity care may be extended with hospital administrative approval if illness makes it impossible to meet financial obligations. The policy reserves the right to pursue claims against a decedent's estate for unpaid services. No specific timing for application, ECA, or first statement is provided. Payment plan details (max percentage of monthly income, max months, minimum monthly amount) are not specified."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "disagreements_after": [
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 3065,
+   "tokens_cached": 0,
+   "tokens_out": 972,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.005981,
+   "orig_seconds": 2.96
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.99,
+   "tokens_in": 2826,
+   "tokens_cached": 0,
+   "tokens_out": 297,
+   "cost_usd": 0.001115,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001115,
+   "orig_seconds": 1.99
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 3065,
+   "tokens_cached": 0,
+   "tokens_out": 533,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.001399,
+   "orig_seconds": 2.4
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.39,
+   "tokens_in": 2638,
+   "tokens_cached": 0,
+   "tokens_out": 113,
+   "cost_usd": 0.000893,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.000893,
+   "orig_seconds": 1.39
+  }
+ ],
+ "cost_usd": 0.00939,
+ "seconds": 3.4,
+ "made": "2026-10-27"
+}

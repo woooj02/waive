@@ -1,0 +1,434 @@
+{
+ "model": {
+  "hospital": "Memorial Regional Health",
+  "doc": "policy",
+  "source_url": "https://memorialregionalhealth.com/wp-content/uploads/Financial-Assistance-Policy-2025.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_med_indigent_1",
+    "label": "Medical Indigent Threshold #1 (301%-500% FPL, bill >25% income)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 301.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 25.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "A patient whose family income is between 301% and 500% of the Federal Poverty Level (FPL). Patient's single incident medical bills are greater than 25% of yearly gross household income. Patient will be billed the lesser of 5% of gross annual family income or 50% of the amounts generally billed (AGB)."
+   },
+   {
+    "id": "rule_med_indigent_2",
+    "label": "Medical Indigent Threshold #2 (>500% FPL, bill >25% income)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 25.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "A patient whose family income is greater than 500% of the FPL. Patient's single incident Medical bills are greater than 25% of yearly gross household income. Patient will be billed the lesser of 10% of gross annual family income or 50% of the AGB."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "service",
+     "days": 45,
+     "quote": "within 45 days of applicable service"
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": 24,
+   "min_monthly_usd": 25.0,
+   "quote": "Accounts must be paid in full within 24 months from date of service. Payments plans must be a minimum of $25.00 per month"
+  },
+  "notes": [
+   "Policy requires patients to obtain health insurance if financial capacity allows, apply for Colorado Medicaid, and apply for Hospital Discounted Care (HDC) or provide written documentation why steps cannot be achieved prior to consideration for financial assistance.",
+   "Patients must be overqualified for HDC based on HDC Screening or have an HDC ineligible determination letter, OR be financially indigent, medically indigent, or meet presumptive eligibility.",
+   "Assets considered: bank account balances, cash reserves, retirement/IRA balances showing withdrawals, other easily accessible financial resources. Assets NOT considered: marketable assets listed for sale, real estate listed for sale, tangible assets (vehicles, household goods), non-liquid/non-convertible resources.",
+   "Assistance approved retroactively covers 6 months from date of approval and remains valid for 1 year from first date of service applied to. Patient must reapply to maintain assistance.",
+   "Reapplication allowed if: 6 months passed since denial (new application cannot apply to service dates associated with previous denial); significant financial changes since most recent approval/denial; approved assistance is set to expire.",
+   "AGB determined using 'look-back' method per IRS/Treasury 501 rule section 4(b)(2): data based on claims allowed by Medicaid in combination with Medicare fee-for-service and all private health insurers paying claims to hospital during prior 12-month period. AGB percentage multiplied by gross charges for Emergency Care and Medically Necessary Care. Discount applies to patient's personal responsibility amount after all deductions, discounts, and insurance reimbursements.",
+   "Hardship application requires patient to declare all assets including investments, property of significant value, stocks, bonds, settlements received, and all other sources of assets or income.",
+   "Collection policy: accounts with approved sliding fee discount must be paid per normal terms or sent to collections. Accounts subject to collections after 6 months of nonpayment or underpayment. Minimum one contact attempt prior to forwarding to collections.",
+   "Policy applies only to Memorial Regional Health. Outside vendors not covered.",
+   "Cosmetic procedures excluded from eligible services.",
+   "For households >8 persons, add $5,380 for each additional person to FPL guidelines.",
+   "Financial Counselors notify patient in writing within 30 days of receipt of FAA.",
+   "Sliding fee schedule advertised through posted signage, social media, website, and verbally at registration to self-pay patients."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "rule",
+     "id": "rule_sliding_100",
+     "quote": "100% FA"
+    },
+    {
+     "kind": "rule",
+     "id": "rule_sliding_80",
+     "quote": "80%FA"
+    },
+    {
+     "kind": "rule",
+     "id": "rule_sliding_60",
+     "quote": "60%FA"
+    },
+    {
+     "kind": "rule",
+     "id": "rule_sliding_40",
+     "quote": "40%FA"
+    },
+    {
+     "kind": "rule",
+     "id": "rule_sliding_20",
+     "quote": "20%FA"
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_eligible_services",
+     "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+     "quote": "Eligible Services include: Emergency medical services provided in an emergency room setting; Services for a condition which, if not promptly treated, would lead to an adverse change in the health status of an individual; Non-elective services provided in response to life-threatening circumstances in a non-emergency room setting; and Elective services, excluding cosmetic procedures",
+     "why": "Elective services (excluding cosmetic) and primary care are explicitly listed as eligible, so emergency/medically necessary is not required."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_presumptive",
+     "claim": "A patient with (presumptive_program) gets 100% off",
+     "quote": "Presumptive Eligibility: In certain cases, there may be adequate information to make a financial assistance determination without a completed Financial Assistance Application",
+     "why": "Presumptive eligibility may lead to assistance but does not guarantee 100% off; the policy provides no specific discount amount."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_hardship",
+     "claim": "A patient with (medically_necessary) gets an unstated amount of help",
+     "quote": "Patients may be considered for additional financial assistance outside of the standard 45-day requirement referenced in VI in the event of catastrophic hardship. MRH reserves the right to consider a Hardship application on a case-by-case basis for Medically Indigent patients who MRH determines to be eligible on the basis of an unusual financial situation that creates a demonstrably catastrophic, unusual, or extraordinary situation.",
+     "why": "Hardship applies only to Medically Indigent patients with unusual financial situations, not all medically necessary cases."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:1",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "45 days from the date of primary insurance payment",
+     "why": "45 days from primary insurance payment is a deadline for submitting documents, not the initial application."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:2",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "45 days from Medicaid denial",
+     "why": "45 days from Medicaid denial is a deadline for submitting documents, not the initial application."
+    },
+    {
+     "kind": "unsupported",
+     "id": "eca:0",
+     "claim": "The policy promises no extraordinary collection action before 45 days after the date of service",
+     "quote": "No account will be forwarded to collections for forty-five (45) days after financial assistance application has been requested.",
+     "why": "The 45-day period starts after financial assistance application is requested, not after the date of service."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_med_indigent_1",
+     "claim": "A patient with (fpl_pct >= 301) AND (fpl_pct <= 500) AND (bill_pct_income > 25) gets an unstated amount of help",
+     "quote": "A patient whose family income is between 301% and 500% of the Federal Poverty Level (FPL). Patient's single incident medical bills are greater than 25% of yearly gross household income. Patient will be billed the lesser of 5% of gross annual family income or 50% of the amounts generally billed (AGB).",
+     "why": "The policy specifies the patient will be billed the lesser of 5% of income or 50% of AGB, defining the assistance amount."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_med_indigent_2",
+     "claim": "A patient with (fpl_pct > 500) AND (bill_pct_income > 25) gets an unstated amount of help",
+     "quote": "A patient whose family income is greater than 500% of the FPL. Patient's single incident Medical bills are greater than 25% of yearly gross household income. Patient will be billed the lesser of 10% of gross annual family income or 50% of the AGB.",
+     "why": "The policy specifies the patient will be billed the lesser of 10% of income or 50% of AGB, defining the assistance amount."
+    }
+   ],
+   "clauses": 10,
+   "clauses_proven": 2,
+   "unsupported": 8
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "rule:sliding_scale_low",
+     "claim": "A patient with (fpl_pct <= 200) gets 100% off",
+     "quote": "See attached sliding fee schedule for additional clarification.",
+     "why": "Sliding fee schedule is referenced but not detailed in policy; no 100% off threshold stated."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:sliding_scale_80",
+     "claim": "A patient with (fpl_pct >= 201) AND (fpl_pct <= 240) gets 80% off",
+     "quote": "See attached sliding fee schedule for additional clarification.",
+     "why": "Sliding fee schedule is referenced but not detailed in policy; no 80% off band stated."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:sliding_scale_60",
+     "claim": "A patient with (fpl_pct >= 241) AND (fpl_pct <= 280) gets 60% off",
+     "quote": "See attached sliding fee schedule for additional clarification.",
+     "why": "Sliding fee schedule is referenced but not detailed in policy; no 60% off band stated."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:sliding_scale_40",
+     "claim": "A patient with (fpl_pct >= 281) AND (fpl_pct <= 300) gets 40% off",
+     "quote": "See attached sliding fee schedule for additional clarification.",
+     "why": "Sliding fee schedule is referenced but not detailed in policy; no 40% off band stated."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:sliding_scale_20",
+     "claim": "A patient with (fpl_pct >= 301) AND (fpl_pct <= 400) gets 20% off",
+     "quote": "See attached sliding fee schedule for additional clarification.",
+     "why": "Sliding fee schedule is referenced but not detailed in policy; no 20% off band stated."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:hardship",
+     "claim": "A patient with (medically_necessary) gets an unstated amount of help",
+     "quote": "MRH reserves the right to consider a Hardship application on a case-by-case basis for Medically Indigent patients who MRH determines to be eligible on the basis of an unusual financial situation that creates a demonstrably catastrophic, unusual, or extraordinary situation.",
+     "why": "Hardship program is for Medically Indigent patients with catastrophic situations, not all medically necessary care."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:1",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+     "quote": "45 days from the date of primary insurance payment, or 45 days from Medicaid denial",
+     "why": "45 days from first post-discharge bill is not mentioned; deadlines are 45 days from service, insurance payment, or Medicaid denial."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:presumptive",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Some examples of sources MRH may use to determine presumptive financial assistance include: 1. Homelessness 2. Food Stamp Eligibility 3. Low Income/Subsidized housing is provided as a valid address 4. Patient is deceased with no known estate 5. Patients that are Medicaid eligible whose claim is denied by Medicaid due to exhausted benefits",
+     "why": "Policy mentions presumptive eligibility sources but does not specify any discount amount."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:medical_indigent_threshold_1",
+     "claim": "A patient with (fpl_pct >= 301) AND (fpl_pct <= 500) AND (bill_pct_income > 25) gets an unstated amount of help",
+     "quote": "A patient whose family income is between 301% and 500% of the Federal Poverty Level (FPL). 2. Patient\u2019s single incident medical bills are greater than 25% of yearly gross household income.",
+     "why": "Policy defines criteria but does not specify discount amount for Medical Indigent Threshold #1."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:medical_indigent_threshold_2",
+     "claim": "A patient with (fpl_pct > 500) AND (bill_pct_income > 25) gets an unstated amount of help",
+     "quote": "A patient whose family income is greater than 500% of the FPL. 2. Patient\u2019s single incident Medical bills are greater than 25% of yearly gross household income.",
+     "why": "Policy defines criteria but does not specify discount amount for Medical Indigent Threshold #2."
+    }
+   ],
+   "clauses": 9,
+   "clauses_proven": 3,
+   "unsupported": 10
+  },
+  "secondary_model": {
+   "hospital": "Memorial Regional Health",
+   "doc": "policy",
+   "source_url": "https://memorialregionalhealth.com/wp-content/uploads/Financial-Assistance-Policy-2025.pdf",
+   "nonprofit": null,
+   "requires": [],
+   "rules": [
+    {
+     "id": "presumptive",
+     "label": "Presumptive Eligibility",
+     "when": [
+      [
+       {
+        "var": "presumptive_program",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Some examples of sources MRH may use to determine presumptive financial assistance include: 1. Homelessness 2. Food Stamp Eligibility 3. Low Income/Subsidized housing is provided as a valid address 4. Patient is deceased with no known estate 5. Patients that are Medicaid eligible whose claim is denied by Medicaid due to exhausted benefits"
+    },
+    {
+     "id": "medical_indigent_threshold_1",
+     "label": "Medical Indigent Threshold #1",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 301.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 500.0
+       }
+      ],
+      [
+       {
+        "var": "bill_pct_income",
+        "op": ">",
+        "value": 25.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "A patient whose family income is between 301% and 500% of the Federal Poverty Level (FPL). 2. Patient\u2019s single incident medical bills are greater than 25% of yearly gross household income."
+    },
+    {
+     "id": "medical_indigent_threshold_2",
+     "label": "Medical Indigent Threshold #2",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">",
+        "value": 500.0
+       }
+      ],
+      [
+       {
+        "var": "bill_pct_income",
+        "op": ">",
+        "value": 25.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "A patient whose family income is greater than 500% of the FPL. 2. Patient\u2019s single incident Medical bills are greater than 25% of yearly gross household income."
+    }
+   ],
+   "timing": {
+    "application": [
+     {
+      "anchor": "service",
+      "days": 45,
+      "quote": "within 45 days of applicable service"
+     }
+    ],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": 24,
+    "min_monthly_usd": 25.0,
+    "quote": "Accounts must be paid in full within 24 months from date of service 2. Payments plans must be a minimum of $25.00 per month"
+   },
+   "notes": [
+    "Eligible Services include emergency medical services, services for conditions that if not promptly treated would lead to adverse health status change, non-elective services in response to life-threatening circumstances in a non-emergency room setting, elective services excluding cosmetic procedures, and primary care services.",
+    "Assets considered in review: bank account balances, cash reserves, retirement/IRA balances showing withdrawals, other easily accessible financial resources. Assets not considered: marketable assets currently listed for sale, real estate property listed for sale, tangible assets (vehicles, household goods), non-liquid, non-convertible resources.",
+    "To determine AGB, MRH uses the look-back method based on claims allowed by Medicaid in combination with Medicare fee for service and all private health insurers that pay claims to the hospital during the prior 12-month period. The AGB percentage is multiplied by gross charges for Emergency Care and Medically Necessary Care to determine AGB.",
+    "Financial Assistance will be approved or denied based on the completed FAA and other provisions of this policy. If approved, patient accounts will be adjusted based on a sliding scale. If denied, appeals will be considered by providing additional or clarifying information. Assistance will retroactively cover six months from the date of approval and remain valid for one year from the first date of service applied to. Patients may reapply if six months have passed since denial, significant financial changes occurred, or approved assistance is set to expire.",
+    "No account will be forwarded to collections for forty-five days after financial assistance application has been requested. A minimum of one contact attempt will be made prior to forwarding an account to collections."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 6055,
+   "tokens_cached": 0,
+   "tokens_out": 2242,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.012781,
+   "orig_seconds": 6.58
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 2.22,
+   "tokens_in": 6260,
+   "tokens_cached": 0,
+   "tokens_out": 440,
+   "cost_usd": 0.002274,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.002274,
+   "orig_seconds": 2.22
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 6055,
+   "tokens_cached": 0,
+   "tokens_out": 1533,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.003196,
+   "orig_seconds": 5.58
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 2.48,
+   "tokens_in": 6291,
+   "tokens_cached": 0,
+   "tokens_out": 505,
+   "cost_usd": 0.002342,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.002342,
+   "orig_seconds": 2.48
+  }
+ ],
+ "cost_usd": 0.02059,
+ "seconds": 4.8,
+ "made": "2026-10-27"
+}

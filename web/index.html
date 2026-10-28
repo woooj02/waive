@@ -30,7 +30,8 @@
        A fail comes with the exact household, or the exact day, where the policy falls short.</p>
     <div class="a-stats" id="a-stats" aria-live="polite"></div>
   </div>
-  <div class="matrix-wrap"><table class="matrix" id="a-matrix" aria-label="Every check for every hospital"></table></div>
+  <div class="matrix-wrap"><table class="matrix" id="a-matrix" aria-label="Every check for every hospital"></table>
+    <p class="m-legend"><b class="ok">✓</b> proved for every household · <b class="no">✗</b> counterexample · <b>?</b> inconclusive (a rule was dropped in checking) · – not stated in the policy · n/a doesn't apply · <span class="dash">dashed</span> Nemotron 3 Ultra's and Super's models disagree</p></div>
   <div class="a-layout">
     <nav class="a-list" id="a-list" aria-label="Hospitals"></nav>
     <div id="a-detail" class="a-detail" tabindex="-1"><p class="sub">Loading the audit…</p></div>
@@ -128,28 +129,29 @@
 
 <!-- HOW -->
 <section id="tab-how" role="tabpanel" aria-labelledby="t-how" hidden class="how">
-  <h1>How Waive decides</h1>
-  <p>The AI reads; code decides. Nemotron models turn bills and policies into data. Plain code checks every quote
-     against the policy text and does all the maths. A rule we can't prove never affects your answer.</p>
+  <h1>How the audit works</h1>
+  <p>Language models read; a theorem prover decides. Nemotron turns each policy into logic, every clause tied to a
+     sentence of the policy. Z3 then checks that logic against Colorado and federal law for every possible household.
+     No model ever says whether a policy is legal.</p>
   <div class="flow">
-    <div><b>Read the bill</b>Nemotron 3.5 Super VL reads the photo; code checks the totals and looks for duplicate lines.</div>
-    <div><b>Find the policy</b>Tavily searches the web; Nemotron 3 Nano picks the hospital's own document; code fetches it.</div>
-    <div><b>Compile</b>Nemotron 3 Ultra turns the policy into rules, each with a quote. Nemotron 3 Super compiles it again on its own.</div>
-    <div><b>Prove</b>Code drops any rule whose quote isn't in the text. Where the two models disagree, Ultra settles it with a quote.</div>
-    <div><b>Decide</b>Code computes your % of the poverty line, the tier, the amount, Colorado's cap and your deadline.</div>
+    <div><b>1. Find</b>Tavily searches the web; Nemotron 3 Nano picks the hospital's own document; code fetches it.</div>
+    <div><b>2. Formalise</b>Nemotron 3 Ultra writes the policy as rules over household facts (income, size, insurance, residency…) and deadlines.</div>
+    <div><b>3. Check the translation</b>Code keeps a clause only if its quote is in the policy; Z3 rejects rules that can never apply; Nemotron 3 Super checks each quote says what the clause claims.</div>
+    <div><b>4. Second opinion</b>Nemotron 3 Super formalises the policy on its own. Z3 proves whether the two are equivalent and finds the household where they differ.</div>
+    <div><b>5. Prove</b>Z3 checks ten legal requirements. A pass is a proof over every household; a fail is a concrete household or day.</div>
   </div>
   <h2>Which model does what, and why</h2>
   <div id="how-models"></div>
-  <h2>How accurate is it?</h2>
+  <h2>How accurate is the translation?</h2>
   <div id="how-eval"><p>Evaluation results appear here once the run is complete.</p></div>
-  <h2>What Waive can't do (yet)</h2>
+  <h2>What the audit can't do</h2>
   <ul class="limits">
-    <li>Only Colorado hospitals are pre-compiled. Elsewhere Waive searches live and applies only the federal 501(r) rules, not your state's law.</li>
-    <li>It can't see a hospital's internal procedures: asset tests and "service area" rules are flagged for you to confirm, not assumed.</li>
-    <li>Doctors' groups often bill separately and may not be covered by the hospital's policy. Waive says so when the policy does.</li>
-    <li>Colorado's cap is shown as a maximum. The state's discounted rates can lower it further; Waive can't compute those rates.</li>
-    <li>Policies change. Each Atlas entry shows the date we fetched the document. Always confirm with the hospital.</li>
-    <li>This is not legal advice and Waive never contacts anyone for you.</li>
+    <li>It audits the <b>written</b> policy. A hospital may apply Colorado's law through a process its policy doesn't describe, so a counterexample means "the policy as written doesn't guarantee this", not "the hospital breaks the law".</li>
+    <li>The translation can be wrong. Every finding links to the policy's own words; disputed findings (the two models disagree) need a person to read the policy.</li>
+    <li>Household facts the vocabulary can't express (specific services, documents, procedures) are left out and noted, never guessed.</li>
+    <li>Only Colorado law and federal 501(r) are encoded. Policies change: each audit shows the document it used.</li>
+    <li>Some hospital sites block downloads; those hospitals are missing, not passed.</li>
+    <li>Not legal advice.</li>
   </ul>
 </section>
 </main>

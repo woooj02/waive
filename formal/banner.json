@@ -1,0 +1,194 @@
+{
+ "model": {
+  "hospital": "Banner Health",
+  "doc": "summary",
+  "source_url": "https://www.bannerhealth.com/-/media/Files/Project/BH/Patients-Visitors/Billing/Financial-Assistance/2025-documents/9999-0061-BH-Summary-Of-Financial-Assistance-Programs-And-Application.pdf",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy applies to Banner hospitals and certain other BH entities; not applicable for NHSC locations including Fallon NV, Fernley NV, Susanville CA, Payson Primary Care AZ, Payson OBGYN AZ, Maricopa AZ, Torrington WY, Wheatland WY.",
+   "Uninsured patients charged Self-Pay Rate (1.25 x AGB) initially; AGB based on average amounts paid by private insurers and Medicare for medically necessary services.",
+   "Uninsured Financial Assistance requires income <= 400% FPL, lack of other assets to pay full charges, and if requested, application for Medicaid/AHCCCS with full cooperation or inability to complete, and denial of coverage.",
+   "Underinsured patients must apply for consideration and meet Hospital bill balance requirements and FPL guidelines (specific thresholds not stated in summary).",
+   "Qualified patients never charged more than AGB for emergency or medically necessary services; never required to make advance payment for emergency services; for non-emergent services, substantial advance deposit or payment arrangements based on AGB estimate required in most situations.",
+   "Medically Indigent definition includes all medical expenses (including non-BH) over previous 12 months; household responsible portion > 50% of total income.",
+   "Application requires proof of income (payroll stubs, tax forms, SSA 1099, unemployment letter, self-declaration), Medicaid/AHCCCS determination if requested, and non-Banner medical bills if requested.",
+   "Arizona health care lien statute (ARS Sec. 33-931 et seq.) allows Banner Health to recover third-party funding received by patient to offset financial assistance discount.",
+   "Spanish translation available on website and in admitting area; copies by mail via Banner Patient Financial Services (888) 264-2127.",
+   "No application deadline, ECA timing, first statement timing, or payment plan terms specified in summary."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req_medically_necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "you will in no case be charged more than Amounts Generally Billed for emergency services or other medically necessary services",
+     "why": "The policy does not require medically_necessary for every form of assistance; it only limits charges for those who qualify."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_uninsured_selfpay",
+     "claim": "A patient with (not insured) gets an unstated amount of help",
+     "quote": "Uninsured Patients are initially charged the Self-Pay Rate for Covered Services",
+     "why": "Being charged the self-pay rate is not financial assistance; it is the default charge before any assistance is applied."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_uninsured_financial_assistance",
+     "claim": "A patient with (not insured) AND (fpl_pct <= 400) gets an unstated amount of help",
+     "quote": "you will qualify for BH Financial Assistance (1) if you have an annual household income and household size that is equal to or less than 400% of the Federal Poverty Level and lack other assets to pay the Hospital's full charges",
+     "why": "The policy adds asset and Medicaid application requirements beyond just income <= 400% FPL for uninsured patients to qualify for financial assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_underinsured_financial_assistance",
+     "claim": "A patient with (underinsured) gets an unstated amount of help",
+     "quote": "If you are an Underinsured patient, you may qualify for BH Financial Assistance for Underinsured/Balance After Insurance discount",
+     "why": "Underinsured patients must meet both hospital bill balance requirements and FPL guidelines, not just being underinsured."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_medically_indigent",
+     "claim": "A patient with (bill_pct_income > 50) gets an unstated amount of help",
+     "quote": "A Medically Indigent Patient means a household with medical expenses incurred during the previous 12 months, where the portion for which the household is responsible exceeds 50% of the household's total income for that year",
+     "why": "The policy defines Medically Indigent but does not state that this definition alone qualifies a patient for financial assistance."
+    }
+   ],
+   "clauses": 5,
+   "clauses_proven": 0,
+   "unsupported": 5
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "rule:uninsured_fap",
+     "claim": "A patient with (not insured) AND (fpl_pct <= 400) AND (applied_public_programs) gets an unstated amount of help",
+     "quote": "If you are an Uninsured patient, you will qualify for BH Financial Assistance (1) if you have an annual household income and household size that is equal to or less than 400% of the Federal Poverty Level and lack other assets to pay the Hospital\u2019s full charges and, (2) if requested to do so by the Hospital, you apply for Medicaid/AHCCCS, fully cooperate in the application and determination process, or are unable to reasonably complete the application process, and are denied Medicaid/AHCCCS coverage.",
+     "why": "Policy requires asset test and Medicaid denial, not just applied_public_programs."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:underinsured_discount",
+     "claim": "A patient with (insured OR underinsured) AND (fpl_pct <= 400) gets an unstated amount of help",
+     "quote": "If you are an Underinsured patient, you may qualify for BH Financial Assistance for Underinsured/Balance After Insurance discount. You will need to apply for consideration and meet both Hospital bill balance requirements stated in the Financial Assistance Policy and Federal Poverty Level guidelines.",
+     "why": "Policy limits underinsured assistance to underinsured patients only, not insured OR underinsured."
+    }
+   ],
+   "clauses": 2,
+   "clauses_proven": 0,
+   "unsupported": 2
+  },
+  "secondary_model": {
+   "hospital": "Banner Health",
+   "doc": "summary",
+   "source_url": "https://www.bannerhealth.com/-/media/Files/Project/BH/Patients-Visitors/Billing/Financial-Assistance/2025-documents/9999-0061-BH-Summary-Of-Financial-Assistance-Programs-And-Application.pdf",
+   "nonprofit": true,
+   "requires": [],
+   "rules": [],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "Uninsured patients not qualifying for Financial Assistance based on FPL may qualify for discounted care at 1.25 x AGB.",
+    "Financial Assistance recipients will not be charged more than AGB for emergency or medically necessary services.",
+    "No advance payment required for emergency services.",
+    "Advance deposit or payment arrangement may be required for non-emergent services.",
+    "Policy includes a lien recovery provision per Arizona statute ARS Sec. 33-931 et seq."
+   ]
+  },
+  "disagreements_before": [],
+  "disagreements_after": [],
+  "equivalent": true
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 3929,
+   "tokens_cached": 0,
+   "tokens_out": 1092,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.007205,
+   "orig_seconds": 4.46
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 4.48,
+   "tokens_in": 3719,
+   "tokens_cached": 0,
+   "tokens_out": 270,
+   "cost_usd": 0.001359,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001359,
+   "orig_seconds": 4.48
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 3929,
+   "tokens_cached": 0,
+   "tokens_out": 547,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.001671,
+   "orig_seconds": 2.4
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.38,
+   "tokens_in": 3639,
+   "tokens_cached": 0,
+   "tokens_out": 94,
+   "cost_usd": 0.001176,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001176,
+   "orig_seconds": 1.38
+  }
+ ],
+ "cost_usd": 0.01141,
+ "seconds": 5.9,
+ "made": "2026-10-27"
+}

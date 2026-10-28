@@ -1,0 +1,481 @@
+{
+ "id": "delta-health",
+ "hospital": "Delta Health",
+ "dropped_rules": 0,
+ "source_url": "https://www.deltamem.org/getpage.php?name=fin_policy",
+ "nonprofit": null,
+ "model_source": "nemotron",
+ "summary_source": null,
+ "solver_seconds": 0.106,
+ "model": {
+  "hospital": "Delta Health",
+  "doc": "policy",
+  "source_url": "https://www.deltamem.org/getpage.php?name=fin_policy",
+  "nonprofit": null,
+  "requires": [
+   {
+    "id": "req-uninsured-or-underinsured",
+    "label": "Patient must be uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Financial assistance is available to people who are uninsured or underinsured, and who cannot pay for their care, based on financial need"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule-sliding-scale-200",
+    "label": "Sliding scale discount for income <= 200% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Financial assistance consideration is given for patients with incomes less than 200% of the Federal Poverty Guideline for their family size."
+   },
+   {
+    "id": "rule-self-pay-uninsured",
+    "label": "Self-pay discount for uninsured patients not qualifying for financial assistance",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "DMH has established a self-pay fee schedule to consistently discount uninsured patient bills. If a patient is uninsured and does not qualify for program assistance through DMH's financial assistance program, the patient will be registered as self-pay."
+   },
+   {
+    "id": "rule-dually-eligible-medicare-medicaid",
+    "label": "Free care for dually eligible Medicare/Medicaid patients",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Verified dually eligible Medicare and Medicaid patients qualify for indigent care without completing a financial assistance application."
+   },
+   {
+    "id": "rule-medicaid-special-categories",
+    "label": "Free care for Medicaid SLMB, Family Planning, or exhausted days",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Medicaid beneficiaries that acquire Medicaid under SLMB, Family Planning Services, and/or have exhausted days automatically qualify for indigent care without completing a financial assistance application."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 240,
+     "quote": "Patients will be allowed to request financial assistance up to 240 days from the date of the patient's first statement, or any time during the collection process."
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 120,
+     "quote": "Uninsured patients will not be referred to DMH's collection agency for follow-up in less than 120 days from the date of the first statement."
+    }
+   ],
+   "first_statement_from_day": 45
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "DMH will attempt to work with all patients to establish suitable payment arrangements if payment in full cannot be made at the time services are provided or upon the first patient bill being delivered to the patient."
+  },
+  "notes": [
+   "Policy applies to charges of DMH, Delta Health Services, and River Valley Medicine only; private physician practices excluded.",
+   "Federal Poverty Guidelines for Arkansas per the Federal Register are the only criteria used for sliding scale application.",
+   "Approved applications valid for visit(s) applying for and three months following approval.",
+   "Financial assistance adjustments will not apply unless all requested materials obtained within 90 days of office visit or date of payment from third party.",
+   "Patients must execute a DMH Promissory Note at time of service indicating commitment to pay balance after third-party payments and discounts.",
+   "Income must be reported for all household members; verification includes paycheck stubs, unemployment/Social Security stubs, award letters, or prior year tax returns.",
+   "If patient cannot make substantial payment or commit to payment plan on approved discounted bill, elective/non-urgent procedures may be deferred.",
+   "Falsification of information or incomplete documentation could result in denial of Financial Assistance.",
+   "Amounts charged for emergency/necessary medical services to eligible patients will not exceed amounts generally billed to individuals with insurance covering the same care.",
+   "First statement sent within 45 days of discharge; first three statements include Financial Assistance Policy overview and contact information.",
+   "If patient requests financial assistance during collections, collection activity stops pending eligibility decision once application received.",
+   "Emergency care provided regardless of eligibility for financial assistance or government assistance per EMTALA.",
+   "Sliding scale method updated annually within DMH Business Office; specific discount percentages not stated in policy.",
+   "Decision made within 7 calendar days; patients notified by letter.",
+   "Policy publicized via posted notices, website, local DHS office, and front-line staff training."
+  ]
+ },
+ "findings": [
+  {
+   "check": "co_hdc_coverage",
+   "title": "Covers everyone Colorado's Hospital Discounted Care protects",
+   "status": "counterexample",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients and their households are eligible for Hospital Discounted Care if, during the required screening and application processes, they are determined to: Have a total household income at or below 250% of the Federal Poverty Guidelines (FPG), and Be residents of the State of Colorado."
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "IF REQUESTED BY THE PATIENT, A HEALTH-CARE FACILITY SHALL SCREEN AN INSURED PATIENT FOR DISCOUNTED CARE"
+    }
+   ],
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 is turned away by this requirement: \"Patient must be uninsured or underinsured\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "severity": "gap",
+   "household": {
+    "size": 3,
+    "income_usd": 27000.0,
+    "fpl_pct": 98.82,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": true,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": null,
+   "policy_outcome": {
+    "covered": false,
+    "best_stated_discount_pct": 0.0
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "req-uninsured-or-underinsured",
+     "label": "Patient must be uninsured or underinsured",
+     "quote": "Financial assistance is available to people who are uninsured or underinsured, and who cannot pay for their care, based on financial need",
+     "discretionary": false,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule-sliding-scale-200",
+     "label": "Sliding scale discount for income <= 200% FPL",
+     "quote": "Financial assistance consideration is given for patients with incomes less than 200% of the Federal Poverty Guideline for their family size.",
+     "discount_pct": null,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "rule-self-pay-uninsured",
+     "label": "Self-pay discount for uninsured patients not qualifying for financial assistance",
+     "quote": "DMH has established a self-pay fee schedule to consistently discount uninsured patient bills. If a patient is uninsured and does not qualify for program assistance through DMH's financial assistance program, the patient will be registered as self-pay.",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule-dually-eligible-medicare-medicaid",
+     "label": "Free care for dually eligible Medicare/Medicaid patients",
+     "quote": "Verified dually eligible Medicare and Medicaid patients qualify for indigent care without completing a financial assistance application.",
+     "discount_pct": 100.0,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "rule-medicaid-special-categories",
+     "label": "Free care for Medicaid SLMB, Family Planning, or exhausted days",
+     "quote": "Medicaid beneficiaries that acquire Medicaid under SLMB, Family Planning Services, and/or have exhausted days automatically qualify for indigent care without completing a financial assistance application.",
+     "discount_pct": 100.0,
+     "holds": true
+    }
+   ],
+   "seconds": 0.003,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "counterexample"
+   ]
+  },
+  {
+   "check": "co_hdc_assets",
+   "title": "Ignores assets for Colorado-protected households",
+   "status": "proved",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE METHODOLOGY MUST NOT CONSIDER A PATIENT'S ASSETS."
+    }
+   ],
+   "summary": "Proved: for households Colorado's law protects, savings and assets never changes the outcome.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.002,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  },
+  {
+   "check": "co_hdc_public",
+   "title": "Doesn't require a Medicaid application first",
+   "status": "proved",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "DENY DISCOUNTED CARE ON THE BASIS THAT THE PATIENT HAS NOT APPLIED FOR ANY PUBLIC BENEFITS PROGRAM"
+    }
+   ],
+   "summary": "Proved: for households Colorado's law protects, whether they applied for Medicaid or other public programs never changes the outcome.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.002,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  },
+  {
+   "check": "co_eca_182",
+   "title": "No collection lawsuits or garnishment before day 182",
+   "status": "counterexample",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "NO MEDICAL CREDITOR COLLECTING ON A DEBT FOR HOSPITAL SERVICES SHALL ENGAGE IN ANY PERMISSIBLE EXTRAORDINARY COLLECTION ACTIONS UNTIL ONE HUNDRED EIGHTY-TWO DAYS AFTER THE DATE THE PATIENT RECEIVES HOSPITAL SERVICES."
+    },
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "begin sending bills beginning 46 days after the patient's date of service or date of discharge"
+    }
+   ],
+   "summary": "If the first bill goes out on day 46 after care (Colorado allows bills from day 46), the policy's written timeline allows collection actions from day 166. Colorado law bars them until day 182.",
+   "severity": "timing",
+   "household": {
+    "first_statement_day": 46,
+    "policy_day": 166,
+    "law_day": 182,
+    "fails_every_later_day": false
+   },
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [
+    {
+     "kind": "timing",
+     "id": "eca_not_before",
+     "label": "120 days after first statement",
+     "quote": "Uninsured patients will not be referred to DMH's collection agency for follow-up in less than 120 days from the date of the first statement.",
+     "holds": true
+    },
+    {
+     "kind": "timing",
+     "id": "first_statement_from_day",
+     "holds": true,
+     "quote": "",
+     "label": "bills may go out from day 45"
+    }
+   ],
+   "seconds": 0.003,
+   "domain": "every first-bill day from day 46 to day 400",
+   "basis": "",
+   "confidence": "disputed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "co_window_181",
+   "title": "Accepts applications for at least 181 days after care",
+   "status": "proved",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients may complete a screening at any time within at least 181 days after their date of service or discharge, whichever is later"
+    }
+   ],
+   "summary": "Proved: the application window never closes before day 181 after care.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.001,
+   "domain": "every first-bill day from day 0 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  },
+  {
+   "check": "co_window_insured",
+   "title": "Insured patients get 45 days after their first post-insurance bill",
+   "status": "proved",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "At least 45 days from the date of the first bill after the patient's insurance adjustment, even if that date falls outside the normal 181-day window."
+    }
+   ],
+   "summary": "Proved: the window always stays open at least 45 days past the first bill.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  },
+  {
+   "check": "co_plan_4pct",
+   "title": "Payment plans capped at 4% of monthly income, done after 36 payments",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE PATIENT IS NOT PAYING MORE THAN FOUR PERCENT OF THE PATIENT'S MONTHLY HOUSEHOLD INCOME ON A BILL FROM A HEALTH-CARE FACILITY"
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "AFTER A CUMULATIVE THIRTY-SIX MONTHS OF PAYMENTS, CONSIDER THE PATIENT'S BILL PAID IN FULL"
+    }
+   ],
+   "summary": "The policy states no payment-plan terms to check. Colorado's 4% / 36-month limits apply anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "fed_window_240",
+   "title": "Application window of 240 days after the first bill (501(r))",
+   "status": "n/a",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-1(b)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-1",
+     "quote": "ends on the later of the 240th day after the date that the first post-discharge billing statement for the care is provided"
+    }
+   ],
+   "summary": "Skipped: 501(r) applies to tax-exempt hospitals, and we haven't verified this hospital's status (many rural Colorado hospitals are public districts).",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "n/a"
+   ]
+  },
+  {
+   "check": "fed_eca_120",
+   "title": "No collection actions in the first 120 days after the first bill (501(r))",
+   "status": "n/a",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-6(c)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-6",
+     "quote": "for at least 120 days from the date the hospital facility provides the first post-discharge billing statement for the care"
+    }
+   ],
+   "summary": "Skipped: 501(r) applies to tax-exempt hospitals, and we haven't verified this hospital's status (many rural Colorado hospitals are public districts).",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "n/a"
+   ]
+  },
+  {
+   "check": "monotone",
+   "title": "Earning less never means getting less help",
+   "status": "proved",
+   "law": [],
+   "summary": "Proved: no household gets less help than an identical one that earns more.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  }
+ ]
+}

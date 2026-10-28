@@ -1,0 +1,258 @@
+{
+ "model": {
+  "hospital": "National Jewish Health",
+  "doc": "policy",
+  "source_url": "https://www.nationaljewish.org/NJH/files/08/082c9c56-5cb6-4807-bc1b-b95526c5c62e.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req-service-location",
+    "label": "Services must be received at a National Jewish Health location",
+    "cond": [
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "We offer financial assistance only for health care services received at one of our locations."
+   }
+  ],
+  "rules": [],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 240,
+     "quote": "You have up to 240 days after the date of your initial patient responsibility statement to apply."
+    }
+   ],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "Start a payment plan arrangement with National Jewish Health. This will help you manage your account while your application is processed."
+  },
+  "notes": [
+   "Financial assistance may help pay for co-insurance and deductible amounts but does not apply to co-payment amounts for physician services.",
+   "Financial assistance does not apply to any patient balance amounts required by Medicaid or other need-based programs.",
+   "Financial assistance is not available when your insurance plan denies access to National Jewish Health.",
+   "Application may require copies of tax returns, bank statements, and pay stubs; missing information will delay the application.",
+   "Complete applications receive a response within 20 business days.",
+   "If you do not make payments and do not contact us about payments, we may use a collection agency.",
+   "Policy, summary, and application available in English, Spanish, French, Arabic, Russian, Chinese, Korean, and Vietnamese at www.njhealth.org/FinancialAssistance.",
+   "Financial assistance does not cover travel, food, lodging, medical equipment, or drug expenses.",
+   "Schedule 1 (Income and Discount Schedule), Schedule 2 (Application), Schedule 3 (AGB), and Schedule 4 (Billing and Collections) are referenced but not included in the provided text.",
+   "Eligibility is based on insurance coverage, income, family size, assets, and other issues per the policy text, but specific income thresholds and discount percentages are defined in Schedule 1 which is not provided."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [
+    "rule-income-discount-schedule: has no conditions; remove it or give its conditions",
+    "rule-agb-cap: has no conditions; remove it or give its conditions"
+   ],
+   "repaired": true,
+   "lint_after": [
+    "no rules: the model grants help to nobody"
+   ],
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req-medically-necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "We offer financial assistance for services that are medically required.",
+     "why": "Policy limits assistance to medically required services but does not state this is required for every form of assistance."
+    }
+   ],
+   "clauses": 2,
+   "clauses_proven": 1,
+   "unsupported": 1
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [
+    "rule_agb: has no conditions; remove it or give its conditions"
+   ],
+   "repaired": true,
+   "lint_after": [],
+   "dropped": [],
+   "clauses": 2,
+   "clauses_proven": 2,
+   "unsupported": 0
+  },
+  "secondary_model": {
+   "hospital": "National Jewish Health",
+   "doc": "policy",
+   "source_url": "https://www.nationaljewish.org/NJH/files/08/082c9c56-5cb6-4807-bc1b-b95526c5c62e.pdf",
+   "nonprofit": true,
+   "requires": [],
+   "rules": [
+    {
+     "id": "rule_fap_general",
+     "label": "Financial Assistance - Medically Required Services",
+     "when": [
+      [
+       {
+        "var": "medically_necessary",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "We offer financial assistance for services that are medically required."
+    },
+    {
+     "id": "rule_fap_location",
+     "label": "Financial Assistance - Location Restriction",
+     "when": [
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "We offer financial assistance only for health care services received at one of our locations."
+    }
+   ],
+   "timing": {
+    "application": [
+     {
+      "anchor": "first_statement",
+      "days": 240,
+      "quote": "You have up to 240 days after the date of your initial patient responsibility statement to apply."
+     }
+    ],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": "Start a payment plan arrangement with National Jewish Health. This will help you manage your account while your application is processed."
+   },
+   "notes": [
+    "Eligibility based on insurance coverage, income, family size, assets, and other issues, using Federal Poverty Level guidelines (see Schedule 1).",
+    "Application may require copies of tax returns, bank statements and pay stubs.",
+    "Financial assistance may help pay for co-insurance and deductible amounts, but does not apply to co-payment amounts for physician services or patient balance amounts required by Medicaid or other need-based programs.",
+    "Financial assistance is not available when your insurance plan denies access to National Jewish Health.",
+    "Financial assistance information is sent with billing statement; application attached on Schedule 2.",
+    "Policy, summary, and application available in multiple languages via website.",
+    "Complete application should receive a response within 20 business days.",
+    "If no payments made and no contact about payments, may use a collection agency.",
+    "Policy posted in many places and on signs in admission and registration areas.",
+    "If you qualify for financial assistance, you cannot be charged more than the amounts generally billed."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 2985,
+   "tokens_cached": 0,
+   "tokens_out": 725,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.00516,
+   "orig_seconds": 2.42
+  },
+  {
+   "step": "repair (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 3705,
+   "tokens_cached": 0,
+   "tokens_out": 570,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.005415,
+   "orig_seconds": 2.89
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.17,
+   "tokens_in": 2593,
+   "tokens_cached": 0,
+   "tokens_out": 144,
+   "cost_usd": 0.000907,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.000907,
+   "orig_seconds": 1.17
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 2985,
+   "tokens_cached": 0,
+   "tokens_out": 542,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.001383,
+   "orig_seconds": 3.07
+  },
+  {
+   "step": "repair (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 3578,
+   "tokens_cached": 2960,
+   "tokens_out": 504,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.000817,
+   "orig_seconds": 2.28
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.22,
+   "tokens_in": 2600,
+   "tokens_cached": 0,
+   "tokens_out": 119,
+   "cost_usd": 0.000887,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.000887,
+   "orig_seconds": 1.22
+  }
+ ],
+ "cost_usd": 0.01457,
+ "seconds": 2.5,
+ "made": "2026-10-27"
+}

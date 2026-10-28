@@ -1,0 +1,396 @@
+{
+ "id": "gunnison-valley",
+ "hospital": "Gunnison Valley Health",
+ "dropped_rules": 1,
+ "source_url": "https://www.gunnisonvalleyhealth.org/documents/content/Plain-Language-Summary-of-Financial-Assistance-Policy.pdf",
+ "nonprofit": null,
+ "model_source": "nemotron",
+ "summary_source": null,
+ "solver_seconds": 0.057,
+ "model": {
+  "hospital": "Gunnison Valley Health",
+  "doc": "summary",
+  "source_url": "https://www.gunnisonvalleyhealth.org/documents/content/Plain-Language-Summary-of-Financial-Assistance-Policy.pdf",
+  "nonprofit": null,
+  "requires": [
+   {
+    "id": "req-residency",
+    "label": "Patient must reside in Gunnison, Hinsdale, or Saguache County",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "GVH and FMC provides financial assistance to Gunnison, Hinsdale, and Saguache County residents"
+   },
+   {
+    "id": "req-insurance-status",
+    "label": "Patient must be uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "committed proving emergency and medically necessary care to patients who are uninsured, or who have a limited insurance (underinsured)"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule-fpl-400",
+    "label": "Free care for income at or below 400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "Any patient eligible for discounting will be required to pay their copay or percentage due upon determination of their eligibility, or they must sign an approved payment plan contract"
+  },
+  "notes": [
+   "Policy states patients qualifying for assistance will not be charged more than amounts generally billed to insured patients (AGB cap).",
+   "Service area limited to Gunnison, Hinsdale, and Saguache Counties; 'in_service_area' variable used as proxy for county residency.",
+   "Collections: Notification Period of 120 days with at least three billing statements, seriously past due notice, and final notice before ECA.",
+   "ECA may begin only after final notice plus 30 days; modeled as 150 days from first_statement (120-day notification period + 30-day wait).",
+   "Patients who qualify but fail to pay discounted balance are considered uncollectible bad debts and referred to outside agencies.",
+   "Application methods listed (mail, in-person, email, phone) but no application deadline stated.",
+   "Policy available in English and Spanish.",
+   "Exclusions for cosmetic, transplant, or research services not mentioned in this summary."
+  ]
+ },
+ "findings": [
+  {
+   "check": "co_hdc_coverage",
+   "title": "Covers everyone Colorado's Hospital Discounted Care protects",
+   "status": "counterexample",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients and their households are eligible for Hospital Discounted Care if, during the required screening and application processes, they are determined to: Have a total household income at or below 250% of the Federal Poverty Guidelines (FPG), and Be residents of the State of Colorado."
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "IF REQUESTED BY THE PATIENT, A HEALTH-CARE FACILITY SHALL SCREEN AN INSURED PATIENT FOR DISCOUNTED CARE"
+    }
+   ],
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 is turned away by this requirement: \"Patient must be uninsured or underinsured\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "severity": "gap",
+   "household": {
+    "size": 3,
+    "income_usd": 27000.0,
+    "fpl_pct": 98.82,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": true,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": null,
+   "policy_outcome": {
+    "covered": false,
+    "best_stated_discount_pct": 0.0
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "req-residency",
+     "label": "Patient must reside in Gunnison, Hinsdale, or Saguache County",
+     "quote": "GVH and FMC provides financial assistance to Gunnison, Hinsdale, and Saguache County residents",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "requires",
+     "id": "req-insurance-status",
+     "label": "Patient must be uninsured or underinsured",
+     "quote": "committed proving emergency and medically necessary care to patients who are uninsured, or who have a limited insurance (underinsured)",
+     "discretionary": false,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule-fpl-400",
+     "label": "Free care for income at or below 400% FPL",
+     "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines",
+     "discount_pct": null,
+     "holds": true
+    }
+   ],
+   "seconds": 0.003,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
+   "basis": "",
+   "confidence": "disputed",
+   "second_opinion": [
+    "proved"
+   ]
+  },
+  {
+   "check": "co_hdc_assets",
+   "title": "Ignores assets for Colorado-protected households",
+   "status": "proved",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE METHODOLOGY MUST NOT CONSIDER A PATIENT'S ASSETS."
+    }
+   ],
+   "summary": "Proved: for households Colorado's law protects, savings and assets never changes the outcome.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.002,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  },
+  {
+   "check": "co_hdc_public",
+   "title": "Doesn't require a Medicaid application first",
+   "status": "proved",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "DENY DISCOUNTED CARE ON THE BASIS THAT THE PATIENT HAS NOT APPLIED FOR ANY PUBLIC BENEFITS PROGRAM"
+    }
+   ],
+   "summary": "Proved: for households Colorado's law protects, whether they applied for Medicaid or other public programs never changes the outcome.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.001,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  },
+  {
+   "check": "co_eca_182",
+   "title": "No collection lawsuits or garnishment before day 182",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "NO MEDICAL CREDITOR COLLECTING ON A DEBT FOR HOSPITAL SERVICES SHALL ENGAGE IN ANY PERMISSIBLE EXTRAORDINARY COLLECTION ACTIONS UNTIL ONE HUNDRED EIGHTY-TWO DAYS AFTER THE DATE THE PATIENT RECEIVES HOSPITAL SERVICES."
+    },
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "begin sending bills beginning 46 days after the patient's date of service or date of discharge"
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 46 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "co_window_181",
+   "title": "Accepts applications for at least 181 days after care",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients may complete a screening at any time within at least 181 days after their date of service or discharge, whichever is later"
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "co_window_insured",
+   "title": "Insured patients get 45 days after their first post-insurance bill",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "At least 45 days from the date of the first bill after the patient's insurance adjustment, even if that date falls outside the normal 181-day window."
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "co_plan_4pct",
+   "title": "Payment plans capped at 4% of monthly income, done after 36 payments",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE PATIENT IS NOT PAYING MORE THAN FOUR PERCENT OF THE PATIENT'S MONTHLY HOUSEHOLD INCOME ON A BILL FROM A HEALTH-CARE FACILITY"
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "AFTER A CUMULATIVE THIRTY-SIX MONTHS OF PAYMENTS, CONSIDER THE PATIENT'S BILL PAID IN FULL"
+    }
+   ],
+   "summary": "The policy states no payment-plan terms to check. Colorado's 4% / 36-month limits apply anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "fed_window_240",
+   "title": "Application window of 240 days after the first bill (501(r))",
+   "status": "n/a",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-1(b)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-1",
+     "quote": "ends on the later of the 240th day after the date that the first post-discharge billing statement for the care is provided"
+    }
+   ],
+   "summary": "Skipped: 501(r) applies to tax-exempt hospitals, and we haven't verified this hospital's status (many rural Colorado hospitals are public districts).",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "n/a"
+   ]
+  },
+  {
+   "check": "fed_eca_120",
+   "title": "No collection actions in the first 120 days after the first bill (501(r))",
+   "status": "n/a",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-6(c)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-6",
+     "quote": "for at least 120 days from the date the hospital facility provides the first post-discharge billing statement for the care"
+    }
+   ],
+   "summary": "Skipped: 501(r) applies to tax-exempt hospitals, and we haven't verified this hospital's status (many rural Colorado hospitals are public districts).",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "n/a"
+   ]
+  },
+  {
+   "check": "monotone",
+   "title": "Earning less never means getting less help",
+   "status": "proved",
+   "law": [],
+   "summary": "Proved: no household gets less help than an identical one that earns more.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.002,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  }
+ ]
+}

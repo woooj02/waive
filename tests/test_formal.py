@@ -134,7 +134,13 @@ def test_pipeline_repairs_a_disagreement_with_a_counterexample(monkeypatch):
         return bad if model_key == "ultra" else good
 
     monkeypatch.setattr(fz.llm, "chat_json", fake)
-    pm, rep = fz.formalize(text, fz.llm.Meter())
+    pm, rep = fz.formalize(text, fz.llm.Meter(), rounds=1)
     assert rep["disagreements_before"] and rep["equivalent"]
     assert any(s.startswith("reconcile") for s in calls)
     assert [f.status for f in equivalent(pm, load("uchealth"))] == ["proved"]
+
+
+def test_lint_catches_or_instead_of_and():
+    pm = PolicyModel(hospital="X", rules=[Rule(id="band", label="", when=[
+        [Atom(var="fpl_pct", op=">=", value=251), Atom(var="fpl_pct", op="<=", value=400)]])])
+    assert any("Did you mean AND" in p for p in lint(pm))

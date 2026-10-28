@@ -21,7 +21,7 @@ import time
 from typing import Literal
 
 import z3
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 # 2026 HHS poverty guideline, 48 contiguous states + DC (Colorado).
 FPL_BASE, FPL_STEP = 15_960, 5_680
@@ -60,18 +60,28 @@ class Rule(BaseModel):
     """Assistance the policy grants when every clause holds (a clause is an OR of atoms)."""
     id: str
     label: str
-    when: list[list[Atom]]
+    when: list[list[Atom]] = Field(default_factory=list)
     discount_pct: float | None = None  # None: assistance is granted but the amount isn't stated here
     quote: str = ""
+
+    @field_validator("when", mode="before")
+    @classmethod
+    def _none_is_empty(cls, v):
+        return v or []
 
 
 class Requirement(BaseModel):
     """A condition every grant needs. Discretionary: the policy says it *may* deny."""
     id: str
     label: str
-    cond: list[list[Atom]]
+    cond: list[list[Atom]] = Field(default_factory=list)
     discretionary: bool = False
     quote: str = ""
+
+    @field_validator("cond", mode="before")
+    @classmethod
+    def _none_is_empty(cls, v):
+        return v or []
 
 
 class Deadline(BaseModel):
@@ -97,7 +107,7 @@ class PolicyModel(BaseModel):
     hospital: str
     doc: Literal["policy", "summary"] = "policy"
     source_url: str = ""
-    nonprofit: bool = True
+    nonprofit: bool | None = True  # None: not verified (often a public hospital district); 501(r) checks skipped
     requires: list[Requirement] = Field(default_factory=list)
     rules: list[Rule] = Field(default_factory=list)
     timing: Timing = Field(default_factory=Timing)

@@ -1,0 +1,1111 @@
+{
+ "model": {
+  "hospital": "CommonSpirit Longmont United Hospital",
+  "doc": "policy",
+  "source_url": "https://www.mountain.commonspirit.org/patient-tools/billing-and-financial-services/financial-assistance-hospital-discounted-care",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "CommonSpirit Health Mountain Region is committed to offering reasonable payment plan options to its patients"
+  },
+  "notes": [
+   "Policy covers Colorado, Kansas, and Utah facilities with different FPL bands and copay structures.",
+   "Colorado has separate tables for insured and uninsured patients; Kansas and Utah tables do not distinguish insurance status.",
+   "Colorado uninsured 0-250% FPL receives free care ($0 copay, 0% of charges).",
+   "Insured patient copayments cannot be lower than the 0-250% (Colorado/Utah) or 0-150% (Kansas) copay amounts.",
+   "Uninsured patient copayments cannot be lower than the 0-250% insured copay amounts (Colorado).",
+   "Provider fees are listed separately from facility fees for each state.",
+   "Utah provider fees reference 'Holy Cross Hospitals' while Colorado references 'CommonSpirit Provider Fees'.",
+   "Policy references compliance with PPACA/501(r) and Colorado Senate Bill 14-50.",
+   "Screening for financial assistance offered to uninsured patients when possible.",
+   "Emergency/urgent patients treated regardless of ability to pay or coverage status.",
+   "Documentation requirements, application procedures, and covered facility/provider lists are in addenda not provided.",
+   "Service exclusions (cosmetic, transplant, research) not specified in provided text.",
+   "Application deadline for financial assistance not specified in days from service or first statement.",
+   "First statement timing not specified.",
+   "Payment plan terms (max months, max % of income, min payment) not specified beyond 'reasonable options'."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "rule",
+     "id": "co-insured-0-250-inpatient",
+     "quote": "Colorado Facilities Covered Providers Patients with Insurance - Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 0-250% $650 copay per visit"
+    },
+    {
+     "kind": "rule",
+     "id": "co-insured-0-250-outpatient-recurring",
+     "quote": "Colorado Facilities Covered Providers Patients with Insurance - Federal Poverty Level Outpatient Recurring Care 0-250% $50 copay per visit"
+    },
+    {
+     "kind": "rule",
+     "id": "co-insured-0-250-provider-fees",
+     "quote": "Colorado Facilities Covered Providers Patients with Insurance - Federal Poverty Level CommonSpirit Health Mountain Region Provider Fees 0-250% 15% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-insured-251-299-inpatient",
+     "quote": "Colorado Facilities Covered Providers Patients with Insurance - Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 251-299% 10% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-insured-251-299-outpatient-recurring",
+     "quote": "Colorado Facilities Covered Providers Patients with Insurance - Federal Poverty Level Outpatient Recurring Care 251-299% 10% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-insured-251-299-provider-fees",
+     "quote": "Colorado Facilities Covered Providers Patients with Insurance - Federal Poverty Level CommonSpirit Health Mountain Region Provider Fees 251-299% 25% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-insured-300-399-inpatient",
+     "quote": "Colorado Facilities Covered Providers Patients with Insurance - Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 300-399% 20% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-insured-300-399-outpatient-recurring",
+     "quote": "Colorado Facilities Covered Providers Patients with Insurance - Federal Poverty Level Outpatient Recurring Care 300-399% 20% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-insured-300-399-provider-fees",
+     "quote": "Colorado Facilities Covered Providers Patients with Insurance - Federal Poverty Level CommonSpirit Health Mountain Region Provider Fees 300-399% 35% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-uninsured-0-250-inpatient",
+     "quote": "Colorado Facilities Covered Providers Uninsured - Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 0-250% $0 copay per visit"
+    },
+    {
+     "kind": "rule",
+     "id": "co-uninsured-0-250-outpatient-recurring",
+     "quote": "Colorado Facilities Covered Providers Uninsured - Federal Poverty Level Outpatient Recurring Care 0-250% $0 copay per visit"
+    },
+    {
+     "kind": "rule",
+     "id": "co-uninsured-0-250-provider-fees",
+     "quote": "Colorado Facilities Covered Providers Uninsured - Federal Poverty Level CommonSpirit Provider Fees 0-250% 0% copay per visit"
+    },
+    {
+     "kind": "rule",
+     "id": "co-uninsured-251-299-inpatient",
+     "quote": "Colorado Facilities Covered Providers Uninsured - Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 251-299% 10% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-uninsured-251-299-outpatient-recurring",
+     "quote": "Colorado Facilities Covered Providers Uninsured - Federal Poverty Level Outpatient Recurring Care 251-299% 10% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-uninsured-251-299-provider-fees",
+     "quote": "Colorado Facilities Covered Providers Uninsured - Federal Poverty Level CommonSpirt Provider Fees 251-299% 25% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-uninsured-300-399-inpatient",
+     "quote": "Colorado Facilities Covered Providers Uninsured - Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 300-399% 20% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-uninsured-300-399-outpatient-recurring",
+     "quote": "Colorado Facilities Covered Providers Uninsured - Federal Poverty Level Outpatient Recurring Care 300-399% 20% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "co-uninsured-300-399-provider-fees",
+     "quote": "Colorado Facilities Covered Providers Uninsured - Federal Poverty Level CommonSpirt Provider Fees 300-399% 35% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ks-insured-0-150-inpatient",
+     "quote": "Kansas Facilities Covered Providers Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 0-150% $650 copay per visit"
+    },
+    {
+     "kind": "rule",
+     "id": "ks-insured-0-150-outpatient-recurring",
+     "quote": "Kansas Facilities Covered Providers Federal Poverty Level Outpatient Recurring Care 0-150% $50 copay per visit"
+    },
+    {
+     "kind": "rule",
+     "id": "ks-insured-0-150-provider-fees",
+     "quote": "Kansas Facilities Covered Providers Federal Poverty Level CommonSpirit Health Mountain Region Provider Fees 0-150% 15% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ks-insured-151-200-inpatient",
+     "quote": "Kansas Facilities Covered Providers Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 151-200% 10% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ks-insured-151-200-outpatient-recurring",
+     "quote": "Kansas Facilities Covered Providers Federal Poverty Level Outpatient Recurring Care 151-200% 10% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ks-insured-151-200-provider-fees",
+     "quote": "Kansas Facilities Covered Providers Federal Poverty Level CommonSpirit Health Mountain Region Provider Fees 151-200% 25% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ks-insured-201-250-inpatient",
+     "quote": "Kansas Facilities Covered Providers Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 201-250% 20% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ks-insured-201-250-outpatient-recurring",
+     "quote": "Kansas Facilities Covered Providers Federal Poverty Level Outpatient Recurring Care 201-250% 20% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ks-insured-201-250-provider-fees",
+     "quote": "Kansas Facilities Covered Providers Federal Poverty Level CommonSpirit Health Mountain Region Provider Fees 201-250% 35% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ut-insured-0-250-inpatient",
+     "quote": "Utah Facilities Covered Providers Patients with Insurance - Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 0-250% $650 copay per visit"
+    },
+    {
+     "kind": "rule",
+     "id": "ut-insured-0-250-outpatient-recurring",
+     "quote": "Utah Facilities Covered Providers Patients with Insurance - Federal Poverty Level Outpatient Recurring Care 0-250% $50 copay per visit"
+    },
+    {
+     "kind": "rule",
+     "id": "ut-insured-0-250-provider-fees",
+     "quote": "Utah Facilities Covered Providers Patients with Insurance - Federal Poverty Level Holy Cross Hospitals Provider Fees 0-250% 15% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ut-insured-251-299-inpatient",
+     "quote": "Utah Facilities Covered Providers Patients with Insurance - Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 251-299% 10% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ut-insured-251-299-outpatient-recurring",
+     "quote": "Utah Facilities Covered Providers Patients with Insurance - Federal Poverty Level Outpatient Recurring Care 251-299% 10% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ut-insured-251-299-provider-fees",
+     "quote": "Utah Facilities Covered Providers Patients with Insurance - Federal Poverty Level Holy Cross Hospitals Provider Fees 251-299% 25% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ut-insured-300-399-inpatient",
+     "quote": "Utah Facilities Covered Providers Patients with Insurance - Federal Poverty Level Inpatient Care, Observation Visit, Same Day Surgery, Flight for Life 300-399% 20% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ut-insured-300-399-outpatient-recurring",
+     "quote": "Utah Facilities Covered Providers Patients with Insurance - Federal Poverty Level Outpatient Recurring Care 300-399% 20% of charges"
+    },
+    {
+     "kind": "rule",
+     "id": "ut-insured-300-399-provider-fees",
+     "quote": "Utah Facilities Covered Providers Patients with Insurance - Federal Poverty Level Holy Cross Hospitals Provider Fees 300-399% 35% of charges"
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req-medically-necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "We believe medically necessary health care services should be accessible to all",
+     "why": "Policy supports access to medically necessary care but does not require it for every form of assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req-emergency-or-medically-necessary",
+     "claim": "Every form of assistance requires: (emergency OR medically_necessary)",
+     "quote": "CommonSpirit Health Mountain Region treats emergent and urgent patients regardless of their ability to pay",
+     "why": "Policy states treatment of emergent/urgent patients regardless of ability to pay, but does not make emergency or medically necessary care a requirement for every form of assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "eca:0",
+     "claim": "The policy promises no extraordinary collection action before 30 days after the first post-discharge bill",
+     "quote": "will allow for at least 30 days past the payment due date before pursuing collections",
+     "why": "The 30-day period applies to insured patients not eligible for assistance, not a general ban on extraordinary collection actions."
+    }
+   ],
+   "clauses": 38,
+   "clauses_proven": 0,
+   "unsupported": 3
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [
+    "co_hdc_ip_obs_sds_fl_251_299_uninsured: the clause co_resident true None OR in_service_area true None OR insured false None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "co_hdc_op_rec_251_299_uninsured: the clause co_resident true None OR in_service_area true None OR insured false None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "co_hdc_ip_obs_sds_fl_300_399_uninsured: the clause co_resident true None OR in_service_area true None OR insured false None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "co_hdc_op_rec_300_399_uninsured: the clause co_resident true None OR in_service_area true None OR insured false None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "co_hdc_ip_obs_sds_fl_251_299_insured: the clause co_resident true None OR in_service_area true None OR insured true None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "co_hdc_op_rec_251_299_insured: the clause co_resident true None OR in_service_area true None OR insured true None OR fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "co_hdc_ip_obs_sds_fl_300_399_insured: the clause co_resident true None OR in_service_area true None OR insured true None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "co_hdc_op_rec_300_399_insured: the clause co_resident true None OR in_service_area true None OR insured true None OR fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "ks_fap_151_200: the clause fpl_pct >= 151.0 OR fpl_pct <= 200.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "ks_fap_201_250: the clause fpl_pct >= 201.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "ut_fap_251_299: the clause fpl_pct >= 251.0 OR fpl_pct <= 299.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "ut_fap_300_399: the clause fpl_pct >= 300.0 OR fpl_pct <= 399.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+   ],
+   "repaired": true,
+   "lint_after": [],
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "rule:co_fap_0_250",
+     "claim": "A patient with (co_resident) AND (in_service_area) AND (medically_necessary) AND (fpl_pct <= 250) gets 100% off",
+     "quote": "The legislation requires hospitals to provide financial assistance to patients in emergent situations and whose incomes are less than 250 percent of the current year\u2019s federal poverty level.",
+     "why": "Policy limits financial assistance to emergent situations, not all medically necessary care."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:co_hdc_ip_obs_sds_fl_251_299_uninsured",
+     "claim": "A patient with (co_resident) AND (in_service_area) AND (not insured) AND (fpl_pct >= 251) AND (fpl_pct <= 299) gets an unstated amount of help",
+     "quote": "251-299% 10% of charges",
+     "why": "Policy states 10% of charges copay, so help amount is stated (90% off), not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:co_hdc_op_rec_251_299_uninsured",
+     "claim": "A patient with (co_resident) AND (in_service_area) AND (not insured) AND (fpl_pct >= 251) AND (fpl_pct <= 299) gets an unstated amount of help",
+     "quote": "251-299% 10% of charges",
+     "why": "Policy states 10% of charges copay, so help amount is stated (90% off), not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:co_hdc_ip_obs_sds_fl_300_399_uninsured",
+     "claim": "A patient with (co_resident) AND (in_service_area) AND (not insured) AND (fpl_pct >= 300) AND (fpl_pct <= 399) gets an unstated amount of help",
+     "quote": "300-399% 20% of charges",
+     "why": "Policy states 20% of charges copay, so help amount is stated (80% off), not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:co_hdc_op_rec_300_399_uninsured",
+     "claim": "A patient with (co_resident) AND (in_service_area) AND (not insured) AND (fpl_pct >= 300) AND (fpl_pct <= 399) gets an unstated amount of help",
+     "quote": "300-399% 20% of charges",
+     "why": "Policy states 20% of charges copay, so help amount is stated (80% off), not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:co_hdc_ip_obs_sds_fl_0_250_insured",
+     "claim": "A patient with (co_resident) AND (in_service_area) AND (insured) AND (fpl_pct <= 250) gets an unstated amount of help",
+     "quote": "$650 copay per visit",
+     "why": "Policy states $650 copay per visit, so help amount is stated, not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:co_hdc_op_rec_0_250_insured",
+     "claim": "A patient with (co_resident) AND (in_service_area) AND (insured) AND (fpl_pct <= 250) gets an unstated amount of help",
+     "quote": "$50 copay per visit",
+     "why": "Policy states $50 copay per visit, so help amount is stated, not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:co_hdc_ip_obs_sds_fl_251_299_insured",
+     "claim": "A patient with (co_resident) AND (in_service_area) AND (insured) AND (fpl_pct >= 251) AND (fpl_pct <= 299) gets an unstated amount of help",
+     "quote": "10% of charges",
+     "why": "Policy states 10% of charges copay, so help amount is stated, not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:co_hdc_op_rec_251_299_insured",
+     "claim": "A patient with (co_resident) AND (in_service_area) AND (insured) AND (fpl_pct >= 251) AND (fpl_pct <= 299) gets an unstated amount of help",
+     "quote": "10% of charges",
+     "why": "Policy states 10% of charges copay, so help amount is stated, not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:co_hdc_ip_obs_sds_fl_300_399_insured",
+     "claim": "A patient with (co_resident) AND (in_service_area) AND (insured) AND (fpl_pct >= 300) AND (fpl_pct <= 399) gets an unstated amount of help",
+     "quote": "20% of charges",
+     "why": "Policy states 20% of charges copay, so help amount is stated, not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:co_hdc_op_rec_300_399_insured",
+     "claim": "A patient with (co_resident) AND (in_service_area) AND (insured) AND (fpl_pct >= 300) AND (fpl_pct <= 399) gets an unstated amount of help",
+     "quote": "20% of charges",
+     "why": "Policy states 20% of charges copay, so help amount is stated, not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:ks_fap_0_150",
+     "claim": "A patient with (fpl_pct <= 150) gets an unstated amount of help",
+     "quote": "$650 copay per visit",
+     "why": "Policy states $650 copay per visit, so help amount is stated, not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:ks_fap_151_200",
+     "claim": "A patient with (fpl_pct >= 151) AND (fpl_pct <= 200) gets an unstated amount of help",
+     "quote": "10% of charges",
+     "why": "Policy states 10% of charges copay, so help amount is stated, not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:ks_fap_201_250",
+     "claim": "A patient with (fpl_pct >= 201) AND (fpl_pct <= 250) gets an unstated amount of help",
+     "quote": "20% of charges",
+     "why": "Policy states 20% of charges copay, so help amount is stated, not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:ut_fap_0_250",
+     "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
+     "quote": "$650 copay per visit",
+     "why": "Policy states $650 copay per visit, so help amount is stated, not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:ut_fap_251_299",
+     "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 299) gets an unstated amount of help",
+     "quote": "10% of charges",
+     "why": "Policy states 10% of charges copay, so help amount is stated, not unstated."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:ut_fap_300_399",
+     "claim": "A patient with (fpl_pct >= 300) AND (fpl_pct <= 399) gets an unstated amount of help",
+     "quote": "20% of charges",
+     "why": "Policy states 20% of charges copay, so help amount is stated, not unstated."
+    }
+   ],
+   "clauses": 19,
+   "clauses_proven": 18,
+   "unsupported": 17
+  },
+  "secondary_model": {
+   "hospital": "CommonSpirit Health Mountain Region",
+   "doc": "policy",
+   "source_url": "https://www.mountain.commonspirit.org/patient-tools/billing-and-financial-services/financial-assistance-hospital-discounted-care",
+   "nonprofit": true,
+   "requires": [],
+   "rules": [
+    {
+     "id": "co_hdc_ip_obs_sds_fl_0_250_uninsured",
+     "label": "Colorado Hospital Discounted Care Inpatient/Observation/Same Day Surgery/Flight for Life Uninsured 0-250% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": 100.0,
+     "quote": "0-250% $0 copay per visit"
+    },
+    {
+     "id": "co_hdc_op_rec_0_250_uninsured",
+     "label": "Colorado Hospital Discounted Care Outpatient Recurring Care Uninsured 0-250% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": 100.0,
+     "quote": "0-250% $0 copay per visit"
+    },
+    {
+     "id": "co_hdc_ip_obs_sds_fl_251_299_uninsured",
+     "label": "Colorado Hospital Discounted Care Inpatient/Observation/Same Day Surgery/Flight for Life Uninsured 251-299% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 251.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 299.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "251-299% 10% of charges"
+    },
+    {
+     "id": "co_hdc_op_rec_251_299_uninsured",
+     "label": "Colorado Hospital Discounted Care Outpatient Recurring Care Uninsured 251-299% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 251.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 299.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "251-299% 10% of charges"
+    },
+    {
+     "id": "co_hdc_ip_obs_sds_fl_300_399_uninsured",
+     "label": "Colorado Hospital Discounted Care Inpatient/Observation/Same Day Surgery/Flight for Life Uninsured 300-399% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 300.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 399.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "300-399% 20% of charges"
+    },
+    {
+     "id": "co_hdc_op_rec_300_399_uninsured",
+     "label": "Colorado Hospital Discounted Care Outpatient Recurring Care Uninsured 300-399% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 300.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 399.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "300-399% 20% of charges"
+    },
+    {
+     "id": "co_hdc_ip_obs_sds_fl_0_250_insured",
+     "label": "Colorado Hospital Discounted Care Inpatient/Observation/Same Day Surgery/Flight for Life Insured 0-250% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "$650 copay per visit"
+    },
+    {
+     "id": "co_hdc_op_rec_0_250_insured",
+     "label": "Colorado Hospital Discounted Care Outpatient Recurring Care Insured 0-250% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "$50 copay per visit"
+    },
+    {
+     "id": "co_hdc_ip_obs_sds_fl_251_299_insured",
+     "label": "Colorado Hospital Discounted Care Inpatient/Observation/Same Day Surgery/Flight for Life Insured 251-299% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 251.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 299.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "10% of charges"
+    },
+    {
+     "id": "co_hdc_op_rec_251_299_insured",
+     "label": "Colorado Hospital Discounted Care Outpatient Recurring Care Insured 251-299% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 251.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 299.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "10% of charges"
+    },
+    {
+     "id": "co_hdc_ip_obs_sds_fl_300_399_insured",
+     "label": "Colorado Hospital Discounted Care Inpatient/Observation/Same Day Surgery/Flight for Life Insured 300-399% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 300.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 399.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "20% of charges"
+    },
+    {
+     "id": "co_hdc_op_rec_300_399_insured",
+     "label": "Colorado Hospital Discounted Care Outpatient Recurring Care Insured 300-399% FPL",
+     "when": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "insured",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 300.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 399.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "20% of charges"
+    },
+    {
+     "id": "ks_fap_0_150",
+     "label": "Kansas Financial Assistance 0-150% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 150.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "$650 copay per visit"
+    },
+    {
+     "id": "ks_fap_151_200",
+     "label": "Kansas Financial Assistance 151-200% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 151.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 200.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "10% of charges"
+    },
+    {
+     "id": "ks_fap_201_250",
+     "label": "Kansas Financial Assistance 201-250% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 201.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "20% of charges"
+    },
+    {
+     "id": "ut_fap_0_250",
+     "label": "Utah Financial Assistance 0-250% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "$650 copay per visit"
+    },
+    {
+     "id": "ut_fap_251_299",
+     "label": "Utah Financial Assistance 251-299% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 251.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 299.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "10% of charges"
+    },
+    {
+     "id": "ut_fap_300_399",
+     "label": "Utah Financial Assistance 300-399% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 300.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 399.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "20% of charges"
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": "will allow for at least 30 days past the payment due date before pursuing collections"
+   },
+   "notes": [
+    "Policy includes separate sections for Colorado, Kansas, and Utah facilities. Colorado Financial Assistance requires Colorado residency, service area residence, and medically necessary care. Hospital Discounted Care in Colorado varies by service type (inpatient/observation/same day surgery/flight for life vs outpatient recurring care) and insurance status. Kansas and Utah Financial Assistance programs have different FPL thresholds and copay/charge percentages. The policy states that for insured patients in Colorado, copayments cannot be lower than the 0-250% insured copay amounts, and for uninsured patients in Colorado, copayments cannot be lower than the 0-250% insured copay amounts. The policy mentions that whenever possible, eligibility for financial assistance will be determined before or at the time of admission, but does not specify a fixed application deadline. The policy references compliance with PPACA, Internal Revenue Code Section 501(r), and Colorado Senate Bill 14-50."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $82,000 a year (300.1% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 3 earning $82,000 a year (300.1% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 3653,
+   "tokens_cached": 0,
+   "tokens_out": 7217,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.025304,
+   "orig_seconds": 15.23
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.53,
+   "tokens_in": 3251,
+   "tokens_cached": 0,
+   "tokens_out": 162,
+   "cost_usd": 0.001121,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001121,
+   "orig_seconds": 1.53
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 3653,
+   "tokens_cached": 0,
+   "tokens_out": 2961,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.003761,
+   "orig_seconds": 9.23
+  },
+  {
+   "step": "repair (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 7533,
+   "tokens_cached": 3632,
+   "tokens_out": 3068,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.004149,
+   "orig_seconds": 9.46
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 4.5,
+   "tokens_in": 4534,
+   "tokens_cached": 0,
+   "tokens_out": 1146,
+   "cost_usd": 0.002392,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.002392,
+   "orig_seconds": 4.5
+  }
+ ],
+ "cost_usd": 0.03673,
+ "seconds": 6.3,
+ "made": "2026-10-27"
+}

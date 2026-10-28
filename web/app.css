@@ -284,3 +284,12 @@ table.matrix td { text-align: center; font: 700 15px var(--sans); border-radius:
 table.matrix td.f-bad { background: var(--stop-bg); color: var(--stop); }
 table.matrix td.f-ok { background: var(--go-bg); color: var(--go); }
 table.matrix td.f-na { background: #f3f1ea; color: var(--ink-3); font-weight: 600; font-size: 12px; }
+.cf { font: 600 12px var(--sans); padding: 2px 8px; border-radius: 999px; }
+.cf.ok { background: #e8f0fb; color: #24407a; }
+.cf.disp { background: var(--warn-bg); color: var(--warn); }
+table.matrix td.disp { outline: 2px dashed #d9a441; outline-offset: -3px; }
+table.matrix td sup { font-size: 10px; color: var(--warn); }
+.sub.small { font-size: 13px; margin: 2px 0 0; }
+.a-item.off { cursor: default; opacity: .7; border-style: dashed; }
+.m-legend { font-size: 13px; color: var(--ink-2); margin: 6px 2px 0; }
+.m-legend .dash { outline: 2px dashed #d9a441; outline-offset: 1px; border-radius: 3px; padding: 0 3px; }

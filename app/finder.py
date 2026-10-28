@@ -15,7 +15,8 @@ from . import llm
 from .fetch import FetchError, fetch
 
 NOT_SOURCES = re.compile(r"careroute|mycarecost|needhelppayingbills|kff|cpr\.org|coloradosun|news|reddit|yelp|"
-                         r"wikipedia|facebook|linkedin|propublica|lowninstitute|dollarfor|scribd", re.I)
+                         r"wikipedia|facebook|linkedin|propublica|lowninstitute|dollarfor|scribd|billfairly|cobijohealth|"
+                         r"rocketreach|hcpf\.colorado\.gov|\.gov/", re.I)
 WANT = re.compile(r"financial[-_ ]?assistance[-_ ]?polic|charity[-_ ]?care[-_ ]?polic|\bfap\b", re.I)
 AVOID = re.compile(r"spanish|espa[nñ]ol|-spa[-.]|rights|opt[-_ ]?out|application|form|billing[-_ ]?and[-_ ]?collect|"
                    r"vietnam|chinese|korean|russian|arabic|french|amharic|somali", re.I)
@@ -74,6 +75,9 @@ def find_policy(hospital: str, city: str = "", state: str = "Colorado", meter: l
     if isinstance(pick.get("index"), int) and 0 <= pick["index"] < len(results):
         order.remove(pick["index"])
         order.insert(0, pick["index"])
+        # Fall back only to pages on the picked hospital's own site: another system's policy is worse than none.
+        site = _site(results[pick["index"]]["url"])
+        order = [i for i in order if _site(results[i]["url"]) == site]
     trace.append({"step": "nano pick", "choice": pick})
 
     errors = []
@@ -99,6 +103,10 @@ def find_policy(hospital: str, city: str = "", state: str = "Colorado", meter: l
             doc["found_via"] = url
             return doc
     raise NotFound("no readable policy among the results" + (f" ({errors[0]})" if errors else ""))
+
+
+def _site(url: str) -> str:
+    return ".".join(urlparse(url).netloc.lower().split(".")[-2:])
 
 
 def looks_like_policy(text: str) -> bool:

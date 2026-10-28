@@ -7,6 +7,7 @@ stops live calls before the account runs dry; cached results cost nothing.
 
 from __future__ import annotations
 
+import fcntl
 import hashlib
 import json
 import os
@@ -117,14 +118,20 @@ def spent_today() -> float:
 
 
 def _record_spend(cost: float) -> None:
+    """Thread- and process-safe (batch scripts run several processes against one budget)."""
     with _lock:
         SPEND_FILE.parent.mkdir(parents=True, exist_ok=True)
-        try:
-            data = json.loads(SPEND_FILE.read_text())
-        except (OSError, ValueError):
-            data = {}
-        data[_today()] = round(data.get(_today(), 0.0) + cost, 6)
-        SPEND_FILE.write_text(json.dumps(data, indent=1))
+        with open(SPEND_FILE, "a+") as fh:
+            fcntl.flock(fh, fcntl.LOCK_EX)
+            fh.seek(0)
+            try:
+                data = json.loads(fh.read() or "{}")
+            except ValueError:
+                data = {}
+            data[_today()] = round(data.get(_today(), 0.0) + cost, 6)
+            fh.seek(0)
+            fh.truncate()
+            fh.write(json.dumps(data, indent=1))
 
 
 def budget() -> float:

@@ -1,0 +1,626 @@
+{
+ "id": "colorado-plains",
+ "hospital": "Colorado Plains Medical Center",
+ "dropped_rules": 1,
+ "source_url": "https://lcmcwmh.com/wp-content/uploads/2025/06/PFS-F-02-Financial-Assistance-Policy.pdf",
+ "nonprofit": null,
+ "model_source": "nemotron",
+ "summary_source": null,
+ "solver_seconds": 0.169,
+ "model": {
+  "hospital": "Colorado Plains Medical Center",
+  "doc": "policy",
+  "source_url": "https://lcmcwmh.com/wp-content/uploads/2025/06/PFS-F-02-Financial-Assistance-Policy.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_fpl_100_125",
+    "label": "Free care for income at 100% and below 125% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 100.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 125.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at 100% and below 125% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_fpl_126_150",
+    "label": "90% discount for income at 126% and below 150% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 126.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 90.0,
+    "quote": "Patients whose family income is at 126% and below 150% of the FPL are eligible to receive a 90% discount."
+   },
+   {
+    "id": "rule_fpl_151_175",
+    "label": "80% discount for income at 151% and below 175% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 151.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 175.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "Patients whose family income is at 151% and below 175% of the FPL are eligible to receive an 80% discount."
+   },
+   {
+    "id": "rule_fpl_176_200",
+    "label": "70% discount for income at 176% and below 200% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 176.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 70.0,
+    "quote": "Patients whose family income is at 176% and below 200% of the FPL are eligible to receive a 70% discount."
+   },
+   {
+    "id": "rule_fpl_201_300",
+    "label": "65% discount for income at 201% and below 300% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 201.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 65.0,
+    "quote": "Patients whose family income is at 201% and below 300% of the FPL are eligible to receive a 65% discount."
+   },
+   {
+    "id": "rule_fpl_above_300",
+    "label": "Case-by-case discount for income exceeding 300% FPL (catastrophic/medical indigence)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients whose family income exceeds 300% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Little Colorado Medical Center"
+   },
+   {
+    "id": "rule_presumptive_eligibility",
+    "label": "Presumptive eligibility based on life circumstances",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: State-funded prescription programs; Homelessness or received care from a homeless clinic; Participation in Women, Infants and Children programs (WIC); Food stamp eligibility; Subsidized school lunch program eligibility; Eligibility for other state or local assistance program that are unfunded (e.g., Medicaid spend-down); Low income/subsidized housing is provided as a valid address; and Patient is deceased with no known estate."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "For patients who qualify for charity and who are cooperating in good faith to resolve their discounted hospital bills, Little Colorado Medical Center may offer extended payment plans"
+  },
+  "notes": [
+   "Policy covers emergency medical services in ER, services for conditions that would lead to adverse health changes if not promptly treated, non-elective services for life-threatening circumstances, and medically necessary services evaluated case-by-case.",
+   "Excluded providers: INNOVA-Emergency room providers, WIHCC-Winslow Indian Health Care Clinic Family practice physicians covering I.H.S. patients while working as inpatient hospitalists at LCMC. All other providers are covered.",
+   "Financial need determination includes individualized assessment, application process, use of external data sources, reasonable efforts to explore alternative payment sources, consideration of assets and financial resources, review of outstanding accounts and payment history.",
+   "Required documentation: completed Financial Assistance Application, copy of last year's tax return, last two months' income or bank statement for proof of income, checking and savings account balances, investment account balances.",
+   "Hospital must notify patient in writing within 30 days of receipt of completed application.",
+   "Re-evaluation of financial need at each subsequent service if last evaluation was more than 6 months prior or if additional relevant information becomes known.",
+   "Collection practices consider charity qualification, good faith effort to apply for governmental programs or charity, and good faith effort to comply with payment agreements.",
+   "For qualifying patients cooperating in good faith: extended payment plans may be offered, no outside collection agencies, cease all collection efforts.",
+   "No extraordinary collection actions (wage garnishments, liens on primary residences, other legal actions) without first making reasonable efforts to determine charity eligibility.",
+   "Reasonable efforts for collection: validate patient owes bills and all third-party sources identified/billed; documentation of offering charity application opportunity and patient non-compliance; documentation of offered payment plan not honored.",
+   "If collection agency identifies patient meeting financial assistance criteria, account may be considered for financial assistance, collection suspended, application reviewed.",
+   "If entire account balance adjusted, account returned. If partial adjustment, patient fails to cooperate, or patient not eligible, collection activity resumes.",
+   "Management must comply with all federal, state, and local laws, rules, and regulations.",
+   "Amounts charged for emergency and medically necessary services will not exceed amounts generally billed to individuals with insurance covering such care.",
+   "Look-back method used for calculating amounts generally billed based on actual past claims paid by Medicare fee-for-service only or Medicare fee-for-service together with all private health insurers.",
+   "Itemized statement provided to patient showing charges and discount amount applied.",
+   "Discount applied once patient submits complete application for financial assistance.",
+   "Hospital may use outside agencies to estimate income for charity eligibility determination when no evidence supports eligibility.",
+   "Policy does not consider race, creed, gender, national origin, disability, age, social immigrant status, or sexual orientation in granting financial assistance."
+  ]
+ },
+ "findings": [
+  {
+   "check": "co_hdc_coverage",
+   "title": "Covers everyone Colorado's Hospital Discounted Care protects",
+   "status": "inconclusive",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients and their households are eligible for Hospital Discounted Care if, during the required screening and application processes, they are determined to: Have a total household income at or below 250% of the Federal Poverty Guidelines (FPG), and Be residents of the State of Colorado."
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "IF REQUESTED BY THE PATIENT, A HEALTH-CARE FACILITY SHALL SCREEN AN INSURED PATIENT FOR DISCOUNTED CARE"
+    }
+   ],
+   "summary": "Inconclusive: 1 of the model's rules were dropped by the quote and meaning checks, so a missing rule may be our error. Z3's case: A household of 3 earning $48,000 a year (175.7% of the poverty line), living in Colorado, uninsured, owing $10,000 meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care.",
+   "severity": "gap",
+   "household": {
+    "size": 3,
+    "income_usd": 48000.0,
+    "fpl_pct": 175.69,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": null,
+   "policy_outcome": {
+    "covered": false,
+    "best_stated_discount_pct": 0.0
+   },
+   "clauses": [
+    {
+     "kind": "rule",
+     "id": "rule_fpl_100_125",
+     "label": "Free care for income at 100% and below 125% FPL",
+     "quote": "Patients whose family income is at 100% and below 125% of the FPL are eligible to receive free care.",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_fpl_126_150",
+     "label": "90% discount for income at 126% and below 150% FPL",
+     "quote": "Patients whose family income is at 126% and below 150% of the FPL are eligible to receive a 90% discount.",
+     "discount_pct": 90.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_fpl_151_175",
+     "label": "80% discount for income at 151% and below 175% FPL",
+     "quote": "Patients whose family income is at 151% and below 175% of the FPL are eligible to receive an 80% discount.",
+     "discount_pct": 80.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_fpl_176_200",
+     "label": "70% discount for income at 176% and below 200% FPL",
+     "quote": "Patients whose family income is at 176% and below 200% of the FPL are eligible to receive a 70% discount.",
+     "discount_pct": 70.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_fpl_201_300",
+     "label": "65% discount for income at 201% and below 300% FPL",
+     "quote": "Patients whose family income is at 201% and below 300% of the FPL are eligible to receive a 65% discount.",
+     "discount_pct": 65.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_fpl_above_300",
+     "label": "Case-by-case discount for income exceeding 300% FPL (catastrophic/medical indigence)",
+     "quote": "Patients whose family income exceeds 300% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Little Colorado Medical Center",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_presumptive_eligibility",
+     "label": "Presumptive eligibility based on life circumstances",
+     "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: State-funded prescription programs; Homelessness or received care from a homeless clinic; Participation in Women, Infants and Children programs (WIC); Food stamp eligibility; Subsidized school lunch program eligibility; Eligibility for other state or local assistance program that are unfunded (e.g., Medicaid spend-down); Low income/subsidized housing is provided as a valid address; and Patient is deceased with no known estate.",
+     "discount_pct": null,
+     "holds": false
+    }
+   ],
+   "seconds": 0.005,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
+   "basis": "absence",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "counterexample"
+   ]
+  },
+  {
+   "check": "co_hdc_assets",
+   "title": "Ignores assets for Colorado-protected households",
+   "status": "proved",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE METHODOLOGY MUST NOT CONSIDER A PATIENT'S ASSETS."
+    }
+   ],
+   "summary": "Proved: for households Colorado's law protects, savings and assets never changes the outcome.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.001,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  },
+  {
+   "check": "co_hdc_public",
+   "title": "Doesn't require a Medicaid application first",
+   "status": "proved",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "DENY DISCOUNTED CARE ON THE BASIS THAT THE PATIENT HAS NOT APPLIED FOR ANY PUBLIC BENEFITS PROGRAM"
+    }
+   ],
+   "summary": "Proved: for households Colorado's law protects, whether they applied for Medicaid or other public programs never changes the outcome.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.001,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  },
+  {
+   "check": "co_eca_182",
+   "title": "No collection lawsuits or garnishment before day 182",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "NO MEDICAL CREDITOR COLLECTING ON A DEBT FOR HOSPITAL SERVICES SHALL ENGAGE IN ANY PERMISSIBLE EXTRAORDINARY COLLECTION ACTIONS UNTIL ONE HUNDRED EIGHTY-TWO DAYS AFTER THE DATE THE PATIENT RECEIVES HOSPITAL SERVICES."
+    },
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "begin sending bills beginning 46 days after the patient's date of service or date of discharge"
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 46 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "co_window_181",
+   "title": "Accepts applications for at least 181 days after care",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients may complete a screening at any time within at least 181 days after their date of service or discharge, whichever is later"
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "co_window_insured",
+   "title": "Insured patients get 45 days after their first post-insurance bill",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "At least 45 days from the date of the first bill after the patient's insurance adjustment, even if that date falls outside the normal 181-day window."
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "co_plan_4pct",
+   "title": "Payment plans capped at 4% of monthly income, done after 36 payments",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE PATIENT IS NOT PAYING MORE THAN FOUR PERCENT OF THE PATIENT'S MONTHLY HOUSEHOLD INCOME ON A BILL FROM A HEALTH-CARE FACILITY"
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "AFTER A CUMULATIVE THIRTY-SIX MONTHS OF PAYMENTS, CONSIDER THE PATIENT'S BILL PAID IN FULL"
+    }
+   ],
+   "summary": "The policy states no payment-plan terms to check. Colorado's 4% / 36-month limits apply anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "fed_window_240",
+   "title": "Application window of 240 days after the first bill (501(r))",
+   "status": "n/a",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-1(b)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-1",
+     "quote": "ends on the later of the 240th day after the date that the first post-discharge billing statement for the care is provided"
+    }
+   ],
+   "summary": "Skipped: 501(r) applies to tax-exempt hospitals, and we haven't verified this hospital's status (many rural Colorado hospitals are public districts).",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "n/a"
+   ]
+  },
+  {
+   "check": "fed_eca_120",
+   "title": "No collection actions in the first 120 days after the first bill (501(r))",
+   "status": "n/a",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-6(c)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-6",
+     "quote": "for at least 120 days from the date the hospital facility provides the first post-discharge billing statement for the care"
+    }
+   ],
+   "summary": "Skipped: 501(r) applies to tax-exempt hospitals, and we haven't verified this hospital's status (many rural Colorado hospitals are public districts).",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "n/a"
+   ]
+  },
+  {
+   "check": "monotone",
+   "title": "Earning less never means getting less help",
+   "status": "inconclusive",
+   "law": [],
+   "summary": "Inconclusive: 1 of the model's rules were dropped by the quote and meaning checks, so a missing rule may be our error. Z3's case: A household of 3 earning $34,423 a year (126.0% of the poverty line), living in Colorado, uninsured, owing $10,000 gets no help; the same household earning more, at 126.36% of the poverty line, gets 90% off. The written income bands leave a gap between them.",
+   "severity": "ambiguity",
+   "household": {
+    "size": 3,
+    "income_usd": 34423.19,
+    "fpl_pct": 125.99,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": {
+    "size": 3,
+    "income_usd": 34523.19,
+    "fpl_pct": 126.36,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "policy_outcome": {
+    "a": {
+     "covered": false,
+     "best_stated_discount_pct": 0.0
+    },
+    "b": {
+     "covered": true,
+     "best_stated_discount_pct": 90.0
+    }
+   },
+   "clauses": [
+    {
+     "kind": "rule",
+     "id": "rule_fpl_100_125",
+     "label": "Free care for income at 100% and below 125% FPL",
+     "quote": "Patients whose family income is at 100% and below 125% of the FPL are eligible to receive free care.",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_fpl_126_150",
+     "label": "90% discount for income at 126% and below 150% FPL",
+     "quote": "Patients whose family income is at 126% and below 150% of the FPL are eligible to receive a 90% discount.",
+     "discount_pct": 90.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_fpl_151_175",
+     "label": "80% discount for income at 151% and below 175% FPL",
+     "quote": "Patients whose family income is at 151% and below 175% of the FPL are eligible to receive an 80% discount.",
+     "discount_pct": 80.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_fpl_176_200",
+     "label": "70% discount for income at 176% and below 200% FPL",
+     "quote": "Patients whose family income is at 176% and below 200% of the FPL are eligible to receive a 70% discount.",
+     "discount_pct": 70.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_fpl_201_300",
+     "label": "65% discount for income at 201% and below 300% FPL",
+     "quote": "Patients whose family income is at 201% and below 300% of the FPL are eligible to receive a 65% discount.",
+     "discount_pct": 65.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_fpl_above_300",
+     "label": "Case-by-case discount for income exceeding 300% FPL (catastrophic/medical indigence)",
+     "quote": "Patients whose family income exceeds 300% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Little Colorado Medical Center",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_presumptive_eligibility",
+     "label": "Presumptive eligibility based on life circumstances",
+     "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: State-funded prescription programs; Homelessness or received care from a homeless clinic; Participation in Women, Infants and Children programs (WIC); Food stamp eligibility; Subsidized school lunch program eligibility; Eligibility for other state or local assistance program that are unfunded (e.g., Medicaid spend-down); Low income/subsidized housing is provided as a valid address; and Patient is deceased with no known estate.",
+     "discount_pct": null,
+     "holds": false
+    }
+   ],
+   "seconds": 0.007,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "absence",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "counterexample"
+   ]
+  }
+ ]
+}

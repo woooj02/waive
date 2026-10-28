@@ -1,0 +1,348 @@
+{
+ "model": {
+  "hospital": "Arkansas Valley Regional Medical Center",
+  "doc": "policy",
+  "source_url": "https://www.avrmc.org/docs/Financial_Assistance_policy.pdf?sub=For%20Patients",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_self_pay_discount",
+    "label": "40% self-pay discount for uninsured patients not approved for financial assistance",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "All uninsured patients receive a 40% Self-Pay discount on their account balance at the time of billing."
+   },
+   {
+    "id": "rule_out_of_state_medicaid",
+    "label": "Charity write-off for verified out-of-state Medicaid balances",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients with verified Medicaid out of state balances in which it is not feasible for AVRMC to complete an application with the out of state Medicaid intermediary will be considered indigent and all balances adjusted off as \"Charity.\""
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [
+    {
+     "anchor": "service",
+     "days": 46,
+     "quote": "The patient shall not be billed prior to 46 days after discharge."
+    }
+   ],
+   "first_statement_from_day": 46
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy effective for dates of service on or after September 1, 2022.",
+   "Screening must occur within 45 days of date of service or discharge for uninsured patients.",
+   "Patients may apply up to three months prior to receiving service; eligibility valid for one year after determination.",
+   "AVRMC will attempt to contact discharged patients at least once a month for six months regarding financial aid screening.",
+   "Verbal decline is not valid for opting out; signed Opt Out Form required.",
+   "If patient requests hospital cease contact, AVRMC documents request and records it.",
+   "If AVRMC exhausts contact efforts and patient does not respond in 182 days, lack of cooperation considered informed decision to decline screening.",
+   "Hospital's right to pursue collection of personal injury, liability, workers' compensation, or fault-based insurance not limited.",
+   "Charity write-off may not apply to balances prior to September 1, 2022; to be determined by hospital management.",
+   "If third-party coverage discovered later, financial assistance write-off reversed and third-party insurance filed.",
+   "Application process same as required for CICP or HDC applicants.",
+   "Policy references Colorado Indigent Care Program (CICP) and Colorado Hospital Discounted Care Act (HDC).",
+   "33% AGB% effective 1/1/2021 noted in header.",
+   "Exhibit A flowchart for HDC process referenced but not included in text.",
+   "Co-Insurance and Payment Arrangement policy referenced for patients who opt out but not detailed.",
+   "Good faith estimates provided to uninsured patients but no payment requested until opt-out or denial.",
+   "Patient notification requirements: posting Patient Rights on website, in waiting areas, providing copy at registration, including notification on billing statements."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "rule",
+     "id": "rule_charity_care",
+     "quote": "Patients that are screened for financial aid per the above guidelines and are approved (household income is proven to be less than 250% of the federal poverty level) shall have all outstanding amounts owed by the patient for the specific episode of care adjusted off as \"Charity\""
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_service_at_avrmc",
+     "claim": "Every form of assistance requires: (in_service_area)",
+     "quote": "The patient received a service at AVRMC or an AVRMC physician clinic.",
+     "why": "Service location is a qualification criterion, not a universal requirement for all assistance forms (e.g., self-pay discount applies regardless)."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_uninsured_or_requested",
+     "claim": "Every form of assistance requires: (not insured OR underinsured)",
+     "quote": "The patient is uninsured (or an insured patient that has specifically requested screening)",
+     "why": "Screening trigger, not a requirement for assistance; insured patients not requesting screening can still receive self-pay discount."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_medically_necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "The service was considered \"Medically Necessary\" (not elective)",
+     "why": "Medically necessary is a qualification for financial assistance, not required for self-pay discount which applies to all uninsured patients."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 182 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "The patient complies in supplying the necessary information to AVRMC within 182 days of requested date.",
+     "why": "182-day deadline is for supplying information after screening request, not for submitting the initial financial assistance application."
+    }
+   ],
+   "clauses": 6,
+   "clauses_proven": 2,
+   "unsupported": 4
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [
+    "rule rule_fap_charity_care can never apply to anyone (its clauses contradict each other or the requirements)"
+   ],
+   "repaired": true,
+   "lint_after": [],
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req_co_resident",
+     "claim": "Every form of assistance requires: (co_resident)",
+     "quote": "Arkansas Valley Regional Medical Center (AVRMC) is a 501(c) (3), not-for-profit hospital and will not discriminate in providing medically necessary services to those in need regardless of their ability to pay.",
+     "why": "Policy does not require Colorado residency for any assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_in_service_area",
+     "claim": "Every form of assistance requires: (in_service_area)",
+     "quote": "This policy will be effective for dates of service on or subsequent to September 1, 2022 and applies to all entities of the hospital with the same federal identification number.",
+     "why": "Policy applies to hospital entities but does not require patient to live in service area for assistance."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 182 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "(IV)The patient complies in supplying the necessary information to AVRMC within 182 days of requested date.",
+     "why": "182-day deadline is for supplying information after request, not for submitting application."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:1",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 182 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+     "quote": "(IV)The patient complies in supplying the necessary information to AVRMC within 182 days of requested date.",
+     "why": "No deadline tied to first post-discharge bill exists in policy."
+    }
+   ],
+   "clauses": 5,
+   "clauses_proven": 3,
+   "unsupported": 4
+  },
+  "secondary_model": {
+   "hospital": "Arkansas Valley Regional Medical Center",
+   "doc": "policy",
+   "source_url": "https://www.avrmc.org/docs/Financial_Assistance_policy.pdf?sub=For%20Patients",
+   "nonprofit": true,
+   "requires": [
+    {
+     "id": "req_medically_necessary",
+     "label": "Medically necessary service",
+     "cond": [
+      [
+       {
+        "var": "medically_necessary",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "(V)The service was considered \u201cMedically Necessary\u201d (not elective)"
+    }
+   ],
+   "rules": [
+    {
+     "id": "rule_fap_charity_care",
+     "label": "Financial Assistance Program - Charity Care",
+     "when": [
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       },
+       {
+        "var": "underinsured",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": 100.0,
+     "quote": "(III)The patient\u2019s annual family income is NOT more than two hundred fifty percent (250%) of the federal poverty guidelines."
+    },
+    {
+     "id": "rule_self_pay_discount",
+     "label": "Self-Pay Discount",
+     "when": [
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": 40.0,
+     "quote": "a.All uninsured patients receive a 40% Self-Pay discount on their account balance at the time of billing."
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": 46
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "Policy references HDC guidelines for insured patient screening upon request only. Insured patients are not automatically screened; screening occurs only upon request per HDC guidelines.",
+    "Policy mentions that patients who do not qualify for financial assistance will be notified in writing by the Financial Counselor.",
+    "Patients with verified Medicaid out of state balances in which it is not feasible for AVRMC to complete an application with the out of state Medicaid intermediary will be considered indigent and all balances adjusted off as 'Charity'.",
+    "The policy states that if third-party coverage is discovered at a later date, any financial assistance write-off will be reversed, and third-party insurance will be filed.",
+    "The policy states that the application process is the same process required for applicants of CICP or HDC.",
+    "Policy states that a letter will be sent to each applicant informing him/her of the eligibility determination, the amount of financial assistance given, any remaining balances owed by the patient, and the payment plan, if any.",
+    "Policy states that patients denied Financial Assistance will be sent a letter informing them of the reason for denial.",
+    "Policy states that AVRMC Patient Accounting office will keep a log of financial assistance provided each fiscal year, along with all applications, of those approved and denied. Account notes will be maintained as well.",
+    "Policy states that in the event that third-party coverage is discovered at a later date, any financial assistance write-off will be reversed, and third-party insurance will be filed.",
+    "Policy states that all signed Opt Out Forms will be scanned into Meditech and maintained as a part of the patient\u2019s record.",
+    "Policy states that for patient\u2019s that are discharged or leave the facility without opting to be screened or signing the Opt Out form (verbal decline is not valid for opting out), AVRMC will contact the patient, or guardian, using their preferred method of contact, if known (phone call, text, email, etc.). AVRMC will attempt to resolve the patient\u2019s desire regarding financial aid screening, apply or opt out, at least once a month for six months after the patient\u2019s discharge or until the patient\u2019s resolve regarding financial aid is clear.",
+    "Policy states that all communications with the patient must be documented, signed by the person communicating with the patient and maintained in the patient\u2019s record.",
+    "Policy states that if the patient request that the hospital cease contacting them related to the screening for financial aid, AVRMC will document the patient\u2019s request including the communicator\u2019s signature and date and record the request as part of the patient\u2019s record.",
+    "Policy states that if AVRMC has exhausted efforts to contact the patient and the patient does not respond in 182 days, AVRMC will consider the lack of cooperation as an informed decision to decline screening.",
+    "Policy states that patients that are screened for financial aid per the above guidelines and are approved (household income is proven to be less than 250% of the federal poverty level) shall have all outstanding amounts owed by the patient for the specific episode of care (may not apply to balances prior to September 1, 2022; to be determined by hospital management) adjusted off as \u2018Charity\u2019 and the patient will not be billed or collected from for such balances.",
+    "Policy states that nothing in this section limits or affects a hospital\u2019s right to pursue the collection of personal injury, bodily injury, liability, uninsured, underinsured, medical payment rehabilitation, disability, homeowner\u2019s, business owner\u2019s, workers\u2019 compensation, or fault-based insurance.",
+    "Policy states that billing patients who do not apply for or qualify for Financial Assistance: patients who do not apply for financial assistance or is determined to be ineligible for financial assistance, the 40% discount is the only discount that will be applied to the account balance.",
+    "Policy states that patients in this category will be subject to guidelines set forth in Section 5 below.",
+    "Policy states that AVRMC will not collect up-front payments from uninsured patients unless they have opted out of screening (signed the form). If an uninsured patient has opted out of screening for financial aid (signed the form) then the patient would be subject to AVRMC\u2019s Co-Insurance and Payment Arrangement policy. Uninsured patients should still be given \u2018good faith estimates\u2019 of their cost for services received, but no request for payment should be made until the patient opts out (signs the form) or is not approved for assistance in another way (application rejection, request to not be contacted or lapse of notifications, 182 days)."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 40% off, the Nemotron 3 Super model gives 100% off.",
+   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives 40% off, the Nemotron 3 Super model gives no help."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 40% off, the Nemotron 3 Super model gives 100% off.",
+   "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives 40% off, the Nemotron 3 Super model gives no help."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 4281,
+   "tokens_cached": 0,
+   "tokens_out": 1236,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.007989,
+   "orig_seconds": 5.58
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 4.35,
+   "tokens_in": 4120,
+   "tokens_cached": 0,
+   "tokens_out": 351,
+   "cost_usd": 0.001552,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001552,
+   "orig_seconds": 4.35
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 4281,
+   "tokens_cached": 0,
+   "tokens_out": 1607,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.002731,
+   "orig_seconds": 5.63
+  },
+  {
+   "step": "repair (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 6034,
+   "tokens_cached": 4256,
+   "tokens_out": 1693,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.002312,
+   "orig_seconds": 6.78
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 2.09,
+   "tokens_in": 4197,
+   "tokens_cached": 0,
+   "tokens_out": 304,
+   "cost_usd": 0.001533,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001533,
+   "orig_seconds": 2.09
+  }
+ ],
+ "cost_usd": 0.01612,
+ "seconds": 6.5,
+ "made": "2026-10-27"
+}

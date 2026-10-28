@@ -1,0 +1,512 @@
+{
+ "model": {
+  "hospital": "Colorado Plains Medical Center",
+  "doc": "policy",
+  "source_url": "https://lcmcwmh.com/wp-content/uploads/2025/06/PFS-F-02-Financial-Assistance-Policy.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_fpl_100_125",
+    "label": "Free care for income at 100% and below 125% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 100.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 125.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at 100% and below 125% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_fpl_126_150",
+    "label": "90% discount for income at 126% and below 150% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 126.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 90.0,
+    "quote": "Patients whose family income is at 126% and below 150% of the FPL are eligible to receive a 90% discount."
+   },
+   {
+    "id": "rule_fpl_151_175",
+    "label": "80% discount for income at 151% and below 175% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 151.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 175.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "Patients whose family income is at 151% and below 175% of the FPL are eligible to receive an 80% discount."
+   },
+   {
+    "id": "rule_fpl_176_200",
+    "label": "70% discount for income at 176% and below 200% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 176.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 70.0,
+    "quote": "Patients whose family income is at 176% and below 200% of the FPL are eligible to receive a 70% discount."
+   },
+   {
+    "id": "rule_fpl_201_300",
+    "label": "65% discount for income at 201% and below 300% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 201.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 65.0,
+    "quote": "Patients whose family income is at 201% and below 300% of the FPL are eligible to receive a 65% discount."
+   },
+   {
+    "id": "rule_fpl_above_300",
+    "label": "Case-by-case discount for income exceeding 300% FPL (catastrophic/medical indigence)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients whose family income exceeds 300% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Little Colorado Medical Center"
+   },
+   {
+    "id": "rule_presumptive_eligibility",
+    "label": "Presumptive eligibility based on life circumstances",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: State-funded prescription programs; Homelessness or received care from a homeless clinic; Participation in Women, Infants and Children programs (WIC); Food stamp eligibility; Subsidized school lunch program eligibility; Eligibility for other state or local assistance program that are unfunded (e.g., Medicaid spend-down); Low income/subsidized housing is provided as a valid address; and Patient is deceased with no known estate."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "For patients who qualify for charity and who are cooperating in good faith to resolve their discounted hospital bills, Little Colorado Medical Center may offer extended payment plans"
+  },
+  "notes": [
+   "Policy covers emergency medical services in ER, services for conditions that would lead to adverse health changes if not promptly treated, non-elective services for life-threatening circumstances, and medically necessary services evaluated case-by-case.",
+   "Excluded providers: INNOVA-Emergency room providers, WIHCC-Winslow Indian Health Care Clinic Family practice physicians covering I.H.S. patients while working as inpatient hospitalists at LCMC. All other providers are covered.",
+   "Financial need determination includes individualized assessment, application process, use of external data sources, reasonable efforts to explore alternative payment sources, consideration of assets and financial resources, review of outstanding accounts and payment history.",
+   "Required documentation: completed Financial Assistance Application, copy of last year's tax return, last two months' income or bank statement for proof of income, checking and savings account balances, investment account balances.",
+   "Hospital must notify patient in writing within 30 days of receipt of completed application.",
+   "Re-evaluation of financial need at each subsequent service if last evaluation was more than 6 months prior or if additional relevant information becomes known.",
+   "Collection practices consider charity qualification, good faith effort to apply for governmental programs or charity, and good faith effort to comply with payment agreements.",
+   "For qualifying patients cooperating in good faith: extended payment plans may be offered, no outside collection agencies, cease all collection efforts.",
+   "No extraordinary collection actions (wage garnishments, liens on primary residences, other legal actions) without first making reasonable efforts to determine charity eligibility.",
+   "Reasonable efforts for collection: validate patient owes bills and all third-party sources identified/billed; documentation of offering charity application opportunity and patient non-compliance; documentation of offered payment plan not honored.",
+   "If collection agency identifies patient meeting financial assistance criteria, account may be considered for financial assistance, collection suspended, application reviewed.",
+   "If entire account balance adjusted, account returned. If partial adjustment, patient fails to cooperate, or patient not eligible, collection activity resumes.",
+   "Management must comply with all federal, state, and local laws, rules, and regulations.",
+   "Amounts charged for emergency and medically necessary services will not exceed amounts generally billed to individuals with insurance covering such care.",
+   "Look-back method used for calculating amounts generally billed based on actual past claims paid by Medicare fee-for-service only or Medicare fee-for-service together with all private health insurers.",
+   "Itemized statement provided to patient showing charges and discount amount applied.",
+   "Discount applied once patient submits complete application for financial assistance.",
+   "Hospital may use outside agencies to estimate income for charity eligibility determination when no evidence supports eligibility.",
+   "Policy does not consider race, creed, gender, national origin, disability, age, social immigrant status, or sexual orientation in granting financial assistance."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req_medically_necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "Services eligible under this Policy will be made available to the patient on a sliding fee scale, in accordance with financial need, as determined in reference to Federal Poverty Levels (FPL) in effect at the time of the determination.",
+     "why": "Policy limits assistance to medically necessary services, so medically_necessary is required."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_uninsured_or_underinsured",
+     "claim": "Every form of assistance requires: (not insured OR underinsured)",
+     "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care",
+     "why": "Policy explicitly requires uninsured or underinsured for charity eligibility."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_ineligible_govt_programs",
+     "claim": "Every form of assistance requires: (not applied_public_programs)",
+     "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care",
+     "why": "Policy requires ineligibility for any government health care program."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_unable_to_pay",
+     "claim": "Every form of assistance requires: (bill_pct_income > 0)",
+     "quote": "Eligibility for charity will be considered for those individuals who are uninsured, underinsured, ineligible for any government health care program, and who are unable to pay for their care",
+     "why": "Policy requires inability to pay for care as part of eligibility."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_agb_discount",
+     "claim": "A patient with (not insured OR underinsured) AND (medically_necessary) gets 65% off",
+     "quote": "The Amounts General Billed discount of 65% has been determined by Little Colorado Medical Center.",
+     "why": "Quote about AGB discount does not tie it to uninsured/underinsured and medically necessary patients."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+     "quote": "Accounts eligible for Charity Care are to be addressed within 240 days of first bill.",
+     "why": "240-day period is for addressing accounts, not for patient to submit application."
+    },
+    {
+     "kind": "unsupported",
+     "id": "eca:0",
+     "claim": "The policy promises no extraordinary collection action before 0 days after the date of service",
+     "quote": "Little Colorado Medical Center will not engage in extraordinary collection actions before it makes a reasonable effort to determine whether a patient is eligible for financial assistance under this policy.",
+     "why": "Policy requires reasonable effort before ECA, but does not set a 0-day waiting period."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_fpl_above_300",
+     "claim": "A patient with (fpl_pct > 300) gets an unstated amount of help",
+     "quote": "Patients whose family income exceeds 300% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Little Colorado Medical Center",
+     "why": "Policy allows case-by-case discounted rates not exceeding AGB, but does not guarantee or specify amount."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_presumptive_eligibility",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: State-funded prescription programs; Homelessness or received care from a homeless clinic; Participation in Women, Infants and Children programs (WIC); Food stamp eligibility; Subsidized school lunch program eligibility; Eligibility for other state or local assistance program that are unfunded (e.g., Medicaid spend-down); Low income/subsidized housing is provided as a valid address; and Patient is deceased with no known estate.",
+     "why": "Policy lists circumstances for presumptive eligibility but does not specify amount of help."
+    }
+   ],
+   "clauses": 12,
+   "clauses_proven": 7,
+   "unsupported": 9
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [
+    "rule_free_care: the clause fpl_pct >= 100.0 OR fpl_pct <= 125.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "rule_90pct_discount: the clause fpl_pct >= 126.0 OR fpl_pct <= 150.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "rule_80pct_discount: the clause fpl_pct >= 151.0 OR fpl_pct <= 175.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "rule_70pct_discount: the clause fpl_pct >= 176.0 OR fpl_pct <= 200.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "rule_65pct_discount: the clause fpl_pct >= 201.0 OR fpl_pct <= 300.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+   ],
+   "repaired": true,
+   "lint_after": [],
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "Accounts eligible for Charity Care are to be addressed within 240 days of first bill.",
+     "why": "Quote addresses internal processing, not patient application deadline."
+    }
+   ],
+   "clauses": 6,
+   "clauses_proven": 6,
+   "unsupported": 1
+  },
+  "secondary_model": {
+   "hospital": "Little Colorado Medical Center",
+   "doc": "policy",
+   "source_url": "https://lcmcwmh.com/wp-content/uploads/2025/06/PFS-F-02-Financial-Assistance-Policy.pdf",
+   "nonprofit": null,
+   "requires": [],
+   "rules": [
+    {
+     "id": "rule_free_care",
+     "label": "Free care (100% discount)",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 100.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 125.0
+       }
+      ]
+     ],
+     "discount_pct": 100.0,
+     "quote": "Patients whose family income is at 100% and below 125% of the FPL are eligible to receive free care."
+    },
+    {
+     "id": "rule_90pct_discount",
+     "label": "90% discount",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 126.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 150.0
+       }
+      ]
+     ],
+     "discount_pct": 90.0,
+     "quote": "Patients whose family income is at 126% and below 150% of the FPL are eligible to receive a 90% discount."
+    },
+    {
+     "id": "rule_80pct_discount",
+     "label": "80% discount",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 151.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 175.0
+       }
+      ]
+     ],
+     "discount_pct": 80.0,
+     "quote": "Patients whose family income is at 151% and below 175% of the FPL are eligible to receive an 80% discount."
+    },
+    {
+     "id": "rule_70pct_discount",
+     "label": "70% discount",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 176.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 200.0
+       }
+      ]
+     ],
+     "discount_pct": 70.0,
+     "quote": "Patients whose family income is at 176% and below 200% of the FPL are eligible to receive a 70% discount."
+    },
+    {
+     "id": "rule_65pct_discount",
+     "label": "65% discount",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 201.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 300.0
+       }
+      ]
+     ],
+     "discount_pct": 65.0,
+     "quote": "Patients whose family income is at 201% and below 300% of the FPL are eligible to receive a 65% discount."
+    },
+    {
+     "id": "rule_case_by_case_over_300",
+     "label": "Case-by-case discount over 300% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">",
+        "value": 300.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Patients whose family income exceeds 300% of the FPL may be eligible to receive discounted rates on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of Little Colorado Medical Center; however, the discounted rates shall not be greater than the amounts generally billed commercially insured patients."
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "Eligibility requires being uninsured, underinsured, ineligible for any government health care program, and unable to pay for care based on financial need determination. The policy defines 'uninsured' as having no insurance or third-party assistance, and 'underinsured' as having some insurance but out-of-pocket expenses exceeding financial abilities. Medically necessary services include emergency services, services for conditions that would lead to adverse health status if not promptly treated, non-elective services for life-threatening circumstances in a non-emergency room setting, and medically necessary services evaluated case-by-case. The hospital uses the look-back method to calculate amounts generally billed, with an AGB discount of 65%. Presumptive eligibility may be based on state-funded prescription programs, homelessness, WIC participation, food stamp eligibility, subsidized school lunch eligibility, other state/local assistance programs (e.g., Medicaid spend-down), low-income/subsidized housing address, or patient deceased with no known estate. Extraordinary collection actions (wage garnishment, liens, etc.) are not imposed without first making reasonable efforts to determine charity eligibility, including validating the debt, documenting charity offer and non-compliance, and documenting payment plan offer and non-honor. Emergency care or medically necessary care provided by physicians and other providers not employed by LCMC (e.g., INNOVA emergency room providers, WIHCC physicians) are not covered by this policy."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 5 earning $34,000 a year (87.9% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "disagreements_after": [
+   "A household of 5 earning $34,000 a year (87.9% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 5587,
+   "tokens_cached": 0,
+   "tokens_out": 2683,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.013636,
+   "orig_seconds": 6.45
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 3.98,
+   "tokens_in": 6174,
+   "tokens_cached": 0,
+   "tokens_out": 659,
+   "cost_usd": 0.002445,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.002445,
+   "orig_seconds": 3.98
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 5587,
+   "tokens_cached": 0,
+   "tokens_out": 1165,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.002725,
+   "orig_seconds": 3.93
+  },
+  {
+   "step": "repair (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 7052,
+   "tokens_cached": 5568,
+   "tokens_out": 1175,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.001837,
+   "orig_seconds": 3.45
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.63,
+   "tokens_in": 5624,
+   "tokens_cached": 0,
+   "tokens_out": 228,
+   "cost_usd": 0.001892,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001892,
+   "orig_seconds": 1.63
+  }
+ ],
+ "cost_usd": 0.02253,
+ "seconds": 5.7,
+ "made": "2026-10-27"
+}

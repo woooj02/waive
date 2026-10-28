@@ -1,0 +1,464 @@
+{
+ "model": {
+  "hospital": "Vail Health Hospital",
+  "doc": "summary",
+  "source_url": "https://www.vailhealth.org/wp-content/uploads/2026/05/04.23_vh_fa-policy-summary_english_final.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "req_residency",
+    "label": "Colorado residency",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Financial assistance is available for emergent or medically necessary care to all individuals who reside in Colorado"
+   },
+   {
+    "id": "req_care_type",
+    "label": "Emergent or medically necessary care",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Financial assistance is available for emergent or medically necessary care"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_uninsured_251_350",
+    "label": "Uninsured between 251% and 350% FPL - 80% discount",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 350.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "251% \u2013 350% 80%"
+   },
+   {
+    "id": "rule_uninsured_351_450",
+    "label": "Uninsured between 351% and 450% FPL - 60% discount",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 351.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 450.0
+      }
+     ]
+    ],
+    "discount_pct": 60.0,
+    "quote": "351% \u2013 450% 60%"
+   },
+   {
+    "id": "rule_uninsured_451_550",
+    "label": "Uninsured between 451% and 550% FPL - 50% discount",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 451.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 550.0
+      }
+     ]
+    ],
+    "discount_pct": 50.0,
+    "quote": "451% \u2013 550% 50%"
+   },
+   {
+    "id": "rule_presumptive",
+    "label": "Presumptive eligibility via state/federal programs",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Presumptive Eligibility: Eligibility in state or federally funded programs. Examples include housing assistance, food stamps and the Women, Infants & Children program (WIC)."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy applies only to Vail Health medical bills; services by other providers (Vail Valley Surgery Center, The Steadman Clinic, Vail-Summit Orthopedics & Neurosurgery, Anesthesia Partners Colorado, Cardinal Pathology, Critical Care & Pulmonary Consults, Obstetrics/Pediatrics at Vail Health Hospital excluding CMM providers, Dillon Surgery Center, Steadman Philippon Surgery Center) are excluded.",
+   "Financial counselors assist patients in determining eligibility for government-sponsored programs and refer to Colorado health insurance exchange.",
+   "After submitting completed application with supporting documentation, patient receives eligibility letter within 60 days; Hospital Discounted Care letters within 14 days of receipt of completed application.",
+   "If application received within 240 days of initial billing and deemed incomplete, written notice sent within 15 days requesting missing information within 30 days of notice date.",
+   "Denials may be appealed with appeal letter and supporting documents; appeals reviewed within 30 days of receipt.",
+   "Once approved for financial assistance or Hospital Discounted Care, patient deemed approved for 12 months subsequent to approval.",
+   "If patient granted financial assistance on portion of bill and does not pay remaining portion, Vail Health will not reverse the amount of financial assistance granted.",
+   "Patients eligible at less than 250% FPL will not be charged more than amount collected from Vail Health's lowest commercial contracted payer.",
+   "Vail Health shall not discriminate based on race, color, national origin, sex, age or disability.",
+   "Full FAP and application form available at VailHealth.org/FinancialAssistance."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "rule",
+     "id": "rule_uninsured_250",
+     "quote": "FPL </= 250% Discount 100%"
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_established_care",
+     "claim": "Every form of assistance requires: (in_service_area)",
+     "quote": "Financial assistance is available for emergent or medically necessary care to all individuals who reside in Colorado and have established care with Vail Health",
+     "why": "Established care with Vail Health is mentioned but not tied to every form of assistance as a requirement."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+     "quote": "If a financial assistance application is received within 240 days of Vail Health's initial billing for a service",
+     "why": "240-day period is from initial billing, not first post-discharge bill."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_presumptive",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Presumptive Eligibility: Eligibility in state or federally funded programs. Examples include housing assistance, food stamps and the Women, Infants & Children program (WIC).",
+     "why": "Presumptive eligibility is mentioned but no discount amount is specified in the policy."
+    }
+   ],
+   "clauses": 8,
+   "clauses_proven": 6,
+   "unsupported": 3
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_uninsured_eligibility",
+     "claim": "A patient with (not insured) AND (fpl_pct <= 550) gets an unstated amount of help",
+     "quote": "Eligibility for all uninsured patients will be is based on meeting residency and income requirements.",
+     "why": "Quote mentions residency and income requirements but does not specify that uninsured patients with FPL \u2264550% get help; no amount or further detail given."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_presumptive_eligibility",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Eligibility in state or federally funded programs. Examples include housing assistance, food stamps and the Women, Infants & Children program (WIC).",
+     "why": "Quote describes presumptive eligibility in government programs but does not state that such patients automatically get financial assistance under Vail's policy."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "If a financial assistance application is received within 240 days of Vail Health\u2019s initial billing for a service and is deemed incomplete...",
+     "why": "The 240-day period refers to when an incomplete application triggers a notice, not the deadline to submit an application."
+    }
+   ],
+   "clauses": 9,
+   "clauses_proven": 7,
+   "unsupported": 3
+  },
+  "secondary_model": {
+   "hospital": "Vail Health",
+   "doc": "summary",
+   "source_url": "https://www.vailhealth.org/wp-content/uploads/2026/05/04.23_vh_fa-policy-summary_english_final.pdf",
+   "nonprofit": true,
+   "requires": [
+    {
+     "id": "req_emergent_or_medically_necessary_care",
+     "label": "Emergent or medically necessary care required",
+     "cond": [
+      [
+       {
+        "var": "medically_necessary",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "Financial assistance is available for emergent or medically necessary care to all individuals who reside in Colorado and have established care with Vail Health."
+    },
+    {
+     "id": "req_colorado_residency",
+     "label": "Colorado residency required",
+     "cond": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "Financial assistance is available for emergent or medically necessary care to all individuals who reside in Colorado and have established care with Vail Health."
+    },
+    {
+     "id": "req_vail_health_services_only",
+     "label": "Only Vail Health services eligible",
+     "cond": [
+      [
+       {
+        "var": "in_service_area",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "The Vail Health financial assistance program is only applicable for Vail Health medical bills."
+    }
+   ],
+   "rules": [
+    {
+     "id": "rule_fpl_band_1",
+     "label": "FPL <= 250%",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": 100.0,
+     "quote": "</= 250%  100%"
+    },
+    {
+     "id": "rule_fpl_band_2",
+     "label": "FPL 251% \u2013 350%",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 251.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 350.0
+       }
+      ]
+     ],
+     "discount_pct": 80.0,
+     "quote": "251% \u2013 350%  80%"
+    },
+    {
+     "id": "rule_fpl_band_3",
+     "label": "FPL 351% \u2013 450%",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 351.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 450.0
+       }
+      ]
+     ],
+     "discount_pct": 60.0,
+     "quote": "351% \u2013 450%  60%"
+    },
+    {
+     "id": "rule_fpl_band_4",
+     "label": "FPL 451% \u2013 550%",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">=",
+        "value": 451.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 550.0
+       }
+      ]
+     ],
+     "discount_pct": 50.0,
+     "quote": "451% \u2013 550%  50%"
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "Services conducted by a different medical provider other than Vail Health (even if performed in a Vail Health facility) fall outside of the policy scope and are not eligible for Vail Health financial assistance. Examples include Vail Valley Surgery Center, The Steadman Clinic, Vail-Summit Orthopedics & Neurosurgery, Anesthesia Partners Colorado (APC, Cardinal Pathology, Critical Care & Pulmonary Consults, Obstetrics/Pediatrics (Neonatal Nursey)-only services performed at Vail Health Hospital, excluding CMM providers. Services provided at the Vail Valley Surgery Center, Dillon Surgery Center and Steadman Philippon Surgery Center.",
+    "After submitting a completed application with requested supporting documentation, the patient will receive an eligibility letter from the Vail Health financial assistance department within 60 days. Patients eligible for Colorado\u2019s Hospital Discounted Care will receive letters within 14 days of the receipt of the completed application",
+    "If a patient is granted financial assistance on a portion of the bill and the patient subsequently does not pay his/her remaining portion of the bill, Vail Health will not reverse the amount of financial assistance granted.",
+    "Once a patient has been approved for financial assistance or Hospital Discounted Care, the patient will be deemed to have approval for financial assistance towards services rendered by Vail Health for 12 months subsequent to approval.",
+    "Denials of financial assistance may be appealed. Appeals must include an appeal letter from the patient or party with financial responsibility requesting re-evaluation. The appeal must also include any supporting documents which were not part of the initial consideration that may prove inability to pay. Appeals will be referred to and reviewed by the financial counselors within 30 days of being received."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 4 earning $123,000 a year (372.7% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 60% off.",
+   "A household of 5 earning $123,000 a year (318.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 80% off.",
+   "A household of 3 earning $123,000 a year (450.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 100% off.",
+   "A household of 4 earning $123,000 a year (372.7% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 60% off.",
+   "A household of 5 earning $123,000 a year (318.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 80% off.",
+   "A household of 3 earning $123,000 a year (450.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 3424,
+   "tokens_cached": 0,
+   "tokens_out": 1448,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.007768,
+   "orig_seconds": 3.87
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 6.02,
+   "tokens_in": 3377,
+   "tokens_cached": 0,
+   "tokens_out": 390,
+   "cost_usd": 0.001364,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001364,
+   "orig_seconds": 6.02
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 3424,
+   "tokens_cached": 0,
+   "tokens_out": 1334,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.002228,
+   "orig_seconds": 5.33
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 8.07,
+   "tokens_in": 3483,
+   "tokens_cached": 0,
+   "tokens_out": 480,
+   "cost_usd": 0.001477,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001477,
+   "orig_seconds": 8.07
+  }
+ ],
+ "cost_usd": 0.01284,
+ "seconds": 14.2,
+ "made": "2026-10-27"
+}

@@ -1,0 +1,257 @@
+{
+ "model": {
+  "hospital": "Middle Park Health",
+  "doc": "policy",
+  "source_url": "https://middleparkhealth.org/wp-content/uploads/2025/07/CF.13.10.9%E2%80%93-Financial-Assistance-Policy.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule-internal-charity",
+    "label": "Internal Charity Care",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "inpatient",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Eligibility shall be based solely on the total gross family income adjusted for family size and is only applicable to outpatient services. Assets shall not be considered and will be based on Middle Park Health's internal sliding scale."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "HDC rates are set by the Colorado Department of Health Care Policy & Financing; discount_pct is null because the amount is a state rate table.",
+   "Internal Charity uses an internal sliding scale not expressed in FPL bands; discount_pct is null.",
+   "AccessOne and Internal Payment Plans are payment options, not discounts; discount_pct is null.",
+   "Policy requires cooperation, truthful application, and timely documentation; these are procedural and not modeled as eligibility requirements.",
+   "Charity application denied if financial information not provided within 45 days; 30-day appeal window after denial.",
+   "Charity approval covers accounts within 6 months of signed application date; leadership discretion beyond 6 months.",
+   "Patients may be required to apply for Medicaid prior to charity assistance; Medicaid eligibility reverses charity adjustments.",
+   "Hospital prohibits actions discouraging emergency care; complies with EMTALA.",
+   "Decisions never consider age, gender, race, color, national origin, marital status, social or immigrant status, sexual orientation, or religious affiliation.",
+   "Exclusions of services (cosmetic, transplant, research) not addressed in policy text.",
+   "Provider payment plans under HDC limited to 2% of gross monthly household income per provider, max 36 months."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "requirement",
+     "id": "req-medically-necessary",
+     "quote": "This policy applies to health care services including emergency and other medically necessary care provided by a Middle Park Health."
+    },
+    {
+     "kind": "rule",
+     "id": "rule-hdc",
+     "quote": "Patients who are at or below 250% of the Federal Poverty Guidelines (FPG) are eligible for Hospital Discounted Care. Qualification is for patients residing in Colorado, who meet income and resource guidelines."
+    },
+    {
+     "kind": "payment plan",
+     "id": "payment_plan",
+     "quote": "Payment plans for patients who qualify cannot be more than four (4) % of the patient's gross monthly income for bills from the hospital. Payment plans cannot be longer than 36 months of payments. Middle Park Health also offers internal payment plans for those that qualify up to 12 months with a minimum payment of $25 a month."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req-uninsured-or-underinsured",
+     "claim": "Every form of assistance requires: (not insured OR underinsured)",
+     "quote": "Patients who are uninsured or underinsured are ineligible for any government health care benefit program and unable to pay for their health care services may be eligible for financial assistance.",
+     "why": "The policy states uninsured or underinsured patients \"may be eligible\" for financial assistance, not that every form of assistance requires this condition."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule-accessone",
+     "claim": "A patient with (not insured OR underinsured) gets an unstated amount of help",
+     "quote": "AccessOne is offered by Middle Park Health to provide patients with an additional payment option. AccessOne payment plans are designed to take financial fear out of healthcare, helping patients get the medical care they need when they need it.",
+     "why": "AccessOne is described as a payment option, not financial assistance, and the policy does not tie eligibility to uninsured or underinsured status."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule-internal-payment-plan",
+     "claim": "A patient with (not insured OR underinsured) gets an unstated amount of help",
+     "quote": "Middle Park Health also offers internal payment plans for those that qualify up to 12 months with a minimum payment of $25 a month.",
+     "why": "Internal payment plans are offered without stating eligibility is limited to uninsured or underinsured patients."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "If a patient does not respond within the 45-day period after their date of service or date of discharge, Middle Park Health will deny the financial assistance application.",
+     "why": "The 45-day period applies to responding to incomplete applications, not to submitting a financial-assistance application."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-internal-charity",
+     "claim": "A patient with (not insured OR underinsured) AND (not inpatient) gets an unstated amount of help",
+     "quote": "Eligibility shall be based solely on the total gross family income adjusted for family size and is only applicable to outpatient services. Assets shall not be considered and will be based on Middle Park Health's internal sliding scale.",
+     "why": "The policy specifies internal charity applies only to outpatient services and uses an internal sliding scale, but does not state the amount of help."
+    }
+   ],
+   "clauses": 6,
+   "clauses_proven": 1,
+   "unsupported": 5
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "rule:hdc_uninsured_underinsured",
+     "claim": "A patient with (not insured OR underinsured) AND (fpl_pct <= 250) AND (co_resident) gets an unstated amount of help",
+     "quote": "Patients who are at or below 250% of the Federal Poverty Guidelines (FPG) are eligible for Hospital Discounted Care.",
+     "why": "The policy requires Colorado residency for Hospital Discounted Care, but the claim omits this requirement."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "If financial information is not provided to support a completed application for charity assistance within 45 days, it will be considered denied.",
+     "why": "The 45-day deadline applies to providing financial information to support a completed application, not to submitting the application itself."
+    }
+   ],
+   "clauses": 2,
+   "clauses_proven": 1,
+   "unsupported": 2
+  },
+  "secondary_model": {
+   "hospital": "Middle Park Health",
+   "doc": "policy",
+   "source_url": "https://middleparkhealth.org/wp-content/uploads/2025/07/CF.13.10.9%E2%80%93-Financial-Assistance-Policy.pdf",
+   "nonprofit": null,
+   "requires": [],
+   "rules": [
+    {
+     "id": "internal_charity_outpatient",
+     "label": "Internal Charity Care for outpatient services",
+     "when": [
+      [
+       {
+        "var": "inpatient",
+        "op": "false",
+        "value": null
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Internal charity is not limited to the state of Colorado applicants. Eligibility shall be based solely on the total gross family income adjusted for family size and is only applicable to outpatient services."
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "Hospital Discounted Care payment plans cannot exceed 4% of gross monthly income for hospital bills and 2% for separate provider bills, with a maximum of 36 months.",
+    "Internal Charity Care requires exhaustion of third-party payment sources, may require Medicaid application, and has a 45-day deadline for financial documentation.",
+    "Charity approval affects accounts within 6 months of application date, with possible discretionary review beyond 6 months.",
+    "AccessOne and internal payment plans are offered but do not specify discount percentages in the policy text."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 6713,
+   "tokens_cached": 0,
+   "tokens_out": 1310,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.010643,
+   "orig_seconds": 4.56
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.8,
+   "tokens_in": 6539,
+   "tokens_cached": 0,
+   "tokens_out": 263,
+   "cost_usd": 0.002198,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.002198,
+   "orig_seconds": 1.8
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 6713,
+   "tokens_cached": 0,
+   "tokens_out": 490,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.002455,
+   "orig_seconds": 2.55
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.16,
+   "tokens_in": 6392,
+   "tokens_cached": 0,
+   "tokens_out": 142,
+   "cost_usd": 0.002045,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.002045,
+   "orig_seconds": 1.16
+  }
+ ],
+ "cost_usd": 0.01734,
+ "seconds": 3.0,
+ "made": "2026-10-27"
+}

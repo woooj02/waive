@@ -1,0 +1,263 @@
+{
+ "model": {
+  "hospital": "Gunnison Valley Health",
+  "doc": "summary",
+  "source_url": "https://www.gunnisonvalleyhealth.org/documents/content/Plain-Language-Summary-of-Financial-Assistance-Policy.pdf",
+  "nonprofit": null,
+  "requires": [
+   {
+    "id": "req-residency",
+    "label": "Patient must reside in Gunnison, Hinsdale, or Saguache County",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "GVH and FMC provides financial assistance to Gunnison, Hinsdale, and Saguache County residents"
+   },
+   {
+    "id": "req-insurance-status",
+    "label": "Patient must be uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "committed proving emergency and medically necessary care to patients who are uninsured, or who have a limited insurance (underinsured)"
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule-fpl-400",
+    "label": "Free care for income at or below 400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": "Any patient eligible for discounting will be required to pay their copay or percentage due upon determination of their eligibility, or they must sign an approved payment plan contract"
+  },
+  "notes": [
+   "Policy states patients qualifying for assistance will not be charged more than amounts generally billed to insured patients (AGB cap).",
+   "Service area limited to Gunnison, Hinsdale, and Saguache Counties; 'in_service_area' variable used as proxy for county residency.",
+   "Collections: Notification Period of 120 days with at least three billing statements, seriously past due notice, and final notice before ECA.",
+   "ECA may begin only after final notice plus 30 days; modeled as 150 days from first_statement (120-day notification period + 30-day wait).",
+   "Patients who qualify but fail to pay discounted balance are considered uncollectible bad debts and referred to outside agencies.",
+   "Application methods listed (mail, in-person, email, phone) but no application deadline stated.",
+   "Policy available in English and Spanish.",
+   "Exclusions for cosmetic, transplant, or research services not mentioned in this summary."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req-care-type",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services",
+     "why": "The policy limits financial assistance to emergency or medically necessary services, so not every form of assistance (if any existed beyond those) would require it."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule-medical-hardship",
+     "claim": "A patient with (bill_pct_income > 0) gets an unstated amount of help",
+     "quote": "Financial assistance also may be available in other limited circumstances, depending on the size of the patient's medical bills and whether the patient meets certain other criteria for eligibility",
+     "why": "The policy mentions financial assistance may be available based on bill size and other criteria, but does not state that any patient with bill_pct_income > 0 automatically receives help."
+    },
+    {
+     "kind": "unsupported",
+     "id": "eca:0",
+     "claim": "The policy promises no extraordinary collection action before 150 days after the first post-discharge bill",
+     "quote": "The hospital may initiate External Collection Activity (ECA), but only after the Final notice letter has been provided and a period of at least 30 days have elapsed",
+     "why": "The policy states ECA may begin after the Final notice and at least 30 days elapsed, but does not specify timing relative to the first post-discharge bill or guarantee no ECA before 150 days."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-fpl-400",
+     "claim": "A patient with (fpl_pct <= 400) gets 100% off",
+     "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines",
+     "why": "While income below 400% FPL is a stated eligibility condition, the policy does not specify that this results in 100% off; it only states eligibility for financial assistance."
+    }
+   ],
+   "clauses": 5,
+   "clauses_proven": 3,
+   "unsupported": 4
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req_emergency_or_medically_necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines as published annually.",
+     "why": "The policy limits financial assistance to emergency or medically necessary services, so this is a requirement, not optional."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_residency_service_area",
+     "claim": "Every form of assistance requires: (co_resident OR in_service_area)",
+     "quote": "GVH and FMC provides financial assistance to Gunnison, Hinsdale, and Saguache County residents.",
+     "why": "The policy explicitly restricts financial assistance to residents of Gunnison, Hinsdale, and Saguache Counties, making residency a requirement for all assistance."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_fap_under_400_fpl",
+     "claim": "A patient with (fpl_pct <= 400) gets an unstated amount of help",
+     "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines as published annually.",
+     "why": "The policy states eligibility for those below 400% FPL but does not specify the amount of financial assistance provided."
+    }
+   ],
+   "clauses": 3,
+   "clauses_proven": 1,
+   "unsupported": 3
+  },
+  "secondary_model": {
+   "hospital": "Gunnison Valley Health",
+   "doc": "summary",
+   "source_url": "https://www.gunnisonvalleyhealth.org/documents/content/Plain-Language-Summary-of-Financial-Assistance-Policy.pdf",
+   "nonprofit": null,
+   "requires": [],
+   "rules": [
+    {
+     "id": "rule_fap_under_400_fpl",
+     "label": "Financial Assistance Program for income at or below 400% FPL",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 400.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines as published annually."
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "The policy states that patients eligible for discounting will be required to pay their copay or percentage due upon determination of eligibility, or sign an approved payment plan contract, but does not specify exact payment plan terms.",
+    "The policy indicates that during the Notification Period (120 Days), the hospital provides at least three billing statements, a seriously past due notice, and a final notice, and may initiate ECA only after the final notice and at least 30 days have elapsed, but these are collections procedures, not requirements for receiving assistance.",
+    "The policy states that a patient qualifying for financial assistance will not be charged more than amounts generally billed (AGB) for the same services to insured patients, but AGB is not a fixed discount percent and varies by service, so discount_pct is null.",
+    "The policy mentions that financial assistance may also be available in other limited circumstances depending on the size of the medical bills and other criteria, but no specific thresholds or rules are provided, so no additional rules are included."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 2970,
+   "tokens_cached": 0,
+   "tokens_out": 926,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.005748,
+   "orig_seconds": 3.11
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 2.11,
+   "tokens_in": 2768,
+   "tokens_cached": 0,
+   "tokens_out": 368,
+   "cost_usd": 0.001162,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001162,
+   "orig_seconds": 2.11
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 2970,
+   "tokens_cached": 0,
+   "tokens_out": 612,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.001442,
+   "orig_seconds": 2.49
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.18,
+   "tokens_in": 2622,
+   "tokens_cached": 0,
+   "tokens_out": 175,
+   "cost_usd": 0.000944,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.000944,
+   "orig_seconds": 1.18
+  }
+ ],
+ "cost_usd": 0.0093,
+ "seconds": 3.4,
+ "made": "2026-10-27"
+}

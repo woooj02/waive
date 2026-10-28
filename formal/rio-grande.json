@@ -1,0 +1,469 @@
+{
+ "model": {
+  "hospital": "Rio Grande Hospital",
+  "doc": "policy",
+  "source_url": "https://riograndehospital.org/wp-content/uploads/2026/02/02272026-FAP-Revised-with-DSH-Corrections-v2.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule_fpl_0_100",
+    "label": "FPL 0-100%: Free care (100% discount)",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 100.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients whose family income is at or below 100% of the FPL are eligible to receive free care."
+   },
+   {
+    "id": "rule_fpl_101_125",
+    "label": "FPL 101-125%: Up to 80% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 101.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 125.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "Patients whose family income is over 100% and below 125% of the FPL would be eligible for up to an 80% discount."
+   },
+   {
+    "id": "rule_fpl_126_150",
+    "label": "FPL 126-150%: Up to 60% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 126.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 60.0,
+    "quote": "Patients whose family income is over 125% and below 150% of the FPL would be eligible for up to a 60% discount."
+   },
+   {
+    "id": "rule_fpl_151_200",
+    "label": "FPL 151-200%: Up to 40% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 151.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "Patients whose family income is over 150% and below 200% of the FPL would be eligible for up to a 40% discount."
+   },
+   {
+    "id": "rule_fpl_201_250",
+    "label": "FPL 201-250%: Up to 20% discount",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 201.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 20.0,
+    "quote": "Patients who family income is over 200% and below 250% of the FPL would be eligible for up to a 20% discount."
+   },
+   {
+    "id": "rule_fpl_above_250_catastrophic",
+    "label": "FPL above 250%: Case-by-case for catastrophic illness or medical indigence",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients whose family income exceeds 250% of the FPL will generally not be deemed eligible for financial assistance; but, may be considered for financial assistance on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of RGH."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 240,
+     "quote": "A patient has 240 days after the date of first billing to submit data for financial assistance."
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 182,
+     "quote": "No extraordinary collection action will be taken before 182 days from the first bill."
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy applies to hospital, clinics, and employed providers (inpatient, ER, family practice, orthopedics by Dr. Hunter, surgery by Thompson, anesthesia by Monarch). Excludes non-employee providers: Colorado Imaging Associates radiologists, San Luis Valley Health specialists, Health One cardiology, Vascular Institute of the Rockies, surgeries by Chang and Marshall-Rodriguez.",
+   "Discounted rates shall not exceed amounts generally billed to commercially insured patients (look-back method using Medicare fee-for-service and private insurer claims).",
+   "Financial need re-evaluated every 12 months or if financial situation changes.",
+   "Application requires documentation: tax return, W-2, pay stubs (6 months), bank statements (3 months), employer letter, SSA award letter, or proof of direct deposit.",
+   "Accounts eligible for financial assistance addressed within 240 days of first bill; accounts may be considered up to 6 months prior to determination and up to 1 year after.",
+   "RGH notifies patient in writing within 30 days of completed application.",
+   "Collection activity suspended during financial assistance review; resumes if partial adjustment, non-cooperation, or ineligibility.",
+   "ECA not initiated for emergency care (emergency, inpatient, ancillary services). If account in ECA later qualifies, RGH reverses ECA.",
+   "Patients who owe balance after insurance or are higher income and do not qualify may be pursued for litigation in Colorado.",
+   "Policy complies with Colorado DSH and Colorado Hospital Discount Care rules.",
+   "Application available in English and Spanish.",
+   "Self-pay accounts outsourced; reviewed for further action if not paid or satisfactory arrangements not made."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "payment plan",
+     "id": "payment_plan",
+     "quote": "RGH will not engage in or impose extraordinary collection actions such as wage garnishments, liens on primary residences, or other legal actions for any patient without first making reasonable efforts to determine whether that patient is eligible for financial assistance under this financial assistance policy. Reasonable efforts shall include: Validating that the patient owes the unpaid bills and that all sources of third-party payment have been identified and billed by the hospital. Documentation that RGH has, or has attempted to offer the patient the opportunity to apply for financial assistance pursuant to this policy and that the patient has not complied with the hospital's application requirements. Documentation that the patient has been offered a payment plan but has not honored the terms of that plan."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_medically_necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "Services eligible under this Policy will be made available to the patient on a sliding fee scale, in accordance with financial need, as determined in reference to Federal Poverty Levels (FPL) in effect at the time of the determination.",
+     "why": "Policy limits assistance to emergency and medically necessary services, not all forms."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_uninsured_or_underinsured",
+     "claim": "Every form of assistance requires: (not insured OR underinsured)",
+     "quote": "Eligibility for financial assistance will be considered for those individuals who are uninsured, underinsured, and who are unable to pay for their care, based upon a determination of financial need in accordance with this Policy.",
+     "why": "Policy adds \"unable to pay\" as a third condition beyond just uninsured/underinsured."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_applied_public_programs",
+     "claim": "Every form of assistance requires: (applied_public_programs) (the hospital MAY deny otherwise)",
+     "quote": "It is preferred, but not required, that a request for financial assistance and a determination of financial need occur prior to rendering of non-emergent, medically necessary services.",
+     "why": "Quote concerns timing preference, not a requirement to apply for public programs."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:rule_presumptive_eligibility",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Presumptive eligibility may be determined on the basis of individual life circumstances that may include: State-funded prescription programs; Homeless or received care from a homeless clinic; Participation in Women, Infants and Children programs (WIC); Food stamp eligibility; Subsidized school lunch program eligibility; Eligibility for other state or local assistance programs that are unfunded (e.g., Medicaid spend-down); Low income/subsidized housing is provided as a valid address, and; Patient is deceased with no known estate.",
+     "why": "Policy mentions presumptive eligibility for income estimation, not automatic assistance."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule_fpl_above_250_catastrophic",
+     "claim": "A patient with (fpl_pct > 250) gets an unstated amount of help",
+     "quote": "Patients whose family income exceeds 250% of the FPL will generally not be deemed eligible for financial assistance; but, may be considered for financial assistance on a case-by-case basis based on their specific circumstances, such as catastrophic illness or medical indigence, at the discretion of RGH.",
+     "why": "Policy allows case-by-case consideration but does not specify any discount amount."
+    }
+   ],
+   "clauses": 10,
+   "clauses_proven": 6,
+   "unsupported": 5
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [
+    "rule_80pct_discount: the clause fpl_pct > 100.0 OR fpl_pct < 125.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "rule_60pct_discount: the clause fpl_pct > 125.0 OR fpl_pct < 150.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "rule_40pct_discount: the clause fpl_pct > 150.0 OR fpl_pct < 200.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "rule_20pct_discount: the clause fpl_pct > 200.0 OR fpl_pct < 250.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+   ],
+   "repaired": true,
+   "lint_after": [],
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 240 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+     "quote": "Accounts eligible for Financial Assistance are to be addressed within 240 days of first bill.",
+     "why": "Quote addresses account resolution timing, not patient application submission deadline."
+    }
+   ],
+   "clauses": 5,
+   "clauses_proven": 5,
+   "unsupported": 1
+  },
+  "secondary_model": {
+   "hospital": "Rio Grande Hospital and Clinics",
+   "doc": "policy",
+   "source_url": "https://riograndehospital.org/wp-content/uploads/2026/02/02272026-FAP-Revised-with-DSH-Corrections-v2.pdf",
+   "nonprofit": null,
+   "requires": [],
+   "rules": [
+    {
+     "id": "rule_free_care",
+     "label": "Free care (100% discount)",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 100.0
+       }
+      ]
+     ],
+     "discount_pct": 100.0,
+     "quote": "Patients whose family income is at or below 100% of the FPL are eligible to receive free care."
+    },
+    {
+     "id": "rule_80pct_discount",
+     "label": "Up to 80% discount",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">",
+        "value": 100.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<",
+        "value": 125.0
+       }
+      ]
+     ],
+     "discount_pct": 80.0,
+     "quote": "Patients whose family income is over 100% and below 125% of the FPL would be eligible for up to an 80% discount."
+    },
+    {
+     "id": "rule_60pct_discount",
+     "label": "Up to 60% discount",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">",
+        "value": 125.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<",
+        "value": 150.0
+       }
+      ]
+     ],
+     "discount_pct": 60.0,
+     "quote": "Patients whose family income is over 125% and below 150% of the FPL would be eligible for up to a 60% discount."
+    },
+    {
+     "id": "rule_40pct_discount",
+     "label": "Up to 40% discount",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">",
+        "value": 150.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<",
+        "value": 200.0
+       }
+      ]
+     ],
+     "discount_pct": 40.0,
+     "quote": "Patients whose family income is over 150% and below 200% of the FPL would be eligible for up to a 40% discount."
+    },
+    {
+     "id": "rule_20pct_discount",
+     "label": "Up to 20% discount",
+     "when": [
+      [
+       {
+        "var": "fpl_pct",
+        "op": ">",
+        "value": 200.0
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": 20.0,
+     "quote": "Patients whose family income is over 200% and below 250% of the FPL would be eligible for up to a 20% discount."
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [
+     {
+      "anchor": "first_statement",
+      "days": 182,
+      "quote": "No extraordinary collection action will be taken before 182 days from the first bill."
+     }
+    ],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "The policy states that patients with income exceeding 250% FPL may be considered for financial assistance on a case-by-case basis for circumstances such as catastrophic illness or medical indigence at the discretion of RGH.",
+    "The policy excludes financial assistance for physician fees or other charges from non-employee providers, listing examples such as Rocky Mountain Radiology, Aurora Denver Cardiology, Urology Associates, North Colorado Springs Foot Clinic, San Luis Valley Health, and Dr. Matthew K. Chang.",
+    "The policy specifies that the determination of financial need may be done at any point in the collection cycle and should be re-evaluated every 12 months or if the financial situation changes.",
+    "The policy requires applicants to submit a completed Financial Assistance Application with supporting documentation, including at least one of: copy of last year\u2019s tax return, IRS Form W-2, paycheck stubs from the past six months, bank statements from the last three months, signed employer letter verifying gross monthly income for past six months, Social Security award letter, or proof of direct deposit.",
+    "Presumptive eligibility may be based on circumstances such as participation in state-funded prescription programs, homelessness, WIC, food stamp eligibility, subsidized school lunch, eligibility for unfunded state/local assistance programs (e.g., Medicaid spend-down), low-income/subsidized housing as a valid address, or patient deceased with no known estate.",
+    "The policy applies to hospital, clinics, and all employed providers including inpatient, emergency room, and family practice clinic providers (employed, contracted, agencies), orthopedics by Dr. Robert Hunter, surgery by Patrick Thompson, and anesthesia by Monarch Anesthesia.",
+    "The policy does not apply to radiologists from Colorado Imaging Associates, specialists from San Luis Valley Health (ENT, OB), Health One (Cardiology), Vascular Institute of the Rockies (vascular surgery), anesthesia/surgery by San Luis Valley Health, surgery by Mathew Chang, surgery by Amanda Marshall-Rodriguez, surgery by Dr. Silva & Dr. Lewis, and surgery by Dr. Hunter.",
+    "The policy states that RGH will follow all Colorado DSH and Colorado Hospital Discount Care rules for patients qualifying under financial assistance.",
+    "The policy includes a sliding fee scale table showing charges and discounts for inpatient (IP), emergency room (ER), and physician (Phy) services across FPL ranges, though the exact interpretation of the dollar amounts is not fully specified in the vocabulary."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $54,900 a year (200.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 20% off.",
+   "A household of 3 earning $27,590 a year (101.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 80% off.",
+   "A household of 3 earning $41,000 a year (150.1% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 40% off."
+  ],
+  "disagreements_after": [
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $54,900 a year (200.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 20% off.",
+   "A household of 3 earning $27,590 a year (101.0% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 80% off.",
+   "A household of 3 earning $41,000 a year (150.1% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives 40% off."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 10400,
+   "tokens_cached": 4352,
+   "tokens_out": 2126,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.012948,
+   "orig_seconds": 5.71
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 3.26,
+   "tokens_in": 10853,
+   "tokens_cached": 0,
+   "tokens_out": 559,
+   "cost_usd": 0.003759,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.003759,
+   "orig_seconds": 3.26
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 10400,
+   "tokens_cached": 0,
+   "tokens_out": 1266,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.004259,
+   "orig_seconds": 5.07
+  },
+  {
+   "step": "repair (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 11921,
+   "tokens_cached": 0,
+   "tokens_out": 1279,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.004727,
+   "orig_seconds": 4.29
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 2.48,
+   "tokens_in": 10369,
+   "tokens_cached": 0,
+   "tokens_out": 327,
+   "cost_usd": 0.003405,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.003405,
+   "orig_seconds": 2.48
+  }
+ ],
+ "cost_usd": 0.0291,
+ "seconds": 5.9,
+ "made": "2026-10-27"
+}

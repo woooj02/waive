@@ -1,0 +1,448 @@
+{
+ "model": {
+  "hospital": "Heart of the Rockies Regional Medical Center",
+  "doc": "policy",
+  "source_url": "https://www.hrrmc.com/documents/brochures/Finance-Assistance_2021.pdf",
+  "nonprofit": null,
+  "requires": [
+   {
+    "id": "req_uninsured_or_underinsured",
+    "label": "Uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "HRRMC will provide financial assistance (charity care) to qualified patients who are uninsured or underinsured and do not have the financial means to pay for hospital services."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_100_pct",
+    "label": "100% discount at or below 200% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "100% 200% $25,760 $34,840 $43,920 $53,000 $62,080 $71,160 $80,240 $89,320"
+   },
+   {
+    "id": "rule_90_pct",
+    "label": "90% discount between 201% and 225% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 201.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 225.0
+      }
+     ]
+    ],
+    "discount_pct": 90.0,
+    "quote": "90% 225% $28,980 $39,195 $49,410 $59,625 $69,840 $80,055 $90,270 $100,485"
+   },
+   {
+    "id": "rule_80_pct",
+    "label": "80% discount between 226% and 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 226.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "80% 250% $32,200 $43,550 $54,900 $66,250 $77,600 $88,950 $100,300 $111,650"
+   },
+   {
+    "id": "rule_70_pct",
+    "label": "70% discount between 251% and 275% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 275.0
+      }
+     ]
+    ],
+    "discount_pct": 70.0,
+    "quote": "70% 275% $35,420 $47,905 $60,390 $72,875 $85,360 $97,845 $110,330 $122,815"
+   },
+   {
+    "id": "rule_60_pct",
+    "label": "60% discount between 276% and 300% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 276.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 60.0,
+    "quote": "60% 300% $38,640 $52,260 $65,880 $79,500 $93,120 $106,740 $120,360 $133,980"
+   },
+   {
+    "id": "rule_50_pct",
+    "label": "50% discount between 301% and 325% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 301.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 325.0
+      }
+     ]
+    ],
+    "discount_pct": 50.0,
+    "quote": "50% 325% $41,860 $56,615 $71,370 $86,125 $100,880 $115,635 $130,390 $145,145"
+   },
+   {
+    "id": "rule_40_pct",
+    "label": "40% discount between 326% and 350% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 326.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 350.0
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "40% 350% $45,080 $60,970 $76,860 $92,750 $108,640 $124,530 $140,420 $156,310"
+   },
+   {
+    "id": "rule_30_pct",
+    "label": "30% discount between 351% and 375% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 351.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 375.0
+      }
+     ]
+    ],
+    "discount_pct": 30.0,
+    "quote": "30% 375% $48,300 $65,325 $82,350 $99,375 $116,400 $133,425 $150,450 $167,475"
+   },
+   {
+    "id": "rule_20_pct",
+    "label": "20% discount between 376% and 400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 376.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": 20.0,
+    "quote": "20% 400% $51,520 $69,680 $87,840 $106,000 $124,160 $142,320 $160,480 $178,640"
+   },
+   {
+    "id": "rule_10_pct",
+    "label": "10% discount between 401% and 425% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 401.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 425.0
+      }
+     ]
+    ],
+    "discount_pct": 10.0,
+    "quote": "10% 425% $54,740 $74,035 $93,330 $112,625 $131,920 $151,215 $170,510 $189,805"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy covers emergency or unscheduled non-elective services; unscheduled non-elective services not fully captured by vocabulary.",
+   "Pregnant women count as two people for family size determination.",
+   "For family units of more than 8 members, add $4,540 for each additional member.",
+   "Income calculation includes extensive list of sources and exclusions detailed in policy.",
+   "Application requires completed Financial Assistance form with documentation of income, expenses, assets, three months bank statements, W-2s, paycheck stubs, tax returns.",
+   "Medically necessary services evaluated on case-by-case basis at HRRMC's discretion.",
+   "Services eligible include emergency medical services in ER, non-elective services for life-threatening circumstances, services for conditions leading to adverse change if not promptly treated.",
+   "Policy states charity care is not a substitute for personal responsibility; patients expected to cooperate with procedures.",
+   "No explicit application deadline, ECA timing, or payment plan terms stated in provided text."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "req:req_medically_necessary",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "No patient will be denied medically necessary treatment on the basis of their ability to pay for such services.",
+     "why": "Policy provides assistance to uninsured/underinsured lacking financial means, not conditioned on medically necessary care."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_emergency_or_unscheduled",
+     "claim": "Every form of assistance requires: (emergency)",
+     "quote": "Charity care write-offs are available to qualified persons receiving (1) emergency or (2) unscheduled, non-elective services and who are unable to pay for those services.",
+     "why": "Emergency or unscheduled non-elective services condition applies only to charity care write-offs, not every form of assistance like sliding scale discounts."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req_unable_to_pay",
+     "claim": "Every form of assistance requires: (bill_pct_income > 0)",
+     "quote": "Charity care write-offs are available to qualified persons receiving (1) emergency or (2) unscheduled, non-elective services and who are unable to pay for those services.",
+     "why": "Policy requires inability to pay, but does not define it as bill_pct_income > 0; this is an incorrect interpretation."
+    }
+   ],
+   "clauses": 14,
+   "clauses_proven": 11,
+   "unsupported": 3
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [
+    "sliding_scale_discount: the clause fpl_pct >= 201.0 OR fpl_pct <= 225.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 226.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 251.0 OR fpl_pct <= 275.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 276.0 OR fpl_pct <= 300.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 301.0 OR fpl_pct <= 325.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 326.0 OR fpl_pct <= 350.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 351.0 OR fpl_pct <= 375.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 376.0 OR fpl_pct <= 400.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 401.0 OR fpl_pct <= 425.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+   ],
+   "repaired": true,
+   "lint_after": [
+    "sliding_scale_discount: the clause fpl_pct >= 201.0 OR fpl_pct <= 225.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 226.0 OR fpl_pct <= 250.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 251.0 OR fpl_pct <= 275.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 276.0 OR fpl_pct <= 300.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 301.0 OR fpl_pct <= 325.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 326.0 OR fpl_pct <= 350.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 351.0 OR fpl_pct <= 375.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 376.0 OR fpl_pct <= 400.0 is true for every household. Did you mean AND? Put each condition in its own clause.",
+    "sliding_scale_discount: the clause fpl_pct >= 401.0 OR fpl_pct <= 425.0 is true for every household. Did you mean AND? Put each condition in its own clause."
+   ],
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "rule:sliding_scale_discount",
+     "claim": "A patient with (fpl_pct <= 200) AND (fpl_pct >= 201 OR fpl_pct <= 225) AND (fpl_pct >= 226 OR fpl_pct <= 250) AND (fpl_pct >= 251 OR fpl_pct <= 275) AND (fpl_pct >= 276 OR fpl_pct <= 300) AND (fpl_pct >= 301 OR fpl_pct <= 325) AND (fpl_pct >= 326 OR fpl_pct <= 350) AND (fpl_pct >= 351 OR fpl_pct <= 375) AND (fpl_pct >= 376 OR fpl_pct <= 400) AND (fpl_pct >= 401 OR fpl_pct <= 425) gets an unstated amount of help",
+     "quote": "Financial assistance will be determined on a sliding scale based on family size and family income.",
+     "why": "The policy requires patients to be uninsured or underinsured and lack financial means to pay, which the claim omits."
+    }
+   ],
+   "clauses": 1,
+   "clauses_proven": 0,
+   "unsupported": 1
+  },
+  "secondary_model": {
+   "hospital": "Heart of the Rockies Regional Medical Center",
+   "doc": "policy",
+   "source_url": "https://www.hrrmc.com/documents/brochures/Finance-Assistance_2021.pdf",
+   "nonprofit": null,
+   "requires": [],
+   "rules": [],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "The policy provides specific dollar income thresholds by family size for each discount percentage (10% to 100%) corresponding to FPL percentages from 200% to 425%. For family units of more than 8 members, add $4,540 for each additional member. Pregnant women count as two people for the purpose of this chart. Income includes all monies received before taxes from all sources with specific exclusions listed. Applicants must complete the Financial Assistance Application with all required documentation of income, expenses, and assets. Charity care is available to qualified patients who are uninsured or underinsured and do not have the financial means to pay for hospital services, receiving emergency or unscheduled, non-elective services, and who do not qualify for federal, state, or local assistance and are unable to establish approved payments or pay balances in full."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $61,000 a year (223.3% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 90% off, the Nemotron 3 Super model gives no help.",
+   "A household of 4 earning $82,000 a year (248.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 80% off, the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 30% off, the Nemotron 3 Super model gives no help."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $61,000 a year (223.3% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 90% off, the Nemotron 3 Super model gives no help.",
+   "A household of 4 earning $82,000 a year (248.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 80% off, the Nemotron 3 Super model gives no help.",
+   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 30% off, the Nemotron 3 Super model gives no help."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 4435,
+   "tokens_cached": 0,
+   "tokens_out": 2477,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.011866,
+   "orig_seconds": 6.06
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 3.34,
+   "tokens_in": 5281,
+   "tokens_cached": 0,
+   "tokens_out": 780,
+   "cost_usd": 0.002286,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.002286,
+   "orig_seconds": 3.34
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 4435,
+   "tokens_cached": 0,
+   "tokens_out": 784,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.002036,
+   "orig_seconds": 3.0
+  },
+  {
+   "step": "repair (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 5703,
+   "tokens_cached": 4416,
+   "tokens_out": 784,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.001357,
+   "orig_seconds": 3.01
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.32,
+   "tokens_in": 4139,
+   "tokens_cached": 0,
+   "tokens_out": 59,
+   "cost_usd": 0.001295,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001295,
+   "orig_seconds": 1.32
+  }
+ ],
+ "cost_usd": 0.01884,
+ "seconds": 5.2,
+ "made": "2026-10-27"
+}

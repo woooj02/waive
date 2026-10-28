@@ -71,6 +71,7 @@ class Finding:
     clauses: list[dict] = field(default_factory=list)
     seconds: float = 0.0
     domain: str = ""
+    basis: str = ""  # "absence": the failure is that no clause grants help (weak if clauses were dropped)
 
     def as_dict(self) -> dict:
         return asdict(self)
@@ -115,7 +116,7 @@ def check_hdc_coverage(pm: PolicyModel) -> list[Finding]:
             f.summary = (f"{household_text(d)} {verb} by this requirement: \"{req.label}\". Colorado law makes "
                          f"them eligible for Hospital Discounted Care.")
         else:
-            f.severity = "gap"
+            f.severity, f.basis = "gap", "absence"
             f.summary = (f"{household_text(d)} meets every requirement, but no rule of this policy grants them help. "
                          f"Colorado law makes them eligible for Hospital Discounted Care.")
         out.append(f)
@@ -244,10 +245,17 @@ def check_co_window_insured(pm: PolicyModel) -> Finding:
                              f"policy's window has already closed on day {got}; Colorado gives until day {need}.")
 
 
+def _not_501r(pm: PolicyModel) -> str:
+    if pm.nonprofit is None:
+        return ("Skipped: 501(r) applies to tax-exempt hospitals, and we haven't verified this hospital's status "
+                "(many rural Colorado hospitals are public districts).")
+    return "501(r) applies to nonprofit hospitals; this one is for-profit."
+
+
 def check_fed_window(pm: PolicyModel) -> Finding:
     if not pm.nonprofit:
         return Finding("fed_window_240", "Application window of 240 days after the first bill (501(r))", "n/a",
-                       cite("fed_window"), "501(r) applies to nonprofit hospitals; this one is for-profit.")
+                       cite("fed_window"), _not_501r(pm))
     return _timeline(
         pm, "fed_window_240", "Application window of 240 days after the first bill (501(r))", ("fed_window",),
         lambda e: e.application_ends, lambda h: h.statement + 240, 0,
@@ -260,7 +268,7 @@ def check_fed_window(pm: PolicyModel) -> Finding:
 def check_fed_eca(pm: PolicyModel) -> Finding:
     if not pm.nonprofit:
         return Finding("fed_eca_120", "No collection actions in the first 120 days after the first bill (501(r))",
-                       "n/a", cite("fed_eca"), "501(r) applies to nonprofit hospitals; this one is for-profit.")
+                       "n/a", cite("fed_eca"), _not_501r(pm))
     return _timeline(
         pm, "fed_eca_120", "No collection actions in the first 120 days after the first bill (501(r))",
         ("fed_eca",), lambda e: e.eca_from, lambda h: h.statement + 120, 0,
@@ -315,7 +323,7 @@ def check_monotone(pm: PolicyModel) -> Finding:
     if m is None:
         return f
     da, db = describe(m, a), describe(m, b)
-    f.status, f.severity = "counterexample", "ambiguity"
+    f.status, f.severity, f.basis = "counterexample", "ambiguity", "absence"
     f.household, f.household_b = da, db
     f.policy_outcome = {"a": outcome(m, ea), "b": outcome(m, eb)}
     f.clauses = explain(m, ea)
@@ -343,7 +351,7 @@ def _say(o: dict) -> str:
     return f"{o['best_stated_discount_pct']:g}% off" if o["best_stated_discount_pct"] else "help (amount not stated)"
 
 
-def equivalent(a: PolicyModel, b: PolicyModel, limit: int = 4) -> list[Finding]:
+def equivalent(a: PolicyModel, b: PolicyModel, limit: int = 4, names: tuple[str, str] | None = None) -> list[Finding]:
     """Do two models (policy vs summary, Ultra vs Super, model vs hand) treat every household the same way?
 
     Returns one finding per distinct way they differ: after each counterexample, the pattern of which clauses
@@ -352,7 +360,8 @@ def equivalent(a: PolicyModel, b: PolicyModel, limit: int = 4) -> list[Finding]:
     h = Household()
     ea, eb = Encoded(a, h), Encoded(b, h)
     hard = [z3.Or(ea.covered != eb.covered, ea.best != eb.best)]
-    title = f"The {a.doc} and the {b.doc} treat every household the same"
+    na, nb = names or (a.doc, b.doc)
+    title = f"The {na} and the {nb} treat every household the same"
     out: list[Finding] = []
     for _ in range(limit):
         status, m, secs = solve(hard, [h])
@@ -365,10 +374,10 @@ def equivalent(a: PolicyModel, b: PolicyModel, limit: int = 4) -> list[Finding]:
         d = describe(m, h)
         oa, ob = outcome(m, ea), outcome(m, eb)
         out.append(Finding("equivalent", title, "counterexample", [],
-                           f"{household_text(d)}: the {a.doc} gives {_say(oa)}, the {b.doc} gives {_say(ob)}.",
+                           f"{household_text(d)}: the {na} gives {_say(oa)}, the {nb} gives {_say(ob)}.",
                            severity="gap", household=d, policy_outcome={"a": oa, "b": ob},
-                           clauses=[dict(c, model=a.doc) for c in explain(m, ea)] +
-                                   [dict(c, model=b.doc) for c in explain(m, eb)],
+                           clauses=[dict(c, model=na) for c in explain(m, ea)] +
+                                   [dict(c, model=nb) for c in explain(m, eb)],
                            seconds=secs, domain=HOUSEHOLDS))
         # The cause: rules that fired on the more generous side, requirements that failed on the other.
         win, lose = (ea, eb) if (oa["covered"], oa["best_stated_discount_pct"]) > \

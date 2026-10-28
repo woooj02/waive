@@ -1,0 +1,270 @@
+{
+ "model": {
+  "hospital": "Mt. San Rafael Hospital",
+  "doc": "policy",
+  "source_url": "https://www.msrhc.org/docs/MSRH_Charity_Care_Policy_2014_revised_2022_v2.pdf",
+  "nonprofit": null,
+  "requires": [],
+  "rules": [
+   {
+    "id": "rule-financially-indigent",
+    "label": "Financially Indigent (income <= 250% FPL)",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients may only be granted classification as Financially Indigent if their yearly income as set forth on the Financial Assistance Application is less than or equal to 250% of the poverty guidelines"
+   },
+   {
+    "id": "rule-medically-indigent-catastrophic",
+    "label": "Medically Indigent Catastrophic (income > 500% FPL, bill > 50% income)",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 50.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 500.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "The patient's remaining bill must be greater than 50% of the patient's income, and the patient's income must be greater than 500% of the Federal Poverty Guidelines."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy applies to patients admitted to the hospital, visiting the RHC, or having outpatient visits including through the emergency room.",
+   "Family size calculation differs for adults (patient, spouse, dependents) vs minors (patient, mother, mother's dependents, father, father's dependents).",
+   "Income calculation: adults include patient and spouse; minors include patient, mother, and father.",
+   "Income verification can use documentation (W-2, pay stubs, tax returns, bank statements, employer verification) or proof of participation in public benefit programs (Medicaid, SNAP, WIC, etc.).",
+   "If documentation unavailable, hospital may accept written or verbal attestation after documenting efforts to obtain documentation.",
+   "Deminimus accounts (<= $500) may be verified with patient attestation and documentation of two attempts to obtain documentation.",
+   "Expired patients may be deemed to have no income; documentation not required.",
+   "Hospital may consider other financial assets, liabilities, family income, and ability to pay in determination.",
+   "Falsification of information may result in denial or revocation of charity care.",
+   "If qualified for other charity programs (CICP, Hospital Discount Care), this application will not be considered for additional discounts or balance adjustments.",
+   "Physician services (e.g., ER physicians) may be billed separately and are not covered by this policy.",
+   "Application must be returned to Hospital Financial Counselor at 410 Benedicta Avenue, Trinidad, CO 81082.",
+   "Assistance available Monday-Friday 8:00 a.m. to 4:00 p.m. at (719) 845-4251."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "rule",
+     "id": "rule-medically-indigent-standard",
+     "quote": "To be considered for classification as a Medically Indigent patient, the amount owed by the patient after payment by all third-party payers must exceed ten percent (10%) of the patient's income and the patient must be unable to pay the remaining bill. The patient's income must be equal to or less than 500% of the Federal Poverty Guidelines."
+    },
+    {
+     "kind": "rule",
+     "id": "rule-presumptive-public-benefit",
+     "quote": "Proof of participation in any of the above programs indicates that the patient has been deemed financially indigent and therefore, is not required to provide his or her yearly income on the Financial Assistance Application."
+    },
+    {
+     "kind": "unsupported",
+     "id": "req:req-care-type",
+     "claim": "Every form of assistance requires: (medically_necessary)",
+     "quote": "identify patients admitted to the hospital, visit the RHC or have outpatient visits including through the emergency room that may qualify for charity care",
+     "why": "The policy does not require medically_necessary care for every form of assistance; it only identifies patients who may qualify."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 365 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "Approved applications will remain on file for 365 days.",
+     "why": "The 365-day period refers to how long approved applications remain on file, not the deadline to submit an application."
+    }
+   ],
+   "clauses": 5,
+   "clauses_proven": 2,
+   "unsupported": 2
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [],
+   "repaired": false,
+   "dropped": [
+    {
+     "kind": "unsupported",
+     "id": "rule:r_medically_indigent_i",
+     "claim": "A patient with (bill_pct_income > 10) AND (fpl_pct <= 500) gets an unstated amount of help",
+     "quote": "To be considered for classification as a Medically Indigent patient, the amount owed by the patient after payment by all third-party payers must exceed ten percent (10%) of the patient\u2019s income and the patient must be unable to pay the remaining bill.",
+     "why": "Missing 'unable to pay remaining bill' requirement from policy."
+    },
+    {
+     "kind": "unsupported",
+     "id": "rule:r_medically_indigent_ii",
+     "claim": "A patient with (bill_pct_income > 50) AND (fpl_pct > 500) gets an unstated amount of help",
+     "quote": "The patient\u2019s remaining bill must be greater than 50% of the patient\u2019s income, and the patient\u2019s income must be greater than 500% of the Federal Poverty Guidelines.",
+     "why": "Requires fpl_pct>500 but policy specifies \u2265500% FPL for catastrophic medically indigent."
+    }
+   ],
+   "clauses": 3,
+   "clauses_proven": 1,
+   "unsupported": 2
+  },
+  "secondary_model": {
+   "hospital": "Mt. San Rafael Hospital",
+   "doc": "policy",
+   "source_url": "https://www.msrhc.org/docs/MSRH_Charity_Care_Policy_2014_revised_2022_v2.pdf",
+   "nonprofit": null,
+   "requires": [],
+   "rules": [
+    {
+     "id": "r_financially_indigent",
+     "label": "Financially Indigent",
+     "when": [
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       },
+       {
+        "var": "underinsured",
+        "op": "true",
+        "value": null
+       }
+      ],
+      [
+       {
+        "var": "fpl_pct",
+        "op": "<=",
+        "value": 250.0
+       }
+      ]
+     ],
+     "discount_pct": null,
+     "quote": "Patients may only be granted classification as Financially Indigent if their yearly income as set forth on the Financial Assistance Application is less than or equal to 250% of the poverty guidelines updated annually in the Federal Register by the U.S. Department of Health and Human Services (\"Federal Poverty Guidelines\")."
+    }
+   ],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": [
+    "Applications remain on file for 365 days.",
+    "For minors, household includes patient, mother, father, and their dependents.",
+    "Income verification may include public benefit program participation, written/verbal attestation, or documentation efforts for deminimus accounts (<=$500).",
+    "Expired patients may be deemed to have no income; income documentation not required.",
+    "If patient has ability to pay, reassessment possible upon additional documentation.",
+    "Falsification may result in denial or revocation of charity care.",
+    "If qualified for other charity programs (CICP or Hospital Discount Care Program), this application will not be considered for additional discounts or balance adjustments."
+   ]
+  },
+  "disagreements_before": [
+   "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $68,500: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "disagreements_after": [
+   "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $68,500: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+  ],
+  "equivalent": false
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 5843,
+   "tokens_cached": 0,
+   "tokens_out": 1255,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.009608,
+   "orig_seconds": 3.9
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 3.08,
+   "tokens_in": 5593,
+   "tokens_cached": 0,
+   "tokens_out": 238,
+   "cost_usd": 0.001892,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001892,
+   "orig_seconds": 3.08
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 5843,
+   "tokens_cached": 0,
+   "tokens_out": 667,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.002353,
+   "orig_seconds": 3.21
+  },
+  {
+   "step": "meaning check (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 1.72,
+   "tokens_in": 5598,
+   "tokens_cached": 0,
+   "tokens_out": 148,
+   "cost_usd": 0.001813,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.001813,
+   "orig_seconds": 1.72
+  }
+ ],
+ "cost_usd": 0.01567,
+ "seconds": 4.9,
+ "made": "2026-10-27"
+}

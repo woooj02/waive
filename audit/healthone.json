@@ -1,11 +1,12 @@
 {
  "id": "healthone",
  "hospital": "HCA HealthONE",
+ "dropped_rules": 0,
  "source_url": "https://www.healthonecares.com/patient-resources/patient-financial-resources/financial-assistance",
  "nonprofit": false,
- "model_source": "hand reference",
+ "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.037,
+ "solver_seconds": 0.082,
  "model": {
   "hospital": "HCA HealthONE",
   "doc": "policy",
@@ -14,52 +15,23 @@
   "requires": [],
   "rules": [
    {
-    "id": "hdc_250",
-    "label": "Colorado Hospital Discounted Care limits at or below 250% FPL",
-    "when": [
-     [
-      {
-       "var": "co_resident",
-       "op": "true",
-       "value": null
-      }
-     ],
-     [
-      {
-       "var": "fpl_pct",
-       "op": "<=",
-       "value": 250.0
-      }
-     ]
-    ],
-    "discount_pct": null,
-    "quote": "For patients whose income is at or below 250% of the Federal Poverty Guidelines, the limits to how much the hospital can charge must follow the rules of Hospital Discounted Care."
-   },
-   {
-    "id": "charity_250",
-    "label": "100% charity discount at or below 250% FPL, non-elective care",
+    "id": "rule_full_charity",
+    "label": "Full charity discount (100%) for income 0-250% FPL",
     "when": [
      [
       {
        "var": "fpl_pct",
        "op": "<=",
        "value": 250.0
-      }
-     ],
-     [
-      {
-       "var": "medically_necessary",
-       "op": "true",
-       "value": null
       }
      ]
     ],
     "discount_pct": 100.0,
-    "quote": "with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed."
+    "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed"
    },
    {
-    "id": "expanded_251_400",
-    "label": "expanded assistance from 251% to 400% FPL",
+    "id": "rule_partial_charity",
+    "label": "Partial charity discount for income 251-400% FPL",
     "when": [
      [
       {
@@ -77,22 +49,73 @@
      ]
     ],
     "discount_pct": null,
-    "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level"
+    "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe"
+   },
+   {
+    "id": "rule_uninsured_discount",
+    "label": "Uninsured discount (managed care equivalent) for self-pay patients",
+    "when": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures, will receive discount similar to managed care, referred to as an \"uninsured discount\""
+   },
+   {
+    "id": "rule_hdc_250_fpl",
+    "label": "Hospital Discounted Care for income at or below 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "For patients whose income is at or below 250% of the Federal Poverty Guidelines, the limits to how much the hospital can charge must follow the rules of Hospital Discounted Care"
    }
   ],
   "timing": {
    "application": [],
-   "eca_not_before": [],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 30,
+     "quote": "Tell you in writing 30 days before they send you to collections"
+    }
+   ],
    "first_statement_from_day": null
   },
   "payment_plan": {
    "max_pct_monthly_income": null,
-   "max_months": null,
+   "max_months": 36,
    "min_monthly_usd": null,
-   "quote": ""
+   "quote": "You do not owe any more money after: You make 36 monthly payments, or You pay the full discounted amount in your payment plan"
   },
   "notes": [
-   "Hand-written reference model of the web page (HCA HealthONE is for-profit, so 501(r) does not apply). The charity tier also requires that the patient not qualify for state or federal assistance; left out as ambiguous."
+   "Policy applies to non-elective care only; elective cosmetic procedures and facility designated self-pay flat rate procedures are excluded from uninsured discount.",
+   "Some locations may have additional criteria for charity eligibility (high medical costs, more lenient income levels). Contact hospital to verify eligibility.",
+   "Medicare beneficiaries require independent income and resource verification (PRM-I \u00a7 312); preferred documentation is most current year's Federal Tax Return, or two pieces from: State Income Tax Return, Most Recent Employer Pay Stubs, Written documentation from income sources, Copy of all bank statements for last three months, Current credit report.",
+   "Uninsured discount amount may vary by location based on state requirements, patient income levels, and local rates.",
+   "Hospital Discounted Care is a Colorado law; patients may qualify regardless of citizenship or immigration status, and even if they have health insurance.",
+   "Hospital must bill insurance before making a payment plan; must explain all services and fees in patient's preferred language before collections.",
+   "Determination within 21 days after application completion; appeal must be filed in writing within 30 days of decision date.",
+   "Patients can refuse hospital screening for public programs; if they refuse, they cannot sue for lack of discounts or screening.",
+   "Pricing information on website is strictly an estimate; final bill may differ substantially due to unforeseen complications, additional tests/procedures, non-hospital charges."
   ]
  },
  "findings": [
@@ -119,7 +142,12 @@
    "policy_outcome": null,
    "clauses": [],
    "seconds": 0.0,
-   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts"
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
   },
   {
    "check": "co_hdc_assets",
@@ -139,7 +167,12 @@
    "policy_outcome": null,
    "clauses": [],
    "seconds": 0.0,
-   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)"
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
   },
   {
    "check": "co_hdc_public",
@@ -158,13 +191,18 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.001,
-   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)"
+   "seconds": 0.0,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
   },
   {
    "check": "co_eca_182",
    "title": "No collection lawsuits or garnishment before day 182",
-   "status": "not_stated",
+   "status": "counterexample",
    "law": [
     {
      "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
@@ -177,14 +215,32 @@
      "quote": "begin sending bills beginning 46 days after the patient's date of service or date of discharge"
     }
    ],
-   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
-   "severity": "info",
-   "household": null,
+   "summary": "If the first bill goes out on day 46 after care (Colorado allows bills from day 46), the policy's written timeline allows collection actions from day 76. Colorado law bars them until day 182.",
+   "severity": "timing",
+   "household": {
+    "first_statement_day": 46,
+    "policy_day": 76,
+    "law_day": 182,
+    "fails_every_later_day": false
+   },
    "household_b": null,
    "policy_outcome": null,
-   "clauses": [],
-   "seconds": 0.0,
-   "domain": "every first-bill day from day 46 to day 400"
+   "clauses": [
+    {
+     "kind": "timing",
+     "id": "eca_not_before",
+     "label": "30 days after first statement",
+     "quote": "Tell you in writing 30 days before they send you to collections",
+     "holds": true
+    }
+   ],
+   "seconds": 0.004,
+   "domain": "every first-bill day from day 46 to day 400",
+   "basis": "",
+   "confidence": "disputed",
+   "second_opinion": [
+    "not_stated"
+   ]
   },
   {
    "check": "co_window_181",
@@ -204,7 +260,12 @@
    "policy_outcome": null,
    "clauses": [],
    "seconds": 0.0,
-   "domain": "every first-bill day from day 0 to day 400"
+   "domain": "every first-bill day from day 0 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
   },
   {
    "check": "co_window_insured",
@@ -224,12 +285,17 @@
    "policy_outcome": null,
    "clauses": [],
    "seconds": 0.0,
-   "domain": "every first-bill day from day 0 to day 400"
+   "domain": "every first-bill day from day 0 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
   },
   {
    "check": "co_plan_4pct",
    "title": "Payment plans capped at 4% of monthly income, done after 36 payments",
-   "status": "not_stated",
+   "status": "proved",
    "law": [
     {
      "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
@@ -242,14 +308,19 @@
      "quote": "AFTER A CUMULATIVE THIRTY-SIX MONTHS OF PAYMENTS, CONSIDER THE PATIENT'S BILL PAID IN FULL"
     }
    ],
-   "summary": "The policy states no payment-plan terms to check. Colorado's 4% / 36-month limits apply anyway.",
-   "severity": "info",
+   "summary": "Proved: the stated plan terms stay within 4% of monthly income and 36 months.",
+   "severity": "",
    "household": null,
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
    "seconds": 0.0,
-   "domain": ""
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
   },
   {
    "check": "fed_window_240",
@@ -269,7 +340,12 @@
    "policy_outcome": null,
    "clauses": [],
    "seconds": 0.0,
-   "domain": ""
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "n/a"
+   ]
   },
   {
    "check": "fed_eca_120",
@@ -289,14 +365,19 @@
    "policy_outcome": null,
    "clauses": [],
    "seconds": 0.0,
-   "domain": ""
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "n/a"
+   ]
   },
   {
    "check": "monotone",
    "title": "Earning less never means getting less help",
    "status": "counterexample",
    "law": [],
-   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, uninsured, owing $10,000 gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
    "severity": "ambiguity",
    "household": {
     "size": 3,
@@ -305,7 +386,7 @@
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
-    "insured": false,
+    "insured": true,
     "underinsured": false,
     "co_resident": true,
     "in_service_area": true,
@@ -322,7 +403,7 @@
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
-    "insured": false,
+    "insured": true,
     "underinsured": false,
     "co_resident": true,
     "in_service_area": true,
@@ -345,31 +426,44 @@
    "clauses": [
     {
      "kind": "rule",
-     "id": "hdc_250",
-     "label": "Colorado Hospital Discounted Care limits at or below 250% FPL",
-     "quote": "For patients whose income is at or below 250% of the Federal Poverty Guidelines, the limits to how much the hospital can charge must follow the rules of Hospital Discounted Care.",
-     "discount_pct": null,
-     "holds": false
-    },
-    {
-     "kind": "rule",
-     "id": "charity_250",
-     "label": "100% charity discount at or below 250% FPL, non-elective care",
-     "quote": "with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed.",
+     "id": "rule_full_charity",
+     "label": "Full charity discount (100%) for income 0-250% FPL",
+     "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed",
      "discount_pct": 100.0,
      "holds": false
     },
     {
      "kind": "rule",
-     "id": "expanded_251_400",
-     "label": "expanded assistance from 251% to 400% FPL",
-     "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level",
+     "id": "rule_partial_charity",
+     "label": "Partial charity discount for income 251-400% FPL",
+     "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_uninsured_discount",
+     "label": "Uninsured discount (managed care equivalent) for self-pay patients",
+     "quote": "All Self-Pay patients, excluding elective cosmetic procedures and facility designated self-pay flat rate procedures, will receive discount similar to managed care, referred to as an \"uninsured discount\"",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_hdc_250_fpl",
+     "label": "Hospital Discounted Care for income at or below 250% FPL",
+     "quote": "For patients whose income is at or below 250% of the Federal Poverty Guidelines, the limits to how much the hospital can charge must follow the rules of Hospital Discounted Care",
      "discount_pct": null,
      "holds": false
     }
    ],
    "seconds": 0.005,
-   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)"
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "absence",
+   "confidence": "disputed",
+   "second_opinion": [
+    "proved"
+   ]
   }
  ]
 }

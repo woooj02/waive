@@ -1,0 +1,912 @@
+{
+ "id": "heart-of-the-rockies",
+ "hospital": "Heart of the Rockies Regional Medical Center",
+ "dropped_rules": 0,
+ "source_url": "https://www.hrrmc.com/documents/brochures/Finance-Assistance_2021.pdf",
+ "nonprofit": null,
+ "model_source": "nemotron",
+ "summary_source": null,
+ "solver_seconds": 0.172,
+ "model": {
+  "hospital": "Heart of the Rockies Regional Medical Center",
+  "doc": "policy",
+  "source_url": "https://www.hrrmc.com/documents/brochures/Finance-Assistance_2021.pdf",
+  "nonprofit": null,
+  "requires": [
+   {
+    "id": "req_uninsured_or_underinsured",
+    "label": "Uninsured or underinsured",
+    "cond": [
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "HRRMC will provide financial assistance (charity care) to qualified patients who are uninsured or underinsured and do not have the financial means to pay for hospital services."
+   }
+  ],
+  "rules": [
+   {
+    "id": "rule_100_pct",
+    "label": "100% discount at or below 200% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "100% 200% $25,760 $34,840 $43,920 $53,000 $62,080 $71,160 $80,240 $89,320"
+   },
+   {
+    "id": "rule_90_pct",
+    "label": "90% discount between 201% and 225% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 201.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 225.0
+      }
+     ]
+    ],
+    "discount_pct": 90.0,
+    "quote": "90% 225% $28,980 $39,195 $49,410 $59,625 $69,840 $80,055 $90,270 $100,485"
+   },
+   {
+    "id": "rule_80_pct",
+    "label": "80% discount between 226% and 250% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 226.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "80% 250% $32,200 $43,550 $54,900 $66,250 $77,600 $88,950 $100,300 $111,650"
+   },
+   {
+    "id": "rule_70_pct",
+    "label": "70% discount between 251% and 275% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 275.0
+      }
+     ]
+    ],
+    "discount_pct": 70.0,
+    "quote": "70% 275% $35,420 $47,905 $60,390 $72,875 $85,360 $97,845 $110,330 $122,815"
+   },
+   {
+    "id": "rule_60_pct",
+    "label": "60% discount between 276% and 300% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 276.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 300.0
+      }
+     ]
+    ],
+    "discount_pct": 60.0,
+    "quote": "60% 300% $38,640 $52,260 $65,880 $79,500 $93,120 $106,740 $120,360 $133,980"
+   },
+   {
+    "id": "rule_50_pct",
+    "label": "50% discount between 301% and 325% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 301.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 325.0
+      }
+     ]
+    ],
+    "discount_pct": 50.0,
+    "quote": "50% 325% $41,860 $56,615 $71,370 $86,125 $100,880 $115,635 $130,390 $145,145"
+   },
+   {
+    "id": "rule_40_pct",
+    "label": "40% discount between 326% and 350% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 326.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 350.0
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "40% 350% $45,080 $60,970 $76,860 $92,750 $108,640 $124,530 $140,420 $156,310"
+   },
+   {
+    "id": "rule_30_pct",
+    "label": "30% discount between 351% and 375% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 351.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 375.0
+      }
+     ]
+    ],
+    "discount_pct": 30.0,
+    "quote": "30% 375% $48,300 $65,325 $82,350 $99,375 $116,400 $133,425 $150,450 $167,475"
+   },
+   {
+    "id": "rule_20_pct",
+    "label": "20% discount between 376% and 400% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 376.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ]
+    ],
+    "discount_pct": 20.0,
+    "quote": "20% 400% $51,520 $69,680 $87,840 $106,000 $124,160 $142,320 $160,480 $178,640"
+   },
+   {
+    "id": "rule_10_pct",
+    "label": "10% discount between 401% and 425% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 401.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 425.0
+      }
+     ]
+    ],
+    "discount_pct": 10.0,
+    "quote": "10% 425% $54,740 $74,035 $93,330 $112,625 $131,920 $151,215 $170,510 $189,805"
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Policy covers emergency or unscheduled non-elective services; unscheduled non-elective services not fully captured by vocabulary.",
+   "Pregnant women count as two people for family size determination.",
+   "For family units of more than 8 members, add $4,540 for each additional member.",
+   "Income calculation includes extensive list of sources and exclusions detailed in policy.",
+   "Application requires completed Financial Assistance form with documentation of income, expenses, assets, three months bank statements, W-2s, paycheck stubs, tax returns.",
+   "Medically necessary services evaluated on case-by-case basis at HRRMC's discretion.",
+   "Services eligible include emergency medical services in ER, non-elective services for life-threatening circumstances, services for conditions leading to adverse change if not promptly treated.",
+   "Policy states charity care is not a substitute for personal responsibility; patients expected to cooperate with procedures.",
+   "No explicit application deadline, ECA timing, or payment plan terms stated in provided text."
+  ]
+ },
+ "findings": [
+  {
+   "check": "co_hdc_coverage",
+   "title": "Covers everyone Colorado's Hospital Discounted Care protects",
+   "status": "counterexample",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients and their households are eligible for Hospital Discounted Care if, during the required screening and application processes, they are determined to: Have a total household income at or below 250% of the Federal Poverty Guidelines (FPG), and Be residents of the State of Colorado."
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "IF REQUESTED BY THE PATIENT, A HEALTH-CARE FACILITY SHALL SCREEN AN INSURED PATIENT FOR DISCOUNTED CARE"
+    }
+   ],
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 is turned away by this requirement: \"Uninsured or underinsured\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "severity": "gap",
+   "household": {
+    "size": 3,
+    "income_usd": 27000.0,
+    "fpl_pct": 98.82,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": true,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": null,
+   "policy_outcome": {
+    "covered": false,
+    "best_stated_discount_pct": 0.0
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "req_uninsured_or_underinsured",
+     "label": "Uninsured or underinsured",
+     "quote": "HRRMC will provide financial assistance (charity care) to qualified patients who are uninsured or underinsured and do not have the financial means to pay for hospital services.",
+     "discretionary": false,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_100_pct",
+     "label": "100% discount at or below 200% FPL",
+     "quote": "100% 200% $25,760 $34,840 $43,920 $53,000 $62,080 $71,160 $80,240 $89,320",
+     "discount_pct": 100.0,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "rule_90_pct",
+     "label": "90% discount between 201% and 225% FPL",
+     "quote": "90% 225% $28,980 $39,195 $49,410 $59,625 $69,840 $80,055 $90,270 $100,485",
+     "discount_pct": 90.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_80_pct",
+     "label": "80% discount between 226% and 250% FPL",
+     "quote": "80% 250% $32,200 $43,550 $54,900 $66,250 $77,600 $88,950 $100,300 $111,650",
+     "discount_pct": 80.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_70_pct",
+     "label": "70% discount between 251% and 275% FPL",
+     "quote": "70% 275% $35,420 $47,905 $60,390 $72,875 $85,360 $97,845 $110,330 $122,815",
+     "discount_pct": 70.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_60_pct",
+     "label": "60% discount between 276% and 300% FPL",
+     "quote": "60% 300% $38,640 $52,260 $65,880 $79,500 $93,120 $106,740 $120,360 $133,980",
+     "discount_pct": 60.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_50_pct",
+     "label": "50% discount between 301% and 325% FPL",
+     "quote": "50% 325% $41,860 $56,615 $71,370 $86,125 $100,880 $115,635 $130,390 $145,145",
+     "discount_pct": 50.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_40_pct",
+     "label": "40% discount between 326% and 350% FPL",
+     "quote": "40% 350% $45,080 $60,970 $76,860 $92,750 $108,640 $124,530 $140,420 $156,310",
+     "discount_pct": 40.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_30_pct",
+     "label": "30% discount between 351% and 375% FPL",
+     "quote": "30% 375% $48,300 $65,325 $82,350 $99,375 $116,400 $133,425 $150,450 $167,475",
+     "discount_pct": 30.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_20_pct",
+     "label": "20% discount between 376% and 400% FPL",
+     "quote": "20% 400% $51,520 $69,680 $87,840 $106,000 $124,160 $142,320 $160,480 $178,640",
+     "discount_pct": 20.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_10_pct",
+     "label": "10% discount between 401% and 425% FPL",
+     "quote": "10% 425% $54,740 $74,035 $93,330 $112,625 $131,920 $151,215 $170,510 $189,805",
+     "discount_pct": 10.0,
+     "holds": false
+    }
+   ],
+   "seconds": 0.003,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "counterexample"
+   ]
+  },
+  {
+   "check": "co_hdc_coverage",
+   "title": "Covers everyone Colorado's Hospital Discounted Care protects",
+   "status": "counterexample",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients and their households are eligible for Hospital Discounted Care if, during the required screening and application processes, they are determined to: Have a total household income at or below 250% of the Federal Poverty Guidelines (FPG), and Be residents of the State of Colorado."
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "IF REQUESTED BY THE PATIENT, A HEALTH-CARE FACILITY SHALL SCREEN AN INSURED PATIENT FOR DISCOUNTED CARE"
+    }
+   ],
+   "summary": "A household of 3 earning $61,700 a year (225.8% of the poverty line), living in Colorado, uninsured, owing $10,000 meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care.",
+   "severity": "gap",
+   "household": {
+    "size": 3,
+    "income_usd": 61700.0,
+    "fpl_pct": 225.84,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": null,
+   "policy_outcome": {
+    "covered": false,
+    "best_stated_discount_pct": 0.0
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "req_uninsured_or_underinsured",
+     "label": "Uninsured or underinsured",
+     "quote": "HRRMC will provide financial assistance (charity care) to qualified patients who are uninsured or underinsured and do not have the financial means to pay for hospital services.",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "rule_100_pct",
+     "label": "100% discount at or below 200% FPL",
+     "quote": "100% 200% $25,760 $34,840 $43,920 $53,000 $62,080 $71,160 $80,240 $89,320",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_90_pct",
+     "label": "90% discount between 201% and 225% FPL",
+     "quote": "90% 225% $28,980 $39,195 $49,410 $59,625 $69,840 $80,055 $90,270 $100,485",
+     "discount_pct": 90.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_80_pct",
+     "label": "80% discount between 226% and 250% FPL",
+     "quote": "80% 250% $32,200 $43,550 $54,900 $66,250 $77,600 $88,950 $100,300 $111,650",
+     "discount_pct": 80.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_70_pct",
+     "label": "70% discount between 251% and 275% FPL",
+     "quote": "70% 275% $35,420 $47,905 $60,390 $72,875 $85,360 $97,845 $110,330 $122,815",
+     "discount_pct": 70.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_60_pct",
+     "label": "60% discount between 276% and 300% FPL",
+     "quote": "60% 300% $38,640 $52,260 $65,880 $79,500 $93,120 $106,740 $120,360 $133,980",
+     "discount_pct": 60.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_50_pct",
+     "label": "50% discount between 301% and 325% FPL",
+     "quote": "50% 325% $41,860 $56,615 $71,370 $86,125 $100,880 $115,635 $130,390 $145,145",
+     "discount_pct": 50.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_40_pct",
+     "label": "40% discount between 326% and 350% FPL",
+     "quote": "40% 350% $45,080 $60,970 $76,860 $92,750 $108,640 $124,530 $140,420 $156,310",
+     "discount_pct": 40.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_30_pct",
+     "label": "30% discount between 351% and 375% FPL",
+     "quote": "30% 375% $48,300 $65,325 $82,350 $99,375 $116,400 $133,425 $150,450 $167,475",
+     "discount_pct": 30.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_20_pct",
+     "label": "20% discount between 376% and 400% FPL",
+     "quote": "20% 400% $51,520 $69,680 $87,840 $106,000 $124,160 $142,320 $160,480 $178,640",
+     "discount_pct": 20.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_10_pct",
+     "label": "10% discount between 401% and 425% FPL",
+     "quote": "10% 425% $54,740 $74,035 $93,330 $112,625 $131,920 $151,215 $170,510 $189,805",
+     "discount_pct": 10.0,
+     "holds": false
+    }
+   ],
+   "seconds": 0.005,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
+   "basis": "absence",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "counterexample"
+   ]
+  },
+  {
+   "check": "co_hdc_assets",
+   "title": "Ignores assets for Colorado-protected households",
+   "status": "proved",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE METHODOLOGY MUST NOT CONSIDER A PATIENT'S ASSETS."
+    }
+   ],
+   "summary": "Proved: for households Colorado's law protects, savings and assets never changes the outcome.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.001,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  },
+  {
+   "check": "co_hdc_public",
+   "title": "Doesn't require a Medicaid application first",
+   "status": "proved",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "DENY DISCOUNTED CARE ON THE BASIS THAT THE PATIENT HAS NOT APPLIED FOR ANY PUBLIC BENEFITS PROGRAM"
+    }
+   ],
+   "summary": "Proved: for households Colorado's law protects, whether they applied for Medicaid or other public programs never changes the outcome.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.001,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "proved"
+   ]
+  },
+  {
+   "check": "co_eca_182",
+   "title": "No collection lawsuits or garnishment before day 182",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "NO MEDICAL CREDITOR COLLECTING ON A DEBT FOR HOSPITAL SERVICES SHALL ENGAGE IN ANY PERMISSIBLE EXTRAORDINARY COLLECTION ACTIONS UNTIL ONE HUNDRED EIGHTY-TWO DAYS AFTER THE DATE THE PATIENT RECEIVES HOSPITAL SERVICES."
+    },
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "begin sending bills beginning 46 days after the patient's date of service or date of discharge"
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 46 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "co_window_181",
+   "title": "Accepts applications for at least 181 days after care",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients may complete a screening at any time within at least 181 days after their date of service or discharge, whichever is later"
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "co_window_insured",
+   "title": "Insured patients get 45 days after their first post-insurance bill",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "At least 45 days from the date of the first bill after the patient's insurance adjustment, even if that date falls outside the normal 181-day window."
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "co_plan_4pct",
+   "title": "Payment plans capped at 4% of monthly income, done after 36 payments",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE PATIENT IS NOT PAYING MORE THAN FOUR PERCENT OF THE PATIENT'S MONTHLY HOUSEHOLD INCOME ON A BILL FROM A HEALTH-CARE FACILITY"
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "AFTER A CUMULATIVE THIRTY-SIX MONTHS OF PAYMENTS, CONSIDER THE PATIENT'S BILL PAID IN FULL"
+    }
+   ],
+   "summary": "The policy states no payment-plan terms to check. Colorado's 4% / 36-month limits apply anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "not_stated"
+   ]
+  },
+  {
+   "check": "fed_window_240",
+   "title": "Application window of 240 days after the first bill (501(r))",
+   "status": "n/a",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-1(b)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-1",
+     "quote": "ends on the later of the 240th day after the date that the first post-discharge billing statement for the care is provided"
+    }
+   ],
+   "summary": "Skipped: 501(r) applies to tax-exempt hospitals, and we haven't verified this hospital's status (many rural Colorado hospitals are public districts).",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "n/a"
+   ]
+  },
+  {
+   "check": "fed_eca_120",
+   "title": "No collection actions in the first 120 days after the first bill (501(r))",
+   "status": "n/a",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-6(c)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-6",
+     "quote": "for at least 120 days from the date the hospital facility provides the first post-discharge billing statement for the care"
+    }
+   ],
+   "summary": "Skipped: 501(r) applies to tax-exempt hospitals, and we haven't verified this hospital's status (many rural Colorado hospitals are public districts).",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "",
+   "basis": "",
+   "confidence": "confirmed",
+   "second_opinion": [
+    "n/a"
+   ]
+  },
+  {
+   "check": "monotone",
+   "title": "Earning less never means getting less help",
+   "status": "counterexample",
+   "law": [],
+   "summary": "A household of 3 earning $102,723 a year (376.0% of the poverty line), living in Colorado, uninsured, owing $10,000 gets no help; the same household earning more, at 376.36% of the poverty line, gets 20% off. The written income bands leave a gap between them.",
+   "severity": "ambiguity",
+   "household": {
+    "size": 3,
+    "income_usd": 102723.19,
+    "fpl_pct": 375.99,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": {
+    "size": 3,
+    "income_usd": 102823.19,
+    "fpl_pct": 376.36,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "policy_outcome": {
+    "a": {
+     "covered": false,
+     "best_stated_discount_pct": 0.0
+    },
+    "b": {
+     "covered": true,
+     "best_stated_discount_pct": 20.0
+    }
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "req_uninsured_or_underinsured",
+     "label": "Uninsured or underinsured",
+     "quote": "HRRMC will provide financial assistance (charity care) to qualified patients who are uninsured or underinsured and do not have the financial means to pay for hospital services.",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "rule_100_pct",
+     "label": "100% discount at or below 200% FPL",
+     "quote": "100% 200% $25,760 $34,840 $43,920 $53,000 $62,080 $71,160 $80,240 $89,320",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_90_pct",
+     "label": "90% discount between 201% and 225% FPL",
+     "quote": "90% 225% $28,980 $39,195 $49,410 $59,625 $69,840 $80,055 $90,270 $100,485",
+     "discount_pct": 90.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_80_pct",
+     "label": "80% discount between 226% and 250% FPL",
+     "quote": "80% 250% $32,200 $43,550 $54,900 $66,250 $77,600 $88,950 $100,300 $111,650",
+     "discount_pct": 80.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_70_pct",
+     "label": "70% discount between 251% and 275% FPL",
+     "quote": "70% 275% $35,420 $47,905 $60,390 $72,875 $85,360 $97,845 $110,330 $122,815",
+     "discount_pct": 70.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_60_pct",
+     "label": "60% discount between 276% and 300% FPL",
+     "quote": "60% 300% $38,640 $52,260 $65,880 $79,500 $93,120 $106,740 $120,360 $133,980",
+     "discount_pct": 60.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_50_pct",
+     "label": "50% discount between 301% and 325% FPL",
+     "quote": "50% 325% $41,860 $56,615 $71,370 $86,125 $100,880 $115,635 $130,390 $145,145",
+     "discount_pct": 50.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_40_pct",
+     "label": "40% discount between 326% and 350% FPL",
+     "quote": "40% 350% $45,080 $60,970 $76,860 $92,750 $108,640 $124,530 $140,420 $156,310",
+     "discount_pct": 40.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_30_pct",
+     "label": "30% discount between 351% and 375% FPL",
+     "quote": "30% 375% $48,300 $65,325 $82,350 $99,375 $116,400 $133,425 $150,450 $167,475",
+     "discount_pct": 30.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_20_pct",
+     "label": "20% discount between 376% and 400% FPL",
+     "quote": "20% 400% $51,520 $69,680 $87,840 $106,000 $124,160 $142,320 $160,480 $178,640",
+     "discount_pct": 20.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "rule_10_pct",
+     "label": "10% discount between 401% and 425% FPL",
+     "quote": "10% 425% $54,740 $74,035 $93,330 $112,625 $131,920 $151,215 $170,510 $189,805",
+     "discount_pct": 10.0,
+     "holds": false
+    }
+   ],
+   "seconds": 0.016,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
+   "basis": "absence",
+   "confidence": "disputed",
+   "second_opinion": [
+    "proved"
+   ]
+  }
+ ]
+}

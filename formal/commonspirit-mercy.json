@@ -1,0 +1,138 @@
+{
+ "model": {
+  "hospital": "CommonSpirit Mercy Hospital",
+  "doc": "policy",
+  "source_url": "https://www.mountain.commonspirit.org/location/mercy-hospital",
+  "nonprofit": true,
+  "requires": [],
+  "rules": [],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "The provided text contains general hospital information, history, leadership, volunteer programs, community engagement, TBI prevention, Tanzania mission, and employee child care center details. It does not contain a Patient Financial Assistance (charity care) policy with eligibility criteria, income thresholds, discount percentages, application deadlines, or collection action timelines. The only financial figure mentioned is 'FY25 Patient Financial Assistance: $7.3 million' as a total amount provided, not a policy description. No financial assistance policy text is present to model."
+  ]
+ },
+ "report": {
+  "primary": {
+   "model": "ultra",
+   "lint": [
+    "no rules: the model grants help to nobody"
+   ],
+   "repaired": true,
+   "lint_after": [
+    "no rules: the model grants help to nobody"
+   ],
+   "dropped": [],
+   "clauses": 0,
+   "clauses_proven": 0,
+   "unsupported": 0
+  },
+  "secondary": {
+   "model": "super",
+   "lint": [
+    "no rules: the model grants help to nobody"
+   ],
+   "repaired": true,
+   "lint_after": [
+    "no rules: the model grants help to nobody"
+   ],
+   "dropped": [],
+   "clauses": 0,
+   "clauses_proven": 0,
+   "unsupported": 0
+  },
+  "secondary_model": {
+   "hospital": "Mercy Hospital",
+   "doc": "policy",
+   "source_url": "https://www.mountain.commonspirit.org/location/mercy-hospital",
+   "nonprofit": true,
+   "requires": [],
+   "rules": [],
+   "timing": {
+    "application": [],
+    "eca_not_before": [],
+    "first_statement_from_day": null
+   },
+   "payment_plan": {
+    "max_pct_monthly_income": null,
+    "max_months": null,
+    "min_monthly_usd": null,
+    "quote": ""
+   },
+   "notes": []
+  },
+  "disagreements_before": [],
+  "disagreements_after": [],
+  "equivalent": true
+ },
+ "calls": [
+  {
+   "step": "formalise (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 9394,
+   "tokens_cached": 0,
+   "tokens_out": 236,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.010102,
+   "orig_seconds": 2.32
+  },
+  {
+   "step": "repair (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 0.0,
+   "tokens_in": 9649,
+   "tokens_cached": 4352,
+   "tokens_out": 220,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.006479,
+   "orig_seconds": 2.28
+  },
+  {
+   "step": "formalise (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 9394,
+   "tokens_cached": 0,
+   "tokens_out": 98,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.002906,
+   "orig_seconds": 1.5
+  },
+  {
+   "step": "repair (Nemotron 3 Super)",
+   "model": "super",
+   "label": "Nemotron 3 Super",
+   "seconds": 0.0,
+   "tokens_in": 9537,
+   "tokens_cached": 0,
+   "tokens_out": 98,
+   "cost_usd": 0.0,
+   "cached_result": true,
+   "error": "",
+   "orig_cost_usd": 0.002949,
+   "orig_seconds": 1.45
+  }
+ ],
+ "cost_usd": 0.02244,
+ "seconds": 0.0,
+ "made": "2026-10-27"
+}
