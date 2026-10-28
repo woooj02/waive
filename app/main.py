@@ -113,11 +113,17 @@ def audit_get(policy_id: str):
 @app.post("/api/audit/{policy_id}/prove")
 def audit_prove(policy_id: str):
     """Re-run every check with Z3 right now (local, free, milliseconds) on the stored formal model."""
+    from .auditing import reverify
     from .formal import PolicyModel
-    from .law import audit as run_audit
     doc = _audit_doc(policy_id)
+    summary = None
+    sp = ROOT / "formal" / f"{policy_id}-summary.json"
+    if doc.get("summary_source") and sp.exists():
+        summary = PolicyModel(**json.loads(sp.read_text())["model"])
     t0 = time.monotonic()
-    findings = [f.as_dict() for f in run_audit(PolicyModel(**doc["model"]))]
+    # Re-verify the published findings (proofs re-run, each counterexample's exact case re-checked); never swap
+    # a reviewed finding for a different but equally valid one.
+    findings = reverify(policy_id, doc, summary)
     return {"id": policy_id, "seconds": round(time.monotonic() - t0, 4), "z3": __import__("z3").get_version_string(),
             "findings": findings}
 

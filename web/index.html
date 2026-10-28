@@ -3,19 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Waive: does your hospital's own policy say you shouldn't owe this bill?</title>
-  <meta name="description" content="Snap a hospital bill. Waive reads that hospital's own charity-care policy, shows the sentence that applies to you, and prepares the application.">
+  <title>Waive: finding the households Colorado hospitals' charity-care policies leave behind</title>
+  <meta name="description" content="Waive finds the household, or the deadline, that a hospital's written charity-care policy leaves behind, and shows the evidence. NVIDIA Nemotron writes each policy as logic; the Z3 theorem prover checks it against Colorado law and 501(r).">
   <link rel="stylesheet" href="/static/app.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2313233a'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='%23ffe866' font-family='Georgia' font-weight='700'>W</text></svg>">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
-  <a class="brand" href="/" aria-label="Waive home"><b>Waive</b><span>hospital bills, checked against the hospital's own rules</span></a>
+  <a class="brand" href="/" aria-label="Waive home"><b>Waive</b><span>finds the household a hospital's written policy leaves behind</span></a>
   <nav class="tabs" role="tablist" aria-label="Sections">
     <button role="tab" aria-selected="true" aria-controls="tab-audit" id="t-audit">Policy audit</button>
-    <button role="tab" aria-selected="false" aria-controls="tab-check" id="t-check">Check my bill</button>
-    <button role="tab" aria-selected="false" aria-controls="tab-atlas" id="t-atlas">Colorado Atlas</button>
+    <button role="tab" aria-selected="false" aria-controls="tab-check" id="t-check">Check a bill</button>
     <button role="tab" aria-selected="false" aria-controls="tab-how" id="t-how">How it works</button>
   </nav>
 </header>
@@ -24,14 +23,16 @@
 <!-- AUDIT -->
 <section id="tab-audit" role="tabpanel" aria-labelledby="t-audit">
   <div class="a-hero">
-    <h1>Do Colorado hospitals' charity-care policies keep the law's promises? <span class="mark">We asked a theorem prover.</span></h1>
-    <p>Nemotron writes each hospital's policy as logic. The Z3 solver checks it against Colorado's Hospital Discounted
-       Care law and the federal 501(r) rules, for <em>every</em> possible household and billing timeline. A pass is a proof.
-       A fail comes with the exact household, or the exact day, where the policy falls short.</p>
-    <div class="a-stats" id="a-stats" aria-live="polite"></div>
+    <h1>Waive finds the household, or the deadline, that a hospital's written policy <span class="mark">leaves behind</span>, and shows the evidence.</h1>
+    <p>NVIDIA Nemotron writes each Colorado hospital's charity-care policy as logic, every clause tied to the policy's
+       own words. The Z3 theorem prover then checks the encoded rules against Colorado's Hospital Discounted Care law and
+       federal 501(r), exhaustively over a stated range of households and billing timelines. A pass is a proof about the
+       encoded rules; a fail comes with the exact household or day, the policy's sentence and the law's.</p>
   </div>
+  <section class="featured" id="a-featured" aria-label="One finding, with its evidence" hidden></section>
+  <div class="a-stats" id="a-stats" aria-live="polite"></div>
   <div class="matrix-wrap"><table class="matrix" id="a-matrix" aria-label="Every check for every hospital"></table>
-    <p class="m-legend"><b class="ok">✓</b> proved for every household · <b class="no">✗</b> counterexample · <b>?</b> inconclusive (a rule was dropped in checking) · – not stated in the policy · n/a doesn't apply · <span class="dash">dashed</span> Nemotron 3 Ultra's and Super's models disagree</p></div>
+    <p class="m-legend"><b class="ok">✓</b> proved for the encoded rules · <b class="no">✗</b> counterexample · <b>?</b> inconclusive (a rule was dropped in checking) · – not stated in the policy · n/a doesn't apply · <span class="dash">dashed</span> Nemotron 3 Ultra's and Super's models disagree</p></div>
   <div class="a-layout">
     <nav class="a-list" id="a-list" aria-label="Hospitals"></nav>
     <div id="a-detail" class="a-detail" tabindex="-1"><p class="sub">Loading the audit…</p></div>
@@ -131,14 +132,16 @@
 <section id="tab-how" role="tabpanel" aria-labelledby="t-how" hidden class="how">
   <h1>How the audit works</h1>
   <p>Language models read; a theorem prover decides. Nemotron turns each policy into logic, every clause tied to a
-     sentence of the policy. Z3 then checks that logic against Colorado and federal law for every possible household.
+     sentence of the policy. Z3 then checks that logic against Colorado and federal law, exhaustively within a stated
+     range (1–12 people, income up to $1M, first bill by day 400). How faithful the logic is to the policy is measured
+     separately, below.
      No model ever says whether a policy is legal.</p>
   <div class="flow">
     <div><b>1. Find</b>Tavily searches the web; Nemotron 3 Nano picks the hospital's own document; code fetches it.</div>
     <div><b>2. Formalise</b>Nemotron 3 Ultra writes the policy as rules over household facts (income, size, insurance, residency…) and deadlines.</div>
     <div><b>3. Check the translation</b>Code keeps a clause only if its quote is in the policy; Z3 rejects rules that can never apply; Nemotron 3 Super checks each quote says what the clause claims.</div>
     <div><b>4. Second opinion</b>Nemotron 3 Super formalises the policy on its own. Z3 proves whether the two are equivalent and finds the household where they differ.</div>
-    <div><b>5. Prove</b>Z3 checks ten legal requirements. A pass is a proof over every household; a fail is a concrete household or day.</div>
+    <div><b>5. Prove</b>Z3 checks ten legal requirements. A pass is a proof about the encoded rules within the stated range; a fail is a concrete household or day.</div>
   </div>
   <h2>Which model does what, and why</h2>
   <div id="how-models"></div>

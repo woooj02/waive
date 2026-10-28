@@ -209,14 +209,15 @@ DEFAULTS = {"co_resident": True, "in_service_area": True, "insured": False, "und
 
 
 def ordinary(h: Household) -> list[tuple]:
-    soft = [(h.b[v] if want else z3.Not(h.b[v]), 3) for v, want in DEFAULTS.items()]
+    # Distinct weights (3.00, 3.01, ...) so two different counterexamples never tie: the choice is reproducible.
+    soft = [(h.b[v] if want else z3.Not(h.b[v]), f"{3 + i / 100:.2f}") for i, (v, want) in enumerate(DEFAULTS.items())]
     soft += [(h.assets == 0, 3), (h.size == 3, 1), (h.bill <= 10_000, 1), (h.statement == 46, 1),
              (h.income * 100 >= 100 * h.fpl(), 1)]  # a working household, not $0 income
     return soft
 
 
 def solve(hard: list, households: list[Household], timeout_ms: int = 20_000, soft: list = (), minimize=None,
-          round_money: bool = True):
+          round_money: bool = True, steps: tuple = (1000, 100, 10, 1)):
     """Return (status, model, seconds). Minimises deviation from an ordinary household (then `minimize`)."""
     opt = z3.Optimize()
     opt.set("timeout", timeout_ms)
@@ -227,11 +228,14 @@ def solve(hard: list, households: list[Household], timeout_ms: int = 20_000, sof
     opt.add(*hard)
     if minimize is not None:
         opt.minimize(minimize)
+    for h in households:  # deterministic tie-breaks (lexicographic, after the soft constraints)
+        for term in (h.income, h.assets, h.bill, h.size, h.statement):
+            opt.minimize(term)
     t0 = time.monotonic()
     res = opt.check()
     secs = round(time.monotonic() - t0, 3)
     if res == z3.sat:
-        return "sat", (_round_money(opt.model(), hard, households) if round_money else opt.model()), secs
+        return "sat", (_round_money(opt.model(), hard, households, steps) if round_money else opt.model()), secs
     return ("unsat" if res == z3.unsat else "unknown"), None, secs
 
 
@@ -244,13 +248,13 @@ def _num(model, term) -> float:
     return float(v.as_decimal(6).rstrip("?"))
 
 
-def _round_money(model, hard: list, households: list[Household]):
+def _round_money(model, hard: list, households: list[Household], steps: tuple = (1000, 100, 10, 1)):
     """Re-solve with incomes, assets and bills pinned to round numbers when that still fails the check."""
     pins = []
     for h in households:
         for term in (h.income, h.assets, h.bill):
             x = _num(model, term)
-            for step in (1000, 100, 10, 1):
+            for step in steps:
                 cand = round(x / step) * step
                 s = z3.Solver()
                 s.add(*[a for hh in households for a in hh.axioms()], *hard, *pins, term == cand)
@@ -285,7 +289,45 @@ def describe(model, h: Household) -> dict:
            "first_statement_day": int(_num(model, h.statement))}
     for v in BOOL_VARS:
         out[v] = z3.is_true(model.eval(h.b[v], model_completion=True))
+    # Exact values, so a finding can be replayed against another model without rounding across a boundary.
+    out["exact"] = {k: str(model.eval(t, model_completion=True)) for k, t in
+                    (("income", h.income), ("assets", h.assets), ("bill", h.bill))}
     return out
+
+
+def pin(h: Household, d: dict) -> list:
+    """Constraints fixing a symbolic household to a concrete one described by describe()."""
+    ex = d.get("exact", {})
+    val = lambda k, alt: z3.RealVal(ex.get(k) or str(alt))  # noqa: E731
+    cons = [h.size == d["size"], h.income == val("income", d["income_usd"]), h.assets == val("assets", d["assets_usd"]),
+            h.bill == val("bill", d["bill_usd"]), h.statement == d.get("first_statement_day", 46)]
+    return cons + [h.b[v] == d[v] for v in BOOL_VARS if v in d]
+
+
+def evaluate(pm: PolicyModel, d: dict) -> dict | None:
+    """What a policy model gives one concrete household: {"covered", "best_stated_discount_pct"}."""
+    h = Household()
+    enc = Encoded(pm, h)
+    s = z3.Solver()
+    s.add(*h.axioms(), *pin(h, d))
+    if s.check() != z3.sat:
+        return None
+    m = s.model()
+    return {"covered": z3.is_true(m.eval(enc.covered, model_completion=True)),
+            "best_stated_discount_pct": _num(m, enc.best)}
+
+
+def promised_day(pm: PolicyModel, which: str, first_statement_day: int) -> int | None:
+    """The day a model's timing promise lands on, for a given first-bill day ("application" or "eca")."""
+    h = Household()
+    enc = Encoded(pm, h)
+    term = enc.application_ends if which == "application" else enc.eca_from
+    if term is None:
+        return None
+    s = z3.Solver()
+    s.add(h.statement == first_statement_day)
+    s.check()
+    return s.model().eval(term, model_completion=True).as_long()
 
 
 def explain(model, enc: Encoded) -> list[dict]:

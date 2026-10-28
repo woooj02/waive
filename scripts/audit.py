@@ -21,28 +21,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app import llm  # noqa: E402
 from app.formal import PolicyModel  # noqa: E402
-from app.law import audit, equivalent  # noqa: E402
+from app.auditing import audit_document, dropped_rules  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 HAND, NEMO, OUT = ROOT / "eval" / "formal", ROOT / "formal", ROOT / "audit"
 CORPUS = ROOT / "data" / "corpus"
 MANIFEST = {e["id"]: e for e in json.loads((ROOT / "atlas-manifest.json").read_text())}
-REVIEWS = json.loads((ROOT / "eval" / "reviews.json").read_text())["reviews"] if (ROOT / "eval" / "reviews.json").exists() \
-    else []
 
 
-def apply_reviews(pid: str, findings: list[dict]) -> None:
-    """A person read the policy for this finding: show their verdict; a rejected finding is dismissed, not hidden."""
-    for r in REVIEWS:
-        if r["id"] != pid:
-            continue
-        for f in findings:
-            if f["check"] == r["check"] and r["match"] in f["summary"] and f["status"] == "counterexample" \
-                    and not f.get("review"):
-                f["review"] = {"verdict": r["verdict"], "note": r["note"]}
-                if r["verdict"] == "rejected":
-                    f["status"] = "refuted"
-                break
 
 
 def run_formalize(pid: str) -> None:
@@ -67,19 +53,8 @@ def run_formalize(pid: str) -> None:
     print(f"{pid}: formalised for ${meter.cost_usd:.4f}; equivalent after repair: {report.get('equivalent')}")
 
 
-def second(pid: str) -> PolicyModel | None:
-    p = NEMO / f"{pid}.json"
-    if p.exists():
-        sm = json.loads(p.read_text())["report"].get("secondary_model")
-        return PolicyModel(**sm) if sm else None
-    return None
 
 
-def verdicts(findings) -> dict:
-    out: dict = {}
-    for f in findings:
-        out.setdefault(f.check, set()).add(f.status)
-    return out
 
 
 def _safe_formalize(pid: str) -> str:
@@ -125,10 +100,24 @@ def settle(pid: str, findings: list[dict], pm: PolicyModel) -> None:
 LEDGER: list[float] = []
 
 
-def dropped_rules(pid: str) -> int:
-    rep = json.loads((NEMO / f"{pid}.json").read_text())["report"]["primary"]
-    return sum(1 for d in rep.get("dropped", []) if d["kind"] in ("rule", "unsupported")
-               and (d["kind"] == "rule" or str(d.get("id", "")).startswith("rule")))
+
+
+FEATURE_ORDER = ["co_eca_182", "co_window_181", "fed_window_240", "co_hdc_coverage"]
+
+
+def featured(index: list[dict]) -> dict | None:
+    """The finding the page opens on: confirmed by both models and upheld on review, most concrete check first."""
+    best = None
+    for p in index:
+        if p.get("not_formalised"):
+            continue
+        for i, f in enumerate(json.loads((OUT / f"{p['id']}.json").read_text())["findings"]):
+            if f["status"] == "counterexample" and f.get("confidence") == "confirmed" \
+                    and f.get("review", {}).get("verdict") == "upheld" and f["check"] in FEATURE_ORDER:
+                rank = (FEATURE_ORDER.index(f["check"]), p["id"])
+                if best is None or rank < best[0]:
+                    best = (rank, {"id": p["id"], "hospital": p["hospital"], "finding": i})
+    return best[1] if best else None
 
 
 def display_name(pid: str, pm: PolicyModel) -> str:
@@ -187,29 +176,8 @@ def main() -> None:
             print(f"{pm.hospital:32} [{source}] not formalised: no rule survived the checks")
             continue
         t0 = time.monotonic()
-        primary = audit(pm)
-        findings = [f.as_dict() for f in primary]
-        other = second(pid) if source == "nemotron" else None
-        if other:  # confidence: does Nemotron 3 Super's independent model reach the same verdict?
-            theirs = verdicts(audit(other))
-            mine = verdicts(primary)
-            for f in findings:
-                same = mine.get(f["check"]) == theirs.get(f["check"])
-                f["confidence"] = "confirmed" if same else "disputed"
-                f["second_opinion"] = sorted(theirs.get(f["check"], []))
         pair = load(f"{pid}-summary", args.source)
-        if pair:
-            single = source == "nemotron"  # one Ultra model per document: not cross-checked like the audit verdicts
-            findings += [dict(f.as_dict(), check="summary_matches_policy",
-                              **({"confidence": "unconfirmed"} if single and f.status == "counterexample" else {}))
-                         for f in equivalent(pm, pair[0])]
-        if lost:
-            for f in findings:
-                if f["status"] == "counterexample" and f.get("basis") == "absence":
-                    f["status"] = "inconclusive"
-                    f["summary"] = (f"Inconclusive: {lost} of the model's rules were dropped by the quote and meaning "
-                                    f"checks, so a missing rule may be our error. Z3's case: " + f["summary"])
-        apply_reviews(pid, findings)
+        findings = audit_document(pid, pm, source, pair[0] if pair else None)
         secs = round(time.monotonic() - t0, 3)
         if args.adjudicate and source == "nemotron":
             settle(pid, findings, pm)
@@ -246,7 +214,7 @@ def main() -> None:
             titles.setdefault(f["check"], f["title"] if f["check"] != "summary_matches_policy"
                               else "Plain-language summary matches the policy")
     (OUT / "index.json").write_text(json.dumps({"made": time.strftime("%Y-%m-%d"), "checks": titles,
-                                                "policies": index}, indent=1))
+                                                "featured": featured(index), "policies": index}, indent=1))
 
 
 if __name__ == "__main__":

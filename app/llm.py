@@ -198,7 +198,7 @@ def chat(step: str, model_key: str, messages: list, meter: Meter | None = None, 
     meter = meter if meter is not None else Meter()
     key = _key(m.id, messages, schema, max_tokens)
     path = CACHE / f"{key}.json"
-    if use_cache and path.exists():
+    if use_cache and os.environ.get("LLM_NO_CACHE") != "1" and path.exists():
         hit = json.loads(path.read_text())
         meter.add(Call(step, m.key, m.label, 0.0, hit["tokens_in"], hit["tokens_cached"], hit["tokens_out"], 0.0,
                        cached_result=True, orig_cost_usd=hit.get("cost_usd", 0.0), orig_seconds=hit.get("seconds", 0.0)))

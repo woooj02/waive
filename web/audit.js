@@ -24,10 +24,19 @@
     $("#a-stats").innerHTML = `
       <div><b>${ps.filter((p) => !p.not_formalised).length}</b><span>policies audited · ${nHosp} hospitals</span></div>
       <div class="f-ok"><b>${tot("proved")}</b><span>requirements proved</span></div>
-      <div class="f-bad"><b>${hand ? tot("counterexamples") : tot("confirmed_counterexamples")}</b><span>${hand ? "counterexamples found" : "counterexamples confirmed by two models"}</span></div>
+      <div class="f-bad"><b>${hand ? tot("counterexamples") : tot("confirmed_counterexamples")}</b><span>${hand ? "counterexamples found" : "counterexamples confirmed by two models and reviewed"}</span></div>
       <div><b>${(secs * 1000).toFixed(0)} ms</b><span>total Z3 time</span></div>
       ${hand ? `<p class="src-note">Formal models: <b>hand-written references</b> (every quote checked against the policy).</p>`
-        : `<p class="src-note">Each policy was written as logic by <b>Nemotron 3 Ultra</b>. A verdict is <b>confirmed</b> when <b>Nemotron 3 Super</b>'s independent model reaches the same one${two ? `: on our 5 hand-checked documents, confirmed verdicts matched ours ${two.confirmed_match_pct}% of the time, disputed ones ${two.disputed_match_pct}%` : ""}. Disputed findings need a person to read the policy.</p>`}`;
+        : `<p class="src-note">Each policy was written as logic by <b>Nemotron 3 Ultra</b>. A counterexample is <b>confirmed</b> when the exact same household or day also breaks the requirement in <b>Nemotron 3 Super</b>'s independent model, and every confirmed one was read against the policy text. On our 5 hand-written reference documents, where both models reach the same verdict on a check (${two ? two.confirmed_share_pct : "–"}% of checks) it matches our reference ${two ? two.confirmed_match_pct : "–"}% of the time.</p>`}`;
+    if (index.featured) {
+      const fdoc = await (await fetch(`/api/audit/${encodeURIComponent(index.featured.id)}`)).json();
+      const ff = fdoc.findings[index.featured.finding];
+      $("#a-featured").innerHTML = `<p class="kicker">One finding, start to finish · ${esc(fdoc.hospital)}</p>
+        ${card(ff, true)}
+        <p class="sub"><button class="linkish" id="a-feat-open">See every check for ${esc(fdoc.hospital)}</button> · or scroll for all ${ps.filter((p) => !p.not_formalised).length} policies</p>`;
+      $("#a-featured").hidden = false;
+      $("#a-feat-open").addEventListener("click", () => { open(index.featured.id); $("#a-detail").scrollIntoView({ behavior: "smooth" }); });
+    }
     const SHORT = { co_hdc_coverage: "Covers all HDC-eligible", co_hdc_assets: "Ignores savings", co_hdc_public: "No Medicaid-first rule",
       co_eca_182: "No collections before day 182", co_window_181: "181-day window", co_window_insured: "Insured: +45 days",
       co_plan_4pct: "4% payment cap", fed_window_240: "501(r): 240-day window", fed_eca_120: "501(r): 120-day wait",
@@ -76,7 +85,7 @@
           ${d.hospitals && d.hospitals.length > 1 ? `<p class="sub small">Covers: ${d.hospitals.map(esc).join(", ")}</p>` : ""}
         </div>
         <div class="a-prove">
-          <button class="btn ghost" id="a-reprove" type="button">Re-prove with Z3 now</button>
+          <button class="btn ghost" id="a-reprove" type="button" title="Re-runs every proof and re-checks every counterexample's exact case">Re-verify with Z3 now</button>
           <small id="a-live">${live ? esc(live) : `last run: ${(d.solver_seconds * 1000).toFixed(0)} ms`}</small>
         </div>
       </div>
@@ -87,19 +96,18 @@
 
   async function reprove() {
     const b = $("#a-reprove");
-    b.disabled = true; b.textContent = "Proving…";
+    b.disabled = true; b.textContent = "Verifying…";
     try {
       const r = await (await fetch(`/api/audit/${encodeURIComponent(current.id)}/prove`, { method: "POST" })).json();
-      const keep = current.findings.filter((f) => f.check === "summary_matches_policy");
-      r.findings.forEach((f, i) => { const old = current.findings[i]; if (old && old.check === f.check) { f.confidence = old.confidence; f.second_opinion = old.second_opinion; } });
-      render([...r.findings, ...keep], `Z3 ${r.z3} re-checked ${r.findings.length} findings just now in ${(r.seconds * 1000).toFixed(0)} ms`);
+      const bad = r.findings.filter((f) => f.live !== "holds").length;
+      render(r.findings, `Z3 ${r.z3} re-verified ${r.findings.length} findings just now in ${(r.seconds * 1000).toFixed(0)} ms: ${bad ? bad + " changed" : "every one holds"}`);
     } catch (e) {
-      b.disabled = false; b.textContent = "Re-prove with Z3 now";
+      b.disabled = false; b.textContent = "Re-verify with Z3 now";
       $("#a-live").textContent = "Couldn't reach the solver. Showing the stored results.";
     }
   }
 
-  function card(f) {
+  function card(f, openEvidence = false) {
     const [label, cls] = STATUS[f.status] || [f.status, "grey"];
     const isCe = f.status === "counterexample";
     const title = f.check === "summary_matches_policy" ? "The plain-language summary says the same as the policy" : f.title;
@@ -108,14 +116,19 @@
       <p class="fsum">${esc(f.summary)}</p>
       ${f.review ? `<p class="review ${f.review.verdict}"><b>Reviewed against the policy text: ${esc(f.review.verdict)}.</b> ${esc(f.review.note)}</p>` : ""}
       ${isCe ? visual(f) : ""}
-      ${(f.clauses?.length || f.law?.length) ? `<details><summary>Evidence <small>${f.domain ? "checked over " + esc(f.domain) : ""}</small></summary>${evidence(f)}</details>` : ""}
+      ${(f.clauses?.length || f.law?.length) ? `<details${openEvidence ? " open" : ""}><summary>Evidence <small>${f.domain ? "checked over " + esc(f.domain) : ""}</small></summary>${evidence(f)}</details>` : ""}
     </article>`;
   }
 
   function conf(f) {
     if (f.status === "not_stated" || f.status === "n/a") return "";
-    if (f.confidence === "confirmed") return `<span class="cf ok" title="Nemotron 3 Super's independent model gives the same verdict">✓ confirmed by two models</span>`;
-    if (f.confidence === "disputed") return `<span class="cf disp" title="Nemotron 3 Super's model says: ${esc((f.second_opinion || []).join(", ") || "nothing")}">disputed: Super's model says ${esc((f.second_opinion || []).join(", ").replace("_", " ") || "nothing")}. Needs a person to check</span>`;
+    const ce = ["counterexample", "inconclusive", "refuted"].includes(f.status);
+    if (f.confidence === "confirmed") return ce
+      ? `<span class="cf ok" title="This exact case was replayed against Nemotron 3 Super's independent model">✓ Super's model fails for this same case</span>`
+      : `<span class="cf ok" title="Nemotron 3 Super's independent model reaches the same verdict on this check">✓ both models agree</span>`;
+    if (f.confidence === "disputed") return ce
+      ? `<span class="cf disp">disputed: Super's model doesn't fail for this case. Needs a person to check</span>`
+      : `<span class="cf disp">disputed: Super's model says ${esc((f.second_opinion || []).join(", ").replace("_", " ") || "nothing")}</span>`;
     if (f.confidence === "unconfirmed") return `<span class="cf disp">single-model comparison: needs a person to check</span>`;
     return "";
   }
@@ -165,7 +178,7 @@
   function evidence(f) {
     const pol = (f.clauses || []).filter((c) => c.quote || c.label).map((c) => `
       <blockquote class="q ${c.holds === false ? "fails" : ""}">${c.quote ? `“${esc(c.quote)}”` : esc(c.label)}
-        <cite>${c.model ? esc(c.model) + " · " : ""}${esc(c.label)}${c.holds === false ? " · <b>not met by this household</b>" : c.kind === "rule" ? " · applies" : ""}</cite></blockquote>`).join("");
+        <cite>${c.model ? esc(c.model) + " · " : ""}${c.quote ? esc(c.label) : ""}${c.holds === false ? " · <b>not met by this household</b>" : c.kind === "rule" ? " · applies" : ""}</cite></blockquote>`).join("");
     const law = (f.law || []).map((l) => `<blockquote class="q law">“${esc(l.quote)}”<cite><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.source)}</a></cite></blockquote>`).join("");
     return `<div class="ev">${pol ? `<div><h4>The policy says</h4>${pol}</div>` : ""}${law ? `<div><h4>The law says</h4>${law}</div>` : ""}</div>`;
   }

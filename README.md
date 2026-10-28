@@ -1,4 +1,4 @@
-# Waive: a theorem-proved audit of hospital charity-care policies
+# Waive: finding the households hospital charity-care policies leave behind
 
 Colorado law promises hospital discounts to every resident at or below 250% of the poverty line, caps payment
 plans at 4% of monthly income, and bars collection lawsuits for 182 days. Federal 501(r) rules add their own
@@ -7,8 +7,10 @@ against the law, household by household.
 
 Waive does. **NVIDIA Nemotron on Nebius Token Factory** writes each hospital's policy as logic, every clause tied
 to a sentence of the policy. The **Z3 theorem prover** then checks that logic against Colorado's Hospital
-Discounted Care law and 501(r) for every possible household and billing timeline. A pass is a proof. A fail
-comes with the exact household, or the exact day, where the written policy falls short.
+Discounted Care law and 501(r), exhaustively within a stated range of households and billing timelines (1–12
+people, income up to $1M, first bill by day 400). A pass is a proof about the encoded rules; a fail comes with
+the exact household, or the exact day, where the written policy falls short. How faithful the encoded rules are
+to each policy is measured separately (evaluation and reviews below).
 
 Examples from the audit (all from public policies, each with the policy's and the law's own words on screen):
 
@@ -34,7 +36,8 @@ Tavily search ─► Nemotron 3 Nano picks the hospital's own document ─► fe
      ├─► Nemotron 3 Super: independent formal model (same checks)
      │
      └─► Z3 (app/law.py): 10 legal checks on each model + equivalence of the two models
-            verdict both models agree on → "confirmed"; otherwise "disputed" (needs a person)
+            a counterexample is "confirmed" only if the exact same household or day also fails in the
+            second model; otherwise "disputed" (needs a person). Every confirmed one is read against the policy.
 ```
 
 - **Encoding** (`app/formal.py`): a symbolic household (size, income, assets, bill, nine yes/no facts such as
@@ -66,13 +69,13 @@ Tavily search ─► Nemotron 3 Nano picks the hospital's own document ─► fe
 Evaluation (`scripts/formal_eval.py`, results in `formal-eval.json`): we wrote reference models by hand for five
 documents, checking every quote, and scored each model by the audit verdicts its model leads to.
 
-| Model | Audit verdicts matching our references | Cost per document |
+| Model | Audit verdicts agreeing with our references (5 documents) | Cost per document |
 |---|---|---|
 | Nemotron 3 Nano | 72% | $0.003 |
 | Nemotron 3 Super | 84% | $0.007 |
 | Nemotron 3 Ultra | 90% | $0.015 |
 | Ultra + Super + counterexample repair (earlier meaning check) | 76% | $0.063 |
-| **Ultra + Super, verdicts both agree on** (84% of verdicts) | **95%** (disputed ones: 62%) | $0.022 |
+| **Checks where Ultra and Super agree** (84% of checks) | **95%** agreement (where they disagree: 62%) | $0.022 |
 
 What we learned: Ultra is the best single reader; the agreement of two models is the most useful signal.
 A second model works best as a confidence check, not as an editor. Letting Ultra rewrite its model from the households where the two models disagree
@@ -89,11 +92,13 @@ set: treat these as directions, not precise rates.
 
 28 policy documents found for 38 Colorado hospital systems (five sites blocked downloads); 25 formalised and
 audited, covering 64 hospitals; 3 documents lost every rule in the checks and are listed as not formalised.
-Z3 proved 90 requirements and found 42 counterexamples. Every counterexample confirmed by both models
-was read against the policy text (`eval/reviews.json`, shown on each finding): 15 upheld, 7 qualified, 8 dismissed
-as translation errors both models shared. 17 more are inconclusive and the rest are disputed. Tax status for
-501(r) comes from IRS data (ProPublica Nonprofit Explorer); hospitals with no 501(c)(3) record (mostly public
-districts) skip the federal checks. All Z3 work for the state takes about 3.5 s.
+Z3 proved 90 requirements for the encoded rules and found 42 counterexamples. 11 are confirmed: the
+exact same household or day also fails in Nemotron 3 Super's independent model. Every confirmed counterexample
+was read against the policy text during development (9 upheld, 2 qualified); 8 findings in all
+were dismissed on review as translation errors, and 17 are inconclusive because a rule was dropped in checking.
+The reviews (`eval/reviews.json`, 34 entries, shown on each finding) are ours, not independent validation.
+Tax status for 501(r) comes from IRS data (ProPublica Nonprofit Explorer); hospitals with no 501(c)(3) record
+(mostly public districts) skip the federal checks. All Z3 work for the state takes about 7.2 s.
 
 ## Where Nebius Token Factory helped
 
@@ -114,6 +119,7 @@ cp .env.example .env          # add NEBIUS_API_KEY and TAVILY_API_KEY
 ./venv/bin/python scripts/audit.py --formalize all        # Ultra + Super formal models into formal/
 ./venv/bin/python scripts/audit.py                        # Z3 audit into audit/
 ./venv/bin/python scripts/formal_eval.py                  # score the models against eval/formal/
+LLM_NO_CACHE=1 ./venv/bin/python scripts/live_run.py childrens-colorado   # one policy, live, every call printed
 ```
 
 `DAILY_BUDGET_USD` and `TOTAL_BUDGET_USD` in `.env` stop live model calls before they cost more than you allow.

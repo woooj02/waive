@@ -159,3 +159,34 @@ def test_bill_check_uses_the_audited_model_and_z3():
     v, proof = prover_check.decide(pm, HH(size=4, income_usd=70000, state="CO", insured=True), bill)
     assert not proof["always"] and proof["sometimes"] and any("under-insured" in d for d in proof["depends_on"])
     assert prover_check.find("Memorial Regional Health") is not None  # every word generic: still matched
+
+
+def test_reprove_returns_exactly_the_published_audit():
+    """The live button must not undo reviews, confidence or inconclusive marking (it once did)."""
+    from fastapi.testclient import TestClient
+    from app.main import app
+    audit_dir = ROOT / "audit"
+    if not (audit_dir / "index.json").exists():
+        pytest.skip("no audit built")
+    client = TestClient(app)
+    ids = [p["id"] for p in json.loads((audit_dir / "index.json").read_text())["policies"]
+           if not p.get("not_formalised")]
+    strip = lambda fs: [{k: v for k, v in f.items() if k not in ("seconds", "live")} for f in fs]  # noqa: E731
+    for pid in ids:
+        stored = json.loads((audit_dir / f"{pid}.json").read_text())["findings"]
+        live = client.post(f"/api/audit/{pid}/prove").json()["findings"]
+        assert strip(live) == strip(stored), pid
+        assert all(f["live"] == "holds" for f in live), (pid, [f["check"] for f in live if f["live"] != "holds"])
+
+
+def test_confirmation_is_per_finding():
+    """A counterexample is confirmed only if the second model fails the same check for the same case."""
+    from app.auditing import replay
+    ref = load("uchealth")
+    weaker = ref.model_copy(deep=True)
+    weaker.rules = [r for r in weaker.rules if r.id != "presumptive"]
+    f = next(x for x in audit(ref) if x.check == "co_hdc_coverage" and x.status == "counterexample").as_dict()
+    assert replay(f, ref) is True          # same model: the household is still not covered
+    covering = ref.model_copy(deep=True)
+    covering.rules.append(Rule(id="all", label="everyone", when=[[Atom(var="fpl_pct", op=">=", value=0)]]))
+    assert replay(f, covering) is False    # a model that covers this household doesn't confirm it

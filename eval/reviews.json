@@ -51,13 +51,6 @@
    "note": "Charity care is for qualified patients who are uninsured or underinsured."
   },
   {
-   "id": "heart-of-the-rockies",
-   "check": "co_hdc_coverage",
-   "match": "225.",
-   "verdict": "qualified",
-   "note": "A band gap: the policy's bands end at 225% and restart at 226%. Likely a rounding convention, not an intended exclusion."
-  },
-  {
    "id": "intermountain",
    "check": "co_hdc_coverage",
    "match": "service area",
@@ -228,9 +221,9 @@
   {
    "id": "heart-of-the-rockies",
    "check": "co_hdc_coverage",
-   "match": "200.9",
+   "match": "meets every requirement, but no rule",
    "verdict": "qualified",
-   "note": "A band gap: the bands end at 200% and restart at 201%. Likely a rounding convention."
+   "note": "A band gap: the policy's bands stop at 200% and restart at 201% (and at 225%/226%). Likely a rounding convention, not an intended exclusion."
   },
   {
    "id": "intermountain",

@@ -1,8 +1,9 @@
 """Colorado Hospital Discounted Care and federal 501(r), written as Z3 checks.
 
-Each check quantifies over every household (or every billing timeline) in the
-domain and asks Z3 for a counterexample. UNSAT is a proof that the policy, as
-written, meets the requirement; SAT returns the most ordinary household or
+Each check quantifies over every household (or every billing timeline) in a stated,
+bounded domain and asks Z3 for a counterexample. UNSAT is a proof that the encoded model
+of the policy meets the requirement within that domain (how faithful the model is to the text is measured
+separately, by the eval and the reviews); SAT returns the most ordinary household or
 timeline that breaks it. Citations quote the statute, regulation or HCPF
 manual verbatim (tests check the quotes against the downloaded sources).
 
@@ -87,7 +88,8 @@ def hdc_domain(h: Household):
     return [h.b["co_resident"], h.income * 100 <= 250 * h.fpl(), h.b["medically_necessary"]]
 
 
-HOUSEHOLDS = "every household of 1–12 people, income $0–$1M, assets $0–$10M, and every combination of the yes/no facts"
+HOUSEHOLDS = ("every household in the encoded domain: 1–12 people, income $0–$1M, assets $0–$10M, bill $0–$5M, "
+              "first bill by day 400, every combination of the yes/no facts")
 
 
 def check_hdc_coverage(pm: PolicyModel) -> list[Finding]:
@@ -122,7 +124,7 @@ def check_hdc_coverage(pm: PolicyModel) -> list[Finding]:
         out.append(f)
     if not out:
         out.append(Finding("co_hdc_coverage", title, "proved", cite(*keys),
-                           "Proved: every Colorado resident at or below 250% of the poverty line qualifies for help "
+                           "Proved for the encoded rules: every Colorado resident at or below 250% of the poverty line qualifies for help "
                            "under this policy's written rules.", seconds=round(secs_total, 3), domain=HOUSEHOLDS))
     return out
 
@@ -134,13 +136,15 @@ def _noninterference(pm: PolicyModel, var: str, check: str, title: str, keys: tu
     attr = {"assets_usd": "assets"}.get(var)
     diff = {attr} if attr else {var}
     hard = hdc_domain(a) + hdc_domain(b) + a.same_as(b, except_=diff)
+    # Fix which household is which, so the pair comes out the same way every time.
+    hard.append(a.assets > b.assets if var == "assets_usd" else z3.And(z3.Not(a.b[var]), b.b[var]))
     hard.append(z3.Or(ea.covered != eb.covered, ea.best != eb.best))
     soft = [(z3.Or(a.assets >= 5000, b.assets >= 5000), 4)] if var == "assets_usd" else []
     status, m, secs = solve(hard, [a, b], soft=soft)
     f = Finding(check, title, status, cite(*keys), "", seconds=secs, domain=HOUSEHOLDS + " (pairs of households)")
     if status == "unsat":
         f.status = "proved"
-        f.summary = f"Proved: for households Colorado's law protects, {what} never changes the outcome."
+        f.summary = f"Proved for the encoded rules: for households Colorado's law protects, {what} never changes the outcome."
         return f
     if m is None:
         return f
@@ -220,7 +224,7 @@ def check_co_eca(pm: PolicyModel) -> Finding:
     return _timeline(
         pm, "co_eca_182", "No collection lawsuits or garnishment before day 182", ("co_eca", "co_bills_46"),
         lambda e: e.eca_from, lambda h: z3.IntVal(182), 46,
-        "Proved: whatever day the first bill goes out, the policy's own timeline never allows a collection action "
+        "Proved for the encoded rules: whatever day the first bill goes out, the policy's own timeline never allows a collection action "
         "before day 182 after care.",
         lambda s, got, need: f"If the first bill goes out on day {s} after care (Colorado allows bills from day 46), "
                              f"the policy's written timeline allows collection actions from day {got}. Colorado law "
@@ -231,7 +235,7 @@ def check_co_window(pm: PolicyModel) -> Finding:
     return _timeline(
         pm, "co_window_181", "Accepts applications for at least 181 days after care", ("co_window", "co_bills_46"),
         lambda e: e.application_ends, lambda h: z3.IntVal(181), 46,
-        "Proved: whatever day the first bill goes out (Colorado allows bills from day 46), the application window "
+        "Proved for the encoded rules: whatever day the first bill goes out (Colorado allows bills from day 46), the application window "
         "never closes before day 181 after care.",
         lambda s, got, need: f"With a first bill on day {s}, the policy closes applications on day {got} after care; "
                              f"Colorado requires at least day {need}.")
@@ -241,7 +245,7 @@ def check_co_window_insured(pm: PolicyModel) -> Finding:
     return _timeline(
         pm, "co_window_insured", "Insured patients get 45 days after their first post-insurance bill",
         ("co_window_insured",), lambda e: e.application_ends, lambda h: h.statement + 45, 0,
-        "Proved: the window always stays open at least 45 days past the first bill.",
+        "Proved for the encoded rules: the window always stays open at least 45 days past the first bill.",
         lambda s, got, need: f"If insurance takes until day {s} to process and the first bill arrives then, the "
                              f"policy's window has already closed on day {got}; Colorado gives until day {need}.")
 
@@ -260,7 +264,7 @@ def check_fed_window(pm: PolicyModel) -> Finding:
     return _timeline(
         pm, "fed_window_240", "Application window of 240 days after the first bill (501(r))", ("fed_window",),
         lambda e: e.application_ends, lambda h: h.statement + 240, 0,
-        "Proved: for any first-bill day, applications stay open at least 240 days after it.",
+        "Proved for the encoded rules: for any first-bill day, applications stay open at least 240 days after it.",
         lambda s, got, need: f"If the first bill goes out on day {s} after care (common when insurance is billed "
                              f"first), the policy stops taking applications on day {got}; 501(r) keeps them open "
                              f"until day {need}.")
@@ -273,7 +277,7 @@ def check_fed_eca(pm: PolicyModel) -> Finding:
     return _timeline(
         pm, "fed_eca_120", "No collection actions in the first 120 days after the first bill (501(r))",
         ("fed_eca",), lambda e: e.eca_from, lambda h: h.statement + 120, 0,
-        "Proved: collection actions never start sooner than 120 days after the first bill.",
+        "Proved for the encoded rules: collection actions never start sooner than 120 days after the first bill.",
         lambda s, got, need: f"With a first bill on day {s}, the policy allows collection actions on day {got}; "
                              f"501(r) requires waiting until day {need}.")
 
@@ -305,7 +309,7 @@ def check_payment_plan(pm: PolicyModel) -> Finding:
         f.status, f.severity = "counterexample", "gap"
         f.summary = "Conflicts with Colorado's payment cap: " + "; ".join(problems) + "."
     else:
-        f.status, f.summary = "proved", "Proved: the stated plan terms stay within 4% of monthly income and 36 months."
+        f.status, f.summary = "proved", "Proved for the encoded rules: the stated plan terms stay within 4% of monthly income and 36 months."
     return f
 
 
@@ -315,11 +319,11 @@ def check_monotone(pm: PolicyModel) -> Finding:
     ea, eb = Encoded(pm, a), Encoded(pm, b)
     hard = a.same_as(b, except_={"income"}) + [a.income < b.income,
                                                z3.Or(z3.And(z3.Not(ea.covered), eb.covered), ea.best < eb.best)]
-    status, m, secs = solve(hard, [a, b], soft=[(b.income - a.income <= 100, 4)], round_money=False)
+    status, m, secs = solve(hard, [a, b], soft=[(b.income - a.income <= 100, 4)], steps=(1,))
     f = Finding("monotone", "Earning less never means getting less help", status, [],
                 "", seconds=secs, domain=HOUSEHOLDS + " (pairs of households)")
     if status == "unsat":
-        f.status, f.summary = "proved", "Proved: no household gets less help than an identical one that earns more."
+        f.status, f.summary = "proved", "Proved for the encoded rules: no household gets less help than an identical one that earns more."
         return f
     if m is None:
         return f
