@@ -131,6 +131,18 @@ def budget() -> float:
     return float(os.environ.get("DAILY_BUDGET_USD", "0.50"))
 
 
+def spent_total() -> float:
+    try:
+        return round(sum(json.loads(SPEND_FILE.read_text()).values()), 6)
+    except (OSError, ValueError):
+        return 0.0
+
+
+def total_budget() -> float:
+    """Hard cap across all days: the user approved $5 of their own money in total."""
+    return float(os.environ.get("TOTAL_BUDGET_USD", "5.00"))
+
+
 def cost_of(m: Model, usage) -> tuple[int, int, int, float]:
     tin = getattr(usage, "prompt_tokens", 0) or 0
     tout = getattr(usage, "completion_tokens", 0) or 0
@@ -186,6 +198,8 @@ def chat(step: str, model_key: str, messages: list, meter: Meter | None = None, 
         return hit["content"]
     if spent_today() >= budget():
         raise BudgetExceeded(f"daily live-model budget of ${budget():.2f} reached")
+    if spent_total() >= total_budget():
+        raise BudgetExceeded(f"total budget of ${total_budget():.2f} reached")
 
     kwargs: dict = {"model": m.id, "messages": messages, "max_tokens": max_tokens, "temperature": temperature}
     if schema:
