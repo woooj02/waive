@@ -45,7 +45,7 @@ echo "==> upload"
 rsync -az --delete -e "ssh -i $KEY" \
   --exclude venv/ --exclude .env --exclude __pycache__/ --exclude .pytest_cache/ \
   --exclude .git/ --exclude 'data/' --exclude event-brief.md --exclude NOTES.md --exclude scope.md \
-  --exclude prd.md --exclude spec.md --exclude research/ --exclude submission/ ./ "$SERVER:$REMOTE/"
+  --exclude prd.md --exclude spec.md --exclude project.md --exclude research/ --exclude submission/ ./ "$SERVER:$REMOTE/"
 # Replays are uploaded separately and never deleted, so a recording made on
 # the box survives redeploys.
 [ -d data/replays ] && rsync -az -e "ssh -i $KEY" data/replays/ "$SERVER:$REMOTE/data/replays/"
