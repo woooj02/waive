@@ -113,6 +113,7 @@
   }
 
   function conf(f) {
+    if (f.status === "not_stated" || f.status === "n/a") return "";
     if (f.confidence === "confirmed") return `<span class="cf ok" title="Nemotron 3 Super's independent model gives the same verdict">✓ confirmed by two models</span>`;
     if (f.confidence === "disputed") return `<span class="cf disp" title="Nemotron 3 Super's model says: ${esc((f.second_opinion || []).join(", ") || "nothing")}">disputed: Super's model says ${esc((f.second_opinion || []).join(", ").replace("_", " ") || "nothing")}. Needs a person to check</span>`;
     if (f.confidence === "unconfirmed") return `<span class="cf disp">single-model comparison: needs a person to check</span>`;
