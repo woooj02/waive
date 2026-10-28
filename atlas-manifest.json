@@ -151,7 +151,8 @@
   "seed": "https://denverhealth.org/patients-visitors/billing-insurance/financial-assistance/denver-health-financial-assistance-program",
   "hospitals": [
    "Denver Health Medical Center"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "childrens-colorado",
@@ -213,27 +214,30 @@
   "nonprofit": null,
   "hospitals": [
    "Aspen Valley Hospital"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "montrose",
   "hospital": "Montrose Regional Health",
   "system": "Montrose Regional Health",
   "city": "Montrose",
-  "nonprofit": null,
+  "nonprofit": true,
   "hospitals": [
    "Montrose Memorial Hospital"
-  ]
+  ],
+  "tax_status": "501(c)(3) hospital organisation: Montrose Memorial Hospital, EIN 846002707 (IRS data via ProPublica Nonprofit Explorer, checked 2026-10-28)"
  },
  {
   "id": "delta-health",
   "hospital": "Delta Health",
   "system": "Delta Health",
   "city": "Delta",
-  "nonprofit": null,
+  "nonprofit": true,
   "hospitals": [
    "Delta Health Hospital"
-  ]
+  ],
+  "tax_status": "501(c)(3) hospital organisation: Delta County Memorial Hospital, EIN 840428757 (IRS data via ProPublica Nonprofit Explorer, checked 2026-10-28)"
  },
  {
   "id": "community-hospital-gj",
@@ -264,7 +268,8 @@
   "nonprofit": null,
   "hospitals": [
    "Heart of the Rockies Regional Medical Center"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "memorial-regional-craig",
@@ -274,17 +279,19 @@
   "nonprofit": null,
   "hospitals": [
    "Memorial Regional Hospital"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "gunnison-valley",
   "hospital": "Gunnison Valley Health",
   "system": "Gunnison Valley Health",
   "city": "Gunnison",
-  "nonprofit": null,
+  "nonprofit": true,
   "hospitals": [
    "Gunnison Valley Hospital"
-  ]
+  ],
+  "tax_status": "501(c)(3) hospital organisation: Gunnison Valley Hospital, EIN 846008116 (IRS data via ProPublica Nonprofit Explorer, checked 2026-10-28)"
  },
  {
   "id": "southwest-health",
@@ -314,7 +321,8 @@
   "nonprofit": null,
   "hospitals": [
    "Grand River Hospital"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "pagosa-springs",
@@ -324,7 +332,8 @@
   "nonprofit": null,
   "hospitals": [
    "Pagosa Springs Medical Center"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "middle-park",
@@ -334,17 +343,19 @@
   "nonprofit": null,
   "hospitals": [
    "Middle Park Health"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "st-vincent-leadville",
   "hospital": "St. Vincent Health",
   "system": "St. Vincent Health",
   "city": "Leadville",
-  "nonprofit": null,
+  "nonprofit": true,
   "hospitals": [
    "St. Vincent General Hospital"
-  ]
+  ],
+  "tax_status": "501(c)(3) hospital organisation: St Vincent General Hospital District, EIN 840424585 (IRS data via ProPublica Nonprofit Explorer, checked 2026-10-28)"
  },
  {
   "id": "mt-san-rafael",
@@ -354,7 +365,8 @@
   "nonprofit": null,
   "hospitals": [
    "Mt. San Rafael Hospital"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "prowers",
@@ -364,7 +376,8 @@
   "nonprofit": null,
   "hospitals": [
    "Prowers Medical Center"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "colorado-plains",
@@ -374,7 +387,8 @@
   "nonprofit": null,
   "hospitals": [
    "Colorado Plains Medical Center"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "pioneers-meeker",
@@ -384,7 +398,8 @@
   "nonprofit": null,
   "hospitals": [
    "Pioneers Medical Center"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "rio-grande",
@@ -394,17 +409,19 @@
   "nonprofit": null,
   "hospitals": [
    "Rio Grande Hospital"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "spanish-peaks",
   "hospital": "Spanish Peaks Regional Health Center",
   "system": "Spanish Peaks",
   "city": "Walsenburg",
-  "nonprofit": null,
+  "nonprofit": true,
   "hospitals": [
    "Spanish Peaks Regional Health Center"
-  ]
+  ],
+  "tax_status": "501(c)(3) hospital organisation: Huerfano County Hospital District, EIN 846027322 (IRS data via ProPublica Nonprofit Explorer, checked 2026-10-28)"
  },
  {
   "id": "yuma-district",
@@ -414,7 +431,8 @@
   "nonprofit": null,
   "hospitals": [
    "Yuma District Hospital"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  },
  {
   "id": "melissa-memorial",
@@ -424,6 +442,7 @@
   "nonprofit": null,
   "hospitals": [
    "Melissa Memorial Hospital"
-  ]
+  ],
+  "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority"
  }
 ]

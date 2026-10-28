@@ -3,7 +3,7 @@
   "hospital": "St. Vincent Health",
   "doc": "policy",
   "source_url": "https://www.stvincent.health/financial-assistance-policy",
-  "nonprofit": null,
+  "nonprofit": true,
   "requires": [],
   "rules": [
    {
@@ -101,7 +101,7 @@
    "hospital": "St. Vincent Health",
    "doc": "policy",
    "source_url": "https://www.stvincent.health/financial-assistance-policy",
-   "nonprofit": null,
+   "nonprofit": true,
    "requires": [],
    "rules": [
     {

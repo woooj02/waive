@@ -2,11 +2,12 @@
  "id": "vail-health",
  "hospital": "Vail Health Hospital",
  "dropped_rules": 1,
+ "tax_status": "",
  "source_url": "https://www.vailhealth.org/wp-content/uploads/2026/05/04.23_vh_fa-policy-summary_english_final.pdf",
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.137,
+ "solver_seconds": 0.138,
  "model": {
   "hospital": "Vail Health Hospital",
   "doc": "summary",
@@ -582,7 +583,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.005,
+   "seconds": 0.007,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "confidence": "confirmed",

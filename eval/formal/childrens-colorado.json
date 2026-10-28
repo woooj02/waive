@@ -105,6 +105,11 @@
     "anchor": "service",
     "days": 365,
     "quote": "The application must be completed within 365 days from the date of services or date of discharge."
+   },
+   {
+    "anchor": "first_statement",
+    "days": 45,
+    "quote": "Insured patients may request screening within 45 days of the date of service, or date of the first Billing Statement after insurance adjustment."
    }
   ],
   "eca_not_before": [
@@ -123,6 +128,7 @@
  },
  "notes": [
   "Hand-written reference model. Bills may go out from day 46: 'Billing Statements may be sent beginning 46 days after the date of service'.",
-  "HDC is limited to uninsured or underinsured patients: 'CICP and CHCO's HDC programs are not insurance coverage, but rather discounted care programs for patients who are Uninsured or Underinsured and have demonstrated financial need.' (Reference corrected 2026-10-28 after Nemotron 3 Ultra's model surfaced this clause and the 35% self-pay discount.)"
+  "HDC is limited to uninsured or underinsured patients: 'CICP and CHCO's HDC programs are not insurance coverage, but rather discounted care programs for patients who are Uninsured or Underinsured and have demonstrated financial need.' (Reference corrected 2026-10-28 after Nemotron 3 Ultra's model surfaced this clause and the 35% self-pay discount.)",
+  "Insured patients' second window (45 days after the first post-insurance bill) added 2026-10-28 after a Nemotron 3 Ultra check pointed to it; our first reference missed it."
  ]
 }

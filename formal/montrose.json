@@ -3,7 +3,7 @@
   "hospital": "Montrose Regional Health",
   "doc": "summary",
   "source_url": "https://montrosehealth.com/wp-content/uploads/2021/11/Plain-Language-Summary-of-Charity-Care-and-Financial-Assistance-Policy_Final-MRH-1.pdf",
-  "nonprofit": null,
+  "nonprofit": true,
   "requires": [],
   "rules": [
    {
@@ -101,7 +101,7 @@
    "hospital": "Montrose Regional Health",
    "doc": "summary",
    "source_url": "https://montrosehealth.com/wp-content/uploads/2021/11/Plain-Language-Summary-of-Charity-Care-and-Financial-Assistance-Policy_Final-MRH-1.pdf",
-   "nonprofit": null,
+   "nonprofit": true,
    "requires": [],
    "rules": [],
    "timing": {

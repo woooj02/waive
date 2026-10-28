@@ -1,5 +1,5 @@
 {
- "run": "2026-10-27",
+ "run": "2026-10-28",
  "references": [
   "childrens-colorado",
   "healthone",
@@ -30,7 +30,7 @@
    "label": "Nemotron 3 Ultra",
    "docs": 5,
    "equivalent": 0,
-   "findings_match_pct": 88,
+   "findings_match_pct": 86,
    "quotes_proven_pct": 62,
    "cost_per_doc": 0.015,
    "seconds_per_doc": 9.8
@@ -49,7 +49,7 @@
    "label": "Ultra + Super, verdicts confirmed when both agree",
    "confirmed_share_pct": 86,
    "confirmed_match_pct": 93,
-   "disputed_match_pct": 57,
+   "disputed_match_pct": 43,
    "cost_per_doc": 0.02193
   }
  },
@@ -254,7 +254,7 @@
    "doc": "intermountain",
    "equivalent": false,
    "differences": [
-    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the nano model gives no help, the reference gives 100% off.",
+    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the nano model gives no help, the reference gives 100% off.",
     "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the nano model gives no help, the reference gives help (amount not stated).",
     "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $34,250: the nano model gives no help, the reference gives help (amount not stated)."
    ],
@@ -605,10 +605,10 @@
    "doc": "childrens-colorado",
    "equivalent": false,
    "differences": [
-    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000: the super model gives no help, the reference gives 35% off.",
+    "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000: the super model gives no help, the reference gives 35% off.",
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the super model gives no help, the reference gives 35% off.",
     "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after non-emergency care: the super model gives 35% off, the reference gives no help.",
-    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, outside the hospital's service area, under-insured, owing $10,000, after non-emergency care: the super model gives no help, the reference gives help (amount not stated).",
-    "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, under-insured, owing $10,000, after elective care: the super model gives no help, the reference gives help (amount not stated)."
+    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, outside the hospital's service area, under-insured, owing $10,000, after non-emergency care: the super model gives no help, the reference gives help (amount not stated)."
    ],
    "findings_match": "7/10",
    "findings_match_pct": 70,
@@ -775,7 +775,7 @@
     "A household of 3 earning $137,000 a year (501.5% of the poverty line), living in Colorado, uninsured, owing $10,000: the super model gives help (amount not stated), the reference gives no help.",
     "A household of 4 earning $137,000 a year (415.1% of the poverty line), living in Colorado, under-insured, owing $34,000, who hasn't applied for Medicaid: the super model gives help (amount not stated), the reference gives no help.",
     "A household of 8 earning $137,000 a year (245.9% of the poverty line), living in Colorado, under-insured, owing $34,000, who hasn't applied for Medicaid: the super model gives 100% off, the reference gives no help.",
-    "A household of 7 earning $137,000 a year (273.8% of the poverty line), living in Colorado, under-insured, owing $34,000, after elective care: the super model gives no help, the reference gives help (amount not stated)."
+    "A household of 4 earning $137,000 a year (415.1% of the poverty line), living in Colorado, under-insured, owing $34,000, after elective care: the super model gives no help, the reference gives help (amount not stated)."
    ],
    "findings_match": "9/10",
    "findings_match_pct": 90,
@@ -895,10 +895,10 @@
    "doc": "uchealth",
    "equivalent": false,
    "differences": [
-    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000: the super model gives no help, the reference gives 100% off.",
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the super model gives no help, the reference gives 100% off.",
     "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the super model gives help (amount not stated), the reference gives 100% off.",
-    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the super model gives help (amount not stated), the reference gives no help.",
-    "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, owing $34,200, after elective care: the super model gives help (amount not stated), the reference gives no help."
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living outside Colorado, uninsured, owing $10,000: the super model gives help (amount not stated), the reference gives no help.",
+    "One person earning $68,000 a year (426.1% of the poverty line), living outside Colorado, uninsured, owing $34,200: the super model gives help (amount not stated), the reference gives no help."
    ],
    "findings_match": "10/10",
    "findings_match_pct": 100,
@@ -1010,9 +1010,9 @@
    "equivalent": false,
    "differences": [
     "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $14,000: the super model gives no help, the reference gives help (amount not stated).",
+    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living outside Colorado, uninsured, owing $34,000: the super model gives 100% off, the reference gives no help.",
     "A household of 3 earning $109,000 a year (399.0% of the poverty line), living outside Colorado, uninsured: the super model gives help (amount not stated), the reference gives no help.",
-    "A household of 6 earning $109,000 a year (245.7% of the poverty line), living outside Colorado, uninsured: the super model gives 100% off, the reference gives no help.",
-    "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, with $1,000 in savings, owing $55,000: the super model gives help (amount not stated), the reference gives no help."
+    "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, with $400 in savings, owing $34,200: the super model gives help (amount not stated), the reference gives no help."
    ],
    "findings_match": "9/10",
    "findings_match_pct": 90,
@@ -1088,11 +1088,11 @@
    "doc": "childrens-colorado",
    "equivalent": false,
    "differences": [
-    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, under-insured, owing $10,000, after non-emergency care: the ultra model gives no help, the reference gives help (amount not stated).",
-    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after non-emergency care: the ultra model gives no help, the reference gives help (amount not stated)."
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after non-emergency care: the ultra model gives no help, the reference gives help (amount not stated).",
+    "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, under-insured, owing $10,000, after non-emergency care: the ultra model gives no help, the reference gives help (amount not stated)."
    ],
-   "findings_match": "10/10",
-   "findings_match_pct": 100,
+   "findings_match": "9/10",
+   "findings_match_pct": 90,
    "verdicts": {
     "co_hdc_coverage": [
      "counterexample"
@@ -1198,7 +1198,7 @@
    "doc": "healthone",
    "equivalent": false,
    "differences": [
-    "One person earning $69,000 a year (432.3% of the poverty line), living in Colorado, uninsured, owing $10,000: the ultra model gives help (amount not stated), the reference gives no help.",
+    "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $10,000: the ultra model gives help (amount not stated), the reference gives no help.",
     "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, after elective care: the ultra model gives 100% off, the reference gives help (amount not stated)."
    ],
    "findings_match": "8/10",
@@ -1409,10 +1409,10 @@
    "doc": "uchealth",
    "equivalent": false,
    "differences": [
-    "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $10,000: the ultra model gives help (amount not stated), the reference gives no help.",
-    "A household of 3 earning $20,000 a year (73.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless), after elective care: the ultra model gives 100% off, the reference gives no help.",
-    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $14,000: the ultra model gives no help, the reference gives help (amount not stated).",
-    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, under-insured, owing $10,000, after elective care: the ultra model gives help (amount not stated), the reference gives no help."
+    "One person earning $68,000 a year (426.1% of the poverty line), living in Colorado, uninsured, owing $10,000: the ultra model gives help (amount not stated), the reference gives no help.",
+    "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $34,000, enrolled in SNAP, WIC or a similar program (or homeless), after elective care: the ultra model gives 100% off, the reference gives no help.",
+    "A household of 3 earning $20,000 a year (73.2% of the poverty line), living in Colorado, under-insured, owing $10,000, after elective care: the ultra model gives 100% off, the reference gives no help.",
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $14,000: the ultra model gives no help, the reference gives help (amount not stated)."
    ],
    "findings_match": "9/10",
    "findings_match_pct": 90,
@@ -1500,7 +1500,7 @@
    "doc": "uchealth-summary",
    "equivalent": false,
    "differences": [
-    "A household of 3 earning $20,000 a year (73.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,001: the ultra model gives no help, the reference gives help (amount not stated)."
+    "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $14,000: the ultra model gives no help, the reference gives help (amount not stated)."
    ],
    "findings_match": "9/10",
    "findings_match_pct": 90,
@@ -2833,5 +2833,17 @@
     "equivalent": false
    }
   }
- ]
+ ],
+ "adjudication": {
+  "label": "Ultra settles each disputed or inconclusive finding by reading the policy for that one case",
+  "decided": 6,
+  "agree_with_reference": 0,
+  "verdicts_all_audits": {
+   "refuted": 21,
+   "holds": 3,
+   "unclear": 4
+  },
+  "used": false,
+  "why": "It dismissed findings the policy text supports; it also pointed to one clause our Children's reference had missed (now corrected)."
+ }
 }

@@ -293,3 +293,5 @@ table.matrix td sup { font-size: 10px; color: var(--warn); }
 .a-item.off { cursor: default; opacity: .7; border-style: dashed; }
 .m-legend { font-size: 13px; color: var(--ink-2); margin: 6px 2px 0; }
 .m-legend .dash { outline: 2px dashed #d9a441; outline-offset: 1px; border-radius: 3px; padding: 0 3px; }
+.review { margin: 8px 0 2px; padding: 8px 12px; border-radius: 8px; font-size: 14px; background: #f3f5f9; }
+.review.upheld { background: var(--stop-bg); } .review.qualified { background: var(--warn-bg); } .review.rejected { background: var(--go-bg); }

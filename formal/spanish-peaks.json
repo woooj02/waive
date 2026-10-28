@@ -3,7 +3,7 @@
   "hospital": "Spanish Peaks Regional Health Center",
   "doc": "policy",
   "source_url": "https://www.sprhc.org/files/be3a9926d/PFS.038-Financial-Assistance.pdf",
-  "nonprofit": null,
+  "nonprofit": true,
   "requires": [],
   "rules": [
    {
@@ -269,7 +269,7 @@
    "hospital": "Huerfano County Hospital District",
    "doc": "policy",
    "source_url": "https://www.sprhc.org/files/be3a9926d/PFS.038-Financial-Assistance.pdf",
-   "nonprofit": null,
+   "nonprofit": true,
    "requires": [],
    "rules": [
     {

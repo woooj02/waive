@@ -1,5 +1,5 @@
 {
- "made": "2026-10-27",
+ "made": "2026-10-28",
  "checks": {
   "co_hdc_coverage": "Covers everyone Colorado's Hospital Discounted Care protects",
   "co_hdc_assets": "Ignores assets for Colorado-protected households",
@@ -47,13 +47,15 @@
    "proved": 4,
    "counterexamples": 2,
    "confirmed_counterexamples": 0,
+   "refuted": 0,
+   "reviewed": 0,
    "disputed": 3,
    "doc": "policy",
    "hospitals": [
     "Arkansas Valley Regional Medical Center"
    ],
    "not_stated": 4,
-   "solver_seconds": 0.096,
+   "solver_seconds": 0.099,
    "headline": "If the first bill goes out on day 46 after care (Colorado allows bills from day 46), the policy's written timeline allows collection actions from day 46. Colorado law bars them until day 182."
   },
   {
@@ -89,13 +91,15 @@
    "proved": 2,
    "counterexamples": 1,
    "confirmed_counterexamples": 1,
+   "refuted": 0,
+   "reviewed": 1,
    "disputed": 0,
    "doc": "policy",
    "hospitals": [
     "Aspen Valley Hospital"
    ],
    "not_stated": 4,
-   "solver_seconds": 0.151,
+   "solver_seconds": 0.16,
    "headline": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 is turned away by this requirement: \"Patient must be uninsured or underinsured\". Colorado law makes them eligible for Hospital Discounted Care."
   },
   {
@@ -152,13 +156,15 @@
    "proved": 6,
    "counterexamples": 2,
    "confirmed_counterexamples": 2,
+   "refuted": 0,
+   "reviewed": 2,
    "disputed": 1,
    "doc": "policy",
    "hospitals": [
     "Boulder Community Health Foothills Hospital"
    ],
    "not_stated": 2,
-   "solver_seconds": 0.161,
+   "solver_seconds": 0.181,
    "headline": "If insurance takes until day 137 to process and the first bill arrives then, the policy's window has already closed on day 181; Colorado gives until day 182. The same happens for every first-bill day after day 137."
   },
   {
@@ -194,6 +200,8 @@
    "proved": 5,
    "counterexamples": 3,
    "confirmed_counterexamples": 1,
+   "refuted": 0,
+   "reviewed": 1,
    "disputed": 3,
    "doc": "policy",
    "hospitals": [
@@ -201,7 +209,7 @@
     "Children's Hospital Colorado, Colorado Springs"
    ],
    "not_stated": 0,
-   "solver_seconds": 0.205,
+   "solver_seconds": 0.257,
    "headline": "If the first bill goes out on day 46 after care (Colorado allows bills from day 46), the policy's written timeline allows collection actions from day 166. Colorado law bars them until day 182."
   },
   {
@@ -237,13 +245,15 @@
    "proved": 2,
    "counterexamples": 0,
    "confirmed_counterexamples": 0,
+   "refuted": 0,
+   "reviewed": 0,
    "disputed": 0,
    "doc": "policy",
    "hospitals": [
     "Colorado Plains Medical Center"
    ],
    "not_stated": 4,
-   "solver_seconds": 0.147,
+   "solver_seconds": 0.149,
    "headline": ""
   },
   {
@@ -323,20 +333,22 @@
    "proved": 6,
    "counterexamples": 1,
    "confirmed_counterexamples": 1,
+   "refuted": 0,
+   "reviewed": 1,
    "disputed": 1,
    "doc": "policy",
    "hospitals": [
     "Community Hospital Grand Junction"
    ],
    "not_stated": 1,
-   "solver_seconds": 0.163,
+   "solver_seconds": 0.176,
    "headline": "If the first bill goes out on day 46 after care (Colorado allows bills from day 46), the policy's written timeline allows collection actions from day 166. Colorado law bars them until day 182."
   },
   {
    "id": "delta-health",
    "hospital": "Delta Health",
    "model_source": "nemotron",
-   "nonprofit": null,
+   "nonprofit": true,
    "checks": {
     "co_hdc_coverage": "counterexample",
     "co_hdc_assets": "proved",
@@ -345,8 +357,8 @@
     "co_window_181": "proved",
     "co_window_insured": "proved",
     "co_plan_4pct": "not_stated",
-    "fed_window_240": "n/a",
-    "fed_eca_120": "n/a",
+    "fed_window_240": "proved",
+    "fed_eca_120": "proved",
     "monotone": "proved"
    },
    "inconclusive": 0,
@@ -359,19 +371,21 @@
     "co_window_insured": "confirmed",
     "co_plan_4pct": "confirmed",
     "fed_window_240": "confirmed",
-    "fed_eca_120": "confirmed",
+    "fed_eca_120": "disputed",
     "monotone": "confirmed"
    },
-   "proved": 5,
+   "proved": 7,
    "counterexamples": 2,
    "confirmed_counterexamples": 1,
-   "disputed": 1,
+   "refuted": 0,
+   "reviewed": 1,
+   "disputed": 2,
    "doc": "policy",
    "hospitals": [
     "Delta Health Hospital"
    ],
    "not_stated": 1,
-   "solver_seconds": 0.095,
+   "solver_seconds": 0.105,
    "headline": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 is turned away by this requirement: \"Patient must be uninsured or underinsured\". Colorado law makes them eligible for Hospital Discounted Care."
   },
   {
@@ -407,13 +421,15 @@
    "proved": 4,
    "counterexamples": 0,
    "confirmed_counterexamples": 0,
+   "refuted": 0,
+   "reviewed": 0,
    "disputed": 0,
    "doc": "policy",
    "hospitals": [
     "Denver Health Medical Center"
    ],
    "not_stated": 4,
-   "solver_seconds": 0.04,
+   "solver_seconds": 0.036,
    "headline": ""
   },
   {
@@ -449,30 +465,32 @@
    "proved": 4,
    "counterexamples": 0,
    "confirmed_counterexamples": 0,
+   "refuted": 0,
+   "reviewed": 0,
    "disputed": 0,
    "doc": "policy",
    "hospitals": [
     "Grand River Hospital"
    ],
    "not_stated": 4,
-   "solver_seconds": 0.035,
+   "solver_seconds": 0.037,
    "headline": ""
   },
   {
    "id": "gunnison-valley",
    "hospital": "Gunnison Valley Health",
    "model_source": "nemotron",
-   "nonprofit": null,
+   "nonprofit": true,
    "checks": {
-    "co_hdc_coverage": "counterexample",
+    "co_hdc_coverage": "proved",
     "co_hdc_assets": "proved",
     "co_hdc_public": "proved",
     "co_eca_182": "not_stated",
-    "co_window_181": "not_stated",
-    "co_window_insured": "not_stated",
+    "co_window_181": "counterexample",
+    "co_window_insured": "proved",
     "co_plan_4pct": "not_stated",
-    "fed_window_240": "n/a",
-    "fed_eca_120": "n/a",
+    "fed_window_240": "counterexample",
+    "fed_eca_120": "not_stated",
     "monotone": "proved"
    },
    "inconclusive": 0,
@@ -481,24 +499,26 @@
     "co_hdc_assets": "confirmed",
     "co_hdc_public": "confirmed",
     "co_eca_182": "confirmed",
-    "co_window_181": "confirmed",
-    "co_window_insured": "confirmed",
+    "co_window_181": "disputed",
+    "co_window_insured": "disputed",
     "co_plan_4pct": "confirmed",
-    "fed_window_240": "confirmed",
+    "fed_window_240": "disputed",
     "fed_eca_120": "confirmed",
     "monotone": "confirmed"
    },
-   "proved": 3,
-   "counterexamples": 1,
+   "proved": 5,
+   "counterexamples": 2,
    "confirmed_counterexamples": 0,
-   "disputed": 1,
-   "doc": "summary",
+   "refuted": 0,
+   "reviewed": 0,
+   "disputed": 4,
+   "doc": "policy",
    "hospitals": [
     "Gunnison Valley Hospital"
    ],
-   "not_stated": 4,
-   "solver_seconds": 0.052,
-   "headline": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 is turned away by this requirement: \"Patient must be uninsured or underinsured\". Colorado law makes them eligible for Hospital Discounted Care."
+   "not_stated": 3,
+   "solver_seconds": 0.173,
+   "headline": "With a first bill on day 0, the policy closes applications on day 180 after care; Colorado requires at least day 181."
   },
   {
    "id": "healthone",
@@ -533,6 +553,8 @@
    "proved": 4,
    "counterexamples": 2,
    "confirmed_counterexamples": 0,
+   "refuted": 0,
+   "reviewed": 0,
    "disputed": 2,
    "doc": "policy",
    "hospitals": [
@@ -545,7 +567,7 @@
     "Rocky Mountain Hospital for Children"
    ],
    "not_stated": 2,
-   "solver_seconds": 0.072,
+   "solver_seconds": 0.077,
    "headline": "If the first bill goes out on day 46 after care (Colorado allows bills from day 46), the policy's written timeline allows collection actions from day 76. Colorado law bars them until day 182."
   },
   {
@@ -581,13 +603,15 @@
    "proved": 2,
    "counterexamples": 3,
    "confirmed_counterexamples": 2,
+   "refuted": 0,
+   "reviewed": 2,
    "disputed": 1,
    "doc": "policy",
    "hospitals": [
     "Heart of the Rockies Regional Medical Center"
    ],
    "not_stated": 4,
-   "solver_seconds": 0.152,
+   "solver_seconds": 0.162,
    "headline": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 is turned away by this requirement: \"Uninsured or underinsured\". Colorado law makes them eligible for Hospital Discounted Care."
   },
   {
@@ -623,6 +647,8 @@
    "proved": 3,
    "counterexamples": 2,
    "confirmed_counterexamples": 2,
+   "refuted": 0,
+   "reviewed": 2,
    "disputed": 1,
    "doc": "policy",
    "hospitals": [
@@ -633,7 +659,7 @@
     "Intermountain Health St. Mary's Regional Hospital"
    ],
    "not_stated": 6,
-   "solver_seconds": 0.112,
+   "solver_seconds": 0.115,
    "headline": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000, after non-emergency care is turned away by this requirement: \"Residency in service area for non-emergent services; emergency covered regardless\". Colorado law makes them eligible for Hospital Discounted Care."
   },
   {
@@ -647,7 +673,7 @@
     "co_hdc_public": "proved",
     "co_eca_182": "not_stated",
     "co_window_181": "counterexample",
-    "co_window_insured": "counterexample",
+    "co_window_insured": "refuted",
     "co_plan_4pct": "counterexample",
     "fed_window_240": "n/a",
     "fed_eca_120": "n/a",
@@ -667,15 +693,17 @@
     "monotone": "confirmed"
    },
    "proved": 2,
-   "counterexamples": 3,
-   "confirmed_counterexamples": 3,
+   "counterexamples": 2,
+   "confirmed_counterexamples": 2,
+   "refuted": 1,
+   "reviewed": 3,
    "disputed": 0,
    "doc": "policy",
    "hospitals": [
     "Memorial Regional Hospital"
    ],
    "not_stated": 1,
-   "solver_seconds": 0.186,
+   "solver_seconds": 0.199,
    "headline": "With a first bill on day 46, the policy closes applications on day 45 after care; Colorado requires at least day 181. The same happens for every first-bill day after day 46."
   },
   {
@@ -711,6 +739,8 @@
    "proved": 3,
    "counterexamples": 0,
    "confirmed_counterexamples": 0,
+   "refuted": 0,
+   "reviewed": 0,
    "disputed": 0,
    "doc": "policy",
    "hospitals": [
@@ -724,7 +754,7 @@
    "id": "montrose",
    "hospital": "Montrose Regional Health",
    "model_source": "nemotron",
-   "nonprofit": null,
+   "nonprofit": true,
    "checks": {
     "co_hdc_coverage": "counterexample",
     "co_hdc_assets": "proved",
@@ -733,8 +763,8 @@
     "co_window_181": "not_stated",
     "co_window_insured": "not_stated",
     "co_plan_4pct": "not_stated",
-    "fed_window_240": "n/a",
-    "fed_eca_120": "n/a",
+    "fed_window_240": "not_stated",
+    "fed_eca_120": "not_stated",
     "monotone": "proved"
    },
    "inconclusive": 0,
@@ -753,13 +783,15 @@
    "proved": 3,
    "counterexamples": 1,
    "confirmed_counterexamples": 1,
+   "refuted": 0,
+   "reviewed": 1,
    "disputed": 0,
    "doc": "summary",
    "hospitals": [
     "Montrose Memorial Hospital"
    ],
-   "not_stated": 4,
-   "solver_seconds": 0.043,
+   "not_stated": 6,
+   "solver_seconds": 0.047,
    "headline": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care."
   },
   {
@@ -795,13 +827,15 @@
    "proved": 2,
    "counterexamples": 0,
    "confirmed_counterexamples": 0,
+   "refuted": 0,
+   "reviewed": 0,
    "disputed": 1,
    "doc": "policy",
    "hospitals": [
     "Mt. San Rafael Hospital"
    ],
    "not_stated": 4,
-   "solver_seconds": 0.073,
+   "solver_seconds": 0.077,
    "headline": ""
   },
   {
@@ -854,13 +888,15 @@
    "proved": 5,
    "counterexamples": 0,
    "confirmed_counterexamples": 0,
+   "refuted": 0,
+   "reviewed": 0,
    "disputed": 2,
    "doc": "policy",
    "hospitals": [
     "Rio Grande Hospital"
    ],
    "not_stated": 1,
-   "solver_seconds": 0.151,
+   "solver_seconds": 0.153,
    "headline": ""
   },
   {
@@ -885,7 +921,7 @@
    "id": "spanish-peaks",
    "hospital": "Spanish Peaks Regional Health Center",
    "model_source": "nemotron",
-   "nonprofit": null,
+   "nonprofit": true,
    "checks": {
     "co_hdc_coverage": "proved",
     "co_hdc_assets": "proved",
@@ -894,8 +930,8 @@
     "co_window_181": "not_stated",
     "co_window_insured": "not_stated",
     "co_plan_4pct": "not_stated",
-    "fed_window_240": "n/a",
-    "fed_eca_120": "n/a",
+    "fed_window_240": "not_stated",
+    "fed_eca_120": "not_stated",
     "monotone": "proved"
    },
    "inconclusive": 0,
@@ -914,20 +950,22 @@
    "proved": 4,
    "counterexamples": 0,
    "confirmed_counterexamples": 0,
+   "refuted": 0,
+   "reviewed": 0,
    "disputed": 0,
    "doc": "policy",
    "hospitals": [
     "Spanish Peaks Regional Health Center"
    ],
-   "not_stated": 4,
-   "solver_seconds": 0.035,
+   "not_stated": 6,
+   "solver_seconds": 0.041,
    "headline": ""
   },
   {
    "id": "st-vincent-leadville",
    "hospital": "St. Vincent Health",
    "model_source": "nemotron",
-   "nonprofit": null,
+   "nonprofit": true,
    "checks": {
     "co_hdc_coverage": "counterexample",
     "co_hdc_assets": "proved",
@@ -936,8 +974,8 @@
     "co_window_181": "not_stated",
     "co_window_insured": "not_stated",
     "co_plan_4pct": "not_stated",
-    "fed_window_240": "n/a",
-    "fed_eca_120": "n/a",
+    "fed_window_240": "not_stated",
+    "fed_eca_120": "not_stated",
     "monotone": "proved"
    },
    "inconclusive": 0,
@@ -956,14 +994,16 @@
    "proved": 3,
    "counterexamples": 1,
    "confirmed_counterexamples": 1,
+   "refuted": 0,
+   "reviewed": 1,
    "disputed": 0,
    "doc": "policy",
    "hospitals": [
     "St. Vincent General Hospital"
    ],
-   "not_stated": 4,
-   "solver_seconds": 0.053,
-   "headline": "A household of 3 earning $55,000 a year (201.3% of the poverty line), living in Colorado, uninsured, owing $10,000 meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care."
+   "not_stated": 6,
+   "solver_seconds": 0.059,
+   "headline": "A household of 3 earning $68,000 a year (248.9% of the poverty line), living in Colorado, uninsured, owing $10,000 meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care."
   },
   {
    "id": "uchealth",
@@ -1000,6 +1040,8 @@
    "proved": 7,
    "counterexamples": 6,
    "confirmed_counterexamples": 2,
+   "refuted": 0,
+   "reviewed": 2,
    "disputed": 1,
    "doc": "policy",
    "hospitals": [
@@ -1021,7 +1063,7 @@
     "Estes Park Health"
    ],
    "not_stated": 1,
-   "solver_seconds": 0.224,
+   "solver_seconds": 0.232,
    "headline": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care."
   },
   {
@@ -1057,13 +1099,15 @@
    "proved": 2,
    "counterexamples": 0,
    "confirmed_counterexamples": 0,
+   "refuted": 0,
+   "reviewed": 0,
    "disputed": 0,
    "doc": "summary",
    "hospitals": [
     "Vail Health Hospital"
    ],
    "not_stated": 6,
-   "solver_seconds": 0.137,
+   "solver_seconds": 0.138,
    "headline": ""
   },
   {
@@ -1099,13 +1143,15 @@
    "proved": 4,
    "counterexamples": 0,
    "confirmed_counterexamples": 0,
+   "refuted": 0,
+   "reviewed": 0,
    "disputed": 1,
    "doc": "policy",
    "hospitals": [
     "Yuma District Hospital"
    ],
    "not_stated": 4,
-   "solver_seconds": 0.034,
+   "solver_seconds": 0.036,
    "headline": ""
   }
  ]

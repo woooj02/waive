@@ -2,11 +2,12 @@
  "id": "uchealth",
  "hospital": "UCHealth",
  "dropped_rules": 0,
+ "tax_status": "",
  "source_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/2026/09/29153210/UCHealth-Financial-Assistance-Policy-English-09_28_26.pdf",
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": "nemotron",
- "solver_seconds": 0.224,
+ "solver_seconds": 0.232,
  "model": {
   "hospital": "UCHealth",
   "doc": "policy",
@@ -267,7 +268,11 @@
    "confidence": "confirmed",
    "second_opinion": [
     "counterexample"
-   ]
+   ],
+   "review": {
+    "verdict": "upheld",
+    "note": "Income-based assistance requires the patient to be uninsured or under-insured (out-of-pocket costs exceed ability to pay)."
+   }
   },
   {
    "check": "co_hdc_assets",
@@ -484,12 +489,12 @@
    "title": "Earning less never means getting less help",
    "status": "counterexample",
    "law": [],
-   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, under-insured, owing $10,000 gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "summary": "A household of 3 earning $68,573 a year (251.0% of the poverty line), living in Colorado, under-insured, owing $10,000 gets no help; the same household earning more, at 251.36% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
    "severity": "ambiguity",
    "household": {
     "size": 3,
-    "income_usd": 68473.2,
-    "fpl_pct": 250.63,
+    "income_usd": 68573.19,
+    "fpl_pct": 250.99,
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
@@ -505,8 +510,8 @@
    },
    "household_b": {
     "size": 3,
-    "income_usd": 68573.2,
-    "fpl_pct": 251.0,
+    "income_usd": 68673.19,
+    "fpl_pct": 251.36,
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
@@ -572,13 +577,17 @@
      "holds": false
     }
    ],
-   "seconds": 0.006,
+   "seconds": 0.005,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "confidence": "confirmed",
    "second_opinion": [
     "counterexample"
-   ]
+   ],
+   "review": {
+    "verdict": "qualified",
+    "note": "A band gap: 100% at 250% or less, discounts 'between 251% and 400%'. Likely a rounding convention."
+   }
   },
   {
    "check": "summary_matches_policy",
@@ -716,7 +725,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.003,
+   "seconds": 0.004,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -726,12 +735,12 @@
    "title": "The policy and the summary treat every household the same",
    "status": "counterexample",
    "law": [],
-   "summary": "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the policy gives 100% off, the summary gives no help.",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the policy gives 100% off, the summary gives no help.",
    "severity": "gap",
    "household": {
     "size": 3,
-    "income_usd": 69000.0,
-    "fpl_pct": 252.56,
+    "income_usd": 27000.0,
+    "fpl_pct": 98.82,
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
@@ -835,7 +844,7 @@
      "label": "Free care up to 250% FPL",
      "quote": "Annual family income up to 250% of the FPG: free care",
      "discount_pct": 100.0,
-     "holds": false,
+     "holds": true,
      "model": "summary"
     },
     {
@@ -844,7 +853,7 @@
      "label": "Discounted care 251% to 400% FPL",
      "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less than the Amount Generally Billed",
      "discount_pct": null,
-     "holds": true,
+     "holds": false,
      "model": "summary"
     },
     {
@@ -867,7 +876,7 @@
    "title": "The policy and the summary treat every household the same",
    "status": "counterexample",
    "law": [],
-   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, under-insured, owing $10,000, after elective care: the policy gives 100% off, the summary gives no help.",
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living outside Colorado, under-insured, owing $10,000: the policy gives 100% off, the summary gives no help.",
    "severity": "gap",
    "household": {
     "size": 3,
@@ -878,10 +887,10 @@
     "first_statement_day": 46,
     "insured": true,
     "underinsured": true,
-    "co_resident": true,
-    "in_service_area": true,
-    "emergency": false,
-    "medically_necessary": false,
+    "co_resident": false,
+    "in_service_area": false,
+    "emergency": true,
+    "medically_necessary": true,
     "inpatient": false,
     "applied_public_programs": true,
     "presumptive_program": false
@@ -958,7 +967,7 @@
      "label": "Emergency or medically necessary care",
      "quote": "UCHealth provides financial assistance for emergency and other medically necessary care",
      "discretionary": false,
-     "holds": false,
+     "holds": true,
      "model": "summary"
     },
     {
@@ -967,7 +976,7 @@
      "label": "Colorado resident",
      "quote": "for Resident of the State of Colorado",
      "discretionary": false,
-     "holds": true,
+     "holds": false,
      "model": "summary"
     },
     {
@@ -998,7 +1007,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.007,
+   "seconds": 0.005,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -1008,7 +1017,7 @@
    "title": "The policy and the summary treat every household the same",
    "status": "counterexample",
    "law": [],
-   "summary": "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, under-insured, owing $10,000, after elective care: the policy gives help (amount not stated), the summary gives no help.",
+   "summary": "A household of 3 earning $69,000 a year (252.6% of the poverty line), living outside Colorado, under-insured, owing $10,000: the policy gives help (amount not stated), the summary gives no help.",
    "severity": "gap",
    "household": {
     "size": 3,
@@ -1019,10 +1028,10 @@
     "first_statement_day": 46,
     "insured": true,
     "underinsured": true,
-    "co_resident": true,
-    "in_service_area": true,
-    "emergency": false,
-    "medically_necessary": false,
+    "co_resident": false,
+    "in_service_area": false,
+    "emergency": true,
+    "medically_necessary": true,
     "inpatient": false,
     "applied_public_programs": true,
     "presumptive_program": false
@@ -1099,7 +1108,7 @@
      "label": "Emergency or medically necessary care",
      "quote": "UCHealth provides financial assistance for emergency and other medically necessary care",
      "discretionary": false,
-     "holds": false,
+     "holds": true,
      "model": "summary"
     },
     {
@@ -1108,7 +1117,7 @@
      "label": "Colorado resident",
      "quote": "for Resident of the State of Colorado",
      "discretionary": false,
-     "holds": true,
+     "holds": false,
      "model": "summary"
     },
     {
@@ -1139,7 +1148,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.008,
+   "seconds": 0.005,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"

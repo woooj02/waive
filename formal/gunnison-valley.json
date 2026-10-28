@@ -1,9 +1,9 @@
 {
  "model": {
   "hospital": "Gunnison Valley Health",
-  "doc": "summary",
-  "source_url": "https://www.gunnisonvalleyhealth.org/documents/content/Plain-Language-Summary-of-Financial-Assistance-Policy.pdf",
-  "nonprofit": null,
+  "doc": "policy",
+  "source_url": "https://www.gunnisonvalleyhealth.org/documents/content/Financial-Assistance-Policy-2023[100].pdf",
+  "nonprofit": true,
   "requires": [
    {
     "id": "req-residency",
@@ -18,33 +18,282 @@
      ]
     ],
     "discretionary": false,
-    "quote": "GVH and FMC provides financial assistance to Gunnison, Hinsdale, and Saguache County residents"
-   },
+    "quote": "GVH and FMC provide financial assistance to Gunnison, Hinsdale and Saguache County Residents"
+   }
+  ],
+  "rules": [
    {
-    "id": "req-insurance-status",
-    "label": "Patient must be uninsured or underinsured",
-    "cond": [
+    "id": "rule-fpl-100",
+    "label": "100% discount for income at or below 100% FPL",
+    "when": [
      [
       {
-       "var": "insured",
-       "op": "false",
-       "value": null
-      },
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 100.0
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "100% Discount"
+   },
+   {
+    "id": "rule-fpl-110",
+    "label": "90% discount for income at or below 110% FPL",
+    "when": [
+     [
       {
-       "var": "underinsured",
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 110.0
+      }
+     ]
+    ],
+    "discount_pct": 90.0,
+    "quote": "90% Discount"
+   },
+   {
+    "id": "rule-fpl-120",
+    "label": "80% discount for income at or below 120% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 120.0
+      }
+     ]
+    ],
+    "discount_pct": 80.0,
+    "quote": "80% Discount"
+   },
+   {
+    "id": "rule-fpl-130",
+    "label": "70% discount for income at or below 130% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 130.0
+      }
+     ]
+    ],
+    "discount_pct": 70.0,
+    "quote": "70% Discount"
+   },
+   {
+    "id": "rule-fpl-140",
+    "label": "60% discount for income at or below 140% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 140.0
+      }
+     ]
+    ],
+    "discount_pct": 60.0,
+    "quote": "60% Discount"
+   },
+   {
+    "id": "rule-fpl-150",
+    "label": "50% discount for income at or below 150% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 150.0
+      }
+     ]
+    ],
+    "discount_pct": 50.0,
+    "quote": "50% Discount"
+   },
+   {
+    "id": "rule-fpl-160",
+    "label": "40% discount for income at or below 160% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 160.0
+      }
+     ]
+    ],
+    "discount_pct": 40.0,
+    "quote": "40% Discount"
+   },
+   {
+    "id": "rule-fpl-170",
+    "label": "30% discount for income at or below 170% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 170.0
+      }
+     ]
+    ],
+    "discount_pct": 30.0,
+    "quote": "30% Discount"
+   },
+   {
+    "id": "rule-fpl-180",
+    "label": "20% discount for income at or below 180% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 180.0
+      }
+     ]
+    ],
+    "discount_pct": 20.0,
+    "quote": "20% Discount"
+   },
+   {
+    "id": "rule-fpl-190",
+    "label": "15% discount for income at or below 190% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 190.0
+      }
+     ]
+    ],
+    "discount_pct": 15.0,
+    "quote": "15% Discount"
+   },
+   {
+    "id": "rule-fpl-200",
+    "label": "10% discount for income at or below 200% FPL",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 200.0
+      }
+     ]
+    ],
+    "discount_pct": 10.0,
+    "quote": "10% Discount"
+   },
+   {
+    "id": "rule-medical-hardship",
+    "label": "Medical hardship discount for income above 400% FPL but below $200,000 with out-of-pocket obligations exceeding 20% of income",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 400.0
+      }
+     ],
+     [
+      {
+       "var": "income_usd",
+       "op": "<",
+       "value": 200000.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 20.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patient, or patient's guarantor, has annual family income in excess of 400% of the Federal Poverty Guidelines, but less than $200,000, and Patient, or patient's guarantor, has exhausted all other payment options including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties; and The out-of-pocket, patient obligations resulting from medical services provided by GVH and FMC providers exceed 20% of annual family income"
+   },
+   {
+    "id": "rule-presumptive-homeless",
+    "label": "Presumptive eligibility for homeless patients",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
        "op": "true",
        "value": null
       }
      ]
     ],
-    "discretionary": false,
-    "quote": "committed proving emergency and medically necessary care to patients who are uninsured, or who have a limited insurance (underinsured)"
-   }
-  ],
-  "rules": [
+    "discount_pct": null,
+    "quote": "Homelessness"
+   },
    {
-    "id": "rule-fpl-400",
-    "label": "Free care for income at or below 400% FPL",
+    "id": "rule-presumptive-deceased",
+    "label": "Presumptive eligibility for deceased patients with no estate",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Deceased with no estate"
+   },
+   {
+    "id": "rule-presumptive-medicaid-eligible",
+    "label": "Presumptive eligibility for Medicaid eligible but not active for date of service (90-day lookback)",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Medicaid eligible, but not active for a date of service. 90 days look back period"
+   },
+   {
+    "id": "rule-presumptive-mental-incapacitation",
+    "label": "Presumptive eligibility for mental incapacitation with no one to act on patient's behalf",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Mental incapacitation: No one to act on patient's behalf"
+   },
+   {
+    "id": "rule-presumptive-out-of-state-medicaid",
+    "label": "Presumptive eligibility for patients eligible for out-of-state Medicaid where GVH/FMC do not participate",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients are eligible for out-of-state Medicaid and GVH and FMC do not participate in the States Medicaid Program"
+   },
+   {
+    "id": "rule-agb-cap",
+    "label": "Billed charges capped at Amounts Generally Billed (AGB) for patients qualifying for financial assistance",
     "when": [
      [
       {
@@ -55,11 +304,17 @@
      ]
     ],
     "discount_pct": null,
-    "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines"
+    "quote": "If a patient qualifies for financial assistance under this policy, the patient's billed charges will be no more than the same amounts generally billed (AGB) for emergency or other medically necessary health care services as patients who have insurance coverage"
    }
   ],
   "timing": {
-   "application": [],
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 180,
+     "quote": "Financial assistance will be considered as long as the complete application and supporting documentation are submitted prior to 180 days from the date of the initial account statement"
+    }
+   ],
    "eca_not_before": [],
    "first_statement_from_day": null
   },
@@ -67,57 +322,109 @@
    "max_pct_monthly_income": null,
    "max_months": null,
    "min_monthly_usd": null,
-   "quote": "Any patient eligible for discounting will be required to pay their copay or percentage due upon determination of their eligibility, or they must sign an approved payment plan contract"
+   "quote": "Reasonable Payment Plan: A payment plan that is negotiated between GVH and FMC and the guarantor for any balances owed. The payment plan shall consider the patient, or guarantor's income and assets, the amount owed and any prior payments"
   },
   "notes": [
-   "Policy states patients qualifying for assistance will not be charged more than amounts generally billed to insured patients (AGB cap).",
-   "Service area limited to Gunnison, Hinsdale, and Saguache Counties; 'in_service_area' variable used as proxy for county residency.",
-   "Collections: Notification Period of 120 days with at least three billing statements, seriously past due notice, and final notice before ECA.",
-   "ECA may begin only after final notice plus 30 days; modeled as 150 days from first_statement (120-day notification period + 30-day wait).",
-   "Patients who qualify but fail to pay discounted balance are considered uncollectible bad debts and referred to outside agencies.",
-   "Application methods listed (mail, in-person, email, phone) but no application deadline stated.",
-   "Policy available in English and Spanish.",
-   "Exclusions for cosmetic, transplant, or research services not mentioned in this summary."
+   "Policy covers emergency and medically necessary services; non-urgent, elective, or not medically necessary services may be excluded or limited (cosmetic surgery, ophthalmology, integrative therapies, oncology specifically mentioned as non-covered).",
+   "Physical Therapy and Behavioral Health limited to six visits based on medical necessity; Behavioral Health not covered under CICP guidelines.",
+   "Duration of eligibility: 6 months from application date; covers eligible accounts for services received next 6 months or 90 days prior to completed application date.",
+   "Patients at or below 250% FPL who are Gunnison, Hinsdale, Saguache residents required to apply for Colorado Indigent Care Program (CICP).",
+   "Medicaid screening: accounts placed on 30-day hold pending Medicaid determination.",
+   "If patient/guarantor refuses to apply for or provide information necessary to application, may be ineligible for financial assistance.",
+   "Appeals: must be filed in writing within 30 days of FAP eligibility notice; Customer Service Supervisor responds in writing within 14 days.",
+   "Discount approval levels: Financial Counselor ($1-$5,000.99), Customer Service Supervisor ($1,001-$5,000.99), Revenue Cycle Director ($5,001-$10,000), CFO (>$10,000).",
+   "Payment expected in full within 30 days of new statement date after FAP discount posted.",
+   "AGB percentage is 71% of gross charges for inpatient and outpatient services.",
+   "Collection procedures: during 120-day notification period, at least three billing statements, seriously past due notice, and final notice; ECA only after final notice and 30 days elapsed.",
+   "Patients who qualify for financial assistance but fail to pay discounted balance when due considered uncollectible bad debts and referred to outside agencies.",
+   "Confidentiality maintained for all financial assistance applicants.",
+   "Application must be completed within 14 days per application form instructions; if information requested, patient/guarantor has 30 days to respond or application denied.",
+   "Eligibility determination made within 15 business days after completed application submission.",
+   "Policy prohibits discrimination based on race, color, creed, religion, gender, sexual orientation, citizenship, age, disability, or national origin."
   ]
  },
  "report": {
   "primary": {
    "model": "ultra",
-   "lint": [],
-   "repaired": false,
+   "lint": [
+    "req-application-deadline: has no conditions; remove it or give its conditions",
+    "req-cooperation: has no conditions; remove it or give its conditions",
+    "rule-discretionary-case-by-case: has no conditions; remove it or give its conditions",
+    "rule-agb-cap: has no conditions; remove it or give its conditions"
+   ],
+   "repaired": true,
+   "lint_after": [],
    "dropped": [
     {
-     "kind": "unsupported",
-     "id": "req:req-care-type",
-     "claim": "Every form of assistance requires: (medically_necessary)",
-     "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services",
-     "why": "The policy limits financial assistance to emergency or medically necessary services, so not every form of assistance (if any existed beyond those) would require it."
+     "kind": "requirement",
+     "id": "req-care-type",
+     "quote": "GVH and FMC are committed to providing emergency and medically necessary care to patients who are uninsured or who have limited insurance"
     },
     {
-     "kind": "unsupported",
-     "id": "rule:rule-medical-hardship",
-     "claim": "A patient with (bill_pct_income > 0) gets an unstated amount of help",
-     "quote": "Financial assistance also may be available in other limited circumstances, depending on the size of the patient's medical bills and whether the patient meets certain other criteria for eligibility",
-     "why": "The policy mentions financial assistance may be available based on bill size and other criteria, but does not state that any patient with bill_pct_income > 0 automatically receives help."
+     "kind": "rule",
+     "id": "rule-fpl-above-200",
+     "quote": "0% Discount"
     },
     {
      "kind": "unsupported",
      "id": "eca:0",
      "claim": "The policy promises no extraordinary collection action before 150 days after the first post-discharge bill",
-     "quote": "The hospital may initiate External Collection Activity (ECA), but only after the Final notice letter has been provided and a period of at least 30 days have elapsed",
-     "why": "The policy states ECA may begin after the Final notice and at least 30 days elapsed, but does not specify timing relative to the first post-discharge bill or guarantee no ECA before 150 days."
+     "quote": "During the Notification Period (120 Days), the Hospital will provide each patient with at least three Billing Statements, a Seriously Past Due notice, and a final notice that provides the individual with the amount owed. The hospital may initiate External Collection Activity (ECA), but only after the Final notice letter has been provided and a period of at least 30 days have elapsed",
+     "why": "The policy states ECA may begin after the final notice and at least 30 days have elapsed, but does not specify a fixed 150-day period from the first post-discharge bill."
     },
     {
      "kind": "amount removed",
-     "id": "rule:rule-fpl-400",
-     "claim": "A patient with (fpl_pct <= 400) gets 100% off",
-     "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines",
-     "why": "While income below 400% FPL is a stated eligibility condition, the policy does not specify that this results in 100% off; it only states eligibility for financial assistance."
+     "id": "rule:rule-medical-hardship",
+     "claim": "A patient with (fpl_pct > 400) AND (income_usd < 200000) AND (bill_pct_income > 20) gets an unstated amount of help",
+     "quote": "Patient, or patient's guarantor, has annual family income in excess of 400% of the Federal Poverty Guidelines, but less than $200,000, and Patient, or patient's guarantor, has exhausted all other payment options including private coverage, federal, state and local medical assistance programs, and other forms of assistance provided by third parties; and The out-of-pocket, patient obligations resulting from medical services provided by GVH and FMC providers exceed 20% of annual family income",
+     "why": "The policy describes medical hardship criteria but does not specify the discount amount or percentage of assistance provided."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-presumptive-homeless",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Homelessness",
+     "why": "Homelessness is listed as a presumptive eligibility criterion, but the policy does not specify the discount amount for such cases."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-presumptive-deceased",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Deceased with no estate",
+     "why": "Deceased with no estate is listed as a presumptive eligibility criterion, but the policy does not specify the discount amount for such cases."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-presumptive-medicaid-eligible",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Medicaid eligible, but not active for a date of service. 90 days look back period",
+     "why": "Medicaid eligible but not active is listed as a presumptive eligibility criterion, but the policy does not specify the discount amount for such cases."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-presumptive-mental-incapacitation",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Mental incapacitation: No one to act on patient's behalf",
+     "why": "Mental incapacitation is listed as a presumptive eligibility criterion, but the policy does not specify the discount amount for such cases."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-presumptive-out-of-state-medicaid",
+     "claim": "A patient with (presumptive_program) gets an unstated amount of help",
+     "quote": "Patients are eligible for out-of-state Medicaid and GVH and FMC do not participate in the States Medicaid Program",
+     "why": "Out-of-state Medicaid eligibility is listed as a presumptive eligibility criterion, but the policy does not specify the discount amount for such cases."
+    },
+    {
+     "kind": "amount removed",
+     "id": "rule:rule-agb-cap",
+     "claim": "A patient with (fpl_pct <= 400) gets an unstated amount of help",
+     "quote": "If a patient qualifies for financial assistance under this policy, the patient's billed charges will be no more than the same amounts generally billed (AGB) for emergency or other medically necessary health care services as patients who have insurance coverage",
+     "why": "The AGB cap limits charges but does not specify the discount percentage or amount of financial assistance provided."
     }
    ],
-   "clauses": 5,
-   "clauses_proven": 3,
-   "unsupported": 4
+   "clauses": 21,
+   "clauses_proven": 19,
+   "unsupported": 8
   },
   "secondary": {
    "model": "super",
@@ -125,42 +432,102 @@
    "repaired": false,
    "dropped": [
     {
-     "kind": "unsupported",
-     "id": "req:req_emergency_or_medically_necessary",
-     "claim": "Every form of assistance requires: (medically_necessary)",
-     "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines as published annually.",
-     "why": "The policy limits financial assistance to emergency or medically necessary services, so this is a requirement, not optional."
+     "kind": "rule",
+     "id": "rule_medical_hardship",
+     "quote": "Patient, or patient\u2019s guarantor, has annual family income in excess of 400% of the Federal Poverty Guidelines, but less than $200,000, and ... The out-of-pocket, patient obligations resulting from medical services provided by GVH and FMC providers exceed 20% of annual family income."
     },
     {
      "kind": "unsupported",
-     "id": "req:req_residency_service_area",
-     "claim": "Every form of assistance requires: (co_resident OR in_service_area)",
-     "quote": "GVH and FMC provides financial assistance to Gunnison, Hinsdale, and Saguache County residents.",
-     "why": "The policy explicitly restricts financial assistance to residents of Gunnison, Hinsdale, and Saguache Counties, making residency a requirement for all assistance."
+     "id": "req:req_exhaust_other_options",
+     "claim": "Every form of assistance requires: (applied_public_programs)",
+     "quote": "The FAP will provide benefits as a last resort. All other payment options, including but not limited to private insurance, Medicare, Medicaid, CHP, third party Liability, and CICP must be explored for eligibility and secured where eligible prior to the application for financial assistance.",
+     "why": "The policy requires exploring other payment options prior to application, but does not require applicants to have already applied for public programs as a condition of assistance."
     },
     {
-     "kind": "amount removed",
-     "id": "rule:rule_fap_under_400_fpl",
-     "claim": "A patient with (fpl_pct <= 400) gets an unstated amount of help",
-     "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines as published annually.",
-     "why": "The policy states eligibility for those below 400% FPL but does not specify the amount of financial assistance provided."
+     "kind": "unsupported",
+     "id": "rule:rule_cicp_requirement",
+     "claim": "A patient with (fpl_pct <= 250) gets an unstated amount of help",
+     "quote": "Gunnison Valley, Hinsdale and Saguache Residents who are at or below 250% FPL will be required to apply for The Colorado Indigent Care Program (CICP), as administered by Gunnison Valley Hospital and Family Medicine Clinic.",
+     "why": "The policy requires patients at or below 250% FPL to apply for CICP, but does not state they receive financial assistance under this policy; it is a prerequisite, not a benefit."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:0",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
+     "quote": "Eligible accounts include Gunnison Valley Hospital and Family Medicine Clinic (GVH & FMC) accounts with remaining balances. Accounts turning to bad debt will be considered as long as the complete application and supporting documentation are submitted prior to 180 days from the date of the initial account statement.",
+     "why": "The 180-day deadline is measured from the initial account statement, not the first post-discharge bill; the policy does not equate these events."
+    },
+    {
+     "kind": "unsupported",
+     "id": "app:1",
+     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 180 days after the date of service (alone, or as one of several 'the later of' options)",
+     "quote": "Eligible accounts include Gunnison Valley Hospital and Family Medicine Clinic (GVH & FMC) accounts with remaining balances. Accounts turning to bad debt will be considered as long as the complete application and supporting documentation are submitted prior to 180 days from the date of the initial account statement.",
+     "why": "The 180-day deadline is measured from the initial account statement, not the date of service; the policy does not equate these events."
     }
    ],
-   "clauses": 3,
-   "clauses_proven": 1,
-   "unsupported": 3
+   "clauses": 6,
+   "clauses_proven": 3,
+   "unsupported": 4
   },
   "secondary_model": {
-   "hospital": "Gunnison Valley Health",
-   "doc": "summary",
-   "source_url": "https://www.gunnisonvalleyhealth.org/documents/content/Plain-Language-Summary-of-Financial-Assistance-Policy.pdf",
-   "nonprofit": null,
-   "requires": [],
+   "hospital": "Gunnison Valley Hospital and Family Medicine Clinic",
+   "doc": "policy",
+   "source_url": "https://www.gunnisonvalleyhealth.org/documents/content/Financial-Assistance-Policy-2023[100].pdf",
+   "nonprofit": true,
+   "requires": [
+    {
+     "id": "req_co_resident",
+     "label": "Colorado resident",
+     "cond": [
+      [
+       {
+        "var": "co_resident",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "GVH and FMC provide financial assistance to Gunnison, Hinsdale and Saguache County Residents."
+    },
+    {
+     "id": "req_emergency_or_medically_necessary",
+     "label": "Emergency or medically necessary care",
+     "cond": [
+      [
+       {
+        "var": "emergency",
+        "op": "true",
+        "value": null
+       },
+       {
+        "var": "medically_necessary",
+        "op": "true",
+        "value": null
+       }
+      ]
+     ],
+     "discretionary": false,
+     "quote": "You may be eligible for financial assistance for emergencies or medically necessary healthcare services..."
+    }
+   ],
    "rules": [
     {
-     "id": "rule_fap_under_400_fpl",
-     "label": "Financial Assistance Program for income at or below 400% FPL",
+     "id": "rule_fap_standard",
+     "label": "Standard Financial Assistance Program",
      "when": [
+      [
+       {
+        "var": "insured",
+        "op": "false",
+        "value": null
+       },
+       {
+        "var": "underinsured",
+        "op": "true",
+        "value": null
+       }
+      ],
       [
        {
         "var": "fpl_pct",
@@ -170,7 +537,7 @@
       ]
      ],
      "discount_pct": null,
-     "quote": "You may be eligible for financial assistance for emergency or medically necessary healthcare services, if your family income is below 400 percent of the federal poverty guidelines as published annually."
+     "quote": "You may be eligible for financial assistance for emergencies or medically necessary healthcare services, if your family income is at or below 400 percent of the federal poverty guidelines, as published annually."
     }
    ],
    "timing": {
@@ -182,20 +549,28 @@
     "max_pct_monthly_income": null,
     "max_months": null,
     "min_monthly_usd": null,
-    "quote": ""
+    "quote": "Reasonable Payment Plan: A payment plan that is negotiated between GVH and FMC and the guarantor for any balances owed. The payment plan shall consider the patient, or guarantor's income and assets, the amount owed and any prior payments."
    },
    "notes": [
-    "The policy states that patients eligible for discounting will be required to pay their copay or percentage due upon determination of eligibility, or sign an approved payment plan contract, but does not specify exact payment plan terms.",
-    "The policy indicates that during the Notification Period (120 Days), the hospital provides at least three billing statements, a seriously past due notice, and a final notice, and may initiate ECA only after the final notice and at least 30 days have elapsed, but these are collections procedures, not requirements for receiving assistance.",
-    "The policy states that a patient qualifying for financial assistance will not be charged more than amounts generally billed (AGB) for the same services to insured patients, but AGB is not a fixed discount percent and varies by service, so discount_pct is null.",
-    "The policy mentions that financial assistance may also be available in other limited circumstances depending on the size of the medical bills and other criteria, but no specific thresholds or rules are provided, so no additional rules are included."
+    "The policy references Exhibit A for the Financial Assistance Discount Scale, which provides specific discount percentages based on FPL and family size, but the exact percentages are not detailed in the policy text provided.",
+    "The policy mentions that non-urgent, elective or not medically necessary services may be excluded or limited from the Financial Assistance Program.",
+    "Presumptive eligibility categories include homelessness, deceased with no estate, Medicaid eligible but not active (90-day lookback), mental incapacitation, and out-of-state Medicaid eligibility where GVH/FMC does not participate.",
+    "Duration of eligibility is 6 months from application date, requiring reapplication thereafter.",
+    "The policy requires cooperation in applying for public programs; lack of cooperation may lead to denial of financial assistance.",
+    "The policy states that financial assistance may be provided in other circumstances on a case-by-case basis as determined by the Revenue Cycle Director and CFO at their discretion."
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "One person earning $27,000 a year (169.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 30% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 2 earning $46,000 a year (212.6% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $22,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "disagreements_after": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "One person earning $27,000 a year (169.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 30% off, the Nemotron 3 Super model gives help (amount not stated).",
+   "A household of 2 earning $46,000 a year (212.6% of the poverty line), living in Colorado, uninsured, owing $10,000, after elective care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help.",
+   "A household of 2 earning $109,000 a year (503.7% of the poverty line), living in Colorado, uninsured, owing $22,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "equivalent": false
  },
@@ -204,60 +579,74 @@
    "step": "formalise (Nemotron 3 Ultra)",
    "model": "ultra",
    "label": "Nemotron 3 Ultra",
-   "seconds": 0.0,
-   "tokens_in": 2970,
+   "seconds": 8.38,
+   "tokens_in": 10835,
    "tokens_cached": 0,
-   "tokens_out": 926,
-   "cost_usd": 0.0,
-   "cached_result": true,
+   "tokens_out": 3186,
+   "cost_usd": 0.020393,
+   "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.005748,
-   "orig_seconds": 3.11
+   "orig_cost_usd": 0.020393,
+   "orig_seconds": 8.38
+  },
+  {
+   "step": "repair (Nemotron 3 Ultra)",
+   "model": "ultra",
+   "label": "Nemotron 3 Ultra",
+   "seconds": 6.74,
+   "tokens_in": 13846,
+   "tokens_cached": 4352,
+   "tokens_out": 2689,
+   "cost_usd": 0.018083,
+   "cached_result": false,
+   "error": "",
+   "orig_cost_usd": 0.018083,
+   "orig_seconds": 6.74
   },
   {
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 2.11,
-   "tokens_in": 2768,
+   "seconds": 5.78,
+   "tokens_in": 11488,
    "tokens_cached": 0,
-   "tokens_out": 368,
-   "cost_usd": 0.001162,
+   "tokens_out": 1135,
+   "cost_usd": 0.004468,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001162,
-   "orig_seconds": 2.11
+   "orig_cost_usd": 0.004468,
+   "orig_seconds": 5.78
   },
   {
    "step": "formalise (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 0.0,
-   "tokens_in": 2970,
+   "seconds": 5.96,
+   "tokens_in": 10835,
    "tokens_cached": 0,
-   "tokens_out": 612,
-   "cost_usd": 0.0,
-   "cached_result": true,
+   "tokens_out": 1202,
+   "cost_usd": 0.004332,
+   "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.001442,
-   "orig_seconds": 2.49
+   "orig_cost_usd": 0.004332,
+   "orig_seconds": 5.96
   },
   {
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 1.18,
-   "tokens_in": 2622,
+   "seconds": 2.25,
+   "tokens_in": 10868,
    "tokens_cached": 0,
-   "tokens_out": 175,
-   "cost_usd": 0.000944,
+   "tokens_out": 398,
+   "cost_usd": 0.003619,
    "cached_result": false,
    "error": "",
-   "orig_cost_usd": 0.000944,
-   "orig_seconds": 1.18
+   "orig_cost_usd": 0.003619,
+   "orig_seconds": 2.25
   }
  ],
- "cost_usd": 0.0093,
- "seconds": 3.4,
- "made": "2026-10-27"
+ "cost_usd": 0.05089,
+ "seconds": 29.6,
+ "made": "2026-10-28"
 }

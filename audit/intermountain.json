@@ -2,11 +2,12 @@
  "id": "intermountain",
  "hospital": "Intermountain Health",
  "dropped_rules": 4,
+ "tax_status": "",
  "source_url": "https://www.intermountainhealth.org/-/media/files/intermountain-health/for-patients/financial-assistance/2026/imh-financial-assistance-policy-2026_english.ashx",
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.112,
+ "solver_seconds": 0.115,
  "model": {
   "hospital": "Intermountain Health",
   "doc": "policy",
@@ -170,7 +171,11 @@
    "confidence": "confirmed",
    "second_opinion": [
     "counterexample"
-   ]
+   ],
+   "review": {
+    "verdict": "upheld",
+    "note": "Residency within an Intermountain service area is required for non-emergent services."
+   }
   },
   {
    "check": "co_hdc_coverage",
@@ -238,13 +243,17 @@
      "holds": false
     }
    ],
-   "seconds": 0.002,
+   "seconds": 0.003,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts",
    "basis": "",
    "confidence": "confirmed",
    "second_opinion": [
     "counterexample"
-   ]
+   ],
+   "review": {
+    "verdict": "upheld",
+    "note": "Eligibility is considered for uninsured or underinsured individuals."
+   }
   },
   {
    "check": "co_hdc_coverage",
@@ -337,7 +346,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.002,
+   "seconds": 0.001,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "confidence": "confirmed",
@@ -541,7 +550,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.001,
+   "seconds": 0.002,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "confidence": "disputed",

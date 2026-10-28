@@ -372,7 +372,8 @@ function formalEvalHtml(ev) {
     ${t ? `<p><b>Two models as a confidence signal.</b> When Nemotron 3 Ultra's and Nemotron 3 Super's models reach the same verdict (${t.confirmed_share_pct}% of verdicts), it matches ours ${t.confirmed_match_pct}% of the time; when they disagree, ${t.disputed_match_pct}%. So the audit publishes both and marks disagreements "disputed". Cost for both: $${t.cost_per_doc.toFixed(3)} per document.</p>` : ""}
     <p>What we learned: no model is logically equivalent to our references on any document; they differ on details like which program a condition belongs to.
     Letting Ultra rewrite its model from the disagreement households (row "repair") made results worse and cost 4× more, so it is off.
-    Ultra also surfaced two clauses our own reference for Children's had missed; we corrected the reference and say so.</p>`;
+    ${ev.adjudication ? `We also tried letting Ultra settle each disputed finding by reading the policy for that one case: it agreed with our references on ${ev.adjudication.agree_with_reference} of ${ev.adjudication.decided} decided cases, so legal verdicts stay with Z3.` : ""}
+    Nemotron also surfaced three clauses our own reference for Children's had missed; we corrected the reference and say so.</p>`;
 }
 
 /* ---------- boot ---------- */

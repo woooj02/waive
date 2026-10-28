@@ -66,25 +66,29 @@ documents, checking every quote, and scored each model by the audit verdicts its
 |---|---|---|
 | Nemotron 3 Nano | 70% | $0.004 |
 | Nemotron 3 Super | 86% | $0.007 |
-| Nemotron 3 Ultra | 88% | $0.015 |
+| Nemotron 3 Ultra | 86% | $0.015 |
 | Ultra + Super + counterexample repair (earlier meaning check) | 76% | $0.063 |
-| **Ultra + Super, verdicts both agree on** (86% of verdicts) | **93%** (disputed ones: 57%) | $0.022 |
+| **Ultra + Super, verdicts both agree on** (86% of verdicts) | **93%** (disputed ones: 43%) | $0.022 |
 
-What we learned: Ultra is the best single reader, and a second model is most useful as a confidence signal
-rather than as an editor. Letting Ultra rewrite its model from the households where the two models disagree
+What we learned: Ultra and Super read about equally well alone; together, their agreement is the useful signal.
+A second model works best as a confidence check, not as an editor. Letting Ultra rewrite its model from the households where the two models disagree
 cost four times as much and scored lower, so it's off. Most errors are a real quote used for the wrong claim (a
 "reapply every six months" rule read as the application window), which is why the meaning check exists and why
-an audit finding that rests on a rule being *absent* is shown as inconclusive when any rule was dropped. Ultra
-also found two clauses our own Children's reference had missed; we corrected the reference and noted it in the
-file. No model is logically equivalent to our references on any whole document yet. Five references is a small
+an audit finding that rests on a rule being *absent* is shown as inconclusive when any rule was dropped. We also
+tried letting Ultra settle each disputed finding by reading the policy for that one case: it agreed with our
+references on 0 of 6 decided cases and tended to dismiss findings the text supports, so legal verdicts stay with
+Z3. Nemotron found three clauses our own Children's reference had missed; we corrected the reference and noted
+it in the file. No model is logically equivalent to our references on any whole document yet. Five references is a small
 set: treat these as directions, not precise rates.
 
 ## The Colorado audit (October 2026)
 
 28 policy documents found for 38 Colorado hospital systems (five sites blocked downloads); 23 formalised and
 audited, covering 49 hospitals; 5 documents lost every rule in the checks and are listed as not formalised.
-Z3 proved 85 requirements and found 30 counterexamples, 17 confirmed by both models; 18 more are inconclusive.
-All Z3 work for the whole state takes under 3 seconds.
+Z3 proved 89 requirements and found 31 counterexamples. 17 were confirmed by both models,
+and we read each against the policy text (`eval/reviews.json`): 12 upheld, 4 qualified, 1 dismissed because both
+models missed a clause. 18 more are inconclusive. Tax status for 501(r) comes from IRS data (ProPublica Nonprofit Explorer); hospitals with no
+501(c)(3) record (mostly public districts) skip the federal checks. All Z3 work for the state takes about 3.0 s.
 
 ## Where Nebius Token Factory helped
 

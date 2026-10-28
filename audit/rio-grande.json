@@ -2,11 +2,12 @@
  "id": "rio-grande",
  "hospital": "Rio Grande Hospital",
  "dropped_rules": 1,
+ "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority",
  "source_url": "https://riograndehospital.org/wp-content/uploads/2026/02/02272026-FAP-Revised-with-DSH-Corrections-v2.pdf",
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.151,
+ "solver_seconds": 0.153,
  "model": {
   "hospital": "Rio Grande Hospital",
   "doc": "policy",
@@ -485,12 +486,12 @@
    "title": "Earning less never means getting less help",
    "status": "inconclusive",
    "law": [],
-   "summary": "Inconclusive: 1 of the model's rules were dropped by the quote and meaning checks, so a missing rule may be our error. Z3's case: A household of 3 earning $41,153 a year (150.6% of the poverty line), living in Colorado, uninsured, owing $10,000 gets no help; the same household earning more, at 151.00% of the poverty line, gets 40% off. The written income bands leave a gap between them.",
+   "summary": "Inconclusive: 1 of the model's rules were dropped by the quote and meaning checks, so a missing rule may be our error. Z3's case: A household of 3 earning $27,593 a year (101.0% of the poverty line), living in Colorado, uninsured, owing $10,000 gets no help; the same household earning more, at 101.00% of the poverty line, gets 80% off. The written income bands leave a gap between them.",
    "severity": "ambiguity",
    "household": {
     "size": 3,
-    "income_usd": 41153.2,
-    "fpl_pct": 150.63,
+    "income_usd": 27592.7,
+    "fpl_pct": 100.99,
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
@@ -506,8 +507,8 @@
    },
    "household_b": {
     "size": 3,
-    "income_usd": 41253.2,
-    "fpl_pct": 151.0,
+    "income_usd": 27593.2,
+    "fpl_pct": 101.0,
     "assets_usd": 0.0,
     "bill_usd": 10000.0,
     "first_statement_day": 46,
@@ -528,7 +529,7 @@
     },
     "b": {
      "covered": true,
-     "best_stated_discount_pct": 40.0
+     "best_stated_discount_pct": 80.0
     }
    },
    "clauses": [

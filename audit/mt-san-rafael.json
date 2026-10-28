@@ -2,11 +2,12 @@
  "id": "mt-san-rafael",
  "hospital": "Mt. San Rafael Hospital",
  "dropped_rules": 2,
+ "tax_status": "No 501(c)(3) hospital record found in IRS data via ProPublica Nonprofit Explorer (checked 2026-10-28); likely a public hospital district or authority",
  "source_url": "https://www.msrhc.org/docs/MSRH_Charity_Care_Policy_2014_revised_2022_v2.pdf",
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.073,
+ "solver_seconds": 0.077,
  "model": {
   "hospital": "Mt. San Rafael Hospital",
   "doc": "policy",
@@ -437,7 +438,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.01,
+   "seconds": 0.011,
    "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "confidence": "disputed",

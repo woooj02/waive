@@ -3,9 +3,10 @@
 (() => {
   let index = null;
   let current = null;
-  const ORDER = { counterexample: 0, inconclusive: 1, unknown: 1, proved: 2, not_stated: 3, "n/a": 4 };
+  const ORDER = { counterexample: 0, inconclusive: 1, unknown: 1, proved: 2, refuted: 3, not_stated: 3, "n/a": 4 };
   const STATUS = { counterexample: ["Counterexample", "f-bad"], proved: ["Proved", "f-ok"], not_stated: ["Not stated", "f-na"],
-    "n/a": ["Doesn't apply", "f-na"], unknown: ["Solver timed out", "f-na"], inconclusive: ["Inconclusive", "f-na"] };
+    "n/a": ["Doesn't apply", "f-na"], unknown: ["Solver timed out", "f-na"], inconclusive: ["Inconclusive", "f-na"],
+    refuted: ["Dismissed on review", "f-na"] };
   const SEV = { gap: "Conflicts with the law as written", allows_denial: "Allows a denial the law forbids",
     timing: "Timeline conflict", ambiguity: "Gap in the policy's own wording", info: "" };
 
@@ -33,7 +34,8 @@
       monotone: "No income-band gaps", summary_matches_policy: "Summary matches policy" };
     const cols = Object.keys(index.checks || {});
     const sym = { counterexample: ["✗", "f-bad", "counterexample"], proved: ["✓", "f-ok", "proved"], not_stated: ["–", "f-na", "not stated"],
-      "n/a": ["n/a", "f-na", "doesn't apply"], unknown: ["?", "f-na", "solver timed out"], inconclusive: ["?", "f-na", "inconclusive"] };
+      "n/a": ["n/a", "f-na", "doesn't apply"], unknown: ["?", "f-na", "solver timed out"], inconclusive: ["?", "f-na", "inconclusive"],
+      refuted: ["✓", "f-na", "counterexample dismissed on review"] };
     $("#a-matrix").innerHTML = `<thead><tr><th scope="col">Hospital</th>${cols.map((c) => `<th scope="col" title="${esc(index.checks[c])}">${esc(SHORT[c] || index.checks[c])}</th>`).join("")}</tr></thead>
       <tbody>${ps.filter((p) => !p.not_formalised).map((p) => `<tr><th scope="row"><button class="linkish" data-open="${esc(p.id)}">${esc(p.hospital)}</button></th>${cols.map((c) => {
         const [t, k, l] = sym[p.checks?.[c]] || ["", "", "not checked"];
@@ -70,6 +72,7 @@
           <p class="sub"><a href="${esc(d.source_url)}" target="_blank" rel="noopener">${d.model.doc === "summary" ? "The hospital's plain-language summary" : "The hospital's policy"}</a> ·
             ${d.nonprofit ? "nonprofit" : d.nonprofit === false ? "for-profit" : "tax status not verified"} · logic by <span class="chip ${d.model_source === "nemotron" ? "" : "code"}">${d.model_source === "nemotron" ? "Nemotron 3 Ultra, checked by Nemotron 3 Super" : esc(d.model_source)}</span>
             ${d.summary_source ? ` · plain-language summary also checked` : ""}</p>
+          ${d.tax_status ? `<p class="sub small">Tax status: ${esc(d.tax_status)}</p>` : ""}
           ${d.hospitals && d.hospitals.length > 1 ? `<p class="sub small">Covers: ${d.hospitals.map(esc).join(", ")}</p>` : ""}
         </div>
         <div class="a-prove">
@@ -103,6 +106,7 @@
     return `<article class="finding ${cls}">
       <header><span class="st ${cls}">${label}</span>${isCe && SEV[f.severity] ? `<span class="sev">${SEV[f.severity]}</span>` : ""}${conf(f)}<h3>${esc(title)}</h3></header>
       <p class="fsum">${esc(f.summary)}</p>
+      ${f.review ? `<p class="review ${f.review.verdict}"><b>Reviewed against the policy text: ${esc(f.review.verdict)}.</b> ${esc(f.review.note)}</p>` : ""}
       ${isCe ? visual(f) : ""}
       ${(f.clauses?.length || f.law?.length) ? `<details><summary>Evidence <small>${f.domain ? "checked over " + esc(f.domain) : ""}</small></summary>${evidence(f)}</details>` : ""}
     </article>`;

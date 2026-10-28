@@ -27,6 +27,21 @@ ROOT = Path(__file__).resolve().parent.parent
 HAND, NEMO, OUT = ROOT / "eval" / "formal", ROOT / "formal", ROOT / "audit"
 CORPUS = ROOT / "data" / "corpus"
 MANIFEST = {e["id"]: e for e in json.loads((ROOT / "atlas-manifest.json").read_text())}
+REVIEWS = json.loads((ROOT / "eval" / "reviews.json").read_text())["reviews"] if (ROOT / "eval" / "reviews.json").exists() \
+    else []
+
+
+def apply_reviews(pid: str, findings: list[dict]) -> None:
+    """A person read the policy for this finding: show their verdict; a rejected finding is dismissed, not hidden."""
+    for r in REVIEWS:
+        if r["id"] != pid:
+            continue
+        for f in findings:
+            if f["check"] == r["check"] and r["match"] in f["summary"] and f["status"] == "counterexample":
+                f["review"] = {"verdict": r["verdict"], "note": r["note"]}
+                if r["verdict"] == "rejected":
+                    f["status"] = "refuted"
+                break
 
 
 def run_formalize(pid: str) -> None:
@@ -85,6 +100,30 @@ def shared_hospitals(pid: str) -> list[str]:
     return [n for n in dict.fromkeys(names) if n]
 
 
+def settle(pid: str, findings: list[dict], pm: PolicyModel) -> None:
+    """Disputed, inconclusive or single-model counterexamples: Ultra reads the policy for that one case."""
+    from app.adjudicate import adjudicate
+    text_id = pid if (CORPUS / f"{pid}.txt").exists() else pid.removesuffix("-summary")
+    text = (CORPUS / f"{text_id}.txt").read_text()
+    meter = llm.Meter()
+    for f in findings:
+        weak = f["status"] == "inconclusive" or f.get("confidence") in ("disputed", "unconfirmed")
+        if f["status"] not in ("counterexample", "inconclusive") or not weak or f["check"] == "summary_matches_policy":
+            continue  # summary comparisons need both documents: left for a person
+        a = adjudicate(text, f, meter)
+        f["adjudication"] = a
+        if a["verdict"] == "holds":
+            f["status"] = "counterexample"
+            f["confidence"] = "adjudicated"
+            f["summary"] = f["summary"].split("Z3's case: ")[-1]
+        elif a["verdict"] == "refuted":
+            f["status"] = "refuted"
+    LEDGER.append(sum(c.orig_cost_usd for c in meter.calls))
+
+
+LEDGER: list[float] = []
+
+
 def dropped_rules(pid: str) -> int:
     rep = json.loads((NEMO / f"{pid}.json").read_text())["report"]["primary"]
     return sum(1 for d in rep.get("dropped", []) if d["kind"] in ("rule", "unsupported")
@@ -110,6 +149,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--source", choices=["auto", "hand", "nemotron"], default="auto")
     ap.add_argument("--formalize", nargs="*", default=[])
+    ap.add_argument("--adjudicate", action="store_true",
+                    help="Nemotron 3 Ultra settles disputed / inconclusive counterexamples (costs a little)")
     args = ap.parse_args()
     todo = args.formalize
     if todo == ["all"]:  # one run per distinct document: hospitals in a system often share one policy
@@ -167,13 +208,18 @@ def main() -> None:
                     f["status"] = "inconclusive"
                     f["summary"] = (f"Inconclusive: {lost} of the model's rules were dropped by the quote and meaning "
                                     f"checks, so a missing rule may be our error. Z3's case: " + f["summary"])
+        apply_reviews(pid, findings)
         secs = round(time.monotonic() - t0, 3)
-        doc = {"id": pid, "hospital": display_name(pid, pm), "dropped_rules": lost, "source_url": pm.source_url, "nonprofit": pm.nonprofit,
+        if args.adjudicate and source == "nemotron":
+            settle(pid, findings, pm)
+        doc = {"id": pid, "hospital": display_name(pid, pm), "dropped_rules": lost,
+               "tax_status": MANIFEST.get(pid.removesuffix("-summary"), {}).get("tax_status", ""), "source_url": pm.source_url, "nonprofit": pm.nonprofit,
                "model_source": source, "summary_source": pair[1] if pair else None, "solver_seconds": secs,
                "model": json.loads(pm.model_dump_json()), "findings": findings}
         (OUT / f"{pid}.json").write_text(json.dumps(doc, indent=1))
         count = lambda st: sum(f["status"] == st for f in findings)  # noqa: E731
-        rank = {"counterexample": 0, "inconclusive": 1, "unknown": 1, "not_stated": 2, "proved": 3, "n/a": 4}
+        rank = {"counterexample": 0, "inconclusive": 1, "unknown": 1, "not_stated": 2, "proved": 3, "refuted": 3,
+                "n/a": 4}
         checks: dict = {}
         for f in findings:  # worst verdict per check
             if f["check"] not in checks or rank[f["status"]] < rank[checks[f["check"]]]:
@@ -183,7 +229,10 @@ def main() -> None:
                       "checks": checks, "inconclusive": count("inconclusive"), "confidence": conf,
                       "proved": count("proved"), "counterexamples": count("counterexample"),
                       "confirmed_counterexamples": sum(f["status"] == "counterexample" and
-                                                       f.get("confidence") == "confirmed" for f in findings),
+                                                       f.get("confidence") in ("confirmed", "adjudicated")
+                                                       for f in findings),
+                      "refuted": count("refuted"),
+                      "reviewed": sum(1 for f in findings if f.get("review")),
                       "disputed": sum(f.get("confidence") == "disputed" for f in findings),
                       "doc": pm.doc, "hospitals": shared_hospitals(pid),
                       "not_stated": count("not_stated"), "solver_seconds": secs,

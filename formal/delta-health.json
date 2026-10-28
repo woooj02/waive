@@ -3,7 +3,7 @@
   "hospital": "Delta Health",
   "doc": "policy",
   "source_url": "https://www.deltamem.org/getpage.php?name=fin_policy",
-  "nonprofit": null,
+  "nonprofit": true,
   "requires": [
    {
     "id": "req-uninsured-or-underinsured",
@@ -196,7 +196,7 @@
    "hospital": "Delta Memorial Hospital",
    "doc": "policy",
    "source_url": "https://www.deltamem.org/getpage.php?name=fin_policy",
-   "nonprofit": null,
+   "nonprofit": true,
    "requires": [],
    "rules": [
     {

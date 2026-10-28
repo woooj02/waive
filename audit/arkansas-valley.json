@@ -2,11 +2,12 @@
  "id": "arkansas-valley",
  "hospital": "Arkansas Valley Regional Medical Center",
  "dropped_rules": 1,
+ "tax_status": "",
  "source_url": "https://www.avrmc.org/docs/Financial_Assistance_policy.pdf?sub=For%20Patients",
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.096,
+ "solver_seconds": 0.099,
  "model": {
   "hospital": "Arkansas Valley Regional Medical Center",
   "doc": "policy",
