@@ -1,0 +1,23 @@
+{
+ "hospital": "HCA HealthONE",
+ "doc": "policy",
+ "source_url": "https://www.healthonecares.com/patient-resources/patient-financial-resources/financial-assistance",
+ "nonprofit": false,
+ "requires": [],
+ "rules": [
+  {"id": "hdc_250", "label": "Colorado Hospital Discounted Care limits at or below 250% FPL",
+   "when": [[{"var": "co_resident", "op": "true"}], [{"var": "fpl_pct", "op": "<=", "value": 250}]],
+   "discount_pct": null,
+   "quote": "For patients whose income is at or below 250% of the Federal Poverty Guidelines, the limits to how much the hospital can charge must follow the rules of Hospital Discounted Care."},
+  {"id": "charity_250", "label": "100% charity discount at or below 250% FPL, non-elective care",
+   "when": [[{"var": "fpl_pct", "op": "<=", "value": 250}], [{"var": "medically_necessary", "op": "true"}]],
+   "discount_pct": 100,
+   "quote": "with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed."},
+  {"id": "expanded_251_400", "label": "expanded assistance from 251% to 400% FPL",
+   "when": [[{"var": "fpl_pct", "op": ">=", "value": 251}], [{"var": "fpl_pct", "op": "<=", "value": 400}]],
+   "discount_pct": null,
+   "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level"}
+ ],
+ "timing": {},
+ "notes": ["Hand-written reference model of the web page (HCA HealthONE is for-profit, so 501(r) does not apply). The charity tier also requires that the patient not qualify for state or federal assistance; left out as ambiguous."]
+}

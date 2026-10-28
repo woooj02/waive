@@ -1,0 +1,33 @@
+{
+ "hospital": "Intermountain Health",
+ "doc": "policy",
+ "source_url": "https://www.intermountainhealth.org/-/media/files/intermountain-health/for-patients/financial-assistance/2026/imh-financial-assistance-policy-2026_english.ashx",
+ "nonprofit": true,
+ "requires": [
+  {"id": "service_area", "label": "must live in an Intermountain service area, unless the care was an emergency",
+   "cond": [[{"var": "in_service_area", "op": "true"}, {"var": "emergency", "op": "true"}]],
+   "quote": "Residency within an Intermountain service area for non-emergent hospital services"},
+  {"id": "public_programs", "label": "may be denied for not applying for Medicaid or other programs",
+   "cond": [[{"var": "applied_public_programs", "op": "true"}]], "discretionary": true,
+   "quote": "do not cooperate in applying for programs they may pay for their health care services such as Medicaid, may be denied financial assistance"}
+ ],
+ "rules": [
+  {"id": "free_250", "label": "100% off at or below 250% FPL, if uninsured or underinsured",
+   "when": [[{"var": "fpl_pct", "op": "<=", "value": 250}],
+            [{"var": "insured", "op": "false"}, {"var": "underinsured", "op": "true"}]],
+   "discount_pct": 100,
+   "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for"},
+  {"id": "band_250_500", "label": "discount (Attachment B) above 250% up to 500% FPL, if uninsured or underinsured",
+   "when": [[{"var": "fpl_pct", "op": ">", "value": 250}], [{"var": "fpl_pct", "op": "<=", "value": 500}],
+            [{"var": "insured", "op": "false"}, {"var": "underinsured", "op": "true"}]],
+   "discount_pct": null,
+   "quote": "incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines,"},
+  {"id": "hardship", "label": "medical hardship above 500% FPL: charges limited to 25% of income",
+   "when": [[{"var": "fpl_pct", "op": ">", "value": 500}], [{"var": "bill_pct_income", "op": ">", "value": 25}]],
+   "discount_pct": null,
+   "quote": "Intermountain Health charges limited to 25% of their annual family income."}
+ ],
+ "timing": {},
+ "notes": ["Hand-written reference model. The free-care tier also requires all other payment options to be exhausted 'unless prohibited by local, state, or federal laws'; that condition is left out because Colorado law prohibits it for qualified patients.",
+           "The policy states no application window in days and no ECA waiting period in days."]
+}

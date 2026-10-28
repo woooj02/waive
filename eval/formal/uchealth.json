@@ -1,0 +1,141 @@
+{
+ "hospital": "UCHealth",
+ "doc": "policy",
+ "source_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/2026/09/29153210/UCHealth-Financial-Assistance-Policy-English-09_28_26.pdf",
+ "nonprofit": true,
+ "requires": [
+  {
+   "id": "resident",
+   "label": "must be a Colorado resident",
+   "cond": [
+    [
+     {
+      "var": "co_resident",
+      "op": "true"
+     }
+    ]
+   ],
+   "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance."
+  },
+  {
+   "id": "necessary",
+   "label": "emergency or medically necessary care only",
+   "cond": [
+    [
+     {
+      "var": "medically_necessary",
+      "op": "true"
+     }
+    ]
+   ],
+   "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services"
+  }
+ ],
+ "rules": [
+  {
+   "id": "free_250",
+   "label": "100% off at or below 250% FPL, if uninsured or under-insured",
+   "when": [
+    [
+     {
+      "var": "fpl_pct",
+      "op": "<=",
+      "value": 250
+     }
+    ],
+    [
+     {
+      "var": "insured",
+      "op": "false"
+     },
+     {
+      "var": "underinsured",
+      "op": "true"
+     }
+    ]
+   ],
+   "discount_pct": 100,
+   "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges"
+  },
+  {
+   "id": "band_251_400",
+   "label": "facility discount (Appendix A) from 251% to 400% FPL, if uninsured or under-insured",
+   "when": [
+    [
+     {
+      "var": "fpl_pct",
+      "op": ">=",
+      "value": 251
+     }
+    ],
+    [
+     {
+      "var": "fpl_pct",
+      "op": "<=",
+      "value": 400
+     }
+    ],
+    [
+     {
+      "var": "insured",
+      "op": "false"
+     },
+     {
+      "var": "underinsured",
+      "op": "true"
+     }
+    ]
+   ],
+   "discount_pct": null,
+   "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges"
+  },
+  {
+   "id": "presumptive",
+   "label": "100% off when presumptively eligible (homeless, SNAP, WIC and similar)",
+   "when": [
+    [
+     {
+      "var": "presumptive_program",
+      "op": "true"
+     }
+    ]
+   ],
+   "discount_pct": 100,
+   "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy."
+  },
+  {
+   "id": "catastrophic",
+   "label": "catastrophic balance: bill over 50% of income plus financial resources",
+   "when": [
+    [
+     {
+      "var": "bill_pct_income_assets",
+      "op": ">",
+      "value": 50
+     }
+    ]
+   ],
+   "discount_pct": null,
+   "quote": "is greater than 50% of the Patient's total annual Family Income and Financial Resources combined."
+  }
+ ],
+ "timing": {
+  "application": [
+   {
+    "anchor": "first_statement",
+    "days": 365,
+    "quote": "Applicants have the later of (a) 365 days from the date of the first post-discharge Billing"
+   }
+  ],
+  "eca_not_before": [
+   {
+    "anchor": "first_statement",
+    "days": 365,
+    "quote": "UCHealth will refrain from initiating ECAs for at least 365 days from the date the"
+   }
+  ]
+ },
+ "notes": [
+  "Hand-written reference model. Under-insured is the policy's own term: insured but out-of-pocket costs exceed the guarantor's ability to pay."
+ ]
+}

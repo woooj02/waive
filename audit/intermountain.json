@@ -1,0 +1,757 @@
+{
+ "id": "intermountain",
+ "hospital": "Intermountain Health",
+ "source_url": "https://www.intermountainhealth.org/-/media/files/intermountain-health/for-patients/financial-assistance/2026/imh-financial-assistance-policy-2026_english.ashx",
+ "nonprofit": true,
+ "model_source": "hand reference",
+ "summary_source": null,
+ "solver_seconds": 0.118,
+ "model": {
+  "hospital": "Intermountain Health",
+  "doc": "policy",
+  "source_url": "https://www.intermountainhealth.org/-/media/files/intermountain-health/for-patients/financial-assistance/2026/imh-financial-assistance-policy-2026_english.ashx",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "service_area",
+    "label": "must live in an Intermountain service area, unless the care was an emergency",
+    "cond": [
+     [
+      {
+       "var": "in_service_area",
+       "op": "true",
+       "value": null
+      },
+      {
+       "var": "emergency",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "Residency within an Intermountain service area for non-emergent hospital services"
+   },
+   {
+    "id": "public_programs",
+    "label": "may be denied for not applying for Medicaid or other programs",
+    "cond": [
+     [
+      {
+       "var": "applied_public_programs",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": true,
+    "quote": "do not cooperate in applying for programs they may pay for their health care services such as Medicaid, may be denied financial assistance"
+   }
+  ],
+  "rules": [
+   {
+    "id": "free_250",
+    "label": "100% off at or below 250% FPL, if uninsured or underinsured",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for"
+   },
+   {
+    "id": "band_250_500",
+    "label": "discount (Attachment B) above 250% up to 500% FPL, if uninsured or underinsured",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines,"
+   },
+   {
+    "id": "hardship",
+    "label": "medical hardship above 500% FPL: charges limited to 25% of income",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">",
+       "value": 500.0
+      }
+     ],
+     [
+      {
+       "var": "bill_pct_income",
+       "op": ">",
+       "value": 25.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Intermountain Health charges limited to 25% of their annual family income."
+   }
+  ],
+  "timing": {
+   "application": [],
+   "eca_not_before": [],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Hand-written reference model. The free-care tier also requires all other payment options to be exhausted 'unless prohibited by local, state, or federal laws'; that condition is left out because Colorado law prohibits it for qualified patients.",
+   "The policy states no application window in days and no ECA waiting period in days."
+  ]
+ },
+ "findings": [
+  {
+   "check": "co_hdc_coverage",
+   "title": "Covers everyone Colorado's Hospital Discounted Care protects",
+   "status": "counterexample",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients and their households are eligible for Hospital Discounted Care if, during the required screening and application processes, they are determined to: Have a total household income at or below 250% of the Federal Poverty Guidelines (FPG), and Be residents of the State of Colorado."
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "IF REQUESTED BY THE PATIENT, A HEALTH-CARE FACILITY SHALL SCREEN AN INSURED PATIENT FOR DISCOUNTED CARE"
+    }
+   ],
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000, after non-emergency care is turned away by this requirement: \"must live in an Intermountain service area, unless the care was an emergency\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "severity": "gap",
+   "household": {
+    "size": 3,
+    "income_usd": 27000.0,
+    "fpl_pct": 98.82,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": false,
+    "emergency": false,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": null,
+   "policy_outcome": {
+    "covered": false,
+    "best_stated_discount_pct": 0.0
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "service_area",
+     "label": "must live in an Intermountain service area, unless the care was an emergency",
+     "quote": "Residency within an Intermountain service area for non-emergent hospital services",
+     "discretionary": false,
+     "holds": false
+    },
+    {
+     "kind": "requires",
+     "id": "public_programs",
+     "label": "may be denied for not applying for Medicaid or other programs",
+     "quote": "do not cooperate in applying for programs they may pay for their health care services such as Medicaid, may be denied financial assistance",
+     "discretionary": true,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "free_250",
+     "label": "100% off at or below 250% FPL, if uninsured or underinsured",
+     "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for",
+     "discount_pct": 100.0,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "band_250_500",
+     "label": "discount (Attachment B) above 250% up to 500% FPL, if uninsured or underinsured",
+     "quote": "incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines,",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "hardship",
+     "label": "medical hardship above 500% FPL: charges limited to 25% of income",
+     "quote": "Intermountain Health charges limited to 25% of their annual family income.",
+     "discount_pct": null,
+     "holds": false
+    }
+   ],
+   "seconds": 0.003,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts"
+  },
+  {
+   "check": "co_hdc_coverage",
+   "title": "Covers everyone Colorado's Hospital Discounted Care protects",
+   "status": "counterexample",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients and their households are eligible for Hospital Discounted Care if, during the required screening and application processes, they are determined to: Have a total household income at or below 250% of the Federal Poverty Guidelines (FPG), and Be residents of the State of Colorado."
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "IF REQUESTED BY THE PATIENT, A HEALTH-CARE FACILITY SHALL SCREEN AN INSURED PATIENT FOR DISCOUNTED CARE"
+    }
+   ],
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, who hasn't applied for Medicaid may be denied by this requirement: \"may be denied for not applying for Medicaid or other programs\". Colorado law makes them eligible for Hospital Discounted Care.",
+   "severity": "allows_denial",
+   "household": {
+    "size": 3,
+    "income_usd": 27000.0,
+    "fpl_pct": 98.82,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": false,
+    "presumptive_program": false
+   },
+   "household_b": null,
+   "policy_outcome": {
+    "covered": false,
+    "best_stated_discount_pct": 0.0
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "service_area",
+     "label": "must live in an Intermountain service area, unless the care was an emergency",
+     "quote": "Residency within an Intermountain service area for non-emergent hospital services",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "requires",
+     "id": "public_programs",
+     "label": "may be denied for not applying for Medicaid or other programs",
+     "quote": "do not cooperate in applying for programs they may pay for their health care services such as Medicaid, may be denied financial assistance",
+     "discretionary": true,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "free_250",
+     "label": "100% off at or below 250% FPL, if uninsured or underinsured",
+     "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for",
+     "discount_pct": 100.0,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "band_250_500",
+     "label": "discount (Attachment B) above 250% up to 500% FPL, if uninsured or underinsured",
+     "quote": "incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines,",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "hardship",
+     "label": "medical hardship above 500% FPL: charges limited to 25% of income",
+     "quote": "Intermountain Health charges limited to 25% of their annual family income.",
+     "discount_pct": null,
+     "holds": false
+    }
+   ],
+   "seconds": 0.003,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts"
+  },
+  {
+   "check": "co_hdc_coverage",
+   "title": "Covers everyone Colorado's Hospital Discounted Care protects",
+   "status": "counterexample",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients and their households are eligible for Hospital Discounted Care if, during the required screening and application processes, they are determined to: Have a total household income at or below 250% of the Federal Poverty Guidelines (FPG), and Be residents of the State of Colorado."
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "IF REQUESTED BY THE PATIENT, A HEALTH-CARE FACILITY SHALL SCREEN AN INSURED PATIENT FOR DISCOUNTED CARE"
+    }
+   ],
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care.",
+   "severity": "gap",
+   "household": {
+    "size": 3,
+    "income_usd": 27000.0,
+    "fpl_pct": 98.82,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": true,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": null,
+   "policy_outcome": {
+    "covered": false,
+    "best_stated_discount_pct": 0.0
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "service_area",
+     "label": "must live in an Intermountain service area, unless the care was an emergency",
+     "quote": "Residency within an Intermountain service area for non-emergent hospital services",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "requires",
+     "id": "public_programs",
+     "label": "may be denied for not applying for Medicaid or other programs",
+     "quote": "do not cooperate in applying for programs they may pay for their health care services such as Medicaid, may be denied financial assistance",
+     "discretionary": true,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "free_250",
+     "label": "100% off at or below 250% FPL, if uninsured or underinsured",
+     "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "band_250_500",
+     "label": "discount (Attachment B) above 250% up to 500% FPL, if uninsured or underinsured",
+     "quote": "incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines,",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "hardship",
+     "label": "medical hardship above 500% FPL: charges limited to 25% of income",
+     "quote": "Intermountain Health charges limited to 25% of their annual family income.",
+     "discount_pct": null,
+     "holds": false
+    }
+   ],
+   "seconds": 0.003,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts"
+  },
+  {
+   "check": "co_hdc_assets",
+   "title": "Ignores assets for Colorado-protected households",
+   "status": "proved",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE METHODOLOGY MUST NOT CONSIDER A PATIENT'S ASSETS."
+    }
+   ],
+   "summary": "Proved: for households Colorado's law protects, savings and assets never changes the outcome.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.002,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)"
+  },
+  {
+   "check": "co_hdc_public",
+   "title": "Doesn't require a Medicaid application first",
+   "status": "counterexample",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "DENY DISCOUNTED CARE ON THE BASIS THAT THE PATIENT HAS NOT APPLIED FOR ANY PUBLIC BENEFITS PROGRAM"
+    }
+   ],
+   "summary": "Two households differ only in whether they applied for Medicaid or other public programs: A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, who hasn't applied for Medicaid is treated worse than the same household with a Medicaid application on file. Colorado law says whether they applied for Medicaid or other public programs must not decide discounted care.",
+   "severity": "allows_denial",
+   "household": {
+    "size": 3,
+    "income_usd": 27000.0,
+    "fpl_pct": 98.82,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": {
+    "size": 3,
+    "income_usd": 27000.0,
+    "fpl_pct": 98.82,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": false,
+    "presumptive_program": false
+   },
+   "policy_outcome": {
+    "a": {
+     "covered": true,
+     "best_stated_discount_pct": 100.0
+    },
+    "b": {
+     "covered": false,
+     "best_stated_discount_pct": 0.0
+    }
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "service_area",
+     "label": "must live in an Intermountain service area, unless the care was an emergency",
+     "quote": "Residency within an Intermountain service area for non-emergent hospital services",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "requires",
+     "id": "public_programs",
+     "label": "may be denied for not applying for Medicaid or other programs",
+     "quote": "do not cooperate in applying for programs they may pay for their health care services such as Medicaid, may be denied financial assistance",
+     "discretionary": true,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "free_250",
+     "label": "100% off at or below 250% FPL, if uninsured or underinsured",
+     "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for",
+     "discount_pct": 100.0,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "band_250_500",
+     "label": "discount (Attachment B) above 250% up to 500% FPL, if uninsured or underinsured",
+     "quote": "incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines,",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "hardship",
+     "label": "medical hardship above 500% FPL: charges limited to 25% of income",
+     "quote": "Intermountain Health charges limited to 25% of their annual family income.",
+     "discount_pct": null,
+     "holds": false
+    }
+   ],
+   "seconds": 0.006,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)"
+  },
+  {
+   "check": "co_eca_182",
+   "title": "No collection lawsuits or garnishment before day 182",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "NO MEDICAL CREDITOR COLLECTING ON A DEBT FOR HOSPITAL SERVICES SHALL ENGAGE IN ANY PERMISSIBLE EXTRAORDINARY COLLECTION ACTIONS UNTIL ONE HUNDRED EIGHTY-TWO DAYS AFTER THE DATE THE PATIENT RECEIVES HOSPITAL SERVICES."
+    },
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "begin sending bills beginning 46 days after the patient's date of service or date of discharge"
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 46 to day 400"
+  },
+  {
+   "check": "co_window_181",
+   "title": "Accepts applications for at least 181 days after care",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients may complete a screening at any time within at least 181 days after their date of service or discharge, whichever is later"
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400"
+  },
+  {
+   "check": "co_window_insured",
+   "title": "Insured patients get 45 days after their first post-insurance bill",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "At least 45 days from the date of the first bill after the patient's insurance adjustment, even if that date falls outside the normal 181-day window."
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400"
+  },
+  {
+   "check": "co_plan_4pct",
+   "title": "Payment plans capped at 4% of monthly income, done after 36 payments",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE PATIENT IS NOT PAYING MORE THAN FOUR PERCENT OF THE PATIENT'S MONTHLY HOUSEHOLD INCOME ON A BILL FROM A HEALTH-CARE FACILITY"
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "AFTER A CUMULATIVE THIRTY-SIX MONTHS OF PAYMENTS, CONSIDER THE PATIENT'S BILL PAID IN FULL"
+    }
+   ],
+   "summary": "The policy states no payment-plan terms to check. Colorado's 4% / 36-month limits apply anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": ""
+  },
+  {
+   "check": "fed_window_240",
+   "title": "Application window of 240 days after the first bill (501(r))",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-1(b)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-1",
+     "quote": "ends on the later of the 240th day after the date that the first post-discharge billing statement for the care is provided"
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400"
+  },
+  {
+   "check": "fed_eca_120",
+   "title": "No collection actions in the first 120 days after the first bill (501(r))",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-6(c)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-6",
+     "quote": "for at least 120 days from the date the hospital facility provides the first post-discharge billing statement for the care"
+    }
+   ],
+   "summary": "The policy doesn't state this in a way that can be checked. The law applies anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400"
+  },
+  {
+   "check": "monotone",
+   "title": "Earning less never means getting less help",
+   "status": "counterexample",
+   "law": [],
+   "summary": "A household of 3 earning $136,500 a year (499.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $34,150 gets no help; the same household earning more, at 500.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "severity": "ambiguity",
+   "household": {
+    "size": 3,
+    "income_usd": 136500.01,
+    "fpl_pct": 499.63,
+    "assets_usd": 0.0,
+    "bill_usd": 34150.01,
+    "first_statement_day": 46,
+    "insured": true,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": {
+    "size": 3,
+    "income_usd": 136600.01,
+    "fpl_pct": 500.0,
+    "assets_usd": 0.0,
+    "bill_usd": 34150.01,
+    "first_statement_day": 46,
+    "insured": true,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "policy_outcome": {
+    "a": {
+     "covered": false,
+     "best_stated_discount_pct": 0.0
+    },
+    "b": {
+     "covered": true,
+     "best_stated_discount_pct": 0.0
+    }
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "service_area",
+     "label": "must live in an Intermountain service area, unless the care was an emergency",
+     "quote": "Residency within an Intermountain service area for non-emergent hospital services",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "requires",
+     "id": "public_programs",
+     "label": "may be denied for not applying for Medicaid or other programs",
+     "quote": "do not cooperate in applying for programs they may pay for their health care services such as Medicaid, may be denied financial assistance",
+     "discretionary": true,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "free_250",
+     "label": "100% off at or below 250% FPL, if uninsured or underinsured",
+     "quote": "Uninsured and Underinsured Patients with annualized family household incomes not in excess of 250% of the Federal Poverty Guidelines will be eligible for",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "band_250_500",
+     "label": "discount (Attachment B) above 250% up to 500% FPL, if uninsured or underinsured",
+     "quote": "incomes are in excess of 250% but less than or equal to 500% of the Federal Poverty Guidelines,",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "hardship",
+     "label": "medical hardship above 500% FPL: charges limited to 25% of income",
+     "quote": "Intermountain Health charges limited to 25% of their annual family income.",
+     "discount_pct": null,
+     "holds": false
+    }
+   ],
+   "seconds": 0.011,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)"
+  }
+ ]
+}

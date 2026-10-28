@@ -1,0 +1,764 @@
+{
+ "id": "uchealth",
+ "hospital": "UCHealth",
+ "source_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/2026/09/29153210/UCHealth-Financial-Assistance-Policy-English-09_28_26.pdf",
+ "nonprofit": true,
+ "model_source": "hand reference",
+ "summary_source": "hand reference",
+ "solver_seconds": 0.137,
+ "model": {
+  "hospital": "UCHealth",
+  "doc": "policy",
+  "source_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/2026/09/29153210/UCHealth-Financial-Assistance-Policy-English-09_28_26.pdf",
+  "nonprofit": true,
+  "requires": [
+   {
+    "id": "resident",
+    "label": "must be a Colorado resident",
+    "cond": [
+     [
+      {
+       "var": "co_resident",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance."
+   },
+   {
+    "id": "necessary",
+    "label": "emergency or medically necessary care only",
+    "cond": [
+     [
+      {
+       "var": "medically_necessary",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discretionary": false,
+    "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services"
+   }
+  ],
+  "rules": [
+   {
+    "id": "free_250",
+    "label": "100% off at or below 250% FPL, if uninsured or under-insured",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 250.0
+      }
+     ],
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges"
+   },
+   {
+    "id": "band_251_400",
+    "label": "facility discount (Appendix A) from 251% to 400% FPL, if uninsured or under-insured",
+    "when": [
+     [
+      {
+       "var": "fpl_pct",
+       "op": ">=",
+       "value": 251.0
+      }
+     ],
+     [
+      {
+       "var": "fpl_pct",
+       "op": "<=",
+       "value": 400.0
+      }
+     ],
+     [
+      {
+       "var": "insured",
+       "op": "false",
+       "value": null
+      },
+      {
+       "var": "underinsured",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges"
+   },
+   {
+    "id": "presumptive",
+    "label": "100% off when presumptively eligible (homeless, SNAP, WIC and similar)",
+    "when": [
+     [
+      {
+       "var": "presumptive_program",
+       "op": "true",
+       "value": null
+      }
+     ]
+    ],
+    "discount_pct": 100.0,
+    "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy."
+   },
+   {
+    "id": "catastrophic",
+    "label": "catastrophic balance: bill over 50% of income plus financial resources",
+    "when": [
+     [
+      {
+       "var": "bill_pct_income_assets",
+       "op": ">",
+       "value": 50.0
+      }
+     ]
+    ],
+    "discount_pct": null,
+    "quote": "is greater than 50% of the Patient's total annual Family Income and Financial Resources combined."
+   }
+  ],
+  "timing": {
+   "application": [
+    {
+     "anchor": "first_statement",
+     "days": 365,
+     "quote": "Applicants have the later of (a) 365 days from the date of the first post-discharge Billing"
+    }
+   ],
+   "eca_not_before": [
+    {
+     "anchor": "first_statement",
+     "days": 365,
+     "quote": "UCHealth will refrain from initiating ECAs for at least 365 days from the date the"
+    }
+   ],
+   "first_statement_from_day": null
+  },
+  "payment_plan": {
+   "max_pct_monthly_income": null,
+   "max_months": null,
+   "min_monthly_usd": null,
+   "quote": ""
+  },
+  "notes": [
+   "Hand-written reference model. Under-insured is the policy's own term: insured but out-of-pocket costs exceed the guarantor's ability to pay."
+  ]
+ },
+ "findings": [
+  {
+   "check": "co_hdc_coverage",
+   "title": "Covers everyone Colorado's Hospital Discounted Care protects",
+   "status": "counterexample",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients and their households are eligible for Hospital Discounted Care if, during the required screening and application processes, they are determined to: Have a total household income at or below 250% of the Federal Poverty Guidelines (FPG), and Be residents of the State of Colorado."
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "IF REQUESTED BY THE PATIENT, A HEALTH-CARE FACILITY SHALL SCREEN AN INSURED PATIENT FOR DISCOUNTED CARE"
+    }
+   ],
+   "summary": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care.",
+   "severity": "gap",
+   "household": {
+    "size": 3,
+    "income_usd": 27000.0,
+    "fpl_pct": 98.82,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": true,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": null,
+   "policy_outcome": {
+    "covered": false,
+    "best_stated_discount_pct": 0.0
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "resident",
+     "label": "must be a Colorado resident",
+     "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance.",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "requires",
+     "id": "necessary",
+     "label": "emergency or medically necessary care only",
+     "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "free_250",
+     "label": "100% off at or below 250% FPL, if uninsured or under-insured",
+     "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "band_251_400",
+     "label": "facility discount (Appendix A) from 251% to 400% FPL, if uninsured or under-insured",
+     "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "presumptive",
+     "label": "100% off when presumptively eligible (homeless, SNAP, WIC and similar)",
+     "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy.",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "catastrophic",
+     "label": "catastrophic balance: bill over 50% of income plus financial resources",
+     "quote": "is greater than 50% of the Patient's total annual Family Income and Financial Resources combined.",
+     "discount_pct": null,
+     "holds": false
+    }
+   ],
+   "seconds": 0.004,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts"
+  },
+  {
+   "check": "co_hdc_assets",
+   "title": "Ignores assets for Colorado-protected households",
+   "status": "counterexample",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE METHODOLOGY MUST NOT CONSIDER A PATIENT'S ASSETS."
+    }
+   ],
+   "summary": "Two households differ only in savings and assets: A household of 3 earning $20,000 a year (73.2% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, with $5,000 in savings, owing $10,001 is treated worse than the same household with $0 in savings. Colorado law says savings and assets must not decide discounted care.",
+   "severity": "gap",
+   "household": {
+    "size": 3,
+    "income_usd": 20000.0,
+    "fpl_pct": 73.2,
+    "assets_usd": 5000.0,
+    "bill_usd": 10001.0,
+    "first_statement_day": 46,
+    "insured": true,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": {
+    "size": 3,
+    "income_usd": 20000.0,
+    "fpl_pct": 73.2,
+    "assets_usd": 0.0,
+    "bill_usd": 10001.0,
+    "first_statement_day": 46,
+    "insured": true,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "policy_outcome": {
+    "a": {
+     "covered": false,
+     "best_stated_discount_pct": 0.0
+    },
+    "b": {
+     "covered": true,
+     "best_stated_discount_pct": 0.0
+    }
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "resident",
+     "label": "must be a Colorado resident",
+     "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance.",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "requires",
+     "id": "necessary",
+     "label": "emergency or medically necessary care only",
+     "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "free_250",
+     "label": "100% off at or below 250% FPL, if uninsured or under-insured",
+     "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "band_251_400",
+     "label": "facility discount (Appendix A) from 251% to 400% FPL, if uninsured or under-insured",
+     "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "presumptive",
+     "label": "100% off when presumptively eligible (homeless, SNAP, WIC and similar)",
+     "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy.",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "catastrophic",
+     "label": "catastrophic balance: bill over 50% of income plus financial resources",
+     "quote": "is greater than 50% of the Patient's total annual Family Income and Financial Resources combined.",
+     "discount_pct": null,
+     "holds": false
+    }
+   ],
+   "seconds": 0.014,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)"
+  },
+  {
+   "check": "co_hdc_public",
+   "title": "Doesn't require a Medicaid application first",
+   "status": "proved",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "DENY DISCOUNTED CARE ON THE BASIS THAT THE PATIENT HAS NOT APPLIED FOR ANY PUBLIC BENEFITS PROGRAM"
+    }
+   ],
+   "summary": "Proved: for households Colorado's law protects, whether they applied for Medicaid or other public programs never changes the outcome.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.001,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)"
+  },
+  {
+   "check": "co_eca_182",
+   "title": "No collection lawsuits or garnishment before day 182",
+   "status": "proved",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "NO MEDICAL CREDITOR COLLECTING ON A DEBT FOR HOSPITAL SERVICES SHALL ENGAGE IN ANY PERMISSIBLE EXTRAORDINARY COLLECTION ACTIONS UNTIL ONE HUNDRED EIGHTY-TWO DAYS AFTER THE DATE THE PATIENT RECEIVES HOSPITAL SERVICES."
+    },
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "begin sending bills beginning 46 days after the patient's date of service or date of discharge"
+    }
+   ],
+   "summary": "Proved: whatever day the first bill goes out, the policy's own timeline never allows a collection action before day 182 after care.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.001,
+   "domain": "every first-bill day from day 46 to day 400"
+  },
+  {
+   "check": "co_window_181",
+   "title": "Accepts applications for at least 181 days after care",
+   "status": "proved",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "Patients may complete a screening at any time within at least 181 days after their date of service or discharge, whichever is later"
+    }
+   ],
+   "summary": "Proved: the application window never closes before day 181 after care.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.001,
+   "domain": "every first-bill day from day 0 to day 400"
+  },
+  {
+   "check": "co_window_insured",
+   "title": "Insured patients get 45 days after their first post-insurance bill",
+   "status": "proved",
+   "law": [
+    {
+     "source": "HCPF Hospital Discounted Care Operations Manual, Mar 31 2026",
+     "url": "https://hcpf.colorado.gov/sites/hcpf/files/Hospital%20Discounted%20Care%20Manual-03312026.pdf",
+     "quote": "At least 45 days from the date of the first bill after the patient's insurance adjustment, even if that date falls outside the normal 181-day window."
+    }
+   ],
+   "summary": "Proved: the window always stays open at least 45 days past the first bill.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400"
+  },
+  {
+   "check": "co_plan_4pct",
+   "title": "Payment plans capped at 4% of monthly income, done after 36 payments",
+   "status": "not_stated",
+   "law": [
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "THE PATIENT IS NOT PAYING MORE THAN FOUR PERCENT OF THE PATIENT'S MONTHLY HOUSEHOLD INCOME ON A BILL FROM A HEALTH-CARE FACILITY"
+    },
+    {
+     "source": "C.R.S. 25.5-3-501 et seq., 6-20-203 (HB21-1198)",
+     "url": "https://leg.colorado.gov/sites/default/files/2021a_1198_signed.pdf",
+     "quote": "AFTER A CUMULATIVE THIRTY-SIX MONTHS OF PAYMENTS, CONSIDER THE PATIENT'S BILL PAID IN FULL"
+    }
+   ],
+   "summary": "The policy states no payment-plan terms to check. Colorado's 4% / 36-month limits apply anyway.",
+   "severity": "info",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": ""
+  },
+  {
+   "check": "fed_window_240",
+   "title": "Application window of 240 days after the first bill (501(r))",
+   "status": "proved",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-1(b)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-1",
+     "quote": "ends on the later of the 240th day after the date that the first post-discharge billing statement for the care is provided"
+    }
+   ],
+   "summary": "Proved: for any first-bill day, applications stay open at least 240 days after it.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400"
+  },
+  {
+   "check": "fed_eca_120",
+   "title": "No collection actions in the first 120 days after the first bill (501(r))",
+   "status": "proved",
+   "law": [
+    {
+     "source": "26 CFR 1.501(r)-6(c)(3)",
+     "url": "https://www.ecfr.gov/current/title-26/section-1.501(r)-6",
+     "quote": "for at least 120 days from the date the hospital facility provides the first post-discharge billing statement for the care"
+    }
+   ],
+   "summary": "Proved: collection actions never start sooner than 120 days after the first bill.",
+   "severity": "",
+   "household": null,
+   "household_b": null,
+   "policy_outcome": null,
+   "clauses": [],
+   "seconds": 0.0,
+   "domain": "every first-bill day from day 0 to day 400"
+  },
+  {
+   "check": "monotone",
+   "title": "Earning less never means getting less help",
+   "status": "counterexample",
+   "law": [],
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, uninsured, owing $10,000 gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "severity": "ambiguity",
+   "household": {
+    "size": 3,
+    "income_usd": 68473.2,
+    "fpl_pct": 250.63,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "household_b": {
+    "size": 3,
+    "income_usd": 68573.2,
+    "fpl_pct": 251.0,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": false
+   },
+   "policy_outcome": {
+    "a": {
+     "covered": false,
+     "best_stated_discount_pct": 0.0
+    },
+    "b": {
+     "covered": true,
+     "best_stated_discount_pct": 0.0
+    }
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "resident",
+     "label": "must be a Colorado resident",
+     "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance.",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "requires",
+     "id": "necessary",
+     "label": "emergency or medically necessary care only",
+     "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services",
+     "discretionary": false,
+     "holds": true
+    },
+    {
+     "kind": "rule",
+     "id": "free_250",
+     "label": "100% off at or below 250% FPL, if uninsured or under-insured",
+     "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "band_251_400",
+     "label": "facility discount (Appendix A) from 251% to 400% FPL, if uninsured or under-insured",
+     "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges",
+     "discount_pct": null,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "presumptive",
+     "label": "100% off when presumptively eligible (homeless, SNAP, WIC and similar)",
+     "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy.",
+     "discount_pct": 100.0,
+     "holds": false
+    },
+    {
+     "kind": "rule",
+     "id": "catastrophic",
+     "label": "catastrophic balance: bill over 50% of income plus financial resources",
+     "quote": "is greater than 50% of the Patient's total annual Family Income and Financial Resources combined.",
+     "discount_pct": null,
+     "holds": false
+    }
+   ],
+   "seconds": 0.005,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts (pairs of households)"
+  },
+  {
+   "check": "summary_matches_policy",
+   "title": "The policy and the summary treat every household the same",
+   "status": "counterexample",
+   "law": [],
+   "summary": "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, uninsured, owing $10,000, enrolled in SNAP, WIC or a similar program (or homeless): the policy gives 100% off, the summary gives help (amount not stated).",
+   "severity": "gap",
+   "household": {
+    "size": 3,
+    "income_usd": 109000.0,
+    "fpl_pct": 398.97,
+    "assets_usd": 0.0,
+    "bill_usd": 10000.0,
+    "first_statement_day": 46,
+    "insured": false,
+    "underinsured": false,
+    "co_resident": true,
+    "in_service_area": true,
+    "emergency": true,
+    "medically_necessary": true,
+    "inpatient": false,
+    "applied_public_programs": true,
+    "presumptive_program": true
+   },
+   "household_b": null,
+   "policy_outcome": {
+    "a": {
+     "covered": true,
+     "best_stated_discount_pct": 100.0
+    },
+    "b": {
+     "covered": true,
+     "best_stated_discount_pct": 0.0
+    }
+   },
+   "clauses": [
+    {
+     "kind": "requires",
+     "id": "resident",
+     "label": "must be a Colorado resident",
+     "quote": "An individual must be a Resident of Colorado in order to qualify for Financial Assistance.",
+     "discretionary": false,
+     "holds": true,
+     "model": "policy"
+    },
+    {
+     "kind": "requires",
+     "id": "necessary",
+     "label": "emergency or medically necessary care only",
+     "quote": "offers Financial Assistance to those with an established need to receive emergency medical care and Medically Necessary hospital services",
+     "discretionary": false,
+     "holds": true,
+     "model": "policy"
+    },
+    {
+     "kind": "rule",
+     "id": "free_250",
+     "label": "100% off at or below 250% FPL, if uninsured or under-insured",
+     "quote": "Patients approved for Financial Assistance with an annual Family Income of 250% of FPL guidelines or less will receive a 100% discount on gross charges",
+     "discount_pct": 100.0,
+     "holds": false,
+     "model": "policy"
+    },
+    {
+     "kind": "rule",
+     "id": "band_251_400",
+     "label": "facility discount (Appendix A) from 251% to 400% FPL, if uninsured or under-insured",
+     "quote": "Patients approved for Financial Assistance with an annual Family Income between 251% and 400% of FPL guidelines will receive a discount on gross charges",
+     "discount_pct": null,
+     "holds": true,
+     "model": "policy"
+    },
+    {
+     "kind": "rule",
+     "id": "presumptive",
+     "label": "100% off when presumptively eligible (homeless, SNAP, WIC and similar)",
+     "quote": "Patients granted Presumptive Eligibility for Financial Assistance will receive a 100% discount on gross charges for care covered by this policy.",
+     "discount_pct": 100.0,
+     "holds": true,
+     "model": "policy"
+    },
+    {
+     "kind": "rule",
+     "id": "catastrophic",
+     "label": "catastrophic balance: bill over 50% of income plus financial resources",
+     "quote": "is greater than 50% of the Patient's total annual Family Income and Financial Resources combined.",
+     "discount_pct": null,
+     "holds": false,
+     "model": "policy"
+    },
+    {
+     "kind": "requires",
+     "id": "resident",
+     "label": "Colorado residents",
+     "quote": "at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado",
+     "discretionary": false,
+     "holds": true,
+     "model": "summary"
+    },
+    {
+     "kind": "requires",
+     "id": "necessary",
+     "label": "emergency and other medically necessary care",
+     "quote": "provides financial assistance for emergency and other medically necessary care at a discount",
+     "discretionary": false,
+     "holds": true,
+     "model": "summary"
+    },
+    {
+     "kind": "rule",
+     "id": "free_250",
+     "label": "free care up to 250% FPL, if uninsured or under-insured",
+     "quote": "Annual family income up to 250% of the FPG: free care",
+     "discount_pct": 100.0,
+     "holds": false,
+     "model": "summary"
+    },
+    {
+     "kind": "rule",
+     "id": "band_251_400",
+     "label": "discounted care from 251% to 400% FPL, if uninsured or under-insured",
+     "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less",
+     "discount_pct": null,
+     "holds": true,
+     "model": "summary"
+    },
+    {
+     "kind": "rule",
+     "id": "catastrophic",
+     "label": "catastrophic balance over 50% of income and certain financial resources",
+     "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources",
+     "discount_pct": null,
+     "holds": false,
+     "model": "summary"
+    }
+   ],
+   "seconds": 0.003,
+   "domain": "every household of 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, and every combination of the yes/no facts"
+  }
+ ]
+}

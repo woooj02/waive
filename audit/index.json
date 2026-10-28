@@ -1,0 +1,49 @@
+{
+ "made": "2026-10-27",
+ "policies": [
+  {
+   "id": "childrens-colorado",
+   "hospital": "Children's Hospital Colorado",
+   "model_source": "hand reference",
+   "nonprofit": true,
+   "proved": 6,
+   "counterexamples": 4,
+   "not_stated": 0,
+   "solver_seconds": 0.104,
+   "headline": "If the first bill goes out on day 46 after care (Colorado allows bills from day 46), the policy's written timeline allows collection actions from day 166. Colorado law bars them until day 182."
+  },
+  {
+   "id": "healthone",
+   "hospital": "HCA HealthONE",
+   "model_source": "hand reference",
+   "nonprofit": false,
+   "proved": 3,
+   "counterexamples": 1,
+   "not_stated": 4,
+   "solver_seconds": 0.032,
+   "headline": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, uninsured, owing $10,000 gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them."
+  },
+  {
+   "id": "intermountain",
+   "hospital": "Intermountain Health",
+   "model_source": "hand reference",
+   "nonprofit": true,
+   "proved": 1,
+   "counterexamples": 5,
+   "not_stated": 6,
+   "solver_seconds": 0.118,
+   "headline": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, outside the hospital's service area, uninsured, owing $10,000, after non-emergency care is turned away by this requirement: \"must live in an Intermountain service area, unless the care was an emergency\". Colorado law makes them eligible for Hospital Discounted Care."
+  },
+  {
+   "id": "uchealth",
+   "hospital": "UCHealth",
+   "model_source": "hand reference",
+   "nonprofit": true,
+   "proved": 6,
+   "counterexamples": 4,
+   "not_stated": 1,
+   "solver_seconds": 0.137,
+   "headline": "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000 meets every requirement, but no rule of this policy grants them help. Colorado law makes them eligible for Hospital Discounted Care."
+  }
+ ]
+}

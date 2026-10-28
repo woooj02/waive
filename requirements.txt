@@ -7,3 +7,4 @@ pypdf>=6.0
 beautifulsoup4>=4.12
 reportlab>=5.0
 python-multipart>=0.0.20
+z3-solver==5.3.*

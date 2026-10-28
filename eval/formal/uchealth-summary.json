@@ -1,0 +1,112 @@
+{
+ "hospital": "UCHealth",
+ "doc": "summary",
+ "source_url": "https://www.uchealth.org/uchealth-financial-assistance-policy-summary-2024/",
+ "nonprofit": true,
+ "requires": [
+  {
+   "id": "resident",
+   "label": "Colorado residents",
+   "cond": [
+    [
+     {
+      "var": "co_resident",
+      "op": "true"
+     }
+    ]
+   ],
+   "quote": "at or below four times the Federal Poverty Guidelines (FPG) for Resident of the State of Colorado"
+  },
+  {
+   "id": "necessary",
+   "label": "emergency and other medically necessary care",
+   "cond": [
+    [
+     {
+      "var": "medically_necessary",
+      "op": "true"
+     }
+    ]
+   ],
+   "quote": "provides financial assistance for emergency and other medically necessary care at a discount"
+  }
+ ],
+ "rules": [
+  {
+   "id": "free_250",
+   "label": "free care up to 250% FPL, if uninsured or under-insured",
+   "when": [
+    [
+     {
+      "var": "fpl_pct",
+      "op": "<=",
+      "value": 250
+     }
+    ],
+    [
+     {
+      "var": "insured",
+      "op": "false"
+     },
+     {
+      "var": "underinsured",
+      "op": "true"
+     }
+    ]
+   ],
+   "discount_pct": 100,
+   "quote": "Annual family income up to 250% of the FPG: free care"
+  },
+  {
+   "id": "band_251_400",
+   "label": "discounted care from 251% to 400% FPL, if uninsured or under-insured",
+   "when": [
+    [
+     {
+      "var": "fpl_pct",
+      "op": ">=",
+      "value": 251
+     }
+    ],
+    [
+     {
+      "var": "fpl_pct",
+      "op": "<=",
+      "value": 400
+     }
+    ],
+    [
+     {
+      "var": "insured",
+      "op": "false"
+     },
+     {
+      "var": "underinsured",
+      "op": "true"
+     }
+    ]
+   ],
+   "discount_pct": null,
+   "quote": "Annual family income between 251% and 400% of the FPG: discounted care equal to or less"
+  },
+  {
+   "id": "catastrophic",
+   "label": "catastrophic balance over 50% of income and certain financial resources",
+   "when": [
+    [
+     {
+      "var": "bill_pct_income_assets",
+      "op": ">",
+      "value": 50
+     }
+    ]
+   ],
+   "discount_pct": null,
+   "quote": "If you have a single account balance that is greater than 50% of your total annual family income and certain other financial resources"
+  }
+ ],
+ "timing": {},
+ "notes": [
+  "Hand-written reference model of the plain-language summary (updated July 2024)."
+ ]
+}
