@@ -205,4 +205,63 @@ def test_confirmation_needs_most_super_models(monkeypatch):
         monkeypatch.setattr(au, "second_models", lambda pid, o=others: o)
         f = next(x for x in au.audit_document("uchealth", ref, "nemotron")
                  if x["check"] == "co_hdc_coverage" and x["status"] == "counterexample")
-        assert f["votes"] == {"agree": agree, "of": 5} and f["confidence"] == want
+        assert f["votes"] == {"agree": agree, "of": 5, "unable": 0} and f["confidence"] == want
+
+
+def test_a_super_model_with_no_rules_cannot_confirm(monkeypatch):
+    """With no rule granting help, a model denies everyone: that is not agreement with a coverage gap."""
+    import app.auditing as au
+    ref = load("uchealth")
+    empty = ref.model_copy(deep=True)
+    empty.rules = []
+    monkeypatch.setattr(au, "dropped_rules", lambda pid: 0)
+    monkeypatch.setattr(au, "REVIEWS", [])
+    monkeypatch.setattr(au, "second_models", lambda pid: [ref, ref, empty, empty, empty])
+    f = next(x for x in au.audit_document("uchealth", ref, "nemotron")
+             if x["check"] == "co_hdc_coverage" and x["status"] == "counterexample")
+    assert f["votes"] == {"agree": 2, "of": 5, "unable": 3} and f["confidence"] == "disputed"
+
+
+def _bill_check(pm, size=3, income=27_000, insured=False):
+    from app.prover_check import decide
+    from app.schema import Bill, Household as Hh
+    hh = Hh.model_construct(size=size, income_usd=income, state="CO", county="", insured=insured, assets_usd=0,
+                            programs=[])
+    return decide(pm, hh, Bill(balance_usd=1000))
+
+
+def test_bill_amount_is_guaranteed_not_one_reading():
+    """100% inside the service area, 20% outside, area unknown: help is certain, free care is not."""
+    pm = load("uchealth").model_copy(deep=True)
+    pm.requires = []
+    pm.rules = [Rule(id="in", label="in area", quote="q", discount_pct=100,
+                     when=[[Atom(var="in_service_area", op="true")]]),
+                Rule(id="out", label="out of area", quote="q", discount_pct=20,
+                     when=[[Atom(var="in_service_area", op="false")]])]
+    v, proof = _bill_check(pm)
+    assert proof["always"] and proof["discount_range"] == [20.0, 100.0]
+    assert v.status == "discount" and v.discount_pct == 20 and v.expected_usd == 800
+    assert "at least 20%" in v.headline and any("service area" in m for m in v.missing)
+
+
+def test_bill_outside_the_proof_domain_is_refused():
+    """13 people is outside the encoded domain: no "always" or "never" claim, a plain refusal instead."""
+    v, proof = _bill_check(load("uchealth"), size=13)
+    assert proof["in_domain"] is False and v.status == "needs_info" and "outside the range" in v.headline
+
+
+def test_patient_data_never_touches_the_cache(monkeypatch, tmp_path):
+    """private=True: no read from and no write to the disk cache (bill uploads, packet summaries)."""
+    from types import SimpleNamespace
+    from app import llm
+    monkeypatch.setattr(llm, "CACHE", tmp_path)
+    monkeypatch.setattr(llm, "_record_spend", lambda c: None)
+    monkeypatch.setattr(llm, "spent_today", lambda: 0.0)
+    monkeypatch.setattr(llm, "spent_total", lambda: 0.0)
+    usage = SimpleNamespace(prompt_tokens=10, completion_tokens=5, prompt_tokens_details=None)
+    resp = SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content='{"balance": 1}'))], usage=usage)
+    monkeypatch.setattr(llm, "_create", lambda kw: resp)
+    llm.chat("read bill", "vl", [{"role": "user", "content": "fictional bill"}], private=True)
+    assert list(tmp_path.iterdir()) == []
+    llm.chat("read bill", "vl", [{"role": "user", "content": "fictional sample"}])
+    assert len(list(tmp_path.iterdir())) == 1  # samples still cache

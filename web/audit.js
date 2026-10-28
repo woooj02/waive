@@ -27,7 +27,7 @@
       <div class="f-bad"><b>${hand ? tot("counterexamples") : tot("confirmed_counterexamples")}</b><span>${hand ? "counterexamples found" : "counterexamples confirmed by a second model and reviewed"}</span></div>
       <div><b>${(secs * 1000).toFixed(0)} ms</b><span>total Z3 time</span></div>
       ${hand ? `<p class="src-note">Formal models: <b>hand-written references</b> (every quote checked against the policy).</p>`
-        : `<p class="src-note">Each policy was written as logic by <b>Nemotron 3 Ultra</b>. A counterexample is <b>confirmed</b> when the exact same household or day also breaks the requirement in most of five independent <b>Nemotron 3 Super</b> models, and every confirmed one was read against the policy text. ${maj ? `On our ${st.docs} hand-written reference documents, counterexamples confirmed this way also failed in our reference ${maj.confirmed.real} of ${maj.confirmed.n} times (with a single Super run: ${one.confirmed.real_pct}%). A small sample: see How it works.` : ""}</p>`}`;
+        : `<p class="src-note">Each policy was written as logic by <b>Nemotron 3 Ultra</b>. A counterexample is <b>confirmed</b> when the exact same household or day also breaks the requirement in at least three of five separate <b>Nemotron 3 Super</b> formalisations, and every confirmed one was read against the policy text. ${maj ? `On our ${st.docs} hand-written reference documents, counterexamples confirmed this way also failed in our reference ${maj.confirmed.real} of ${maj.confirmed.n} times (with a single Super run: ${one.confirmed.real_pct}%). Exploratory, on a small sample: see How it works.` : ""}</p>`}`;
     if (index.featured) {
       const fdoc = await (await fetch(`/api/audit/${encodeURIComponent(index.featured.id)}`)).json();
       const ff = fdoc.findings[index.featured.finding];
@@ -127,11 +127,12 @@
     const many = v && v.of > 1 ? " Super models" : " Super's model";
     const one = !v || v.agree === 1 || v.of === 1;  // "1 of 5 fails", "3 of 5 fail"
     const fail = one ? "fails" : "fail", agree = one ? "agrees" : "agree";
+    const unable = v && v.unable ? ` (${v.unable} of them had no usable rules, so couldn't confirm)` : "";
     if (f.confidence === "confirmed") return ce
-      ? `<span class="cf ok" title="This exact case was replayed against Nemotron 3 Super's independent models">✓${of}${many} ${fail} for this same case</span>`
+      ? `<span class="cf ok" title="This exact case was replayed against Nemotron 3 Super's independent models">✓${of}${many} ${fail} for this same case${unable}</span>`
       : `<span class="cf ok" title="Nemotron 3 Super's independent models reach the same verdict on this check">✓${of}${many} ${agree}</span>`;
     if (f.confidence === "disputed") return ce
-      ? `<span class="cf disp">disputed: only${of}${many} ${fail} for this case. Needs a person to check</span>`
+      ? `<span class="cf disp">disputed: only${of}${many} ${fail} for this case${unable}. Needs a person to check</span>`
       : `<span class="cf disp">disputed: only${of}${many} ${agree} (they say ${esc((f.second_opinion || []).join(", ").replace("_", " ") || "nothing")})</span>`;
     if (f.confidence === "unconfirmed") return `<span class="cf disp">single-model comparison: needs a person to check</span>`;
     return "";

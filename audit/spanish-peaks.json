@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.179,
+ "solver_seconds": 0.145,
  "model": {
   "hospital": "Spanish Peaks Regional Health Center",
   "doc": "policy",
@@ -145,7 +145,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -174,7 +175,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -203,7 +205,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -237,7 +240,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -271,7 +275,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -300,7 +305,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -334,7 +340,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -363,7 +370,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -392,7 +400,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -415,7 +424,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   }

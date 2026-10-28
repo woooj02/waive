@@ -7,7 +7,7 @@
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.138,
+ "solver_seconds": 0.113,
  "model": {
   "hospital": "Denver Health",
   "doc": "policy",
@@ -138,7 +138,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -167,7 +168,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -196,7 +198,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -230,7 +233,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -264,7 +268,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -293,7 +298,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -327,7 +333,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -356,7 +363,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -385,7 +393,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -400,7 +409,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.003,
+   "seconds": 0.002,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
@@ -408,7 +417,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   }

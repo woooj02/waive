@@ -26,7 +26,7 @@ def _calls_since(meter: llm.Meter, n: int) -> list[dict]:
 
 
 def run(household: Household, upload: tuple[bytes, str] | None = None, typed: dict | None = None,
-        allow_live_compile: bool = True) -> Iterator[dict]:
+        allow_live_compile: bool = True, sample: bool = False) -> Iterator[dict]:
     meter = llm.Meter()
     started = time.monotonic()
     fields: billmod.BillFields | None = None
@@ -36,7 +36,7 @@ def run(household: Household, upload: tuple[bytes, str] | None = None, typed: di
         yield _step("read", "running", "Reading your bill", model="Nemotron 3.5 Super VL")
         n = len(meter.calls)
         try:
-            fields = billmod.read_bill(upload[0], upload[1], meter)
+            fields = billmod.read_bill(upload[0], upload[1], meter, private=not sample)
         except (llm.LLMError, llm.BudgetExceeded, ValueError, OSError) as exc:
             yield _step("read", "error", "Couldn't read the bill", detail=str(exc)[:200],
                         calls=_calls_since(meter, n))
@@ -72,7 +72,10 @@ def run(household: Household, upload: tuple[bytes, str] | None = None, typed: di
         verdict, proof = prover_check.decide(pm, household, b, doc.get("dropped_rules", 0))
         if insurance_note:
             verdict.uncertain.append(insurance_note)
-        how = ("true for every value of what we don't know" if proof["always"] else
+        lo, hi = proof.get("discount_range") or (0, 0)
+        how = ("outside the range the proofs cover" if not proof["in_domain"] else
+               ("help for every value of what we don't know" + (f"; amount {lo:g}–{hi:g}%, depends on: "
+                + "; ".join(proof["depends_on"]) if lo != hi else "")) if proof["always"] else
                "depends on: " + "; ".join(proof["depends_on"]) if proof["sometimes"] else
                "no rule of this policy covers this household")
         yield _step("decide", "done", "Checked your household against the policy with a theorem prover",

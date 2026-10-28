@@ -66,14 +66,15 @@ def _mime(img: bytes) -> str:
     return "image/png"
 
 
-def read_bill(data: bytes, filename: str, meter: llm.Meter) -> BillFields:
+def read_bill(data: bytes, filename: str, meter: llm.Meter, private: bool = True) -> BillFields:
+    """private: a patient's own upload is never cached; the fictional samples are (cheap, reliable demo)."""
     images = to_images(data, filename)
     content: list[dict] = [{"type": "text", "text": PROMPT.format(schema=BillFields.model_json_schema())}]
     for img in images:
         b64 = base64.b64encode(img).decode()
         content.append({"type": "image_url", "image_url": {"url": f"data:{_mime(img)};base64,{b64}"}})
     out = llm.chat_json("read bill (Nemotron 3.5 Super VL)", "vl", [{"role": "user", "content": content}], meter,
-                        schema=BillFields.model_json_schema(), max_tokens=3000)
+                        schema=BillFields.model_json_schema(), max_tokens=3000, private=private)
     return BillFields.model_validate(out)
 
 

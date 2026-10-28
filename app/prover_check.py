@@ -54,6 +54,18 @@ def find(hospital: str) -> tuple[str, PolicyModel, dict] | None:
     return best["id"], PolicyModel(**doc["model"]), doc
 
 
+def _span(cons: list, enc: Encoded) -> tuple[float, float]:
+    """Lowest and highest stated discount over every value of the unknown facts that still gets help."""
+    out = []
+    for goal in ("minimize", "maximize"):
+        o = z3.Optimize()
+        o.add(*cons, enc.covered)
+        getattr(o, goal)(enc.best)
+        o.check()
+        out.append(float(o.model().eval(enc.best, model_completion=True).as_fraction()))
+    return out[0], out[1]
+
+
 def decide(pm: PolicyModel, household: Household, bill: Bill, doc_dropped: int = 0) -> tuple[engine.Verdict, dict]:
     h = Sym()
     enc = Encoded(pm, h)
@@ -67,28 +79,39 @@ def decide(pm: PolicyModel, household: Household, bill: Bill, doc_dropped: int =
         known.append(z3.Not(h.b["in_service_area"]))
     s = z3.Solver()
     s.add(*h.axioms(), *known)
+    if s.check() != z3.sat:  # outside the encoded domain: neither "always" nor "never" would mean anything
+        v = engine.evaluate(None, household, bill)
+        v.status, v.reasons, v.missing, v.uncertain = "needs_info", v.reasons[:1], [], []
+        v.headline = ("This household is outside the range Waive's proofs cover (1–12 people, income up to $1M, "
+                      "savings up to $10M, a bill up to $5M), so we can't check it. Ask the hospital's financial "
+                      "assistance office directly.")
+        return v, {"always": None, "sometimes": None, "depends_on": [], "in_domain": False,
+                   "z3": z3.get_version_string()}
     always = s.check(z3.Not(enc.covered)) == z3.unsat
     sometimes = s.check(enc.covered) == z3.sat
 
-    # The most generous stated amount under an ordinary reading of the unknowns.
+    # One ordinary reading of the unknowns, to show which rules fire.
     opt = z3.Optimize()
     opt.add(*h.axioms(), *known, enc.covered)
     for v in ("in_service_area", "medically_necessary", "applied_public_programs"):
         opt.add_soft(h.b[v], 2)
     opt.add_soft(z3.Not(h.b["inpatient"]), 1)
     model = opt.model() if sometimes and opt.check() == z3.sat else None
-    best = float(model.eval(enc.best, model_completion=True).as_fraction()) if model else 0.0
+    # The amount gets its own guarantee: the lowest and highest over every reading of the unknowns.
+    lo, hi = _span([*h.axioms(), *known], enc) if sometimes else (0.0, 0.0)
 
-    # Which unknown facts change the answer?
+    # Which unknown facts change the answer, or the amount?
     depends = []
-    if sometimes and not always:
+    if sometimes and (not always or lo != hi):
         for v in ASK:
             if v == "underinsured" and not household.insured:
                 continue
             a, b = s.check(enc.covered, h.b[v]) == z3.sat, s.check(enc.covered, z3.Not(h.b[v])) == z3.sat
             fixed_yes = s.check(z3.Not(enc.covered), h.b[v]) == z3.unsat
             fixed_no = s.check(z3.Not(enc.covered), z3.Not(h.b[v])) == z3.unsat
-            if (a != b) or fixed_yes or fixed_no:
+            amount = a and b and _span([*h.axioms(), *known, h.b[v]], enc) != _span([*h.axioms(), *known,
+                                                                                    z3.Not(h.b[v])], enc)
+            if (a != b) or (not always and (fixed_yes or fixed_no)) or amount:
                 depends.append(ASK[v])
 
     v = engine.evaluate(None, household, bill)  # % FPL, Colorado cap, deadline, the household reason
@@ -102,19 +125,30 @@ def decide(pm: PolicyModel, household: Household, bill: Bill, doc_dropped: int =
     v.uncertain = []
     v.missing = []
     if always or sometimes:
-        v.discount_pct = best
-        if best >= 100:
+        sure = always and lo == hi
+        v.discount_pct = lo if always else hi
+        if sure and lo >= 100:
             v.status, v.expected_usd = "free", 0.0
             v.headline = "This hospital's own policy gives you free care for this bill."
-        elif best > 0:
-            v.status, v.expected_usd = "discount", round(bill.balance_usd * (1 - best / 100), 2)
-            v.headline = f"This hospital's own policy takes {best:g}% off this bill."
-        else:
+        elif sure and lo > 0:
+            v.status, v.expected_usd = "discount", round(bill.balance_usd * (1 - lo / 100), 2)
+            v.headline = f"This hospital's own policy takes {lo:g}% off this bill."
+        elif always and lo > 0:  # help for sure; part of the amount depends on a fact we don't know
+            v.status, v.expected_usd = "discount", round(bill.balance_usd * (1 - lo / 100), 2)
+            v.headline = (f"This hospital's own policy takes at least {lo:g}% off this bill, and up to {hi:g}% "
+                          f"depending on a detail below.")
+        elif always:
             v.status = "discount"
             what = fired[0].label if fired else "assistance"
-            v.headline = f"This hospital's own policy gives you help with this bill: {what} (amount set by its table)."
-        if not always:
-            v.headline = "You may qualify: " + v.headline[0].lower() + v.headline[1:]
+            v.headline = (f"This hospital's own policy gives you help with this bill: {what} (amount set by its table"
+                          + (f"; up to {hi:g}% off depending on a detail below)." if hi > 0 else ")."))
+        else:  # help only for some values of the unknowns
+            v.status = "discount"
+            v.headline = (f"You may qualify: this hospital's own policy takes {'' if lo == hi else 'up to '}{hi:g}% off "
+                          f"this bill if the detail below applies to you." if hi > 0 else
+                          "You may qualify: this hospital's own policy gives help with this bill if the detail below "
+                          "applies to you (amount set by its table).")
+        if not sure:
             v.missing = depends or ["a detail the policy uses that we didn't ask about"]
     elif doc_dropped:  # the model lost rules in checking: a "no" from it isn't safe to tell a patient
         v.status = "colorado_cap" if v.colorado else "needs_info"
@@ -130,6 +164,6 @@ def decide(pm: PolicyModel, household: Household, bill: Bill, doc_dropped: int =
                       f"most {v.colorado['payments']} months).")
     else:
         v.status, v.headline = "not_eligible", "This hospital's written rules don't give your household help with this bill."
-    proof = {"always": always, "sometimes": sometimes, "depends_on": depends,
-             "z3": z3.get_version_string()}
+    proof = {"always": always, "sometimes": sometimes, "depends_on": depends, "discount_range": [lo, hi],
+             "in_domain": True, "z3": z3.get_version_string()}
     return v, proof

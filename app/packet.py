@@ -71,7 +71,7 @@ def build(result: dict) -> bytes:
         try:
             es = llm.chat("spanish summary (Nemotron 3.5 Lightning)", "lightning", [{"role": "user", "content":
                           SPANISH.format(headline=v["headline"], deadline=v.get("deadline") or "—", hospital=hospital)}],
-                          max_tokens=300)
+                          max_tokens=300, private=True)
             story += [_p("Resumen en español", h2), _p(es.strip(), body),
                       _p("Traducción automática (Nemotron 3.5 Lightning). Pida al hospital ayuda en español: "
                          "están obligados a ofrecerla.", small)]

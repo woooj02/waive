@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.695,
+ "solver_seconds": 0.53,
  "model": {
   "hospital": "Gunnison Valley Health",
   "doc": "policy",
@@ -213,7 +213,8 @@
    ],
    "votes": {
     "agree": 0,
-    "of": 5
+    "of": 5,
+    "unable": 1
    },
    "confidence": "disputed"
   },
@@ -241,8 +242,9 @@
     "proved"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 4,
+    "of": 5,
+    "unable": 1
    },
    "confidence": "confirmed"
   },
@@ -270,8 +272,9 @@
     "proved"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 4,
+    "of": 5,
+    "unable": 1
    },
    "confidence": "confirmed"
   },
@@ -304,8 +307,9 @@
     "not_stated"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 4,
+    "of": 5,
+    "unable": 1
    },
    "confidence": "confirmed"
   },
@@ -340,7 +344,8 @@
    ],
    "votes": {
     "agree": 3,
-    "of": 5
+    "of": 5,
+    "unable": 1
    },
    "confidence": "confirmed"
   },
@@ -370,7 +375,8 @@
    ],
    "votes": {
     "agree": 3,
-    "of": 5
+    "of": 5,
+    "unable": 1
    },
    "confidence": "confirmed"
   },
@@ -403,8 +409,9 @@
     "not_stated"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 4,
+    "of": 5,
+    "unable": 1
    },
    "confidence": "confirmed"
   },
@@ -434,7 +441,8 @@
    ],
    "votes": {
     "agree": 3,
-    "of": 5
+    "of": 5,
+    "unable": 1
    },
    "confidence": "confirmed"
   },
@@ -462,8 +470,9 @@
     "not_stated"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 4,
+    "of": 5,
+    "unable": 1
    },
    "confidence": "confirmed"
   },
@@ -478,7 +487,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.003,
+   "seconds": 0.002,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
@@ -486,10 +495,11 @@
     "proved"
    ],
    "votes": {
-    "agree": 3,
-    "of": 5
+    "agree": 2,
+    "of": 5,
+    "unable": 1
    },
-   "confidence": "confirmed"
+   "confidence": "disputed"
   }
  ]
 }

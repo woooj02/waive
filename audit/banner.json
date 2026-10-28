@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.773,
+ "solver_seconds": 0.624,
  "model": {
   "hospital": "Banner Health",
   "doc": "summary",
@@ -189,7 +189,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.015,
+   "seconds": 0.012,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
@@ -197,7 +197,8 @@
    ],
    "votes": {
     "agree": 4,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed",
    "review": {
@@ -231,7 +232,8 @@
    ],
    "votes": {
     "agree": 4,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -261,7 +263,8 @@
    ],
    "votes": {
     "agree": 2,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "disputed"
   },
@@ -295,7 +298,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -329,7 +333,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -358,7 +363,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -392,7 +398,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -421,7 +428,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -450,7 +458,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -474,7 +483,8 @@
    ],
    "votes": {
     "agree": 3,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   }

@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.271,
+ "solver_seconds": 0.227,
  "model": {
   "hospital": "Montrose Regional Health",
   "doc": "summary",
@@ -114,7 +114,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.015,
+   "seconds": 0.013,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
@@ -122,10 +122,11 @@
     "proved"
    ],
    "votes": {
-    "agree": 4,
-    "of": 5
+    "agree": 2,
+    "of": 5,
+    "unable": 2
    },
-   "confidence": "confirmed",
+   "confidence": "disputed",
    "review": {
     "verdict": "qualified",
     "note": "This is a plain-language summary; it also offers help 'if it would be a financial hardship to pay', which may cover insured patients."
@@ -155,8 +156,9 @@
     "proved"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 3,
+    "of": 5,
+    "unable": 2
    },
    "confidence": "confirmed"
   },
@@ -184,8 +186,9 @@
     "proved"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 3,
+    "of": 5,
+    "unable": 2
    },
    "confidence": "confirmed"
   },
@@ -218,8 +221,9 @@
     "not_stated"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 3,
+    "of": 5,
+    "unable": 2
    },
    "confidence": "confirmed"
   },
@@ -252,8 +256,9 @@
     "not_stated"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 3,
+    "of": 5,
+    "unable": 2
    },
    "confidence": "confirmed"
   },
@@ -281,8 +286,9 @@
     "not_stated"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 3,
+    "of": 5,
+    "unable": 2
    },
    "confidence": "confirmed"
   },
@@ -315,8 +321,9 @@
     "not_stated"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 3,
+    "of": 5,
+    "unable": 2
    },
    "confidence": "confirmed"
   },
@@ -344,8 +351,9 @@
     "not_stated"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 3,
+    "of": 5,
+    "unable": 2
    },
    "confidence": "confirmed"
   },
@@ -373,8 +381,9 @@
     "not_stated"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 3,
+    "of": 5,
+    "unable": 2
    },
    "confidence": "confirmed"
   },
@@ -389,15 +398,16 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.001,
+   "seconds": 0.0,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
     "proved"
    ],
    "votes": {
-    "agree": 5,
-    "of": 5
+    "agree": 3,
+    "of": 5,
+    "unable": 2
    },
    "confidence": "confirmed"
   }

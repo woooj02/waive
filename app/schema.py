@@ -83,7 +83,7 @@ class RuleProgram(BaseModel):
 
 
 class Household(BaseModel):
-    size: int = Field(ge=1, le=20)
+    size: int = Field(ge=1, le=12, description="The proofs cover households of 1-12 people")
     income_usd: float = Field(ge=0, description="Gross yearly household income")
     state: str = Field("CO", min_length=2, max_length=2)
     county: str = ""

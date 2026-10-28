@@ -193,13 +193,16 @@ def _create(kwargs: dict):
 
 
 def chat(step: str, model_key: str, messages: list, meter: Meter | None = None, schema: dict | None = None,
-         max_tokens: int = 4096, temperature: float = 0.0, use_cache: bool = True, reasoning: bool = False) -> str:
-    """One call with retry, disk cache, cost metering and the daily budget. Returns the text content."""
+         max_tokens: int = 4096, temperature: float = 0.0, use_cache: bool = True, reasoning: bool = False,
+         private: bool = False) -> str:
+    """One call with retry, disk cache, cost metering and the daily budget. Returns the text content.
+
+    private=True is for a patient's data (a bill, their result): never read from or written to the disk cache."""
     m = MODELS[model_key]
     meter = meter if meter is not None else Meter()
     key = _key(m.id, messages, schema, max_tokens)
     path = CACHE / f"{key}.json"
-    if use_cache and os.environ.get("LLM_NO_CACHE") != "1" and path.exists():
+    if use_cache and not private and os.environ.get("LLM_NO_CACHE") != "1" and path.exists():
         hit = json.loads(path.read_text())
         meter.add(Call(step, m.key, m.label, 0.0, hit["tokens_in"], hit["tokens_cached"], hit["tokens_out"], 0.0,
                        cached_result=True, orig_cost_usd=hit.get("cost_usd", 0.0), orig_seconds=hit.get("seconds", 0.0)))
@@ -229,6 +232,8 @@ def chat(step: str, model_key: str, messages: list, meter: Meter | None = None, 
     tin, cached, tout, cost = cost_of(m, resp.usage)
     _record_spend(cost)
     meter.add(Call(step, m.key, m.label, seconds, tin, cached, tout, cost, orig_cost_usd=cost, orig_seconds=seconds))
+    if private:
+        return content
     CACHE.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps({"model": m.id, "content": content, "tokens_in": tin, "tokens_cached": cached,
                                 "tokens_out": tout, "cost_usd": cost, "seconds": seconds}))

@@ -173,7 +173,8 @@ async def check(request: Request, household: str = Form(...), sample: str = Form
 
     def stream():
         try:
-            for event in pipeline.run(hh, upload=upload, typed=typed_fields, allow_live_compile=live_ok):
+            for event in pipeline.run(hh, upload=upload, typed=typed_fields, allow_live_compile=live_ok,
+                                      sample=bool(sample)):
                 yield json.dumps(event, default=str) + "\n"
         except Exception as exc:  # last resort: tell the page what broke instead of hanging
             yield json.dumps({"type": "fatal", "detail": f"{type(exc).__name__}: {exc}"[:300]}) + "\n"

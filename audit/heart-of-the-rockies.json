@@ -7,7 +7,7 @@
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 1.623,
+ "solver_seconds": 1.375,
  "model": {
   "hospital": "Heart of the Rockies Regional Medical Center",
   "doc": "policy",
@@ -433,7 +433,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.016,
+   "seconds": 0.012,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
@@ -442,7 +442,8 @@
    ],
    "votes": {
     "agree": 0,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "disputed",
    "review": {
@@ -593,7 +594,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.014,
+   "seconds": 0.01,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
@@ -602,7 +603,8 @@
    ],
    "votes": {
     "agree": 0,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "disputed",
    "review": {
@@ -753,7 +755,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.03,
+   "seconds": 0.022,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
@@ -762,7 +764,8 @@
    ],
    "votes": {
     "agree": 1,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "disputed",
    "review": {
@@ -795,7 +798,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -816,7 +820,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.001,
+   "seconds": 0.002,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
@@ -824,7 +828,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -858,7 +863,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -892,7 +898,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -921,7 +928,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -955,7 +963,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -984,7 +993,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -1013,7 +1023,8 @@
    ],
    "votes": {
     "agree": 5,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "confirmed"
   },
@@ -1176,7 +1187,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.072,
+   "seconds": 0.066,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [
@@ -1184,7 +1195,8 @@
    ],
    "votes": {
     "agree": 0,
-    "of": 5
+    "of": 5,
+    "unable": 0
    },
    "confidence": "disputed"
   }

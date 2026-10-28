@@ -73,7 +73,7 @@ $("#type-toggle").addEventListener("click", () => { $("#typed").hidden = !$("#ty
 
 function household() {
   return {
-    size: Math.max(1, Math.min(20, parseInt($("#size").value, 10) || 1)),
+    size: Math.max(1, parseInt($("#size").value, 10) || 1),  // over 12 is refused with a message, not clamped
     income_usd: num($("#income").value),
     state: $("#state").value,
     insured: $("#insured").value === "true",
@@ -390,7 +390,9 @@ function stabilityHtml(st) {
       <tr><td>One Super run</td><td>${one.confirmed.real} of ${one.confirmed.n} (${one.confirmed.real_pct}%)</td><td>${one.disputed.real} of ${one.disputed.n} (${one.disputed.real_pct}%)</td></tr>
       <tr><td>Most of ${st.runs} Super runs (used)</td><td>${maj.confirmed.real} of ${maj.confirmed.n} (${maj.confirmed.real_pct}%)</td><td>${maj.disputed.real} of ${maj.disputed.n} (${maj.disputed.real_pct}%)</td></tr>
     </tbody></table>
-    <p>A small sample (${st.docs} documents, our own references), so read it as direction, not a rate. It is also why disputed findings stay on the page, marked for a person: most of them are real too.</p>`;
+    <p>Read this as exploratory, not as validation: the rule was chosen after seeing these cases, several share the same underlying gap, and all ${st.runs} models come from the same model family, so separate runs can share one misunderstanding.
+    The production reviews show that limit: 4 counterexamples that most Super models confirmed (some 5 of 5) were rejected when we read the policy, and they stay on the page as dismissed.
+    It is also why disputed findings stay visible, marked for a person: most of them are real too. A Super model with no surviving rules can't confirm anything (it denies everyone), so it counts as unable, not as a vote.</p>`;
 }
 
 /* ---------- boot ---------- */

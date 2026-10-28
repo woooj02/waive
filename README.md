@@ -36,8 +36,8 @@ Tavily search ─► Nemotron 3 Nano picks the hospital's own document ─► fe
      ├─► Nemotron 3 Super: five independent formal models (same checks), one per run
      │
      └─► Z3 (app/law.py): 10 legal checks on each model + equivalence of the models
-            a counterexample is "confirmed" only if the exact same household or day also fails in most of
-            the five Super models; otherwise "disputed" (needs a person). Every confirmed one is read against
+            a counterexample is "confirmed" only if the exact same household or day also fails in at least
+            3 of the 5 Super models (one with no surviving rules can't vote); otherwise "disputed". Every confirmed one is read against
             the policy.
 ```
 
@@ -50,8 +50,11 @@ Tavily search ─► Nemotron 3 Nano picks the hospital's own document ─► fe
   first-bill day; payment-plan cap; 501(r) windows; gaps between income bands; summary vs policy equivalence.
 - **Check my bill**: a patient's household is checked against the same formal model. Known facts are fixed,
   unknown ones (service area, emergency, under-insured) stay symbolic, and Z3 answers "yes for sure", "yes if …"
-  (naming the fact), or "no" (`app/prover_check.py`). A "no" from a model that lost rules in checking becomes
-  "we can't be sure".
+  (naming the fact), or "no" (`app/prover_check.py`). The amount gets its own guarantee: Z3 finds the lowest and
+  highest discount over every value of the unknowns, so "free" is only said when it is free in all of them. A
+  household outside the proofs' range (over 12 people, income over $1M) is refused, not guessed. A "no" from a
+  model that lost rules in checking becomes "we can't be sure". An uploaded bill and its reading are never cached
+  or stored (only the fictional samples are cached).
 - **Readable counterexamples**: MaxSMT (soft constraints) picks the most ordinary household that still fails,
   then money is pinned to round numbers when the failure survives.
 - **Law quotes** are verbatim from HB21-1198 (C.R.S. 25.5-3-501 ff., 6-20-203), HCPF's Hospital Discounted Care
@@ -100,21 +103,25 @@ against our reference model:
 | One Super run (what we used before) | 42 of 45 pairings (93%) | 28 of 40 (70%) |
 | **Most of five Super runs** (used now) | **8 of 8** | 6 of 9 (67%) |
 
-A small sample again; it is also why disputed findings stay on the page for a person rather than being hidden.
+This is exploratory, not validation: the rule was chosen after seeing these cases, several share one underlying
+gap, and all five models are Super, so separate runs can share one misunderstanding. The production reviews show
+the limit: 4 counterexamples confirmed by most Super models (some 5 of 5) were rejected on reading the policy. It
+is also why disputed findings stay on the page for a person rather than being hidden. A Super model with no
+surviving rules denies everyone, so it counts as "unable to confirm", never as a vote.
 
 ## The Colorado audit (October 2026)
 
 28 policy documents found for 38 Colorado hospital systems (five sites blocked downloads); 25 formalised and
 audited, covering 64 hospitals; 3 documents lost every rule in the checks and are listed as not formalised.
-Z3 proved 90 requirements for the encoded rules and found 42 counterexamples. 11 are confirmed: the
-exact same household or day also fails in most of five independent Nemotron 3 Super models. Every confirmed
-counterexample was read against the policy text during development (6 upheld, 5 qualified); 8 findings in all
+Z3 proved 90 requirements for the encoded rules and found 42 counterexamples. 10 are confirmed: the
+exact same household or day also fails in at least three of five separate Nemotron 3 Super formalisations. Every
+confirmed counterexample was read against the policy text during development (6 upheld, 4 qualified); 8 findings in all
 (4 of them confirmed) were dismissed on review as translation errors, and 17 are inconclusive because a rule was
 dropped in checking. The reviews (`eval/reviews.json`, 36 entries, shown on each finding) are ours, not
 independent validation.
 Tax status for 501(r) comes from IRS data (ProPublica Nonprofit Explorer); hospitals with no 501(c)(3) record
 (mostly public districts) skip the federal checks. All Z3 work for the state, including replaying every finding
-against the five Super models, takes about 20 s; each document is audited in a fresh process so the counterexample
+against the five Super models, takes about 17–20 s; each document is audited in a fresh process so the counterexample
 Z3 reports depends on that document alone (two runs give identical output).
 
 ## Where Nebius Token Factory helped

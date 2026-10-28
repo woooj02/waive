@@ -7,7 +7,11 @@ and the reviewers' verdicts.
 Confirmation is per finding, not per check: the exact household (or first-bill day) Z3 found in Nemotron 3 Ultra's
 model is replayed against Nemotron 3 Super's independent models (one per run, up to five: formal/runs/), and the
 finding is "confirmed" only if most of them fail the same requirement for that same case. One Super run is noisy
-(the same check got the same verdict in only 76% of cases across five runs, stability-eval.json); a majority isn't.
+(the same check got the same verdict in only 76% of cases across five runs, stability-eval.json).
+
+A Super model with no surviving rules can't vote: with nothing granting help it denies every household, so
+"failing the same case" would be agreement by default. It counts as "unable to confirm", and a finding still needs
+a majority of all the runs (3 of 5) from models that could have disagreed.
 """
 
 from __future__ import annotations
@@ -98,6 +102,7 @@ def audit_document(pid: str, pm: PolicyModel, source: str, summary: PolicyModel 
     findings = [f.as_dict() for f in primary]
     others = second_models(pid) if source == "nemotron" else []
     if others:
+        usable = [bool(o.rules) for o in others]
         theirs: list[dict] = []
         for o in others:
             v: dict = {}
@@ -107,10 +112,10 @@ def audit_document(pid: str, pm: PolicyModel, source: str, summary: PolicyModel 
         for f in findings:
             f["second_opinion"] = sorted(set().union(*(v.get(f["check"], set()) for v in theirs)))
             if f["status"] == "counterexample":  # the same case, replayed in each Super model
-                agree = sum(bool(replay(f, o)) for o in others)
+                agree = sum(ok and bool(replay(f, o)) for ok, o in zip(usable, others))
             else:  # a proof or "not stated" is about the whole check: compare verdicts on it
-                agree = sum(v.get(f["check"]) == {f["status"]} for v in theirs)
-            f["votes"] = {"agree": agree, "of": len(others)}
+                agree = sum(ok and v.get(f["check"]) == {f["status"]} for ok, v in zip(usable, theirs))
+            f["votes"] = {"agree": agree, "of": len(others), "unable": usable.count(False)}
             f["confidence"] = "confirmed" if agree * 2 > len(others) else "disputed"
     if summary is not None:
         single = source == "nemotron"  # one Ultra model per document: not cross-checked like the audit verdicts

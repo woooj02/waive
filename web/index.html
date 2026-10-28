@@ -78,7 +78,7 @@
       <h2>2. Your household</h2>
       <p class="sub">The policy's limits depend on household size and yearly income before taxes.</p>
       <div class="row">
-        <div><label for="size">People in household</label><input id="size" type="number" min="1" max="20" value="4" required></div>
+        <div><label for="size">People in household</label><input id="size" type="number" min="1" max="12" value="4" required></div>
         <div><label for="income">Yearly income <small>(before taxes)</small></label><input id="income" inputmode="numeric" value="70,000" required></div>
       </div>
       <div class="row">
@@ -140,7 +140,7 @@
     <div><b>1. Find</b>Tavily searches the web; Nemotron 3 Nano picks the hospital's own document; code fetches it.</div>
     <div><b>2. Formalise</b>Nemotron 3 Ultra writes the policy as rules over household facts (income, size, insurance, residency…) and deadlines.</div>
     <div><b>3. Check the translation</b>Code keeps a clause only if its quote is in the policy; Z3 rejects rules that can never apply; Nemotron 3 Super checks each quote says what the clause claims.</div>
-    <div><b>4. Second opinion</b>Nemotron 3 Super formalises the policy on its own, five times. Z3 replays each counterexample's exact household or day in every Super model; it is confirmed only when most of them fail too.</div>
+    <div><b>4. Second opinion</b>Nemotron 3 Super formalises the policy on its own, five separate times. Z3 replays each counterexample's exact household or day in every Super model; it is confirmed only when at least three fail too. A model with no surviving rules can't confirm.</div>
     <div><b>5. Prove</b>Z3 checks ten legal requirements. A pass is a proof about the encoded rules within the stated range; a fail is a concrete household or day.</div>
   </div>
   <h2>Which model does what, and why</h2>
