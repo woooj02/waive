@@ -89,6 +89,45 @@ def atlas_get(policy_id: str):
     return e
 
 
+AUDIT = ROOT / "audit"
+
+
+def _audit_doc(policy_id: str) -> dict:
+    p = AUDIT / f"{policy_id}.json"
+    if not p.resolve().is_relative_to(AUDIT.resolve()) or not p.exists():
+        raise HTTPException(404, "No audit for this policy")
+    return json.loads(p.read_text())
+
+
+@app.get("/api/audit")
+def audit_index():
+    p = AUDIT / "index.json"
+    return json.loads(p.read_text()) if p.exists() else {"policies": []}
+
+
+@app.get("/api/audit/{policy_id}")
+def audit_get(policy_id: str):
+    return _audit_doc(policy_id)
+
+
+@app.post("/api/audit/{policy_id}/prove")
+def audit_prove(policy_id: str):
+    """Re-run every check with Z3 right now (local, free, milliseconds) on the stored formal model."""
+    from .formal import PolicyModel
+    from .law import audit as run_audit
+    doc = _audit_doc(policy_id)
+    t0 = time.monotonic()
+    findings = [f.as_dict() for f in run_audit(PolicyModel(**doc["model"]))]
+    return {"id": policy_id, "seconds": round(time.monotonic() - t0, 4), "z3": __import__("z3").get_version_string(),
+            "findings": findings}
+
+
+@app.get("/api/formal-eval")
+def formal_eval():
+    p = ROOT / "formal-eval.json"
+    return json.loads(p.read_text()) if p.exists() else {"status": "not run yet"}
+
+
 @app.get("/api/eval")
 def eval_results():
     p = ROOT / "atlas-eval.json"

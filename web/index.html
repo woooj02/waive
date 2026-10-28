@@ -13,15 +13,31 @@
 <header class="top">
   <a class="brand" href="/" aria-label="Waive home"><b>Waive</b><span>hospital bills, checked against the hospital's own rules</span></a>
   <nav class="tabs" role="tablist" aria-label="Sections">
-    <button role="tab" aria-selected="true" aria-controls="tab-check" id="t-check">Check my bill</button>
+    <button role="tab" aria-selected="true" aria-controls="tab-audit" id="t-audit">Policy audit</button>
+    <button role="tab" aria-selected="false" aria-controls="tab-check" id="t-check">Check my bill</button>
     <button role="tab" aria-selected="false" aria-controls="tab-atlas" id="t-atlas">Colorado Atlas</button>
     <button role="tab" aria-selected="false" aria-controls="tab-how" id="t-how">How it works</button>
   </nav>
 </header>
 
 <main id="main">
+<!-- AUDIT -->
+<section id="tab-audit" role="tabpanel" aria-labelledby="t-audit">
+  <div class="a-hero">
+    <h1>Do Colorado hospitals' charity-care policies keep the law's promises? <span class="mark">We asked a theorem prover.</span></h1>
+    <p>Nemotron writes each hospital's policy as logic. The Z3 solver checks it against Colorado's Hospital Discounted
+       Care law and the federal 501(r) rules, for <em>every</em> possible household and billing timeline. A pass is a proof.
+       A fail comes with the exact household, or the exact day, where the policy falls short.</p>
+    <div class="a-stats" id="a-stats" aria-live="polite"></div>
+  </div>
+  <div class="a-layout">
+    <nav class="a-list" id="a-list" aria-label="Hospitals"></nav>
+    <div id="a-detail" class="a-detail" tabindex="-1"><p class="sub">Loading the audit…</p></div>
+  </div>
+</section>
+
 <!-- CHECK -->
-<section id="tab-check" role="tabpanel" aria-labelledby="t-check">
+<section id="tab-check" role="tabpanel" aria-labelledby="t-check" hidden>
   <div class="hero">
     <div>
       <h1>Your hospital may owe you a <span class="mark">$0 bill</span>, not <s>$8,412</s>.</h1>
@@ -142,5 +158,6 @@
   Sample bills are fictional and stamped SAMPLE. Hospital policies are public documents, linked to their source.
 </footer>
 <script src="/static/app.js"></script>
+<script src="/static/audit.js"></script>
 </body>
 </html>

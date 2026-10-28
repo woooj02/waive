@@ -21,7 +21,8 @@ function showTab(id) {
   }
   if (id === "atlas") loadAtlas();
   if (id === "how") loadHow();
-  history.replaceState(null, "", id === "check" ? "/" : "#" + id);
+  if (id === "audit" && window.loadAudit) window.loadAudit();
+  history.replaceState(null, "", id === "audit" ? "/" : "#" + id);
 }
 $$("nav.tabs button").forEach((b) => b.addEventListener("click", () => showTab(b.id.slice(2))));
 
@@ -368,5 +369,6 @@ function evalHtml(ev) {
 
 /* ---------- boot ---------- */
 loadSamples();
+if (location.hash === "#check") showTab("check");
 if (location.hash === "#atlas") showTab("atlas");
 if (location.hash === "#how") showTab("how");
