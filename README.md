@@ -19,7 +19,7 @@ Examples from the audit (all from public policies, each with the policy's and th
 - UCHealth: the plain-language summary (July 2024) leaves out the policy's 100% presumptive eligibility for
   people on SNAP or WIC.
 
-Live demo: _(link after deploy)_ · Video: _(link)_
+Live demo: https://waive.91.99.162.43.sslip.io · Video: _(coming)_
 
 ## How it works
 
