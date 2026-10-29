@@ -203,7 +203,7 @@ function renderResult(ev) {
     "Download your packet and fill in the few blanks (name, account number, signature).",
     "Send it to the hospital's financial assistance office with the documents on the checklist.",
     "Ask them in writing to pause collections while your application is reviewed.",
-    "Keep paying nothing you don't agree with until you get a written decision.",
+    "Ask the financial assistance office for written instructions about payments while your application is pending.",
   ] : v.status === "not_eligible" ? [
     "Ask the hospital for an itemised bill and check it line by line.",
     "Ask about a payment plan, or a hardship review if the bill is large compared with your income.",
@@ -227,6 +227,7 @@ function renderResult(ev) {
       <div class="kicker">${esc(KICKER[v.status] || "")}</div>
       <h2>${esc(v.headline)}</h2>
       ${good && v.expected_usd != null && v.expected_usd < v.balance_usd ? `<div class="amounts"><span class="was">${money(v.balance_usd)}</span><span class="now">${money(v.expected_usd)}</span></div>` : ""}
+      ${good ? `<p class="decides">From the policy as written. The hospital makes the decision when you apply.</p>` : ""}
       ${v.deadline && good ? `<span class="deadline">⏳ ${esc(deadlineText(v.deadline))}</span>` : ""}
       ${co}
       ${v.missing.length ? `<div class="missing"><b>To be sure, we need:</b> ${v.missing.map(esc).join("; ")}</div>` : ""}

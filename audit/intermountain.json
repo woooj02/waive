@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 1.316,
+ "solver_seconds": 1.131,
  "model": {
   "hospital": "Intermountain Health",
   "doc": "policy",
@@ -264,7 +264,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.015,
+   "seconds": 0.013,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
@@ -368,7 +368,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.014,
+   "seconds": 0.012,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
@@ -472,7 +472,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.014,
+   "seconds": 0.012,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
@@ -628,7 +628,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.02,
+   "seconds": 0.018,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
@@ -944,7 +944,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.023,
+   "seconds": 0.019,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [

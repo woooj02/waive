@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": "nemotron",
- "solver_seconds": 1.348,
+ "solver_seconds": 1.135,
  "model": {
   "hospital": "UCHealth",
   "doc": "policy",
@@ -248,7 +248,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.019,
+   "seconds": 0.012,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
@@ -278,7 +278,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.003,
+   "seconds": 0.002,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
@@ -344,7 +344,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.002,
+   "seconds": 0.001,
    "domain": "every first-bill day from day 46 to day 400",
    "basis": "",
    "second_opinion": [
@@ -379,7 +379,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.002,
+   "seconds": 0.001,
    "domain": "every first-bill day from day 46 to day 400",
    "basis": "",
    "second_opinion": [
@@ -504,7 +504,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.0,
+   "seconds": 0.001,
    "domain": "every first-bill day from day 0 to day 400",
    "basis": "",
    "second_opinion": [
@@ -612,7 +612,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.024,
+   "seconds": 0.019,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [
@@ -758,7 +758,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.026,
+   "seconds": 0.022,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -895,7 +895,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.032,
+   "seconds": 0.026,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -1032,7 +1032,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.021,
+   "seconds": 0.022,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"

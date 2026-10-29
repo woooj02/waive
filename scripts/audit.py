@@ -192,6 +192,8 @@ def audit_one(task: tuple[str, str, bool]) -> dict | None:
            "confirmed_counterexamples": sum(f["status"] == "counterexample" and
                                              f.get("confidence") in ("confirmed", "adjudicated")
                                              for f in findings),
+           "confirmed_qualified": sum(f["status"] == "counterexample" and f.get("confidence") == "confirmed" and
+                                       (f.get("review") or {}).get("verdict") == "qualified" for f in findings),
            "refuted": count("refuted"),
            "reviewed": sum(1 for f in findings if f.get("review")),
            "disputed": sum(f.get("confidence") == "disputed" for f in findings),

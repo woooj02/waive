@@ -60,7 +60,7 @@ def build(result: dict) -> bytes:
     main = next((r for r in v.get("reasons", []) if r.get("quote")), None)
     if main:
         story += [_p("What the hospital's own policy says:", h2), _p(f"“{main['quote']}”", quote),
-                  _p(f"Source: {src.get('url', '')} (fetched {src.get('fetched', '')})", small)]
+                  _p(f"Source: {src.get('url', '')}" + (f" (fetched {src['fetched']})" if src.get("fetched") else ""), small)]
     story += [_p("What to do", h2), _p(
         "1. Fill in the blanks on the letter (your name, address, account number) and sign it.\n"
         "2. Gather the documents on the checklist.\n"

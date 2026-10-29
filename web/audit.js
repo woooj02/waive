@@ -24,7 +24,7 @@
     $("#a-stats").innerHTML = `
       <div><b>${ps.filter((p) => !p.not_formalised).length}</b><span>policies audited · ${nHosp} hospitals</span></div>
       <div class="f-ok"><b>${tot("proved")}</b><span>requirements proved</span></div>
-      <div class="f-bad"><b>${hand ? tot("counterexamples") : tot("confirmed_counterexamples")}</b><span>${hand ? "counterexamples found" : "counterexamples confirmed by a second model and reviewed"}</span></div>
+      <div class="f-bad"><b>${hand ? tot("counterexamples") : tot("confirmed_counterexamples")}</b><span>${hand ? "counterexamples found" : `counterexamples confirmed by most of five Super models · on review, ${tot("confirmed_counterexamples") - tot("confirmed_qualified")} upheld, ${tot("confirmed_qualified")} qualified`}</span></div>
       <div><b>${(secs * 1000).toFixed(0)} ms</b><span>total Z3 time</span></div>
       ${hand ? `<p class="src-note">Formal models: <b>hand-written references</b> (every quote checked against the policy).</p>`
         : `<p class="src-note">Each policy was written as logic by <b>Nemotron 3 Ultra</b>. A counterexample is <b>confirmed</b> when the exact same household or day also breaks the requirement in at least three of five separate <b>Nemotron 3 Super</b> formalisations, and every confirmed one was read against the policy text. ${maj ? `On our ${st.docs} hand-written reference documents, counterexamples confirmed this way also failed in our reference ${maj.confirmed.real} of ${maj.confirmed.n} times (with a single Super run: ${one.confirmed.real_pct}%). Exploratory, on a small sample: see How it works.` : ""}</p>`}`;
@@ -173,7 +173,7 @@
     const x = (d) => (100 * d / max).toFixed(2) + "%";
     const lo = Math.min(h.policy_day, h.law_day), hi = Math.max(h.policy_day, h.law_day);
     return `<div class="tl" role="img" aria-label="Timeline: first bill on day ${h.first_statement_day}, policy allows day ${h.policy_day}, law requires day ${h.law_day}">
-      <div class="tl-bar"><i class="gap" style="left:${x(lo)};width:${x(hi - lo)}"></i>
+      <div class="tl-bar"><i class="gap" style="left:${x(lo)};width:${x(hi - lo)}"><em>${hi - lo}-day gap</em></i>
         <b class="m bill" style="left:${x(h.first_statement_day)}"><span>first bill<br>day ${h.first_statement_day}</span></b>
         <b class="m pol" style="left:${x(h.policy_day)}"><span>policy<br>day ${h.policy_day}</span></b>
         <b class="m law" style="left:${x(h.law_day)}"><span>law<br>day ${h.law_day}</span></b></div>

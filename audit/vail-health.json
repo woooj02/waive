@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 1.026,
+ "solver_seconds": 0.858,
  "model": {
   "hospital": "Vail Health Hospital",
   "doc": "summary",
@@ -270,7 +270,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.018,
+   "seconds": 0.016,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
@@ -650,7 +650,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.033,
+   "seconds": 0.028,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [

@@ -7,7 +7,7 @@
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 1.66,
+ "solver_seconds": 1.397,
  "model": {
   "hospital": "Colorado Plains Medical Center",
   "doc": "policy",
@@ -371,7 +371,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.014,
+   "seconds": 0.013,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
@@ -515,7 +515,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.013,
+   "seconds": 0.012,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
@@ -659,7 +659,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.012,
+   "seconds": 0.017,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
@@ -803,7 +803,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.025,
+   "seconds": 0.026,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
@@ -995,7 +995,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.033,
+   "seconds": 0.029,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
@@ -1346,7 +1346,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.037,
+   "seconds": 0.033,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [
