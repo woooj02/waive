@@ -66,6 +66,8 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 24px 80px; }
 .drop strong { display: block; font-size: 16px; }
 .drop span { color: var(--ink-3); font-size: 13px; }
 .drop.has { border-style: solid; border-color: var(--go); background: var(--go-bg); }
+.drop img { display: block; max-height: 220px; max-width: 100%; margin: 12px auto 0; border-radius: 6px; box-shadow: 0 2px 10px #0002; }
+.drop img[hidden] { display: none; }
 .samples { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
 .sample { border: 1px solid var(--line); border-radius: 10px; background: #fff; padding: 0; cursor: pointer;
   text-align: left; overflow: hidden; font: inherit; color: inherit; }

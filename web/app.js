@@ -43,6 +43,7 @@ async function loadSamples() {
       chosenFile = null;
       $("#drop").classList.remove("has");
       $("#drop-title").textContent = "Drop a photo or PDF here, or choose a file";
+      $("#drop-img").hidden = true;
       if (on) {
         btn.setAttribute("aria-pressed", "true");
         $("#size").value = s.household.size;
@@ -62,7 +63,11 @@ function setFile(f) {
   $$(".sample").forEach((b) => b.setAttribute("aria-pressed", "false"));
   $("#drop").classList.add("has");
   $("#drop-title").textContent = f.name;
-  $("#drop-sub").textContent = `${(f.size / 1e6).toFixed(1)} MB · ready`;
+  $("#drop-sub").textContent = `${f.size < 1e6 ? Math.max(1, Math.round(f.size / 1e3)) + " KB" : (f.size / 1e6).toFixed(1) + " MB"} · ready`;
+  const img = $("#drop-img");
+  if (img.src) URL.revokeObjectURL(img.src);
+  img.hidden = !f.type.startsWith("image/");
+  img.src = img.hidden ? "" : URL.createObjectURL(f);
 }
 $("#file").addEventListener("change", (e) => setFile(e.target.files[0]));
 const drop = $("#drop");
