@@ -224,10 +224,11 @@ def check_co_eca(pm: PolicyModel) -> Finding:
     return _timeline(
         pm, "co_eca_182", "No collection lawsuits or garnishment before day 182", ("co_eca", "co_bills_46"),
         lambda e: e.eca_from, lambda h: z3.IntVal(182), 46,
-        "Proved for the encoded rules: whatever day the first bill goes out, the policy's own timeline never allows a collection action "
-        "before day 182 after care.",
+        "Proved for the encoded rules: whatever day the first bill goes out, the policy's own timeline never allows an extraordinary collection "
+        "action (a lawsuit, garnishment) before day 182 after care.",
         lambda s, got, need: f"If the first bill goes out on day {s} after care (Colorado allows bills from day 46), "
-                             f"the policy's written timeline allows collection actions from day {got}. Colorado law "
+                             f"the policy's written timeline allows extraordinary collection actions (lawsuits, garnishment) "
+                             f"from day {got}. Colorado law "
                              f"bars them until day {need}.")
 
 
@@ -272,13 +273,13 @@ def check_fed_window(pm: PolicyModel) -> Finding:
 
 def check_fed_eca(pm: PolicyModel) -> Finding:
     if not pm.nonprofit:
-        return Finding("fed_eca_120", "No collection actions in the first 120 days after the first bill (501(r))",
+        return Finding("fed_eca_120", "No extraordinary collection actions in the first 120 days after the first bill (501(r))",
                        "n/a", cite("fed_eca"), _not_501r(pm))
     return _timeline(
-        pm, "fed_eca_120", "No collection actions in the first 120 days after the first bill (501(r))",
+        pm, "fed_eca_120", "No extraordinary collection actions in the first 120 days after the first bill (501(r))",
         ("fed_eca",), lambda e: e.eca_from, lambda h: h.statement + 120, 0,
-        "Proved for the encoded rules: collection actions never start sooner than 120 days after the first bill.",
-        lambda s, got, need: f"With a first bill on day {s}, the policy allows collection actions on day {got}; "
+        "Proved for the encoded rules: extraordinary collection actions never start sooner than 120 days after the first bill.",
+        lambda s, got, need: f"With a first bill on day {s}, the policy allows extraordinary collection actions on day {got}; "
                              f"501(r) requires waiting until day {need}.")
 
 

@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.132,
+ "solver_seconds": 0.196,
  "model": {
   "hospital": "Spanish Peaks Regional Health Center",
   "doc": "policy",
@@ -377,7 +377,7 @@
   },
   {
    "check": "fed_eca_120",
-   "title": "No collection actions in the first 120 days after the first bill (501(r))",
+   "title": "No extraordinary collection actions in the first 120 days after the first bill (501(r))",
    "status": "not_stated",
    "law": [
     {

@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": "nemotron",
- "solver_seconds": 1.135,
+ "solver_seconds": 1.686,
  "model": {
   "hospital": "UCHealth",
   "doc": "policy",
@@ -248,7 +248,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.012,
+   "seconds": 0.018,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
@@ -278,7 +278,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.002,
+   "seconds": 0.003,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
@@ -338,7 +338,7 @@
      "quote": "begin sending bills beginning 46 days after the patient's date of service or date of discharge"
     }
    ],
-   "summary": "Proved for the encoded rules: whatever day the first bill goes out, the policy's own timeline never allows a collection action before day 182 after care.",
+   "summary": "Proved for the encoded rules: whatever day the first bill goes out, the policy's own timeline never allows an extraordinary collection action (a lawsuit, garnishment) before day 182 after care.",
    "severity": "",
    "household": null,
    "household_b": null,
@@ -379,7 +379,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.001,
+   "seconds": 0.002,
    "domain": "every first-bill day from day 46 to day 400",
    "basis": "",
    "second_opinion": [
@@ -489,7 +489,7 @@
   },
   {
    "check": "fed_eca_120",
-   "title": "No collection actions in the first 120 days after the first bill (501(r))",
+   "title": "No extraordinary collection actions in the first 120 days after the first bill (501(r))",
    "status": "proved",
    "law": [
     {
@@ -498,13 +498,13 @@
      "quote": "for at least 120 days from the date the hospital facility provides the first post-discharge billing statement for the care"
     }
    ],
-   "summary": "Proved for the encoded rules: collection actions never start sooner than 120 days after the first bill.",
+   "summary": "Proved for the encoded rules: extraordinary collection actions never start sooner than 120 days after the first bill.",
    "severity": "",
    "household": null,
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.001,
+   "seconds": 0.0,
    "domain": "every first-bill day from day 0 to day 400",
    "basis": "",
    "second_opinion": [
@@ -612,7 +612,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.019,
+   "seconds": 0.025,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [
@@ -758,7 +758,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.022,
+   "seconds": 0.037,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -895,7 +895,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.026,
+   "seconds": 0.031,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -1032,7 +1032,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.022,
+   "seconds": 0.03,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -1169,7 +1169,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.028,
+   "seconds": 0.042,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"

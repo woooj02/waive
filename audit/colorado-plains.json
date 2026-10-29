@@ -7,7 +7,7 @@
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 1.397,
+ "solver_seconds": 2.333,
  "model": {
   "hospital": "Colorado Plains Medical Center",
   "doc": "policy",
@@ -371,7 +371,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.013,
+   "seconds": 0.024,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
@@ -515,7 +515,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.012,
+   "seconds": 0.023,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
@@ -659,7 +659,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.017,
+   "seconds": 0.021,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "second_opinion": [
@@ -803,7 +803,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.026,
+   "seconds": 0.041,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
@@ -833,7 +833,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.001,
+   "seconds": 0.002,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
@@ -995,7 +995,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.029,
+   "seconds": 0.056,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
@@ -1175,7 +1175,7 @@
   },
   {
    "check": "fed_eca_120",
-   "title": "No collection actions in the first 120 days after the first bill (501(r))",
+   "title": "No extraordinary collection actions in the first 120 days after the first bill (501(r))",
    "status": "n/a",
    "law": [
     {
@@ -1346,7 +1346,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.033,
+   "seconds": 0.056,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [

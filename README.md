@@ -14,8 +14,8 @@ to each policy is measured separately (evaluation and reviews below).
 
 Examples from the audit (all from public policies, each with the policy's and the law's own words on screen):
 
-- Children's Hospital Colorado: if the first bill goes out on day 46, the written timeline allows collection
-  actions from day 166; Colorado bars them until day 182.
+- Children's Hospital Colorado: if the first bill goes out on day 46, the written timeline allows extraordinary
+  collection actions (lawsuits, garnishment) from day 166; Colorado bars them until day 182.
 - Memorial Regional Health (Craig): with a first bill on day 46, the written policy stops taking applications on
   day 45 after care; Colorado requires at least 181 days.
 - UCHealth: the plain-language summary (July 2024) leaves out the policy's 100% presumptive eligibility for
