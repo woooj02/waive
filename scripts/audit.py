@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app import llm  # noqa: E402
 from app.formal import PolicyModel  # noqa: E402
-from app.auditing import RUNS, audit_document, dropped_rules  # noqa: E402
+from app.auditing import RUNS, audit_document, dropped_rules, matrix_cells  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 HAND, NEMO, OUT = ROOT / "eval" / "formal", ROOT / "formal", ROOT / "audit"
@@ -185,13 +185,7 @@ def audit_one(task: tuple[str, str, bool]) -> dict | None:
            "model": json.loads(pm.model_dump_json()), "findings": findings}
     (OUT / f"{pid}.json").write_text(json.dumps(doc, indent=1))
     count = lambda st: sum(f["status"] == st for f in findings)  # noqa: E731
-    rank = {"counterexample": 0, "inconclusive": 1, "unknown": 1, "not_stated": 2, "proved": 3, "refuted": 3,
-            "n/a": 4}
-    checks: dict = {}
-    for f in findings:  # worst verdict per check
-        if f["check"] not in checks or rank[f["status"]] < rank[checks[f["check"]]]:
-            checks[f["check"]] = f["status"]
-    conf = {f["check"]: f.get("confidence") for f in findings if f.get("confidence")}
+    checks, conf = matrix_cells(findings)
     row = {"id": pid, "hospital": display_name(pid, pm), "model_source": source, "nonprofit": pm.nonprofit,
            "checks": checks, "inconclusive": count("inconclusive"), "confidence": conf,
            "proved": count("proved"), "counterexamples": count("counterexample"),

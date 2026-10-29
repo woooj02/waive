@@ -99,7 +99,7 @@ $("#form").addEventListener("submit", async (e) => {
   if (chosenSample) fd.append("sample", chosenSample);
   else if (chosenFile) fd.append("file", chosenFile);
   else fd.append("typed", JSON.stringify({ hospital: $("#t-hospital").value.trim(), balance_usd: num($("#t-balance").value),
-    statement_date: $("#t-date").value, state: hh.state }));
+    statement_date: $("#t-date").value, service_dates: $("#t-service").value, state: hh.state }));
 
   $("#go").disabled = true;
   $("#go").textContent = "Checking…";
@@ -187,7 +187,7 @@ function deadlineText(d) {
   if (!d) return "";
   const days = Math.round((new Date(d) - new Date()) / 864e5);
   const nice = new Date(d + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-  return days >= 0 ? `Apply by ${nice} · ${days} days left` : `The usual 240-day window ended ${nice}: ask anyway`;
+  return days >= 0 ? `Apply by ${nice} · ${days} days left` : `The application window ended ${nice}: ask anyway`;
 }
 
 function renderResult(ev) {
@@ -246,7 +246,7 @@ function renderResult(ev) {
         Your income ${money(ev.household.income_usd)} ÷ ${money(v.fpl_usd)} = <b>${v.pct_fpl}%</b> of the poverty level<br>
         ${v.discount_pct ? `Policy tier: ${v.discount_pct}% off → ${money(v.balance_usd)} × ${(100 - v.discount_pct)}% = ${money(v.balance_usd * (1 - v.discount_pct / 100))}<br>` : ""}
         ${v.colorado ? `Colorado cap: ${money(ev.household.income_usd)} ÷ 12 × ${v.colorado.pct_of_income}% × ${v.colorado.payments} = ${money(v.colorado.monthly_max_usd * v.colorado.payments)}<br>` : ""}
-        ${v.deadline ? `Deadline: statement date + 240 days = ${esc(v.deadline)} (26 CFR 1.501(r)-6)` : ""}</div></div></details>
+        ${v.deadline ? `Apply by ${esc(v.deadline)}: ${esc(v.deadline_basis)}` : ""}</div></div></details>
       ${p ? `<details><summary>Every rule we read from this policy <small>${p.tiers.filter((t) => t.verified).length} tiers proven · ${p.dropped.length} dropped</small></summary><div class="body">
         <p>${esc(crossText)}</p><table class="rules"><thead><tr><th>Rule</th><th>What it says</th><th>Proof</th></tr></thead><tbody>${rules}</tbody></table>${dropped}
         ${p.unknowns.length ? `<p><b>The policy doesn't say:</b></p><ul>${p.unknowns.map((u) => `<li>${esc(u)}</li>`).join("")}</ul>` : ""}</div></details>` : ""}
@@ -391,8 +391,8 @@ function stabilityHtml(st) {
       <tr><td>Most of ${st.runs} Super runs (used)</td><td>${maj.confirmed.real} of ${maj.confirmed.n} (${maj.confirmed.real_pct}%)</td><td>${maj.disputed.real} of ${maj.disputed.n} (${maj.disputed.real_pct}%)</td></tr>
     </tbody></table>
     <p>Read this as exploratory, not as validation: the rule was chosen after seeing these cases, several share the same underlying gap, and all ${st.runs} models come from the same model family, so separate runs can share one misunderstanding.
-    The production reviews show that limit: 4 counterexamples that most Super models confirmed (some 5 of 5) were rejected when we read the policy, and they stay on the page as dismissed.
-    It is also why disputed findings stay visible, marked for a person: most of them are real too. A Super model with no surviving rules can't confirm anything (it denies everyone), so it counts as unable, not as a vote.</p>`;
+    The production reviews show that limit: 3 counterexamples that most Super models confirmed (two of them 5 of 5) were rejected when we read the policy, and they stay on the page as dismissed.
+    It is also why disputed findings stay visible, marked for a person: most of them are real too. A Super model that lost rules in checking can't confirm a gap that may be its own missing rule (with no rules left it denies everyone), so it counts as unable, not as a vote.</p>`;
 }
 
 /* ---------- boot ---------- */

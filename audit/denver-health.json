@@ -7,7 +7,7 @@
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.113,
+ "solver_seconds": 0.146,
  "model": {
   "hospital": "Denver Health",
   "doc": "policy",
@@ -409,7 +409,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.002,
+   "seconds": 0.003,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [

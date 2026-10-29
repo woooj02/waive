@@ -16,8 +16,8 @@ Examples from the audit (all from public policies, each with the policy's and th
 
 - Children's Hospital Colorado: if the first bill goes out on day 46, the written timeline allows collection
   actions from day 166; Colorado bars them until day 182.
-- Intermountain Health: a Colorado family at 99% of the poverty line living outside Intermountain's service area
-  is turned away for non-emergency care; Colorado's law covers every resident.
+- Memorial Regional Health (Craig): with a first bill on day 46, the written policy stops taking applications on
+  day 45 after care; Colorado requires at least 181 days.
 - UCHealth: the plain-language summary (July 2024) leaves out the policy's 100% presumptive eligibility for
   people on SNAP or WIC.
 
@@ -37,8 +37,8 @@ Tavily search ─► Nemotron 3 Nano picks the hospital's own document ─► fe
      │
      └─► Z3 (app/law.py): 10 legal checks on each model + equivalence of the models
             a counterexample is "confirmed" only if the exact same household or day also fails in at least
-            3 of the 5 Super models (one with no surviving rules can't vote); otherwise "disputed". Every confirmed one is read against
-            the policy.
+            3 of the 5 Super models; otherwise "disputed". A Super model that lost rules in checking can't
+            vote for a gap its own missing rule could explain. Every confirmed one is read against the policy.
 ```
 
 - **Encoding** (`app/formal.py`): a symbolic household (size, income, assets, bill, nine yes/no facts such as
@@ -49,10 +49,13 @@ Tavily search ─► Nemotron 3 Nano picks the hospital's own document ─► fe
   applied for Medicaid, must be treated the same); collection timing and application windows over every
   first-bill day; payment-plan cap; 501(r) windows; gaps between income bands; summary vs policy equivalence.
 - **Check my bill**: a patient's household is checked against the same formal model. Known facts are fixed,
-  unknown ones (service area, emergency, under-insured) stay symbolic, and Z3 answers "yes for sure", "yes if …"
+  unknown ones (service area, emergency, under-insured, savings left blank) stay symbolic, and Z3 answers "yes for sure", "yes if …"
   (naming the fact), or "no" (`app/prover_check.py`). The amount gets its own guarantee: Z3 finds the lowest and
   highest discount over every value of the unknowns, so "free" is only said when it is free in all of them. A
-  household outside the proofs' range (over 12 people, income over $1M) is refused, not guessed. A "no" from a
+  household outside the proofs' range (over 12 people, income over $1M) is refused, not guessed. What's left to pay
+  never exceeds Colorado's cap (4% of monthly income for 36 months). The apply-by date comes from the same policy's
+  window; a policy with none gets the legal minimum (Colorado's 181 days after care, 501(r)'s 240 days after the
+  first bill for nonprofits), and a missing date of care is asked for, not guessed. A "no" from a
   model that lost rules in checking becomes "we can't be sure". An uploaded bill and its reading are never cached
   or stored (only the fictional samples are cached).
 - **Readable counterexamples**: MaxSMT (soft constraints) picks the most ordinary household that still fails,
@@ -100,28 +103,30 @@ against our reference model:
 
 | Confirmation rule | Confirmed, and the reference also fails | Disputed, but the reference also fails |
 |---|---|---|
-| One Super run (what we used before) | 42 of 45 pairings (93%) | 28 of 40 (70%) |
-| **Most of five Super runs** (used now) | **8 of 8** | 6 of 9 (67%) |
+| One Super run (what we used before) | 33 of 35 pairings (94%) | 37 of 50 (74%) |
+| **Most of five Super runs** (used now) | **6 of 6** | 8 of 11 (73%) |
 
 This is exploratory, not validation: the rule was chosen after seeing these cases, several share one underlying
 gap, and all five models are Super, so separate runs can share one misunderstanding. The production reviews show
-the limit: 4 counterexamples confirmed by most Super models (some 5 of 5) were rejected on reading the policy. It
-is also why disputed findings stay on the page for a person rather than being hidden. A Super model with no
-surviving rules denies everyone, so it counts as "unable to confirm", never as a vote.
+the limit: 3 counterexamples confirmed by most Super models (two of them 5 of 5) were rejected on reading the
+policy. It is also why disputed findings stay on the page for a person rather than being hidden. A Super run votes
+"unable to confirm", never "fails too", when its failure could be its own lost rule: no rules left at all, or some
+rules lost and the case turned away only because no surviving rule grants help (the guard that already makes such a
+finding of Ultra's "inconclusive"). Each run's audit is computed in a fresh process, so the table is reproducible.
 
 ## The Colorado audit (October 2026)
 
 28 policy documents found for 38 Colorado hospital systems (five sites blocked downloads); 25 formalised and
 audited, covering 64 hospitals; 3 documents lost every rule in the checks and are listed as not formalised.
-Z3 proved 90 requirements for the encoded rules and found 42 counterexamples. 10 are confirmed: the
+Z3 proved 90 requirements for the encoded rules and found 42 counterexamples. 8 are confirmed: the
 exact same household or day also fails in at least three of five separate Nemotron 3 Super formalisations. Every
-confirmed counterexample was read against the policy text during development (6 upheld, 4 qualified); 8 findings in all
-(4 of them confirmed) were dismissed on review as translation errors, and 17 are inconclusive because a rule was
+confirmed counterexample was read against the policy text during development (5 upheld, 3 qualified); 8 findings in all
+(3 of them confirmed) were dismissed on review as translation errors, and 17 are inconclusive because a rule was
 dropped in checking. The reviews (`eval/reviews.json`, 36 entries, shown on each finding) are ours, not
 independent validation.
 Tax status for 501(r) comes from IRS data (ProPublica Nonprofit Explorer); hospitals with no 501(c)(3) record
 (mostly public districts) skip the federal checks. All Z3 work for the state, including replaying every finding
-against the five Super models, takes about 17–20 s; each document is audited in a fresh process so the counterexample
+against the five Super models, takes about 17–22 s; each document is audited in a fresh process so the counterexample
 Z3 reports depends on that document alone (two runs give identical output).
 
 ## Where Nebius Token Factory helped

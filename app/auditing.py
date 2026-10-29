@@ -9,9 +9,11 @@ model is replayed against Nemotron 3 Super's independent models (one per run, up
 finding is "confirmed" only if most of them fail the same requirement for that same case. One Super run is noisy
 (the same check got the same verdict in only 76% of cases across five runs, stability-eval.json).
 
-A Super model with no surviving rules can't vote: with nothing granting help it denies every household, so
-"failing the same case" would be agreement by default. It counts as "unable to confirm", and a finding still needs
-a majority of all the runs (3 of 5) from models that could have disagreed.
+A Super model can't vote when its "yes, this case fails too" could be an artefact of its own lost rules: a model
+with no surviving rules (it denies every household), or one that lost some rules and fails the case only because no
+rule of its own grants help (the same guard that makes such a finding of Ultra's "inconclusive"). It counts as
+"unable to confirm", and a finding still needs a majority of all the runs (3 of 5) from models that could have
+disagreed.
 """
 
 from __future__ import annotations
@@ -32,12 +34,14 @@ TIMING = {"co_eca_182": "eca", "fed_eca_120": "eca", "co_window_181": "applicati
           "co_window_insured": "application", "fed_window_240": "application"}
 
 
-def second_models(pid: str) -> list[PolicyModel]:
-    """Nemotron 3 Super's independent models of this policy: the pipeline's own run, then any extra runs."""
+def second_models(pid: str) -> list[tuple[PolicyModel, dict]]:
+    """Nemotron 3 Super's independent models of this policy, each with its checking report: the pipeline's own run,
+    then any extra runs."""
     p = NEMO / f"{pid}.json"
-    sm = json.loads(p.read_text())["report"].get("secondary_model") if p.exists() else None
+    rep = json.loads(p.read_text())["report"] if p.exists() else {}
+    first = [(PolicyModel(**rep["secondary_model"]), rep.get("secondary", {}))] if rep.get("secondary_model") else []
     extra = sorted((RUNS / pid).glob("super-*.json"), key=lambda q: int(q.stem.split("-")[1]))
-    return ([PolicyModel(**sm)] if sm else []) + [PolicyModel(**json.loads(q.read_text())["model"]) for q in extra]
+    return first + [(PolicyModel(**d["model"]), d["report"]) for d in (json.loads(q.read_text()) for q in extra)]
 
 
 def dropped_rules(pid: str) -> int:
@@ -82,6 +86,42 @@ def replay(f: dict, other: PolicyModel) -> bool | None:
     return None
 
 
+def by_absence(f: dict, other: PolicyModel) -> bool:
+    """Does this model fail the finding's case only because none of its rules grants help (not a requirement)?"""
+    if f["check"] == "monotone":
+        return True
+    if f["check"] == "co_hdc_coverage" and f.get("household"):
+        o = evaluate(other, f["household"])
+        return o is not None and o["eligible"] and not o["covered"]
+    return False
+
+
+def vote(f: dict, other: PolicyModel, rep: dict) -> bool | None:
+    """One Super model's vote on a counterexample: does it fail the same case? None: it can't tell (see top)."""
+    if not other.rules:
+        return None
+    fails = bool(replay(f, other))
+    if fails and lost_rules(rep) and by_absence(f, other):
+        return None
+    return fails
+
+
+RANK = {"counterexample": 0, "inconclusive": 1, "unknown": 1, "not_stated": 2, "proved": 3, "refuted": 3, "n/a": 4}
+TRUST = {"confirmed": 0, "adjudicated": 0, "disputed": 1, "unconfirmed": 1}
+
+
+def matrix_cells(findings: list[dict]) -> tuple[dict, dict]:
+    """Status and confidence per check, both from the one finding that speaks for the cell: the worst verdict, and
+    among equally bad ones the best-supported (a confirmed counterexample over a disputed one)."""
+    cell: dict = {}
+    for f in findings:
+        k = (RANK[f["status"]], TRUST.get(f.get("confidence"), 2))
+        if f["check"] not in cell or k < cell[f["check"]][0]:
+            cell[f["check"]] = (k, f)
+    return ({c: f["status"] for c, (_, f) in cell.items()},
+            {c: f["confidence"] for c, (_, f) in cell.items() if f.get("confidence")})
+
+
 def apply_reviews(pid: str, findings: list[dict]) -> None:
     """A reviewer read the policy for this finding: show their verdict; a rejected finding is dismissed, not hidden."""
     for r in REVIEWS:
@@ -102,9 +142,8 @@ def audit_document(pid: str, pm: PolicyModel, source: str, summary: PolicyModel 
     findings = [f.as_dict() for f in primary]
     others = second_models(pid) if source == "nemotron" else []
     if others:
-        usable = [bool(o.rules) for o in others]
         theirs: list[dict] = []
-        for o in others:
+        for o, _ in others:
             v: dict = {}
             for g in audit(o):
                 v.setdefault(g.check, set()).add(g.status)
@@ -112,10 +151,12 @@ def audit_document(pid: str, pm: PolicyModel, source: str, summary: PolicyModel 
         for f in findings:
             f["second_opinion"] = sorted(set().union(*(v.get(f["check"], set()) for v in theirs)))
             if f["status"] == "counterexample":  # the same case, replayed in each Super model
-                agree = sum(ok and bool(replay(f, o)) for ok, o in zip(usable, others))
+                votes = [vote(f, o, rep) for o, rep in others]
             else:  # a proof or "not stated" is about the whole check: compare verdicts on it
-                agree = sum(ok and v.get(f["check"]) == {f["status"]} for ok, v in zip(usable, theirs))
-            f["votes"] = {"agree": agree, "of": len(others), "unable": usable.count(False)}
+                votes = [v.get(f["check"]) == {f["status"]} if o.rules else None
+                         for (o, _), v in zip(others, theirs)]
+            agree = votes.count(True)
+            f["votes"] = {"agree": agree, "of": len(others), "unable": votes.count(None)}
             f["confidence"] = "confirmed" if agree * 2 > len(others) else "disputed"
     if summary is not None:
         single = source == "nemotron"  # one Ultra model per document: not cross-checked like the audit verdicts

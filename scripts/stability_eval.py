@@ -27,7 +27,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app import llm  # noqa: E402
-from app.auditing import lost_rules, replay  # noqa: E402
+from app.auditing import lost_rules, replay, vote  # noqa: E402
 from app.formal import PolicyModel  # noqa: E402
 from app.law import audit  # noqa: E402
 
@@ -59,6 +59,13 @@ def run_one(task: tuple[str, str, int]) -> str:
                                 "cost_usd": round(sum(c.cost_usd for c in meter.calls), 5),
                                 "fresh_calls": sum(not c.cached_result for c in meter.calls)}, indent=1))
     return ""
+
+
+def ultra_findings(task: tuple[str, int]) -> list[dict]:
+    """One Ultra run's audit, in a fresh process: Z3's choice among equally valid counterexamples depends on solver
+    state, so each run's findings must not depend on what was solved before it."""
+    pid, i = task
+    return [f.as_dict() for f in audit(PolicyModel(**json.loads((RUNS / pid / f"ultra-{i}.json").read_text())["model"]))]
 
 
 def verdicts(pm: PolicyModel) -> dict:
@@ -117,26 +124,26 @@ def main() -> None:
     # Per finding: every distinct counterexample any Ultra run produced, replayed against the reference and
     # against each Super run. A single Super run is what the audit used; several Super runs are the alternative.
     seen: dict = {}
-    for (pid, key, i), (pm, rep) in runs.items():
-        if key != "ultra":
-            continue
-        for f in audit(pm):
-            fd = f.as_dict()
-            k = (pid, f.check, f.summary)
-            if f.status != "counterexample" or k in seen or (truth := replay(fd, refs[pid])) is None:
+    ultra = [(pid, i) for (pid, key, i) in runs if key == "ultra"]
+    with ProcessPoolExecutor(6, max_tasks_per_child=1) as pool:
+        found = dict(zip(ultra, pool.map(ultra_findings, ultra)))
+    for (pid, i), fs in found.items():
+        rep = runs[(pid, "ultra", i)][1]
+        for fd in fs:
+            k = (pid, fd["check"], fd["summary"])
+            if fd["status"] != "counterexample" or k in seen or (truth := replay(fd, refs[pid])) is None:
                 continue
-            votes = [replay(fd, runs[(pid, "super", j)][0]) for j in range(1, args.runs + 1)
-                     if (pid, "super", j) in runs]
-            seen[k] = {"doc": pid, "check": f.check, "summary": f.summary, "real": truth,
-                       "inconclusive": f.basis == "absence" and lost_rules(rep) > 0,
-                       "super_votes": [bool(v) for v in votes]}
+            # each Super run votes as in the audit: one that can't tell (lost rules behind its "fails too") abstains
+            votes = [vote(fd, *runs[(pid, "super", j)]) for j in range(1, args.runs + 1) if (pid, "super", j) in runs]
+            seen[k] = {"doc": pid, "check": fd["check"], "summary": fd["summary"], "real": truth,
+                       "inconclusive": fd["basis"] == "absence" and lost_rules(rep) > 0, "super_votes": votes}
     rows = list(seen.values())
     firm = [r for r in rows if not r["inconclusive"]]
     one_conf = [r["real"] for r in firm for v in r["super_votes"] if v]  # every (finding, single Super run) pair
-    one_disp = [r["real"] for r in firm for v in r["super_votes"] if not v]
+    one_disp = [r["real"] for r in firm for v in r["super_votes"] if not v]  # an abstaining run doesn't confirm
 
     def majority(r: dict) -> bool:
-        return sum(r["super_votes"]) * 2 > len(r["super_votes"])
+        return r["super_votes"].count(True) * 2 > len(r["super_votes"])
 
     summary["findings"] = {
         "distinct_counterexamples": len(rows), "all": rate([r["real"] for r in rows]),

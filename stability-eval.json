@@ -39,27 +39,27 @@
    "one_super_run": {
     "note": "every pairing of a finding with one Super run (what the audit used)",
     "confirmed": {
-     "n": 45,
-     "real": 42,
-     "real_pct": 93
+     "n": 35,
+     "real": 33,
+     "real_pct": 94
     },
     "disputed": {
-     "n": 40,
-     "real": 28,
-     "real_pct": 70
+     "n": 50,
+     "real": 37,
+     "real_pct": 74
     }
    },
    "super_majority": {
     "note": "confirmed when most of 5 Super runs fail the same case",
     "confirmed": {
-     "n": 8,
-     "real": 8,
+     "n": 6,
+     "real": 6,
      "real_pct": 100
     },
     "disputed": {
-     "n": 9,
-     "real": 6,
-     "real_pct": 67
+     "n": 11,
+     "real": 8,
+     "real_pct": 73
     }
    }
   }
@@ -72,7 +72,7 @@
    "real": false,
    "inconclusive": false,
    "super_votes": [
-    true,
+    null,
     true,
     false,
     false,
@@ -124,13 +124,13 @@
   {
    "doc": "childrens-colorado",
    "check": "monotone",
-   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, under-insured, after non-emergency care gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, under-insured, after non-emergency care gets no help; the same household earning more, at 400.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
    "real": true,
    "inconclusive": true,
    "super_votes": [
+    null,
     true,
-    true,
-    true,
+    null,
     true,
     true
    ]
@@ -142,7 +142,7 @@
    "real": true,
    "inconclusive": true,
    "super_votes": [
-    true,
+    null,
     true,
     false,
     false,
@@ -152,13 +152,13 @@
   {
    "doc": "childrens-colorado",
    "check": "monotone",
-   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, under-insured, after non-emergency care gets no help; the same household earning more, at 400.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
+   "summary": "A household of 3 earning $68,473 a year (250.6% of the poverty line), living in Colorado, under-insured, after non-emergency care gets no help; the same household earning more, at 251.00% of the poverty line, gets help (amount not stated). The written income bands leave a gap between them.",
    "real": true,
    "inconclusive": true,
    "super_votes": [
+    null,
     true,
-    true,
-    true,
+    null,
     true,
     true
    ]
@@ -240,10 +240,10 @@
    "real": true,
    "inconclusive": false,
    "super_votes": [
+    null,
+    null,
     true,
-    true,
-    true,
-    true,
+    null,
     true
    ]
   },
@@ -255,7 +255,7 @@
    "inconclusive": false,
    "super_votes": [
     false,
-    true,
+    null,
     false,
     false,
     true
@@ -282,10 +282,10 @@
    "real": false,
    "inconclusive": true,
    "super_votes": [
-    true,
-    true,
+    null,
+    null,
     false,
-    true,
+    null,
     false
    ]
   },
@@ -311,7 +311,7 @@
    "inconclusive": false,
    "super_votes": [
     false,
-    true,
+    null,
     false,
     false,
     true
@@ -325,7 +325,7 @@
    "inconclusive": false,
    "super_votes": [
     false,
-    true,
+    null,
     false,
     false,
     true
@@ -338,10 +338,10 @@
    "real": true,
    "inconclusive": true,
    "super_votes": [
+    null,
+    null,
     true,
-    true,
-    true,
-    true,
+    null,
     true
    ]
   },
@@ -352,10 +352,10 @@
    "real": true,
    "inconclusive": true,
    "super_votes": [
+    null,
     true,
-    true,
-    true,
-    true,
+    null,
+    null,
     true
    ]
   },
@@ -380,10 +380,10 @@
    "real": true,
    "inconclusive": false,
    "super_votes": [
+    null,
     true,
-    true,
-    true,
-    true,
+    null,
+    null,
     true
    ]
   },

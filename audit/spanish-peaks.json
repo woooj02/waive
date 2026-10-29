@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.145,
+ "solver_seconds": 0.162,
  "model": {
   "hospital": "Spanish Peaks Regional Health Center",
   "doc": "policy",

@@ -27,9 +27,6 @@ CO_HDC_PROFESSIONAL_PCT = 2  # per separately billing professional
 CO_HDC_MAX_PAYMENTS = 36
 CO_HDC_SOURCE = "Colorado Hospital Discounted Care, hcpf.colorado.gov/colorado-hospital-discounted-care"
 
-# 26 CFR 1.501(r)-6: applications accepted for 240 days after the first post-discharge statement.
-APPLICATION_WINDOW_DAYS = 240
-R501_SOURCE = "26 CFR 1.501(r)-6 (nonprofit hospitals)"
 
 
 def fpl(size: int, state: str = "CO") -> float:
@@ -56,6 +53,7 @@ class Verdict(BaseModel):
     pct_fpl: float
     fpl_usd: float
     deadline: str = ""
+    deadline_basis: str = ""
     reasons: list[Reason] = Field(default_factory=list)
     missing: list[str] = Field(default_factory=list)
     uncertain: list[str] = Field(default_factory=list)
@@ -97,16 +95,14 @@ def colorado_cap(household: Household, bill: Bill) -> dict | None:
 
 
 def deadline(bill: Bill, program: RuleProgram | None) -> str:
-    if not bill.statement_date:
+    """The policy's own stated window from the statement date; no default (a for-profit hospital has no 501(r) one)."""
+    if not (bill.statement_date and program and program.application.verified and program.application.window_days):
         return ""
     try:
         start = date.fromisoformat(bill.statement_date)
     except ValueError:
         return ""
-    days = APPLICATION_WINDOW_DAYS
-    if program and program.application.verified and program.application.window_days:
-        days = max(days, program.application.window_days)
-    return (start + timedelta(days=days)).isoformat()
+    return (start + timedelta(days=program.application.window_days)).isoformat()
 
 
 def evaluate(program: RuleProgram | None, household: Household, bill: Bill) -> Verdict:
@@ -114,6 +110,8 @@ def evaluate(program: RuleProgram | None, household: Household, bill: Bill) -> V
     base = fpl(household.size, household.state)
     v = Verdict(status="needs_info", headline="", balance_usd=bill.balance_usd, pct_fpl=p, fpl_usd=base,
                 deadline=deadline(bill, program), colorado=colorado_cap(household, bill))
+    if v.deadline:
+        v.deadline_basis = f"{program.application.window_days} days after the statement date, this policy's own window"
     v.reasons.append(Reason(
         text=f"Household of {household.size} earning {_money(household.income_usd)} a year is at {p:g}% of the "
              f"{FPL_YEAR} poverty level ({_money(base)}).", source=FPL_SOURCE))

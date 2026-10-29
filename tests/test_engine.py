@@ -99,9 +99,13 @@ def test_no_policy_in_colorado_still_gets_cap():
     assert v.status == "colorado_cap"
 
 
-def test_deadline_240_days():
-    assert deadline(Bill(balance_usd=1, statement_date="2026-10-01"), None) == "2027-05-29"
-    assert deadline(Bill(balance_usd=1, statement_date="bad"), None) == ""
+def test_deadline_is_the_policys_own_window_never_a_default():
+    """No stated window, no date: 501(r)'s 240 days only binds nonprofits (round-4 audit)."""
+    assert deadline(Bill(balance_usd=1, statement_date="2026-10-01"), None) == ""
+    p = program()
+    p.application.window_days, p.application.verified = 365, True
+    assert deadline(Bill(balance_usd=1, statement_date="2026-01-01"), p) == "2027-01-01"
+    assert deadline(Bill(balance_usd=1, statement_date="bad"), p) == ""
 
 
 def test_facility_specific_discount():

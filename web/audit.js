@@ -127,7 +127,7 @@
     const many = v && v.of > 1 ? " Super models" : " Super's model";
     const one = !v || v.agree === 1 || v.of === 1;  // "1 of 5 fails", "3 of 5 fail"
     const fail = one ? "fails" : "fail", agree = one ? "agrees" : "agree";
-    const unable = v && v.unable ? ` (${v.unable} of them had no usable rules, so couldn't confirm)` : "";
+    const unable = v && v.unable ? ` (${v.unable} of them couldn't tell: they lost rules in checking, and a lost rule could explain the gap)` : "";
     if (f.confidence === "confirmed") return ce
       ? `<span class="cf ok" title="This exact case was replayed against Nemotron 3 Super's independent models">✓${of}${many} ${fail} for this same case${unable}</span>`
       : `<span class="cf ok" title="Nemotron 3 Super's independent models reach the same verdict on this check">✓${of}${many} ${agree}</span>`;

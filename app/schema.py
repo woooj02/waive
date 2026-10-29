@@ -96,4 +96,5 @@ class Bill(BaseModel):
     hospital: str = ""
     balance_usd: float = Field(ge=0)
     statement_date: str = Field("", description="First statement date, YYYY-MM-DD")
+    service_date: str = Field("", description="Date of care (first day), YYYY-MM-DD or as printed")
     provider_type: Literal["hospital", "physician_group", "unknown"] = "hospital"

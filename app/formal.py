@@ -314,6 +314,7 @@ def evaluate(pm: PolicyModel, d: dict) -> dict | None:
         return None
     m = s.model()
     return {"covered": z3.is_true(m.eval(enc.covered, model_completion=True)),
+            "eligible": z3.is_true(m.eval(enc.eligible, model_completion=True)),
             "best_stated_discount_pct": _num(m, enc.best)}
 
 

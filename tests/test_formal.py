@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 import z3
 
-from app.formal import Atom, Household, PolicyModel, Rule
+from app.formal import Atom, Household, PolicyModel, Requirement, Rule
 from app.formalize import SCHEMA, lint
 from app.law import LAW_QUOTES, SRC, audit, equivalent
 from app.verify import found, normalize
@@ -201,7 +201,7 @@ def test_confirmation_needs_most_super_models(monkeypatch):
     monkeypatch.setattr(au, "dropped_rules", lambda pid: 0)
     monkeypatch.setattr(au, "REVIEWS", [])
     for agree, want in ((2, "disputed"), (3, "confirmed")):
-        others = [ref] * agree + [covering] * (5 - agree)
+        others = [(ref, {})] * agree + [(covering, {})] * (5 - agree)
         monkeypatch.setattr(au, "second_models", lambda pid, o=others: o)
         f = next(x for x in au.audit_document("uchealth", ref, "nemotron")
                  if x["check"] == "co_hdc_coverage" and x["status"] == "counterexample")
@@ -216,18 +216,92 @@ def test_a_super_model_with_no_rules_cannot_confirm(monkeypatch):
     empty.rules = []
     monkeypatch.setattr(au, "dropped_rules", lambda pid: 0)
     monkeypatch.setattr(au, "REVIEWS", [])
-    monkeypatch.setattr(au, "second_models", lambda pid: [ref, ref, empty, empty, empty])
+    monkeypatch.setattr(au, "second_models", lambda pid: [(ref, {}), (ref, {}), (empty, {}), (empty, {}), (empty, {})])
     f = next(x for x in au.audit_document("uchealth", ref, "nemotron")
              if x["check"] == "co_hdc_coverage" and x["status"] == "counterexample")
     assert f["votes"] == {"agree": 2, "of": 5, "unable": 3} and f["confidence"] == "disputed"
 
 
-def _bill_check(pm, size=3, income=27_000, insured=False):
+def test_a_super_model_that_lost_rules_cannot_confirm_a_gap_by_absence(monkeypatch):
+    """A Super model that lost rules and turns the case away only because none of its rules grants help can't
+    confirm: the missing rule may be the one it lost (the guard Ultra's own findings get). Round-4 audit."""
+    import app.auditing as au
+    pm = PolicyModel(hospital="X", rules=[Rule(id="low", label="free to 200%", quote="q", discount_pct=100,
+                                               when=[[Atom(var="fpl_pct", op="<=", value=200)]])])
+    lost = {"dropped": [{"kind": "rule", "id": "rule-3"}]}
+    monkeypatch.setattr(au, "dropped_rules", lambda pid: 0)
+    monkeypatch.setattr(au, "REVIEWS", [])
+    monkeypatch.setattr(au, "second_models", lambda pid: [(pm, {}), (pm, {}), (pm, lost), (pm, lost), (pm, lost)])
+    f = next(x for x in au.audit_document("x", pm, "nemotron")
+             if x["check"] == "co_hdc_coverage" and x["status"] == "counterexample")
+    assert f["basis"] == "absence" and f["votes"] == {"agree": 2, "of": 5, "unable": 3}
+    assert f["confidence"] == "disputed"
+    # turned away by a stated requirement: a lost rule doesn't explain that, so the vote stands
+    strict = pm.model_copy(deep=True)
+    strict.rules[0].when = [[Atom(var="fpl_pct", op="<=", value=300)]]
+    strict.requires = [Requirement(id="ins", label="uninsured only", quote="q", cond=[[Atom(var="insured", op="false")]])]
+    g = next(x for x in au.audit(strict) if x.check == "co_hdc_coverage" and x.status == "counterexample").as_dict()
+    assert au.vote(g, strict, lost) is True and au.vote(f, pm, lost) is None and au.vote(f, pm, {}) is True
+
+
+def test_matrix_cell_status_and_confidence_come_from_one_finding():
+    from app.auditing import matrix_cells
+    fs = [{"check": "c", "status": "counterexample", "confidence": "disputed"},
+          {"check": "c", "status": "inconclusive", "confidence": "confirmed"}]
+    assert matrix_cells(fs) == ({"c": "counterexample"}, {"c": "disputed"})
+    fs.append({"check": "c", "status": "counterexample", "confidence": "confirmed"})
+    assert matrix_cells(fs) == ({"c": "counterexample"}, {"c": "confirmed"})
+
+
+def _bill_check(pm, size=3, income=27_000, insured=False, assets=0, balance=1000, statement="", service=""):
     from app.prover_check import decide
     from app.schema import Bill, Household as Hh
-    hh = Hh.model_construct(size=size, income_usd=income, state="CO", county="", insured=insured, assets_usd=0,
+    hh = Hh.model_construct(size=size, income_usd=income, state="CO", county="", insured=insured, assets_usd=assets,
                             programs=[])
-    return decide(pm, hh, Bill(balance_usd=1000))
+    return decide(pm, hh, Bill(balance_usd=balance, statement_date=statement, service_date=service))
+
+
+def _simple(**kw) -> PolicyModel:
+    pm = PolicyModel(hospital="X", source_url="u", rules=[Rule(id="r", label="help", quote="q", discount_pct=100,
+                                                              when=[[Atom(var="fpl_pct", op="<=", value=400)]])])
+    return pm.model_copy(update=kw)
+
+
+def test_bill_blank_savings_are_unknown_not_zero():
+    """An asset test with savings left blank: "may qualify, depends on savings", never free care for sure."""
+    pm = _simple(requires=[Requirement(id="a", label="assets under $10,000", quote="q",
+                                       cond=[[Atom(var="assets_usd", op="<", value=10_000)]])])
+    v, proof = _bill_check(pm, assets=None)
+    assert not proof["always"] and proof["sometimes"] and v.status != "free"
+    assert any("savings" in m for m in v.missing)
+    assert _bill_check(pm, assets=0)[0].status == "free"
+    assert not _bill_check(pm, assets=50_000)[1]["sometimes"]
+    v, _ = _bill_check(_simple(), assets=None)  # no asset test: blank savings change nothing
+    assert v.status == "free" and not any("savings" in m for m in v.missing)
+
+
+def test_bill_expected_amount_never_exceeds_colorado_cap():
+    """20% off a $10,000 bill is $8,000, but Colorado caps a $12,000-a-year household at $1,440."""
+    pm = _simple()
+    pm.rules[0].discount_pct = 20
+    v, _ = _bill_check(pm, size=1, income=12_000, balance=10_000)
+    assert v.colorado["total_max_usd"] == 1440 and v.expected_usd == 1440 and "Colorado law caps" in v.headline
+
+
+def test_bill_deadline_comes_from_the_audited_policy():
+    """UCHealth's window is 365 days after the first bill; a for-profit with no window gets Colorado's 181 days
+    after care (or a request for the date of care), never a default 240 (round-4 audit)."""
+    uch = load("uchealth")
+    assert {(d.anchor, d.days) for d in uch.timing.application} >= {("first_statement", 365)}
+    v, _ = _bill_check(uch, statement="2026-01-01")
+    assert v.deadline == "2027-01-01" and "365 days after the first bill" in v.deadline_basis
+    forprofit = _simple(nonprofit=False)
+    v, _ = _bill_check(forprofit, statement="2026-01-01")
+    assert v.deadline == "" and any("date of care" in m for m in v.missing)
+    v, _ = _bill_check(forprofit, statement="2026-01-01", service="12/01/2025 - 12/03/2025")
+    assert v.deadline == "2026-05-31" and "Colorado" in v.deadline_basis
+    v, _ = _bill_check(_simple(nonprofit=True), statement="2026-01-01", service="2025-12-01")
+    assert v.deadline == "2026-08-29" and "501(r)" in v.deadline_basis  # the later of the two legal minimums
 
 
 def test_bill_amount_is_guaranteed_not_one_reading():

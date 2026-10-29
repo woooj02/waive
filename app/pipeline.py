@@ -56,6 +56,7 @@ def run(household: Household, upload: tuple[bytes, str] | None = None, typed: di
         insurance_note = (f"Your bill shows an insurance payment of ${fields.insurance_paid_usd:,.2f}. If you have "
                           f"insurance, choose 'Insured' and check again: the answer can change.")
     b = Bill(hospital=fields.hospital, balance_usd=fields.balance_usd or 0, statement_date=fields.statement_date,
+             service_date=fields.service_dates,
              provider_type=fields.provider_type if fields.provider_type in ("hospital", "physician_group") else "unknown")
 
     # 2. Find the hospital's policy: first among the policies we've formalised and audited (Z3 decides).

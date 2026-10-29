@@ -55,7 +55,8 @@ def build(result: dict) -> bytes:
                  f"Your household: {hh['size']} people, {money(hh['income_usd'])} a year = {v['pct_fpl']}% of the "
                  f"2026 federal poverty level", body)]
     if v.get("deadline"):
-        story.append(_p(f"Send your application before {v['deadline']} (240 days after the statement date).", body))
+        why = v.get("deadline_basis") or "the policy's own window"
+        story.append(_p(f"Send your application before {v['deadline']} ({why}).", body))
     main = next((r for r in v.get("reasons", []) if r.get("quote")), None)
     if main:
         story += [_p("What the hospital's own policy says:", h2), _p(f"“{main['quote']}”", quote),

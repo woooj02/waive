@@ -32,7 +32,7 @@
   <section class="featured" id="a-featured" aria-label="One finding, with its evidence" hidden></section>
   <div class="a-stats" id="a-stats" aria-live="polite"></div>
   <div class="matrix-wrap"><table class="matrix" id="a-matrix" aria-label="Every check for every hospital"></table>
-    <p class="m-legend"><b class="ok">✓</b> proved for the encoded rules · <b class="no">✗</b> counterexample · <b>?</b> inconclusive (a rule was dropped in checking) · – not stated in the policy · n/a doesn't apply · <span class="dash">dashed</span> disputed: most of Nemotron 3 Super's five models disagree with Ultra's</p></div>
+    <p class="m-legend"><b class="ok">✓</b> proved for the encoded rules · <b class="no">✗</b> counterexample · <b>?</b> inconclusive (a rule was dropped in checking) · – not stated in the policy · n/a doesn't apply · <span class="dash">dashed</span> disputed: fewer than three of Nemotron 3 Super's five models fail the same case</p></div>
   <div class="a-layout">
     <nav class="a-list" id="a-list" aria-label="Hospitals"></nav>
     <div id="a-detail" class="a-detail" tabindex="-1"><p class="sub">Loading the audit…</p></div>
@@ -71,6 +71,7 @@
         <div><label for="t-hospital">Hospital</label><input id="t-hospital" placeholder="e.g. Saint Joseph Hospital"></div>
         <div><label for="t-balance">Amount due</label><input id="t-balance" inputmode="decimal" placeholder="$"></div>
         <div><label for="t-date">Statement date</label><input id="t-date" type="date"></div>
+        <div><label for="t-service">Date of care</label><input id="t-service" type="date"></div>
       </div>
     </div>
 
@@ -140,7 +141,7 @@
     <div><b>1. Find</b>Tavily searches the web; Nemotron 3 Nano picks the hospital's own document; code fetches it.</div>
     <div><b>2. Formalise</b>Nemotron 3 Ultra writes the policy as rules over household facts (income, size, insurance, residency…) and deadlines.</div>
     <div><b>3. Check the translation</b>Code keeps a clause only if its quote is in the policy; Z3 rejects rules that can never apply; Nemotron 3 Super checks each quote says what the clause claims.</div>
-    <div><b>4. Second opinion</b>Nemotron 3 Super formalises the policy on its own, five separate times. Z3 replays each counterexample's exact household or day in every Super model; it is confirmed only when at least three fail too. A model with no surviving rules can't confirm.</div>
+    <div><b>4. Second opinion</b>Nemotron 3 Super formalises the policy on its own, five separate times. Z3 replays each counterexample's exact household or day in every Super model; it is confirmed only when at least three fail too. A model that lost rules in checking can't confirm a gap its own missing rule could explain.</div>
     <div><b>5. Prove</b>Z3 checks ten legal requirements. A pass is a proof about the encoded rules within the stated range; a fail is a concrete household or day.</div>
   </div>
   <h2>Which model does what, and why</h2>
