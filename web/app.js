@@ -385,7 +385,7 @@ function stabilityHtml(st) {
   return `<p><b>Repeated runs.</b> We ran each model ${st.runs} times on the same ${st.docs} documents, with fresh calls.
     Nemotron 3 Ultra's wording changed between runs, but ${u.same_verdict_every_run_pct === 100 ? "every check got the same verdict in every run" : `${u.same_verdict_every_run_pct}% of checks got the same verdict in every run`} (${u.lowest_run_pct === u.highest_run_pct ? `${u.lowest_run_pct}% match with our references each time` : `${u.lowest_run_pct}–${u.highest_run_pct}% match`}).
     Nemotron 3 Super was less steady: the same verdict in every run on ${sp.same_verdict_every_run_pct}% of checks (${sp.lowest_run_pct}–${sp.highest_run_pct}% match).</p>
-    <p>So the audit replays each counterexample against <b>${st.runs} independent Super models</b> and calls it confirmed only when most of them fail for the same household or day.
+    <p>So the audit replays each counterexample against <b>${st.runs} separate Super models</b> (one model, run ${st.runs} times) and calls it confirmed only when most of them fail for the same household or day.
     On the reference documents, each distinct counterexample Ultra found (${f.distinct_counterexamples}) was replayed against our reference model:</p>
     <table class="plain"><thead><tr><th>Confirmation rule</th><th>Confirmed: reference also fails</th><th>Disputed: reference also fails</th></tr></thead><tbody>
       <tr><td>One Super run</td><td>${one.confirmed.real} of ${one.confirmed.n} (${one.confirmed.real_pct}%)</td><td>${one.disputed.real} of ${one.disputed.n} (${one.disputed.real_pct}%)</td></tr>
