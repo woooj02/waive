@@ -32,6 +32,7 @@ Tavily search ─► Nemotron 3 Nano picks the hospital's own document ─► fe
      │      code: every clause's quote must be in the policy text
      │      Z3:   rejects rules that can never fire and OR-vs-AND slips
      │      Nemotron 3 Super: does each quote really say what its clause claims?
+     │      code: an amount the quote states ("a 100% Charity discount") is kept even if Super doubts it
      │
      ├─► Nemotron 3 Super: five independent formal models (same checks), one per run
      │
@@ -149,6 +150,7 @@ cp .env.example .env          # add NEBIUS_API_KEY and TAVILY_API_KEY
 ./venv/bin/python scripts/audit.py --formalize all        # Ultra + Super formal models into formal/
 ./venv/bin/python scripts/audit.py --super-runs 5         # 4 more Super models per policy (live), then the Z3 audit
 ./venv/bin/python scripts/audit.py                        # Z3 audit into audit/ (no API calls)
+LLM_CACHE_ONLY=1 ./venv/bin/python scripts/formal_eval.py --models nano super ultra   # rebuild from saved responses only
 ./venv/bin/python scripts/formal_eval.py                  # score the models against eval/formal/
 ./venv/bin/python scripts/stability_eval.py --runs 5      # repeated runs: stability and confirmation rules
 LLM_NO_CACHE=1 ./venv/bin/python scripts/live_run.py childrens-colorado   # one policy, live, every call printed

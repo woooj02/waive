@@ -18,6 +18,7 @@ The policy text opens every prompt so follow-up calls on the same policy reuse T
 from __future__ import annotations
 
 import json
+import re
 
 import z3
 
@@ -271,6 +272,14 @@ def _claim(clauses) -> str:
     return " AND ".join("(" + " OR ".join(_atom_words(a) for a in c) + ")" for c in clauses)
 
 
+def states_amount(quote: str, pct: float) -> bool:
+    """Does a rule's own quote (already found verbatim in the policy) state this percent as the help itself, as in
+    "will have a 100% Charity discount"? Plain code, so a model's doubt can't remove an amount the text states."""
+    n = re.escape(f"{pct:g}")
+    return re.search(rf"(?<![\d.]){n}\s*(?:%|percent)\s+(?:[\w-]+\s+){{0,2}}?"
+                     r"(?:discount|off|charity|reduction|write[- ]?off|adjustment|free)\b", quote, re.I) is not None
+
+
 def check_support(pm: PolicyModel, text: str, meter: llm.Meter, judge: str = "super") -> tuple[PolicyModel, list]:
     """Second-model meaning check: drop clauses whose quote exists but doesn't say what the clause claims."""
     claims = {}
@@ -301,7 +310,12 @@ def check_support(pm: PolicyModel, text: str, meter: llm.Meter, judge: str = "su
     out = pm.model_copy(deep=True)
     for r in out.rules:  # right people, unproven amount: keep the rule, drop the number
         if f"rule:{r.id}" in vague:
-            r.discount_pct = None
+            if r.discount_pct is not None and states_amount(r.quote, r.discount_pct):
+                why = vague.pop(f"rule:{r.id}")  # the quote says it in so many words: the doubt loses
+                out.notes.append(f"{r.id}: the meaning check doubted the {r.discount_pct:g}% ({why}), but the quote "
+                                 f"states it as the discount, so it is kept")
+            else:
+                r.discount_pct = None
     partial = {v["id"]: v.get("why", "") for v in verdicts if v.get("verdict") == "incomplete"}
     for k, why in partial.items():  # keep it: dropping a real rule would make the model claim nobody qualifies
         out.notes.append(f"{k.split(':', 1)[-1]} may leave out a condition: {why}")

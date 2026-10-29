@@ -18,7 +18,7 @@
       }
      ]
     ],
-    "discount_pct": null,
+    "discount_pct": 100.0,
     "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed"
    },
    {
@@ -110,6 +110,7 @@
    "If uninsured patient refuses hospital screening for public programs, they cannot sue for lack of discounts or screening.",
    "Complaints can be filed with hospital, provider, or Health Care Policy and Financing (303-866-2580, hcpf_HospDiscountCare@state.co.us).",
    "Pricing information on website is strictly an estimate; final bill may differ substantially.",
+   "rule_full_charity: the meaning check doubted the 100% (Policy states 100% charity discount for \u2264250% FPL with documentation.), but the quote states it as the discount, so it is kept",
    "rule_hdc_full may leave out a condition: Policy requires Colorado residency for Hospital Discounted Care, not just income \u2264250% FPL."
   ]
  },
@@ -148,13 +149,6 @@
    },
    {
     "kind": "amount removed",
-    "id": "rule:rule_full_charity",
-    "claim": "A patient with (fpl_pct <= 250) gets 100% off",
-    "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed",
-    "why": "Policy states 100% charity discount for \u2264250% FPL with documentation."
-   },
-   {
-    "kind": "amount removed",
     "id": "rule:rule_partial_charity",
     "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
     "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe",
@@ -170,7 +164,7 @@
   ],
   "clauses": 6,
   "clauses_proven": 4,
-  "unsupported": 7
+  "unsupported": 6
  },
  "cost_usd": 0.00952,
  "fresh_calls": 2

@@ -207,6 +207,8 @@ def chat(step: str, model_key: str, messages: list, meter: Meter | None = None, 
         meter.add(Call(step, m.key, m.label, 0.0, hit["tokens_in"], hit["tokens_cached"], hit["tokens_out"], 0.0,
                        cached_result=True, orig_cost_usd=hit.get("cost_usd", 0.0), orig_seconds=hit.get("seconds", 0.0)))
         return hit["content"]
+    if os.environ.get("LLM_CACHE_ONLY") == "1":  # rebuilding from saved responses: a miss must not become a call
+        raise LLMError(f"cache-only run: no saved {m.label} response for {step}")
     if spent_today() >= budget():
         raise BudgetExceeded(f"daily live-model budget of ${budget():.2f} reached")
     if spent_total() >= total_budget():

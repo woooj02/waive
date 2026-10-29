@@ -7,7 +7,7 @@
  "nonprofit": false,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.829,
+ "solver_seconds": 0.81,
  "model": {
   "hospital": "HCA HealthONE",
   "doc": "policy",
@@ -27,7 +27,7 @@
       }
      ]
     ],
-    "discount_pct": null,
+    "discount_pct": 100.0,
     "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed"
    },
    {
@@ -117,6 +117,7 @@
    "Determination within 21 days after application completion; appeal must be filed in writing within 30 days of decision date.",
    "Patients can refuse hospital screening for public programs; if they refuse, they cannot sue for lack of discounts or screening.",
    "Pricing information on website is strictly an estimate; final bill may differ substantially due to unforeseen complications, additional tests/procedures, non-hospital charges.",
+   "rule_full_charity: the meaning check doubted the 100% (Policy states 100% Charity discount for \u2264250% FPL with documentation.), but the quote states it as the discount, so it is kept",
    "rule_hdc_250_fpl may leave out a condition: Policy requires Hospital Discounted Care for \u2264250% FPL Colorado residents; missing co_resident in quote context."
   ]
  },
@@ -174,7 +175,7 @@
    "household_b": null,
    "policy_outcome": null,
    "clauses": [],
-   "seconds": 0.0,
+   "seconds": 0.001,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "",
    "second_opinion": [
@@ -496,7 +497,7 @@
      "id": "rule_full_charity",
      "label": "Full charity discount (100%) for income 0-250% FPL",
      "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed",
-     "discount_pct": null,
+     "discount_pct": 100.0,
      "holds": false
     },
     {
@@ -524,7 +525,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.025,
+   "seconds": 0.026,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [

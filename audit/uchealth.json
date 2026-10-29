@@ -7,7 +7,7 @@
  "nonprofit": true,
  "model_source": "nemotron",
  "summary_source": "nemotron",
- "solver_seconds": 1.395,
+ "solver_seconds": 1.348,
  "model": {
   "hospital": "UCHealth",
   "doc": "policy",
@@ -248,7 +248,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.016,
+   "seconds": 0.019,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
@@ -612,7 +612,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.023,
+   "seconds": 0.024,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [
@@ -758,7 +758,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.041,
+   "seconds": 0.026,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -895,7 +895,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.038,
+   "seconds": 0.032,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -1032,7 +1032,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.026,
+   "seconds": 0.021,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"
@@ -1169,7 +1169,7 @@
      "model": "summary"
     }
    ],
-   "seconds": 0.033,
+   "seconds": 0.028,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "",
    "confidence": "unconfirmed"

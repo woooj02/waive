@@ -82,6 +82,7 @@ def main() -> None:
             print(f"{key:9} {pid:22} equivalent={r['equivalent']!s:5} diffs={len(diffs)} findings {r['findings_match']} "
                   f"quotes {r['quotes_proven_pct']}%  ${r['cost_usd']:.4f}  {r['seconds']}s")
     summary = {}
+    notes = {k: v["note"] for k, v in prev.get("summary", {}).items() if isinstance(v, dict) and "note" in v}
     for key in ["nano", "super", "ultra", "repair"]:
         rs = [r for (m, _), r in rows.items() if m == key and "error" not in r]
         if rs:
@@ -92,6 +93,8 @@ def main() -> None:
                             "quotes_proven_pct": round(sum(r["quotes_proven_pct"] for r in rs) / len(rs)),
                             "cost_per_doc": round(sum(r["cost_usd"] for r in rs) / len(rs), 5),
                             "seconds_per_doc": round(sum(r["seconds"] for r in rs) / len(rs), 1)}
+            if key in notes and key not in args.models:  # a row not re-run keeps what we said about it
+                summary[key]["note"] = notes[key]
     # Two models as a confidence signal: verdicts Ultra and Super agree on vs those they don't.
     agree = right_a = dis = right_d = cost = 0
     for pid in ids:

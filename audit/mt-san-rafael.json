@@ -7,7 +7,7 @@
  "nonprofit": null,
  "model_source": "nemotron",
  "summary_source": null,
- "solver_seconds": 0.676,
+ "solver_seconds": 0.569,
  "model": {
   "hospital": "Mt. San Rafael Hospital",
   "doc": "policy",
@@ -156,7 +156,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.019,
+   "seconds": 0.016,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts",
    "basis": "absence",
    "second_opinion": [
@@ -504,7 +504,7 @@
      "holds": false
     }
    ],
-   "seconds": 0.055,
+   "seconds": 0.045,
    "domain": "every household in the encoded domain: 1\u201312 people, income $0\u2013$1M, assets $0\u2013$10M, bill $0\u2013$5M, first bill by day 400, every combination of the yes/no facts (pairs of households)",
    "basis": "absence",
    "second_opinion": [

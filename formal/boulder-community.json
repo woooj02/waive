@@ -369,18 +369,11 @@
      "claim": "A patient with (not insured) gets 50% off",
      "quote": "An account that does not have insurance and is marked as self-pay, will automatically have the 50% self-pay rate applied",
      "why": "policy states 50% self-pay rate applies only if patient qualifies for financial assistance"
-    },
-    {
-     "kind": "amount removed",
-     "id": "rule:self_pay_physician_clinic",
-     "claim": "A patient with (not insured) gets 20% off",
-     "quote": "For uninsured patients a 20% discount is applicable to all professional services: E&M/Office Visits, OMT, surgical procedures, injection and vaccine administration charges, and most diagnostic testing.",
-     "why": "policy states 20% discount applies only to uninsured patients for professional services"
     }
    ],
    "clauses": 8,
    "clauses_proven": 7,
-   "unsupported": 2
+   "unsupported": 1
   },
   "secondary_model": {
    "hospital": "Boulder Community Health",
@@ -573,7 +566,7 @@
        }
       ]
      ],
-     "discount_pct": null,
+     "discount_pct": 20.0,
      "quote": "For uninsured patients a 20% discount is applicable to all professional services: E&M/Office Visits, OMT, surgical procedures, injection and vaccine administration charges, and most diagnostic testing."
     }
    ],
@@ -613,22 +606,23 @@
     "Once 36 payments have been made under a payment plan, the remainder of the bill is forgiven and collection activities cease on any remaining unpaid balance.",
     "For bills from health care professionals, the payment plan limit is two (2) percent of the monthly household income.",
     "Multiple discounts are not allowed; a financial assistance discount cannot be combined with any other discount offered by the hospital.",
+    "self_pay_physician_clinic: the meaning check doubted the 20% (policy states 20% discount applies only to uninsured patients for professional services), but the quote states it as the discount, so it is kept",
     "qccp_base may leave out a condition: adds missing condition: applicant must be Colorado resident",
     "wecare_base may leave out a condition: adds missing condition: applicants must be over QCCP income threshold (>250% FPL)",
     "wecare_outside_service_area_referral may leave out a condition: adds missing condition: must receive service at BCH facility in zip code or referral from BCH-owned practice"
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, uninsured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives 20% off.",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives 20% off.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, after non-emergency care: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives 20% off.",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, after non-emergency care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives 20% off."
   ],
   "disagreements_after": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives help (amount not stated).",
-   "A household of 3 earning $96,000 a year (351.4% of the poverty line), living in Colorado, uninsured, owing $10,000, after non-emergency care: the Nemotron 3 Ultra model gives no help, the Nemotron 3 Super model gives help (amount not stated)."
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives 20% off.",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives 20% off.",
+   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, after non-emergency care: the Nemotron 3 Ultra model gives 100% off, the Nemotron 3 Super model gives 20% off.",
+   "A household of 2 earning $68,000 a year (314.2% of the poverty line), living in Colorado, uninsured, after non-emergency care: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives 20% off."
   ],
   "equivalent": false
  },
@@ -665,12 +659,12 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 6.26,
+   "seconds": 0.0,
    "tokens_in": 11202,
    "tokens_cached": 0,
    "tokens_out": 571,
-   "cost_usd": 0.003874,
-   "cached_result": false,
+   "cost_usd": 0.0,
+   "cached_result": true,
    "error": "",
    "orig_cost_usd": 0.003874,
    "orig_seconds": 6.26
@@ -707,18 +701,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 3.09,
+   "seconds": 0.0,
    "tokens_in": 10723,
    "tokens_cached": 0,
    "tokens_out": 324,
-   "cost_usd": 0.003508,
-   "cached_result": false,
+   "cost_usd": 0.0,
+   "cached_result": true,
    "error": "",
    "orig_cost_usd": 0.003508,
    "orig_seconds": 3.09
   }
  ],
  "cost_usd": 0.05313,
- "seconds": 9.5,
+ "seconds": 0.2,
  "made": "2026-10-28"
 }

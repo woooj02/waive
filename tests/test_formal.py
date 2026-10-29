@@ -339,3 +339,31 @@ def test_patient_data_never_touches_the_cache(monkeypatch, tmp_path):
     assert list(tmp_path.iterdir()) == []
     llm.chat("read bill", "vl", [{"role": "user", "content": "fictional sample"}])
     assert len(list(tmp_path.iterdir())) == 1  # samples still cache
+
+
+def test_meaning_check_cannot_remove_an_amount_the_quote_states(monkeypatch):
+    """Super once marked HealthONE's "will have a 100% Charity discount" as an unsupported amount while its own reason
+    said the policy states 100%: plain code keeps an amount the verified quote states as the discount."""
+    from app import formalize as fz
+    from app.formalize import check_support, states_amount
+    pm = PolicyModel(hospital="X", rules=[
+        Rule(id="full", label="free", discount_pct=100, quote="patients at or below 250% FPL will have a 100% Charity "
+                                                                "discount processed", when=[[Atom(var="fpl_pct", op="<=", value=250)]]),
+        Rule(id="band", label="80%", discount_pct=80, quote="households at 100% of the poverty level qualify",
+             when=[[Atom(var="fpl_pct", op="<=", value=100)]])])
+    doubt = {"verdicts": [{"id": "rule:full", "verdict": "amount_unsupported", "why": "policy states 100%"},
+                          {"id": "rule:band", "verdict": "amount_unsupported", "why": "no amount stated"}]}
+    monkeypatch.setattr(fz.llm, "chat_json", lambda *a, **k: doubt)
+    out, dropped = check_support(pm, "text", None)
+    assert [r.discount_pct for r in out.rules] == [100, None]
+    assert [d["id"] for d in dropped] == ["rule:band"] and any("kept" in n for n in out.notes)
+    assert not states_amount("FPL Discount\n</= 250%  100%\n251% – 350%  80%", 80)
+
+
+def test_cache_only_never_calls_the_model(monkeypatch, tmp_path):
+    from app import llm
+    monkeypatch.setattr(llm, "CACHE", tmp_path)
+    monkeypatch.setenv("LLM_CACHE_ONLY", "1")
+    monkeypatch.setattr(llm, "_create", lambda kw: (_ for _ in ()).throw(AssertionError("called the model")))
+    with pytest.raises(llm.LLMError):
+        llm.chat("x", "super", [{"role": "user", "content": "not cached"}])

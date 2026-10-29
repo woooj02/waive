@@ -18,7 +18,7 @@
       }
      ]
     ],
-    "discount_pct": null,
+    "discount_pct": 100.0,
     "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed"
    },
    {
@@ -94,6 +94,7 @@
    "Before collections: hospital must bill insurance first (if applicable), explain all services and fees in patient's preferred language, and provide 30-day written notice.",
    "Payment plan amount depends on income; bills must be split into monthly payments.",
    "HealthONE Cares makes no guarantees regarding accuracy of pricing information; estimates may differ substantially from final bills.",
+   "rule_full_charity: the meaning check doubted the 100% (Quote supports 100% discount for <=250% FPL with documentation, but claim omits documentation requirement), but the quote states it as the discount, so it is kept",
    "rule_partial_charity may leave out a condition: Policy states help may reduce amount owed but does not specify amount; claim correctly identifies range but omits that help is not guaranteed",
    "rule_hdc_250 may leave out a condition: HDC applies to Colorado residents with income <=250% FPL; claim omits co_resident requirement (already included) but misses that HDC is a separate program limiting charges, not a discount amount"
   ]
@@ -137,18 +138,11 @@
     "claim": "The policy's deadline for a patient to SUBMIT a financial-assistance application is 45 days after the first post-discharge bill (alone, or as one of several 'the later of' options)",
     "quote": "The hospital has 45 days to see if you can get help after you ask them",
     "why": "45-day period is for hospital to check eligibility after patient asks for help, not patient deadline to submit application"
-   },
-   {
-    "kind": "amount removed",
-    "id": "rule:rule_full_charity",
-    "claim": "A patient with (fpl_pct <= 250) gets 100% off",
-    "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed",
-    "why": "Quote supports 100% discount for <=250% FPL with documentation, but claim omits documentation requirement"
    }
   ],
   "clauses": 5,
   "clauses_proven": 3,
-  "unsupported": 5
+  "unsupported": 4
  },
  "cost_usd": 0.01885,
  "fresh_calls": 3

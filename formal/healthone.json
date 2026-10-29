@@ -18,7 +18,7 @@
       }
      ]
     ],
-    "discount_pct": null,
+    "discount_pct": 100.0,
     "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed"
    },
    {
@@ -108,6 +108,7 @@
    "Determination within 21 days after application completion; appeal must be filed in writing within 30 days of decision date.",
    "Patients can refuse hospital screening for public programs; if they refuse, they cannot sue for lack of discounts or screening.",
    "Pricing information on website is strictly an estimate; final bill may differ substantially due to unforeseen complications, additional tests/procedures, non-hospital charges.",
+   "rule_full_charity: the meaning check doubted the 100% (Policy states 100% Charity discount for \u2264250% FPL with documentation.), but the quote states it as the discount, so it is kept",
    "rule_hdc_250_fpl may leave out a condition: Policy requires Hospital Discounted Care for \u2264250% FPL Colorado residents; missing co_resident in quote context."
   ]
  },
@@ -154,13 +155,6 @@
     },
     {
      "kind": "amount removed",
-     "id": "rule:rule_full_charity",
-     "claim": "A patient with (fpl_pct <= 250) gets 100% off",
-     "quote": "Federal Poverty Levels based on total household income, with sufficient supporting documentation provided by the patient, will have a 100% Charity discount processed",
-     "why": "Policy states 100% Charity discount for \u2264250% FPL with documentation."
-    },
-    {
-     "kind": "amount removed",
      "id": "rule:rule_partial_charity",
      "claim": "A patient with (fpl_pct >= 251) AND (fpl_pct <= 400) gets an unstated amount of help",
      "quote": "For patients whose documented income is between 251 and 400 percent of the Federal Poverty Level, we have an expanded financial assistance policy that may reduce the amount you owe",
@@ -176,7 +170,7 @@
    ],
    "clauses": 6,
    "clauses_proven": 4,
-   "unsupported": 7
+   "unsupported": 6
   },
   "secondary": {
    "model": "super",
@@ -278,12 +272,10 @@
    ]
   },
   "disagreements_before": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives 100% off.",
-   "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "disagreements_after": [
-   "A household of 3 earning $27,000 a year (98.8% of the poverty line), living in Colorado, uninsured, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives 100% off.",
-   "A household of 3 earning $109,000 a year (399.0% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it, owing $10,000: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
+   "A household of 3 earning $69,000 a year (252.6% of the poverty line), living in Colorado, insured, and not under-insured as the policy defines it: the Nemotron 3 Ultra model gives help (amount not stated), the Nemotron 3 Super model gives no help."
   ],
   "equivalent": false
  },
@@ -320,12 +312,12 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 4.43,
+   "seconds": 0.0,
    "tokens_in": 4170,
    "tokens_cached": 0,
    "tokens_out": 400,
-   "cost_usd": 0.001611,
-   "cached_result": false,
+   "cost_usd": 0.0,
+   "cached_result": true,
    "error": "",
    "orig_cost_usd": 0.001611,
    "orig_seconds": 4.43
@@ -348,18 +340,18 @@
    "step": "meaning check (Nemotron 3 Super)",
    "model": "super",
    "label": "Nemotron 3 Super",
-   "seconds": 2.15,
+   "seconds": 0.0,
    "tokens_in": 3863,
    "tokens_cached": 0,
    "tokens_out": 164,
-   "cost_usd": 0.001306,
-   "cached_result": false,
+   "cost_usd": 0.0,
+   "cached_result": true,
    "error": "",
    "orig_cost_usd": 0.001306,
    "orig_seconds": 2.15
   }
  ],
  "cost_usd": 0.02238,
- "seconds": 6.7,
+ "seconds": 0.1,
  "made": "2026-10-28"
 }
